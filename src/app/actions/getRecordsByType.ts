@@ -1,54 +1,66 @@
-"use server";
-import { Type } from "@/lib/helper/handleTypeColor";
-import { createClient } from "@/lib/supabse/server";
+'use server';
+import prisma from '@/lib/db';
+import { buildSearchFilter } from '@/lib/helper/buildSearchFilter';
+import { verifySession } from '@/lib/session';
+import { Type } from '@/types/records';
+import { revalidatePath } from 'next/cache';
+import { headers } from 'next/headers';
+interface Data {
+  type: Type;
+  startDate: string;
+  endDate: string;
+  searchTerm: string;
+  page: number;
+  limit: number;
+}
+export const getRecordsByType = async (data: Data) => {
+  const headersList = headers();
+  const referer = headersList.get('referer');
+  const { type, startDate, endDate, searchTerm, page, limit } = data;
+  console.log(referer, 'jello');
 
-export const getDataByType = async (
-  type: Type,
-  startDate?: string | null,
-  endDate?: string | null,
-  searchTerm?: string | number | null
-) => {
-  if (!type) return;
+  const session = await verifySession();
+  if (!session?.isAuth && !session?.userId) return;
+  try {
+    // Build dynamic search filter
+    const searchFilter = {
+      userId: session?.userId,
+      ...buildSearchFilter(searchTerm, type, startDate, endDate),
+    };
 
-  const supabaseApi = createClient();
-  const { data: user, error: userError } = await supabaseApi.auth.getUser();
-
-  if (userError || !user?.user?.id) {
-    console.error("User authentication failed:", userError);
-    return { data: null, error: "User not authenticated" };
-  }
-
-  let query = supabaseApi
-    .from("records")
-    .select("*")
-    .eq("type", type)
-    .eq("user_id", user.user.id)
-    .order("updateat", { ascending: false });
-
-  // Apply date filters
-  const today = new Date().toISOString();
-  if (startDate) {
-    query = query.gte("createdAt", startDate);
-  }
-
-  if (endDate) {
-    query = query.lte("createdAt", endDate);
-  }
-  // Apply search term filter
-  if (searchTerm) {
-    const searchStr = searchTerm.toString().trim();
-    if (isNaN(Number(searchTerm))) {
-      query = query.ilike("name", `%${searchStr}%`);
-    } else {
-      query = query.eq("amount", Number(searchTerm));
+    // Fetch both records and total count in parallel
+    const [records, totalRecords] = await Promise.all([
+      prisma.record.findMany({
+        where: searchFilter,
+        orderBy: { createdAt: 'desc' },
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      prisma.record.count({
+        where: searchFilter,
+      }),
+    ]);
+    const data = {
+      records,
+      currentPage: page,
+      totalPages: Math.ceil(totalRecords / limit),
+      totalRecords,
+    };
+    if (referer) {
+      revalidatePath(referer);
+    }
+    return {
+      success: true,
+      data,
+      message: 'Records fetched successfully',
+    };
+  } catch (error) {
+    console.error('Error fetching records:', error);
+    if (error) {
+      return {
+        success: false,
+        message: 'Something went wrong, Try Again',
+      };
     }
   }
-
-  const { data, error } = await query;
-
-  if (error) {
-    console.error("Error fetching records:", error);
-  }
-
-  return { data, error };
 };

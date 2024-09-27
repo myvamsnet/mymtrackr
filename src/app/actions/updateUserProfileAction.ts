@@ -1,19 +1,19 @@
-"use server";
-import { cloudinary_url } from "@/constant/path";
-import { createClient } from "@/lib/supabse/server";
-import axios from "axios";
-import { redirect } from "next/navigation";
+'use server';
+import { cloudinary_url } from '@/constant/path';
+import { createClient } from '@/lib/supabse/server';
+import axios from 'axios';
+import { redirect } from 'next/navigation';
 
 export const updateProfileAction = async (formData: FormData) => {
-  const email = formData.get("email") as string;
-  const fullName = formData.get("fullName") as string;
-  const phoneNumber = formData.get("phoneNumber") as string;
-  const image = formData.get("file") as File;
+  const email = formData.get('email') as string;
+  const fullName = formData.get('fullName') as string;
+  const phoneNumber = formData.get('phoneNumber') as string;
+  const image = formData.get('file') as File;
 
   if (!email || !fullName || !phoneNumber) {
     return {
       success: false,
-      error: "Please provide email, full name, and phone number",
+      error: 'Please provide email, full name, and phone number',
     };
   }
 
@@ -23,12 +23,12 @@ export const updateProfileAction = async (formData: FormData) => {
   if (!user?.data?.user?.id) {
     return {
       success: false,
-      error: "User not found",
+      error: 'User not found',
     };
   }
 
   try {
-    let imageUrl = "";
+    let imageUrl = '';
 
     // Only upload the image if one is provided
     if (image) {
@@ -36,7 +36,7 @@ export const updateProfileAction = async (formData: FormData) => {
       if (response?.secure_url) {
         imageUrl = response.secure_url;
       } else {
-        return { success: false, error: "Image upload failed" };
+        return { success: false, error: 'Image upload failed' };
       }
     }
 
@@ -50,9 +50,9 @@ export const updateProfileAction = async (formData: FormData) => {
     if (imageUrl) updateData.imageUrl = imageUrl;
 
     const { data, error } = await supabaseApi
-      .from("usersprofile")
+      .from('usersprofile')
       .update(updateData)
-      .eq("email", email)
+      .eq('email', email)
       .select()
       .single();
 
@@ -61,12 +61,11 @@ export const updateProfileAction = async (formData: FormData) => {
     }
     return { success: true, data };
   } catch (error) {
-    console.log(error);
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Something went wrong",
+      error: error instanceof Error ? error.message : 'Something went wrong',
     };
   } finally {
-    redirect("/home");
+    redirect('/home');
   }
 };

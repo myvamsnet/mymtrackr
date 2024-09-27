@@ -1,11 +1,11 @@
-"use client";
-import { loginAction } from "@/app/actions/loginAction";
-import useModal from "@/hooks/useModal";
-import { signInSchema, SignInSchemaType } from "@/lib/Schema/authSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+'use client';
+import { loginAction } from '@/app/actions/loginAction';
+import useModal from '@/hooks/useModal';
+import { signInSchema, SignInSchemaType } from '@/lib/Schema/authSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 export const useSignIn = () => {
   const { onConfirm, onCancel, modal } = useModal();
@@ -16,17 +16,14 @@ export const useSignIn = () => {
     reset,
   } = useForm<SignInSchemaType>({
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
     resolver: zodResolver(signInSchema),
   });
   const { mutate, isError, isPending, error } = useMutation({
     mutationFn: async (data: SignInSchemaType) => {
-      const formData = new FormData();
-      formData.append("email", data.email);
-      formData.append("password", data.password);
-      const res = await loginAction(formData);
+      const res = await loginAction(data);
       if (!res?.success) {
         throw new Error(res?.message);
       }
@@ -35,9 +32,9 @@ export const useSignIn = () => {
       if (
         error?.message !== undefined &&
         error?.message !== null &&
-        error?.message !== ""
+        error?.message !== ''
       ) {
-        toast.error(error.message);
+        toast.error('Something went wrong , Try Again');
       }
       return;
     },
@@ -47,7 +44,7 @@ export const useSignIn = () => {
     mutate(data);
   };
 
-  const handleOnConfirm = (type: "signUp" | "forgotPassword") => {
+  const handleOnConfirm = (type: 'signUp' | 'forgotPassword') => {
     onConfirm({
       type: type,
       isOpen: true,

@@ -1,12 +1,12 @@
-import { createClient } from "@/lib/supabse/client";
-import { NextRequest, NextResponse } from "next/server";
+import { createClient } from '@/lib/supabse/client';
+import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
   const supabase = createClient();
   const { newPassword, confirmPassword } = (await req.json()) as Payload;
 
   if (newPassword !== confirmPassword) {
     return NextResponse.json(
-      { error: "Passwords do not match" },
+      { error: 'Passwords do not match' },
       { status: 404 }
     );
   }
@@ -14,14 +14,13 @@ export async function POST(req: NextRequest) {
     const { error } = await supabase.auth.updateUser({
       password: newPassword,
     });
-    console.log(error);
     if (error) {
       throw new Error(error.message);
     }
 
     const responseData = {
-      status: "success",
-      message: "Password Changed Successfully",
+      status: 'success',
+      message: 'Password Changed Successfully',
     };
 
     // Save tokens in cookies
@@ -32,7 +31,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     } else {
       return NextResponse.json(
-        { error: "Something went wrong" },
+        { error: 'Something went wrong' },
         { status: 500 }
       );
     }

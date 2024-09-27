@@ -1,52 +1,91 @@
-"use server";
-import { createClient } from "@/lib/supabse/server";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+'use server';
+import bcrypt from 'bcryptjs';
+import dayjs from 'dayjs'; // For manipulating and comparing dates
+import prisma from '@/lib/db';
+import { createSession } from '@/lib/session';
 
-export async function loginAction(formData: FormData) {
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-
-  const supabase = createClient();
-
-  if (!email || !password) {
-    return {
-      success: false,
-      message: "Please provide both email and password.",
-    };
-  }
-
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
+export async function loginAction({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
+  const validateUserError = 'Invalid login credentials';
+  // Step 1: Fetch the user by email
+  const user = await prisma.user.findUnique({
+    where: { email },
+    include: {
+      referrals: {
+        include: {
+          referee: {
+            include: {
+              subscription: true,
+            },
+          },
+        },
+      },
+      subscription: true,
+    },
   });
 
-  if (error) {
-    console.error("Sign-in error:", error);
+  if (!user) {
     return {
       success: false,
-      message: "Invalid email or password. Please check and try again.",
+      message: validateUserError,
     };
   }
 
-  if (data?.user?.id) {
-    const { data: userProfileData, error: userProfileError } = await supabase
-      .from("usersprofile")
-      .select("*")
-      .eq("user_id", data.user.id)
-      .single();
+  // Step 2: Check if the password matches
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    return {
+      success: false,
+      message: validateUserError,
+    };
+  }
 
-    if (userProfileError || !userProfileData) {
-      console.log("User profile error:", userProfileError);
-      await supabase.auth.signOut();
-      return {
-        success: false,
-        message: "User profile not found. Please try again.",
-      };
+  // Step 3: Check if the subscription exists and whether it has expired
+  if (user.subscription) {
+    const now = dayjs();
+
+    // Check if the subscription has expired
+    const subscriptionExpiryDate = dayjs(user.subscription.expiresAt);
+    if (subscriptionExpiryDate.isBefore(now)) {
+      // If the subscription has expired, update its status to "expired"
+      await prisma.subscription.update({
+        where: { userId: user.id },
+        data: { status: 'expired' },
+      });
     }
   }
 
-  // If everything is successful, revalidate the path and redirect
-  revalidatePath("/home");
-  redirect("/home?login=success");
+  // Step 4: Check if the user has referred at least 3 users with active subscriptions
+  const referees = user.referrals.map((ref) => ref.referee);
+
+  const activeRefereesCount = referees.filter(
+    (referee) => referee.subscription?.status === 'active'
+  ).length;
+
+  // Step 5: If the user has referred 3 or more users and all referees have active subscriptions, extend the user's subscription
+  if (activeRefereesCount >= 3) {
+    if (user.subscription && user.subscription.status === 'active') {
+      const newExpiryDate = dayjs(user.subscription.expiresAt)
+        .add(1, 'year')
+        .toDate();
+
+      await prisma.subscription.update({
+        where: { userId: user.id },
+        data: { expiresAt: newExpiryDate },
+      });
+    } else {
+      // If the user has no active subscription, handle the case appropriately
+      console.log('User does not have an active subscription');
+    }
+  }
+
+  // Step 6: Redirect the user to the home page after successful login
+  // 4. If login successful, create a session for the user and redirect
+
+  await createSession(user.id);
 }

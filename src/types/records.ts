@@ -5,7 +5,7 @@ export type Records = {
   note: string;
   type: Type;
   image: string;
-  user_id: string;
+  userId: string;
   createdAt: string; // Using string to represent the ISO date format
   updateat: string; // Using string to represent the ISO date format
 };
@@ -21,6 +21,27 @@ export interface ParamsProps {
   params: {
     type: Type;
   };
+  searchParams: SearchParamsProps;
 }
 
-export type Type = "income" | "expense" | "debtor" | "payable";
+export interface SearchParamsProps {
+  startDate: string;
+  endDate: string;
+  searchTerm: string;
+  limi: number;
+  page: number;
+}
+
+export type Type = 'income' | 'expense' | 'debtor' | 'payable';
+
+export interface RecordData {
+  records: Records[];
+  currentPage: number;
+  totalPages: number;
+  totalRecords: number;
+}
+export interface RecordsResponse {
+  data: RecordData;
+  success: true;
+  message: string;
+}

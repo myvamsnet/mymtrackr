@@ -1,51 +1,47 @@
-"use server";
-import { createClient } from "@/lib/supabse/server";
-import { revalidatePath } from "next/cache";
+'use server';
+import prisma from '@/lib/db';
+import { verifySession } from '@/lib/session';
+import { revalidatePath } from 'next/cache';
 
-export const createRecordAction = async (formData: FormData) => {
-  const type = formData.get("type");
-  const amount = formData.get("amount") as string;
-  const name = formData.get("name") as string;
-  const note = formData.get("note") as string;
-  const image = formData.get("image") as string;
-
-  if (!type) {
-    return { success: false, error: "Record Type is required" };
-  }
-
-  const supabaseApi = createClient();
-  const { data: userData } = await supabaseApi.auth.getUser();
-
-  const userId = userData?.user?.id;
-  if (!userId) {
-    return { success: false, error: "User not found" };
-  }
-
-  const payload = {
-    name,
-    amount,
-    note,
-    image,
-    type,
-    user_id: userId,
-  };
-
-  try {
-    const { data, error } = await supabaseApi
-      .from("records")
-      .insert([payload])
-      .select();
-
-    if (error) {
-      return { success: false, error: "Failed to create record" };
-    }
-
-    revalidatePath("/home");
-    return { success: true, data };
-  } catch (error) {
+export async function createRecordAction(data: {
+  name: string;
+  amount: string;
+  type: string;
+  imageUrl?: string;
+  note?: string;
+}) {
+  // Verify session and check if the user is authenticated
+  const session = await verifySession();
+  if (!session?.isAuth) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Something went wrong",
+      message: 'User is not authenticated',
     };
   }
-};
+
+  // Create the record directly
+  const record = await prisma.record.create({
+    data: {
+      userId: session.userId as string,
+      amount: data.amount,
+      imageUrl: data.imageUrl || '',
+      name: data.name,
+      type: data.type,
+      note: data.note,
+    },
+  });
+
+  if (!record) {
+    return {
+      success: false,
+      message: 'Error creating record',
+    };
+  }
+
+  // Revalidate the path
+  revalidatePath('/home');
+  return {
+    success: true,
+    message: 'Record created successfully',
+  };
+}
