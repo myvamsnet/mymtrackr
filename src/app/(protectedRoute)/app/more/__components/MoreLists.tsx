@@ -1,12 +1,12 @@
-"use client";
-import { menuItems } from "@/constant/products";
-import Link from "next/link";
-import React from "react";
-import { MoreLogout } from "./MoreLogout";
-import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
-import toast from "react-hot-toast";
-import { app_url } from "@/constant/path";
-import { UserProfile } from "@/types/auth";
+'use client';
+import { menuItems } from '@/constant/products';
+import Link from 'next/link';
+import React from 'react';
+import { MoreLogout } from './MoreLogout';
+import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
+import toast from 'react-hot-toast';
+import { app_url } from '@/constant/path';
+import { UserProfile } from '@/app/actions/getUser';
 
 export const MoreLists = ({ data }: props) => {
   const [doCopy] = useCopyToClipboard();
@@ -23,7 +23,7 @@ export const MoreLists = ({ data }: props) => {
             href={item.link}
             key={index}
             className="flex border-b-2 border-[#F4F5F7] gap-2 py-6 px-2"
-            target={item.target ? "_blank" : "_self"}
+            target={item.target ? '_blank' : '_self'}
           >
             <div
               className={`font-inter font-normal text-base/5 flex items-center gap-2 ${item.textColor} `}
@@ -35,14 +35,17 @@ export const MoreLists = ({ data }: props) => {
             </div>
           </Link>
         ) : (
-          <div className="flex border-b-2 border-[#F4F5F7] gap-2 py-6 px-2">
+          <div
+            className="flex border-b-2 border-[#F4F5F7] gap-2 py-6 px-2"
+            key={index}
+          >
             <div
               className="flex items-center gap-2 cursor-pointer"
               onClick={() => {
-                if (item.text === "Earn with Referal") {
+                if (item.text === 'Earn with Referal') {
                   handleCopy(
-                    `${app_url}?referCode=${data?.referral_code}`,
-                    "Referral link copied"
+                    `${app_url}?referCode=${data?.referralCode}`,
+                    'Referral link copied'
                   );
                 }
               }}

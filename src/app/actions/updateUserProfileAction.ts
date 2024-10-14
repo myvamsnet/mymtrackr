@@ -1,7 +1,9 @@
 'use server';
 import { cloudinary_url } from '@/constant/path';
 import { createClient } from '@/lib/supabse/server';
+import { uploadImageToCloudinary } from '@/lib/uploadImageToCloudinary';
 import axios from 'axios';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export const updateProfileAction = async (formData: FormData) => {
@@ -28,18 +30,6 @@ export const updateProfileAction = async (formData: FormData) => {
   }
 
   try {
-    let imageUrl = '';
-
-    // Only upload the image if one is provided
-    if (image) {
-      const { data: response } = await axios.post(cloudinary_url, formData);
-      if (response?.secure_url) {
-        imageUrl = response.secure_url;
-      } else {
-        return { success: false, error: 'Image upload failed' };
-      }
-    }
-
     // Update profile in Supabase
     const updateData: {
       email: string;
@@ -47,25 +37,35 @@ export const updateProfileAction = async (formData: FormData) => {
       phoneNumber: string;
       imageUrl?: string;
     } = { email, fullName, phoneNumber };
-    if (imageUrl) updateData.imageUrl = imageUrl;
+    // Only upload the image if one is provided
+    if (image) {
+      const imageUrl = (await uploadImageToCloudinary(image)) as string;
+      if (!imageUrl) {
+        return { success: false, message: 'Failed to upload image' };
+      }
+      updateData.imageUrl = imageUrl;
+    }
 
     const { data, error } = await supabaseApi
-      .from('usersprofile')
+      .from('userProfile')
       .update(updateData)
       .eq('email', email)
+      .eq('id', user.data.user.id)
       .select()
       .single();
 
     if (error) {
-      return { success: false, error: error.message };
+      console.log(error, 'Failed to update profile');
+      return { success: false, error: 'Failed to update profile' };
     }
+
+    revalidatePath('/app/home');
     return { success: true, data };
   } catch (error) {
+    console.log(error);
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Something went wrong',
     };
-  } finally {
-    redirect('/home');
   }
 };

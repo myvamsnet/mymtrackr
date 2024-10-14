@@ -1,22 +1,22 @@
-import { Icons } from "@/assets/icons";
-import { checkImageFormat } from "@/lib/helper/checkImageFormat";
-import { currencyFormatter } from "@/lib/helper/currencyFormatter";
-import { handleTypeColor, Type } from "@/lib/helper/handleTypeColor";
-import { Records } from "@/types/records";
-import dayjs from "dayjs";
-import Image from "next/image";
+import { Icons } from '@/assets/icons';
+import { checkImageFormat } from '@/lib/helper/checkImageFormat';
+import { currencyFormatter } from '@/lib/helper/currencyFormatter';
+import { handleTypeColor, Type } from '@/lib/helper/handleTypeColor';
+import { Records } from '@/types/records';
+import dayjs from 'dayjs';
+import Image from 'next/image';
 
 export const Details = ({ records }: DetailsProps) => {
   const handleType = (type: Type) => {
     switch (type) {
-      case "income":
+      case 'income':
         return <Icons.ArrowDownIcon />;
-      case "expense":
+      case 'expense':
         return <Icons.ArrowUpIcon />;
-      case "debtor":
+      case 'debtor':
         return <Icons.ArrowRightIcon />;
 
-      case "payable":
+      case 'payable':
         return <Icons.ArrowLeftIcon />;
 
       default:
@@ -26,12 +26,12 @@ export const Details = ({ records }: DetailsProps) => {
 
   const summaryDetail = [
     {
-      [records?.type === "income" || records?.type === "expense"
-        ? "Type"
-        : "Name"]: records?.name,
+      [records?.type === 'income' || records?.type === 'expense'
+        ? 'Type'
+        : 'Name']: records?.name,
     },
     {
-      date: dayjs(records?.createdAt).format("MMMM D, YYYY h:mm A"),
+      date: dayjs(records?.created_at).format('MMMM D, YYYY h:mm A'),
     },
     {
       amount: currencyFormatter(records?.amount),
@@ -57,7 +57,7 @@ export const Details = ({ records }: DetailsProps) => {
           {currencyFormatter(records?.amount)}
         </h2>
         <small className="font-medium text-[#7A7A84] text-xs">
-          {dayjs(records?.createdAt).format("MMMM D, YYYY h:mm A")}
+          {dayjs(records?.created_at).format('MMMM D, YYYY h:mm A')}
         </small>
       </section>
       <section className="bg-off-white-300 p-4 rounded-xl grid gap-2">
@@ -80,13 +80,13 @@ export const Details = ({ records }: DetailsProps) => {
           ))}
         </div>
       </section>
-      {records?.image && checkImageFormat(records?.image) && (
+      {records?.imageUrl && checkImageFormat(records?.imageUrl) && (
         <section className="bg-off-white-300 p-4 rounded-xl">
           <h2>Uploaded File</h2>
 
           <div className="my-3">
             <Image
-              src={records?.image}
+              src={records?.imageUrl}
               height={160}
               width={160}
               alt="uploaded"

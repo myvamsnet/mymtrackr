@@ -3,15 +3,17 @@ import dayjs from 'dayjs';
 import { sortArray } from '@/lib/helper/sortData';
 import { useParams, useSearchParams } from 'next/navigation';
 import axiosInstance from '@/lib/axios';
-import { Records, RecordsResponse } from '@/types/records';
+import { Records } from '@/types/records';
 
 export const useGetRecordByType = () => {
   const searchParam = useSearchParams();
   const searchTerm = searchParam.get('searchTerm');
   const { type } = useParams();
   const today = dayjs().add(1, 'day');
-  const startDate = searchParam.get('startDate');
-  const endDate = searchParam.get('endDate');
+  const currentDate = dayjs().format('YYYY-MM-DD');
+  const startDate = searchParam.get('startDate') ?? currentDate;
+  const endDate =
+    searchParam.get('endDate') ?? dayjs(today).format('YYYY-MM-DD');
 
   const values = {
     startDate,
@@ -25,8 +27,8 @@ export const useGetRecordByType = () => {
       'records',
       type,
       startDate ?? '',
-      endDate || '',
-      searchTerm || '',
+      endDate ?? '',
+      searchTerm ?? '',
     ],
     queryFn: async () => {
       const param = new URLSearchParams(Object(values)).toString();
@@ -37,7 +39,8 @@ export const useGetRecordByType = () => {
       return data;
     },
   });
-  const records = data && sortArray(data?.data?.records, 'updateat');
+
+  const records = data && sortArray(data?.data, 'updated_at');
   return {
     records,
     isLoading,
@@ -45,3 +48,8 @@ export const useGetRecordByType = () => {
     status,
   };
 };
+
+interface RecordsResponse {
+  status: string;
+  data: Records[];
+}

@@ -16,9 +16,16 @@
   }
 }
 
+.bg-overlay {
+  background-image: url('/images/overlayBanner.png');
+  height: 500px;
+  background-size: cover;
+  background-position: center;
+}
+
 @layer utilities {
   .text-balance {
-    text-wrap: balance;
+    text-align: center;
   }
 }
 
@@ -108,14 +115,14 @@
   scrollbar-width: none !important; /* Firefox */
 }
 
-input[type="number"] {
+input[type='number'] {
   /* Hide number input arrow */
   -moz-appearance: textfield; /* Firefox */
   appearance: textfield; /* Safari and Chrome */
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   /* Hide number input arrow */
   -webkit-appearance: none;
   appearance: none;

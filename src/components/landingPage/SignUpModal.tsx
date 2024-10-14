@@ -1,9 +1,10 @@
-"use client";
-import { CustomInput } from "@/components/CustomInput";
-import { Button } from "@/components/ui/button";
-import AuthWrapper from "@/components/Auth";
-import { inputLists } from "@/constant/auth";
-import { useSignUp } from "./hook/useSignUp";
+'use client';
+import { CustomInput } from '@/components/CustomInput';
+import { Button } from '@/components/ui/button';
+import AuthWrapper from '@/components/Auth';
+import { inputLists } from '@/constant/auth';
+import { useSignUp } from './hook/useSignUp';
+import { RegisterAction } from '@/app/actions/RegisterAction';
 export const SignUpModal = () => {
   const {
     modal,
@@ -12,19 +13,22 @@ export const SignUpModal = () => {
     control,
     handleSubmit,
     onSubmit,
-    isPending,
+    status,
   } = useSignUp();
 
   return (
     <AuthWrapper
-      isOpen={modal.isOpen && modal.type === "signUp"}
+      isOpen={modal.isOpen && modal.type === 'signUp'}
       onCancel={onCancel}
       onConfirm={onConfirm}
       title="Sign Up"
       subTitle="Already have an account?"
       content="Sign In"
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 py-3">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="grid gap-4 py-3"
+      >
         {inputLists.map((input) => (
           <CustomInput
             key={input.name}
@@ -38,11 +42,11 @@ export const SignUpModal = () => {
         <Button
           type="submit"
           className={`w-full  h-[52px] text-base font-normal ${
-            isPending ? "opacity-55 cursor-not-allowed" : ""
+            status ? 'opacity-55 cursor-not-allowed' : ''
           }`}
-          disabled={isPending}
+          disabled={status}
         >
-          {isPending ? "Loading..." : "Sign Up"}
+          {status ? 'Loading...' : 'Sign Up'}
         </Button>
       </form>
     </AuthWrapper>

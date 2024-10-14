@@ -34,7 +34,6 @@ export const useUpdateProfile = () => {
       if (data.phoneNumber) formData.append('phoneNumber', data.phoneNumber);
       if (image && cloudinary_preset) {
         formData.append('file', image as File);
-        formData.append('upload_preset', cloudinary_preset);
       }
       return await updateProfileAction(formData);
     },

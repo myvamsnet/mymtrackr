@@ -4,10 +4,10 @@ export type Records = {
   name: string;
   note: string;
   type: Type;
-  image: string;
-  userId: string;
-  createdAt: string; // Using string to represent the ISO date format
-  updateat: string; // Using string to represent the ISO date format
+  imageUrl: string;
+  user_id: string;
+  created_at: string; // Using string to represent the ISO date format
+  updated_at: string; // Using string to represent the ISO date format
 };
 
 export interface SearchProps {
@@ -34,14 +34,8 @@ export interface SearchParamsProps {
 
 export type Type = 'income' | 'expense' | 'debtor' | 'payable';
 
-export interface RecordData {
-  records: Records[];
-  currentPage: number;
-  totalPages: number;
-  totalRecords: number;
-}
 export interface RecordsResponse {
-  data: RecordData;
-  success: true;
+  data: Records[];
+  success: boolean;
   message: string;
 }

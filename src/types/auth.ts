@@ -41,14 +41,5 @@ export interface UserProfile {
   email: string;
   created_at: string;
   phoneNumber: any;
-  updateat: string;
-  referral_code: string;
-  referral_count: number;
-  subscription_expiry: string;
-  subscription_status: SubscriptionStatusType;
+  update_at: string;
 }
-export type SubscriptionStatusType =
-  | 'active'
-  | 'inactive'
-  | 'expired'
-  | 'trialing';

@@ -1,6 +1,6 @@
-"use client";
-import { deleteRecord } from "@/app/actions/deleteRecord";
-import { Button } from "@/components/ui/button";
+'use client';
+import { deleteRecord } from '@/app/actions/deleteRecord';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -8,14 +8,15 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { DialogClose } from "@radix-ui/react-dialog";
-import { useMutation } from "@tanstack/react-query";
+} from '@/components/ui/dialog';
+import { DialogClose } from '@radix-ui/react-dialog';
+import { useMutation } from '@tanstack/react-query';
 
 export function ConfirmDeleteRecord({ id }: ConfirmDeleteRecordProps) {
   const { mutate, isPending } = useMutation({
     mutationFn: async (id: string) => {
       const res = await deleteRecord(id);
+      console.log(res);
       return res;
     },
   });
@@ -47,7 +48,7 @@ export function ConfirmDeleteRecord({ id }: ConfirmDeleteRecordProps) {
             onClick={() => mutate(id)}
             disabled={isPending ? true : false}
           >
-            {isPending ? "Deleting..." : "Confirm"}
+            {isPending ? 'Deleting...' : 'Confirm'}
           </Button>
         </div>
       </DialogContent>

@@ -1,47 +1,58 @@
 'use server';
-import prisma from '@/lib/db';
-import { verifySession } from '@/lib/session';
+import { createClient } from '@/lib/supabse/server';
+import { uploadImageToCloudinary } from '@/lib/uploadImageToCloudinary';
 import { revalidatePath } from 'next/cache';
 
-export async function createRecordAction(data: {
-  name: string;
-  amount: string;
-  type: string;
-  imageUrl?: string;
-  note?: string;
-}) {
-  // Verify session and check if the user is authenticated
-  const session = await verifySession();
-  if (!session?.isAuth) {
-    return {
-      success: false,
-      message: 'User is not authenticated',
-    };
+export const createRecordAction = async (formData: FormData) => {
+  const type = formData.get('type');
+  const amount = formData.get('amount') as string;
+  const name = formData.get('name') as string;
+  const note = formData.get('note') as string;
+  const image = formData.get('file') as File;
+
+  if (!type) {
+    return { success: false, message: 'Record Type is required' };
   }
 
-  // Create the record directly
-  const record = await prisma.record.create({
-    data: {
-      userId: session.userId as string,
-      amount: data.amount,
-      imageUrl: data.imageUrl || '',
-      name: data.name,
-      type: data.type,
-      note: data.note,
-    },
-  });
+  const supabaseApi = createClient();
+  const { data: userData } = await supabaseApi.auth.getUser();
 
-  if (!record) {
-    return {
-      success: false,
-      message: 'Error creating record',
-    };
+  const userId = userData?.user?.id;
+  if (!userId) {
+    return { success: false, message: 'User not found' };
   }
 
-  // Revalidate the path
-  revalidatePath('/home');
-  return {
-    success: true,
-    message: 'Record created successfully',
+  const payload = {
+    name,
+    amount,
+    note,
+    type,
+    user_id: userId,
+    imageUrl: null as string | null,
   };
-}
+  try {
+    if (image) {
+      const imageUrl = (await uploadImageToCloudinary(image)) as string;
+      if (!imageUrl) {
+        return { success: false, message: 'Failed to upload image' };
+      }
+
+      payload.imageUrl = imageUrl;
+    }
+    const { data, error } = await supabaseApi
+      .from('records')
+      .insert([payload])
+      .select();
+    if (error) {
+      console.log(error, 'Failed to create record');
+      return { success: false, message: 'Failed to create record' };
+    }
+    revalidatePath('/app/home');
+    return { success: true, data };
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : 'Something went wrong',
+    };
+  }
+};

@@ -1,7 +1,7 @@
 import { Icons } from '@/assets/icons';
 import { currencyFormatter } from '@/lib/helper/currencyFormatter';
 import { handleTypeColor, Type } from '@/lib/helper/handleTypeColor';
-import { cn } from '@/lib/utils';
+import { Records } from '@/types/records';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -23,6 +23,7 @@ export const RecordItem: FC<TransactionItemPros> = ({ record }) => {
         return <Icons.ArrowDownIcon />;
     }
   };
+  console.log(record);
   return (
     <Link
       href={`/app/records/details/${record?.id}`}
@@ -40,7 +41,7 @@ export const RecordItem: FC<TransactionItemPros> = ({ record }) => {
             {record?.name}
           </p>
           <span className="text-xs font-normal text-dark-200">
-            {dayjs(record?.createdAt).format('MMM D, YYYY h:mm A')}
+            {dayjs(record?.updated_at).format('MMM D, YYYY h:mm A')}
           </span>
         </div>
       </div>
@@ -53,11 +54,5 @@ export const RecordItem: FC<TransactionItemPros> = ({ record }) => {
   );
 };
 export interface TransactionItemPros {
-  record: {
-    id: string;
-    amount: number;
-    type: 'income' | 'expense' | 'payable' | 'debtor';
-    createdAt: string;
-    name: string;
-  };
+  record: Records;
 }

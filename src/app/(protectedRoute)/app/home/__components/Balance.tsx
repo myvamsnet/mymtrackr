@@ -1,10 +1,9 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { currencyFormatter } from '@/lib/helper/currencyFormatter';
 import { SelectWorth } from './SelectWorth';
-import { useGetAllRecords } from '@/hooks/useGetAllRecords';
 import { calculateWorth } from '@/lib/helper/calculateWorth';
-import { RecordData, Records } from '@/types/records';
+import { Records } from '@/types/records';
 import useRecordStore from '@/zustand/recordStore';
 import { Icons } from '@/assets/icons';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
@@ -14,7 +13,7 @@ import toast from 'react-hot-toast';
 
 const Balance = ({ user, data }: Props) => {
   const [doCopy] = useCopyToClipboard();
-  const records = data?.records;
+  const records = data;
   const handleCopy = (refId: string, text: string) => {
     doCopy(refId);
     toast.success(text);
@@ -22,7 +21,7 @@ const Balance = ({ user, data }: Props) => {
   const [showBalance, setShowBalance] = useState(true);
   const balanceType = useRecordStore((state) => state.balanceType);
   const { grossWorth, netWorth } = calculateWorth(records as Records[]);
-  console.log(records);
+
   const handleShowBalance = (showBalance: boolean) => {
     setShowBalance(showBalance);
   };
@@ -76,5 +75,5 @@ const Balance = ({ user, data }: Props) => {
 export default Balance;
 interface Props {
   user: User;
-  data: RecordData;
+  data: Records[];
 }

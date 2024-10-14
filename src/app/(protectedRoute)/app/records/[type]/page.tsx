@@ -19,7 +19,7 @@ const RecordType = async ({ params }: ParamsProps) => {
       </div>
       <div>
         <Link
-          href={`/records/add/${params.type}`}
+          href={`/app/records/add/${params.type}`}
           className="text-xs font-semibold text-off-white-300 font-inter absolute right-6 bottom-0 z-30  p-4 rounded-2xl gap-2 bg-primary w-[121px] block my-4 btn-drop-shadow"
         >
           + Record New

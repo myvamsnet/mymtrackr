@@ -33,15 +33,15 @@ export async function POST(req: NextRequest) {
     }
 
     const response = await axios.post(
-      flutterwaveUrl,
+      `${flutterwaveUrl}/payments`,
       {
         tx_ref: Date.now(),
         amount: subscriptionAmount,
         currency: 'NGN',
         payment_plan: paymentPlanId,
         payment_type: 'card',
-        redirect_url: `${process.env.NEXT_PUBLIC_BASE_URL}/subscription`, // Modify to your production URL
-        customer: { email },
+        redirect_url: `${process.env.NEXT_PUBLIC_BASE_URL}/app/subscription`, // Modify to your production URL
+        customer: { email, name: fullName },
         customizations: {
           title: 'Subscription Service',
           description: 'Payment for subscription',

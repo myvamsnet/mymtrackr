@@ -16,8 +16,8 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 export const useCreateRecord = () => {
-  const { type } = useParams();
-  const [uploading, setUploading] = useState(false);
+  const [status, setStatus] = useState(false);
+  const { type } = useParams() as { type: Type };
   const redirect = useRedirect();
   const { image, handleFileChange, errorMessage, previewUrl } =
     useUploadImage();
@@ -31,47 +31,40 @@ export const useCreateRecord = () => {
     resolver: zodResolver(addRecordsSchema),
   });
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (data: AddRecordsSchemaType) => {
-      if (!image) {
-        const res = await createRecordAction({
-          ...data,
-          type: type as Type,
-          note: data.note || undefined,
-        });
-        return res;
+  const onSubmit = async (data: AddRecordsSchemaType) => {
+    const formData = new FormData();
+    formData.append('type', type);
+    formData.append('amount', data.amount);
+    formData.append('name', data.name);
+
+    if (data?.note) {
+      formData.append('note', data.note);
+    }
+    if (image) {
+      formData.append('file', image);
+    }
+
+    setStatus(true);
+    try {
+      const res = await createRecordAction(formData);
+      if (!res?.success) {
+        throw new Error(res?.message);
       }
-      const imageUrl = await uploadImageToCloudinary(image);
-      if (!imageUrl) throw new Error('Image upload failed');
-      const paylaod = {
-        ...data,
-        imageUrl,
-        type: type as Type,
-        note: data.note || undefined,
-      };
-      const res = await createRecordAction(paylaod);
-      return res;
-    },
-    onSuccess: (data) => {
-      if (!data?.success) {
-        toast.error(data?.message ?? 'Error adding record');
-        return;
-      }
-      toast.success('Record Added Successfully');
       reset();
+      toast.success(`Record created successfully`);
       redirect();
-    },
-    onError: (error) => {
+    } catch (error) {
       if (
-        error?.message !== undefined &&
-        error?.message !== null &&
-        error?.message !== ''
+        (error as any).message !== undefined &&
+        (error as any).message !== null &&
+        (error as any).message !== ''
       ) {
-        toast.error('Something went wrong , Try Again');
+        toast.error((error as any).message);
       }
-      return;
-    },
-  });
+    } finally {
+      setStatus(false);
+    }
+  };
 
   return {
     control,
@@ -79,11 +72,7 @@ export const useCreateRecord = () => {
     handleFileChange,
     errorMessage,
     previewUrl,
-    uploading,
-    setUploading,
-    redirect,
-    image,
-    mutate,
-    isPending,
+    onSubmit,
+    isPending: status,
   };
 };

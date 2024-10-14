@@ -1,16 +1,16 @@
-import { CustomInput } from "@/components/CustomInput";
+import { CustomInput } from '@/components/CustomInput';
 
-import { AddRecordsSchemaType } from "@/lib/Schema/incomeSchema";
-import NumberInput from "@/components/NumberInput";
-import { Button } from "@/components/ui/button";
-import { InputType } from "@/constant/createRecords";
+import { AddRecordsSchemaType } from '@/lib/Schema/incomeSchema';
+import NumberInput from '@/components/NumberInput';
+import { Button } from '@/components/ui/button';
+import { InputType } from '@/constant/createRecords';
 
-import { useParams } from "next/navigation";
-import { Payload, useEditRecord } from "../hooks/useEditRecord";
-import { Records, Type } from "@/types/records";
-import { useEffect } from "react";
-import Image from "next/image";
-import { checkImageFormat } from "@/lib/helper/checkImageFormat";
+import { useParams } from 'next/navigation';
+import { Payload, useEditRecord } from '../hooks/useEditRecord';
+import { Records, Type } from '@/types/records';
+import { useEffect } from 'react';
+import Image from 'next/image';
+import { checkImageFormat } from '@/lib/helper/checkImageFormat';
 const EditRecordForm = ({
   recordType,
   inputlists,
@@ -31,18 +31,18 @@ const EditRecordForm = ({
 
   useEffect(() => {
     if (record) {
-      const image = checkImageFormat(record.image as string);
-      setValue("amount", String(record.amount));
-      setValue("name", record.name);
-      setValue("note", record.note);
-      setPreviewUrl(image ? record.image : "");
+      const image = checkImageFormat(record?.imageUrl as string);
+      setValue('amount', String(record?.amount));
+      setValue('name', record?.name);
+      setValue('note', record?.note);
+      setPreviewUrl(image ? record?.imageUrl : '');
     }
   }, [record, setValue, setPreviewUrl]);
   const onSubmit = async (data: AddRecordsSchemaType) => {
     const payload = {
       ...data,
       type: record?.type,
-      image: record?.image,
+      image: record?.imageUrl,
       recordId: record?.id,
     } as Payload;
     mutate(payload);
@@ -55,10 +55,10 @@ const EditRecordForm = ({
         onSubmit={handleSubmit(onSubmit)}
       >
         {inputlists.map((input, i) => {
-          return input.type === "currency" ? (
+          return input.type === 'currency' ? (
             <NumberInput
               key={i}
-              name={"amount"}
+              name={'amount'}
               type={input.type}
               label={input.label}
               control={control}
@@ -76,7 +76,7 @@ const EditRecordForm = ({
                 handleFileChange={handleFileChange}
                 fileError={errorMessage}
               />
-              {input.type === "file" && (
+              {input.type === 'file' && (
                 <div className="flex justify-end items-center">
                   {previewUrl && (
                     <Image
@@ -100,7 +100,7 @@ const EditRecordForm = ({
             className="bg-primary hover:bg-primary/80 w-full py-3 px-2 rounded-lg text-off-white-300 font-semibold h-[45px]"
             type="submit"
           >
-            {isPending ? "Loading..." : uploading ? "Please wait..." : "Submit"}
+            {isPending ? 'Loading...' : uploading ? 'Please wait...' : 'Submit'}
           </Button>
         </div>
       </form>
@@ -111,7 +111,7 @@ const EditRecordForm = ({
 export default EditRecordForm;
 
 interface CreateRecordsProps {
-  recordType: "expense" | "income" | "debtor" | "payable";
+  recordType: 'expense' | 'income' | 'debtor' | 'payable';
   inputlists: InputType[];
   title: string;
   record: Records;

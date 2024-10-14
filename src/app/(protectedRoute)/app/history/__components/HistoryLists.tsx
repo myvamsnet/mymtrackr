@@ -2,7 +2,6 @@
 import { RecordItem } from '@/app/(protectedRoute)/app/_components/common/records/RecordItem';
 import { RecordsNotFound } from '@/app/(protectedRoute)/app/_components/common/records/RecordsNotFound';
 import { LoadingRecords } from '@/components/LoadingRecords';
-import { useGetRecordByType } from '@/hooks/useGetRecordByType';
 import React, { useEffect } from 'react';
 import useInfiniteItems from '../hook/useInfiniteItems';
 import { useInView } from 'react-intersection-observer';
@@ -12,7 +11,6 @@ export const HistoryLists = () => {
     error,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
     status,
   } = useInfiniteItems();
@@ -26,7 +24,9 @@ export const HistoryLists = () => {
   return (
     <section className=" bg-off-white-300 overflow-y-auto overflow-x-hidden ">
       {status === 'error' && <p>{error?.name}</p>}
-      {records && records?.length === 0 && <RecordsNotFound />}
+      {records && records?.length === 0 && status === 'success' && (
+        <RecordsNotFound />
+      )}
       {status === 'pending' && <LoadingRecords />}
       {records &&
         records?.length > 0 &&

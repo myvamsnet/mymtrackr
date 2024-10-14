@@ -3,17 +3,17 @@ import { loginAction } from '@/app/actions/loginAction';
 import useModal from '@/hooks/useModal';
 import { signInSchema, SignInSchemaType } from '@/lib/Schema/authSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 export const useSignIn = () => {
+  const [status, setStatus] = useState(false);
   const { onConfirm, onCancel, modal } = useModal();
   const {
     control,
     handleSubmit,
     formState: { isValid },
-    reset,
   } = useForm<SignInSchemaType>({
     defaultValues: {
       email: '',
@@ -21,27 +21,28 @@ export const useSignIn = () => {
     },
     resolver: zodResolver(signInSchema),
   });
-  const { mutate, isError, isPending, error } = useMutation({
-    mutationFn: async (data: SignInSchemaType) => {
-      const res = await loginAction(data);
+
+  const onSubmit = async (data: SignInSchemaType) => {
+    setStatus(true);
+    try {
+      const formData = new FormData();
+      formData.append('email', data.email);
+      formData.append('password', data.password);
+      const res = await loginAction(formData);
       if (!res?.success) {
         throw new Error(res?.message);
       }
-    },
-    onError: (error) => {
+    } catch (error) {
       if (
-        error?.message !== undefined &&
-        error?.message !== null &&
-        error?.message !== ''
+        (error as any).message !== undefined &&
+        (error as any).message !== null &&
+        (error as any).message !== ''
       ) {
-        toast.error('Something went wrong , Try Again');
+        toast.error((error as any).message);
       }
-      return;
-    },
-  });
-
-  const onSubmit = (data: SignInSchemaType) => {
-    mutate(data);
+    } finally {
+      setStatus(false);
+    }
   };
 
   const handleOnConfirm = (type: 'signUp' | 'forgotPassword') => {
@@ -58,9 +59,7 @@ export const useSignIn = () => {
     control,
     handleSubmit,
     onSubmit,
-    isError,
-    isPending,
-    error,
+    isPending: status,
     isValid,
   };
 };

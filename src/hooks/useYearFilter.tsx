@@ -1,25 +1,18 @@
-"use client";
-import { useEffect, useState, useMemo } from "react";
-import { useUpdateQuery } from "./useUpdateQuery";
-import { useSearchParams } from "next/navigation";
+'use client';
+import { useEffect, useState, useMemo } from 'react';
+import { useUpdateQuery } from './useUpdateQuery';
+import { useSearchParams } from 'next/navigation';
 
 export const useYearFilter = () => {
   const searchParams = useSearchParams();
-  const year = searchParams.get("year");
-  const month = searchParams.get("month");
-  const currentDate = useMemo(() => new Date(), []);
-  const currentYear = useMemo(
-    () => String(currentDate.getFullYear()),
-    [currentDate]
-  );
+  const year = searchParams.get('year') || '';
+  const month = searchParams.get('month') || '';
 
-  const queryYear = searchParams.get("year") || currentYear;
-  const queryMonth = searchParams.get("month") || "all";
+  const currentDate = new Date();
+  const currentYear = String(currentDate.getFullYear());
+  const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
 
-  const [filter, setFilter] = useState({
-    month: queryMonth,
-    year: queryYear,
-  });
+  const [filter, setFilter] = useState({ year, month });
   const { updateQueryParams } = useUpdateQuery();
 
   const onChangeYear = (value: string, type: string) => {
@@ -30,36 +23,21 @@ export const useYearFilter = () => {
   };
 
   useEffect(() => {
-    setFilter({ year: queryYear, month: queryMonth });
-
-    if (!year || !month) {
-      updateQueryParams({ year: currentYear, month: "all" });
+    if (!year && !month) {
+      updateQueryParams({ year: currentYear, month: currentMonth });
+      setFilter({ year: currentYear, month: currentMonth });
+    } else {
+      setFilter({ year, month });
     }
+  }, [currentYear, currentMonth, year, month, updateQueryParams]);
 
-    if (year === "" && month === "") {
-      updateQueryParams({
-        year: currentYear,
-        month: "all",
-      });
-    }
-  }, [queryYear, queryMonth, currentYear, updateQueryParams, year, month]);
-
-  const yearOptions = [{ value: "2024", label: "2024" }];
-
+  const yearOptions = [{ value: '2024', label: '2024' }];
   const monthOptions = [
-    { value: "all", label: "All" },
-    { value: "01", label: "January" },
-    { value: "02", label: "February" },
-    { value: "03", label: "March" },
-    { value: "04", label: "April" },
-    { value: "05", label: "May" },
-    { value: "06", label: "June" },
-    { value: "07", label: "July" },
-    { value: "08", label: "August" },
-    { value: "09", label: "September" },
-    { value: "10", label: "October" },
-    { value: "11", label: "November" },
-    { value: "12", label: "December" },
+    { value: 'all', label: 'All' },
+    ...Array.from({ length: 12 }, (_, i) => ({
+      value: String(i + 1).padStart(2, '0'),
+      label: new Date(0, i).toLocaleString('default', { month: 'long' }),
+    })),
   ];
 
   return {

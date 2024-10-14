@@ -5,7 +5,7 @@ import { HistoryLists } from './__components/HistoryLists';
 
 const History = () => {
   return (
-    <main className="container mx-auto md:max-w-[700px] bg-off-white-300 overflow-y-auto overflow-x-hidden h-screen relative">
+    <main className="container mx-auto md:max-w-[700px] bg-off-white-300 overflow-y-auto overflow-x-hidden h-screen relative z-50">
       <RecordHeader title={`History`} />
       <section className="bg-off-white-300 relative h-screen">
         <FilterHistory />

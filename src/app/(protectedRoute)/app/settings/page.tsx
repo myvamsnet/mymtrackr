@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { PenBook } from "@/assets/icons/PenBook";
-import { Delete } from "@/assets/icons/Delete";
-import Link from "next/link";
-import React from "react";
-import { CustomHeader } from "@/components/CustomHeader";
-import ResetPasswordModal from "./__components/ResetPasswordModal";
+import { PenBook } from '@/assets/icons/PenBook';
+import { Delete } from '@/assets/icons/Delete';
+import Link from 'next/link';
+import React from 'react';
+import { CustomHeader } from '@/components/CustomHeader';
+import ResetPasswordModal from './__components/ResetPasswordModal';
 
 const Settings = () => {
   return (
@@ -14,7 +14,7 @@ const Settings = () => {
         <CustomHeader title="Settings" />
         <div className="bg-off-white-300 rounded-xl py-4">
           <Link
-            href={"/settings/profile"}
+            href={'/app/settings/profile'}
             className="flex cursor-pointer text-sm font-normal text-dark p-4 gap-2 border-b"
           >
             <PenBook color="#010114" />

@@ -1,44 +1,54 @@
 'use server';
-import prisma from '@/lib/db';
-import { verifySession } from '@/lib/session';
+import { createClient } from '@/lib/supabse/server';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+
 export async function getUser() {
-  const session = await verifySession();
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  if (!session) return null;
-  // Step 1: Fetch the user by id
-  const user = await prisma.user.findUnique({
-    where: { id: session?.userId as string },
-    include: {
-      subscription: true, // Include subscription details
-      referredUsers: true, // Include referred users details
-      referrals: true, // Include referrals where this user was the referee
-    },
-  });
+  if (user?.id) {
+    const { data: userProfileData, error: userProfileError } = await supabase
+      .from('userProfile')
+      .select('*')
+      .eq('id', user.id)
+      .single();
 
-  if (!user) {
-    return {
-      success: false,
-      message: 'User not found',
+    if (userProfileError) {
+      console.log(userProfileError.message, 'User Profile Fetch Failed');
+      return {
+        success: false,
+        message: 'User Profile Fetch Failed',
+      };
+    }
+
+    const data: UserProfile = {
+      id: userProfileData.id,
+      email: userProfileData.email,
+      fullName: userProfileData.fullName,
+      imageUrl: userProfileData.imageUrl,
+      phoneNumber: userProfileData.phoneNumber,
+      referralCode: userProfileData.referralCode,
     };
+    revalidatePath('/app/home');
+    return {
+      success: true,
+      data,
+    } as Payload;
   }
-  const data = {
-    id: user.id,
-    email: user.email,
-    fullName: user.fullName,
-    imageUrl: user.imageUrl,
-    phoneNumber: user.phoneNumber,
-    referralCode: user.referralCode,
-    subscription: user.subscription,
-    referredUsers: user.referredUsers,
-    referrals: user.referrals,
-    createdAt: user.createdAt,
-    updatedAt: user.updatedAt,
-  };
+}
+export interface UserProfile {
+  id: string;
+  email: string;
+  fullName: string;
+  imageUrl: string;
+  phoneNumber: string;
+  referralCode: string;
+}
 
-  return {
-    success: true,
-    data,
-  };
+export interface Payload {
+  success: boolean;
+  message?: string;
+  data?: UserProfile;
 }

@@ -3,14 +3,15 @@ import { RegisterAction } from '@/app/actions/RegisterAction';
 import useModal from '@/hooks/useModal';
 import { signUpSchema, SignUpSchemaType } from '@/lib/Schema/authSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 export const useSignUp = () => {
+  const [status, setStatus] = useState(false);
   const searchParam = useSearchParams();
-  const referCode = searchParam.get('referCode');
+  const referralCode = searchParam.get('referCode');
   const { onConfirm, onCancel, modal } = useModal();
 
   const { control, handleSubmit } = useForm<SignUpSchemaType>({
@@ -22,31 +23,29 @@ export const useSignUp = () => {
     resolver: zodResolver(signUpSchema),
   });
 
-  const { mutate, isError, isPending, error } = useMutation({
-    mutationFn: async (data: SignUpSchemaType) => {
-      const payload = {
-        ...data,
-        referralCode: referCode,
-      };
-      const res = await RegisterAction(payload);
+  const onSubmit = async (data: SignUpSchemaType) => {
+    setStatus(true);
+    try {
+      const formData = new FormData();
+      formData.append('email', data.email);
+      formData.append('password', data.password);
+      formData.append('fullName', data.fullName);
+      formData.append('referralCode', 'IXM7TZYO');
+      const res = await RegisterAction(formData);
       if (!res?.success) {
         throw new Error(res?.message);
       }
-      return;
-    },
-    onError: (error) => {
+    } catch (error) {
       if (
-        error.message !== undefined &&
-        error.message !== null &&
-        error.message !== ''
+        (error as any).message !== undefined &&
+        (error as any).message !== null &&
+        (error as any).message !== ''
       ) {
-        toast.error(error.message);
+        toast.error((error as any).message);
       }
-      return;
-    },
-  });
-  const onSubmit = async (data: SignUpSchemaType) => {
-    mutate(data);
+    } finally {
+      setStatus(false);
+    }
   };
   return {
     modal,
@@ -59,8 +58,6 @@ export const useSignUp = () => {
     control,
     handleSubmit,
     onSubmit,
-    isError,
-    isPending,
-    error,
+    status,
   };
 };

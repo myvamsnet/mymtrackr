@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
 export const SettingsIcon = ({
-  color = "#010114",
-  width = "16",
-  height = "16",
+  color = '#010114',
+  width = '16',
+  height = '16',
   ...props
 }) => {
   return (
@@ -16,7 +16,7 @@ export const SettingsIcon = ({
         xmlns="http://www.w3.org/2000/svg"
         {...props}
       >
-        <g clip-path="url(#clip0_1113_1177)">
+        <g clipPath="url(#clip0_1113_1177)">
           <path
             d="M8.00004 9.99999C9.10461 9.99999 10 9.10456 10 7.99999C10 6.89543 9.10461 5.99999 8.00004 5.99999C6.89547 5.99999 6.00004 6.89543 6.00004 7.99999C6.00004 9.10456 6.89547 9.99999 8.00004 9.99999Z"
             stroke={color}
@@ -34,7 +34,11 @@ export const SettingsIcon = ({
         </g>
         <defs>
           <clipPath id="clip0_1113_1177">
-            <rect width="16" height="16" fill="white" />
+            <rect
+              width="16"
+              height="16"
+              fill="white"
+            />
           </clipPath>
         </defs>
       </svg>

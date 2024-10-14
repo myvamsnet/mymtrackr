@@ -1,68 +1,88 @@
-import prisma from '@/lib/db';
-import { buildSearchFilter } from '@/lib/helper/buildSearchFilter';
-import { decrypt } from '@/lib/session';
-import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabse/server';
 import { NextResponse, NextRequest } from 'next/server';
 
 export async function GET(req: NextRequest) {
+  const supabaseApi = createClient();
   const { searchParams } = new URL(req.url);
-  // Get query parameters
-  const type = searchParams.get('type') as Type;
-  const startDate = searchParams.get('startDate') as string;
-  const endDate = searchParams.get('endDate') as string;
-  const searchTerm = searchParams.get('searchTerm') as string;
-  const page = parseInt(searchParams.get('page') || '1');
-  const limit = parseInt(searchParams.get('limit') || '10');
 
-  const cookie = cookies().get('session')?.value;
-  const session = await decrypt(cookie as string);
-  if (!session?.isAuth && !session?.userId) {
+  // Get user information from Supabase
+  const userInfo = await supabaseApi?.auth?.getUser();
+  const user_id = userInfo?.data?.user?.id;
+
+  if (!user_id) {
     return NextResponse.json({ error: 'User not found' }, { status: 400 });
   }
 
-  try {
-    // Build dynamic search filter
-    const searchFilter = {
-      userId: session?.userId,
-      ...buildSearchFilter(searchTerm, type, startDate, endDate),
-    };
-    console.log(searchFilter);
-    // Fetch both records and total count in parallel
-    const [records, totalRecords] = await Promise.all([
-      prisma.record.findMany({
-        where: searchFilter,
-        orderBy: { createdAt: 'desc' },
-        skip: (page - 1) * limit,
-        take: limit,
-      }),
-      prisma.record.count({
-        where: searchFilter,
-      }),
-    ]);
-    const data = {
-      records,
-      currentPage: page,
-      totalPages: Math.ceil(totalRecords / limit),
-      totalRecords,
-    };
-
+  // Get query parameters
+  const type = searchParams.get('type') as Type;
+  const startDate = searchParams.get('startDate');
+  const endDate = searchParams.get('endDate');
+  const searchTerm = searchParams.get('searchTerm');
+  console.log(type);
+  if (!type) {
     return NextResponse.json(
-      {
-        success: true,
-        data,
-        message: 'Records fetched successfully',
-      },
-      { status: 200 }
+      { error: 'Record Type not found' },
+      { status: 400 }
     );
-  } catch (error) {
-    console.error('Error fetching records:', error);
-    if (error) {
-      console.error('Unexpected error:', error);
-      return NextResponse.json(
-        { error: 'Failed to get records' },
-        { status: 500 }
-      );
+  }
+
+  try {
+    // Build the initial query
+    let query = supabaseApi
+      .from('records')
+      .select('*')
+      .eq('type', type)
+      .eq('user_id', user_id)
+      .order('updated_at', { ascending: false });
+
+    // Apply date filters if present
+    if (startDate) {
+      query = query.gte('created_at', startDate);
     }
+
+    if (endDate) {
+      query = query.lte('created_at', endDate);
+    }
+
+    // Apply search term filters
+    if (
+      searchTerm &&
+      searchTerm !== '' &&
+      searchTerm !== 'undefined' &&
+      searchTerm !== 'null' &&
+      searchTerm !== 'NaN'
+    ) {
+      const numericSearchTerm = Number(searchTerm);
+      if (!isNaN(numericSearchTerm)) {
+        // If searchTerm is a valid number, search by amount
+
+        query = query.eq('amount', numericSearchTerm);
+      } else if (typeof searchTerm === 'string' && searchTerm.trim() !== '') {
+        // If searchTerm is a string, search by name using ilike
+        const trimmedSearchTerm = searchTerm.trim();
+
+        query = query.ilike('name', `%${trimmedSearchTerm}%`);
+      }
+    }
+
+    // Execute the query and handle response
+    const { data, error } = await query;
+
+    if (error) {
+      console.error('Query error:', error);
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+    console.log(data);
+    return NextResponse.json({
+      status: 'success',
+      data,
+    });
+  } catch (error) {
+    console.error('Unexpected error:', error);
+    return NextResponse.json(
+      { error: 'Failed to get records' },
+      { status: 500 }
+    );
   }
 }
 

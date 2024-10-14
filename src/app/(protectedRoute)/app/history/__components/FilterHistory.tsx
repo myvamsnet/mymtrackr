@@ -1,16 +1,34 @@
-"use client";
-import { CustomSelect } from "@/components/CustomSelect";
-import { selectByDate } from "@/constant/selectOptions";
-import { useDateFilter } from "@/hooks/useDateFilter";
-import React from "react";
+'use client';
+import { CustomSelect } from '@/components/CustomSelect';
+import { SearchableSelect } from '@/components/SearchableSelect';
+import { selectByDate } from '@/constant/selectOptions';
+import { useDateFilter } from '@/hooks/useDateFilter';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
 export const FilterHistory = () => {
-  const { dateFilter, onChangeDate } = useDateFilter();
+  const { onChangeDate } = useDateFilter();
+  const { control, watch, setValue } = useForm({
+    defaultValues: {
+      filterDate: 'today',
+    },
+  });
+
+  const watchFramework = watch('filterDate');
+  useEffect(() => {
+    if (watchFramework) {
+      onChangeDate(watchFramework);
+    }
+
+    if (!watchFramework) {
+      setValue('filterDate', 'today');
+    }
+  }, [watchFramework, onChangeDate, setValue]);
   return (
     <section className="p-3">
-      <CustomSelect
-        dateFilter={dateFilter}
-        onChangeDate={onChangeDate}
+      <SearchableSelect
+        name="filterDate"
+        control={control}
         options={selectByDate}
       />
     </section>

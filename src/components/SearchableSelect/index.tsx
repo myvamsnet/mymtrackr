@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useRef } from "react";
-import { ChevronDownIcon, CheckIcon, SearchIcon } from "lucide-react";
-import { useController, Control } from "react-hook-form";
+import React, { useState, useEffect, useRef } from 'react';
+import { ChevronDownIcon, CheckIcon, SearchIcon } from 'lucide-react';
+import { useController, Control } from 'react-hook-form';
 
 interface Option {
   value: string;
@@ -24,10 +24,10 @@ export function SearchableSelect({
   options,
   label,
   saerchable = false,
-  placeholder = "Select an option...",
+  placeholder = 'Select an option...',
 }: SearchableSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -47,9 +47,9 @@ export function SearchableSelect({
         setIsOpen(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [wrapperRef]);
 
@@ -68,12 +68,15 @@ export function SearchableSelect({
         </label>
       )}
 
-      <div className="relative w-full" ref={wrapperRef}>
+      <div
+        className="relative w-full"
+        ref={wrapperRef}
+      >
         <button
           id={`${name}-select`}
           type="button"
           className={`w-full h-[45px] px-4 text-left bg-white border ${
-            error ? "border-red-500" : "border-gray-300"
+            error ? 'border-red-500' : 'border-gray-300'
           } rounded-md shadow-sm focus:outline-none  flex items-center justify-between`}
           onClick={() => setIsOpen(!isOpen)}
           aria-haspopup="listbox"
@@ -103,22 +106,25 @@ export function SearchableSelect({
               </div>
             )}
 
-            <ul className="max-h-60 overflow-auto relative z-40" role="listbox">
+            <ul
+              className="max-h-70 overflow-auto relative z-40"
+              role="listbox"
+            >
               {filteredOptions.map((option) => (
                 <li
                   key={option.value}
                   className={`px-4 py-2 hover:bg-gray-100 cursor-pointer text-[#7A7A84] ${
-                    value === option.value ? "bg-off-white-300" : ""
+                    value === option.value ? 'bg-off-white-300' : ''
                   }`}
                   onClick={() => {
                     onChange(option.value);
                     setIsOpen(false);
-                    setSearchTerm("");
+                    setSearchTerm('');
                   }}
                   role="option"
                   aria-selected={value === option.value}
                 >
-                  <div className="flex items-center h-[45px]">
+                  <div className="flex items-center text-sm py-2">
                     <span className="flex-grow truncate">{option.label}</span>
                     {value === option.value && (
                       <CheckIcon className="w-5 h-5 text-blue-500" />

@@ -1,10 +1,12 @@
+import { SubscriptionType } from '@/app/actions/getSubscription';
+import { UserProfile } from '@/app/actions/getUser';
 import { PenBook } from '@/assets/icons/PenBook';
 import CustomAvatar from '@/components/ui/Avatar/index';
-import { UserProfile } from '@/types/auth';
 import Link from 'next/link';
 import React from 'react';
 
-export const MoreHeader = ({ data }: props) => {
+export const MoreHeader = ({ data, subscription }: props) => {
+  console.log(subscription);
   return (
     <section>
       <div className="top-[44px] py-5 px-3 bg-off-white">
@@ -23,9 +25,7 @@ export const MoreHeader = ({ data }: props) => {
               {data?.fullName}
             </p>
             <p className="font-medium text-xs/5 text-[#D6D7DB] font-inter capitalize">
-              {data?.subscription_status === 'trialing'
-                ? 'Free'
-                : data?.subscription_status}
+              {subscription?.status === 'trial' ? 'Free' : subscription?.status}
             </p>
           </div>
         </div>
@@ -41,4 +41,5 @@ export const MoreHeader = ({ data }: props) => {
 };
 interface props {
   data: UserProfile;
+  subscription: SubscriptionType;
 }
