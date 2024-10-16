@@ -91,7 +91,12 @@ export const menuItems = [
     textColor: 'text-dark',
     link: '/app/analytics',
   },
-  { icon: ReferalIcon, text: 'Earn with Referal', textColor: 'text-dark' },
+  {
+    icon: ReferalIcon,
+    text: 'Earn with Referal',
+    textColor: 'text-dark',
+    link: '/app/referral-history',
+  },
 
   {
     icon: SettingsIcon,

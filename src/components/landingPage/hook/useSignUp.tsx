@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 export const useSignUp = () => {
   const [status, setStatus] = useState(false);
   const searchParam = useSearchParams();
-  const referralCode = searchParam.get('referCode');
+  const referralCode = searchParam.get('referralCode') as string;
   const { onConfirm, onCancel, modal } = useModal();
 
   const { control, handleSubmit } = useForm<SignUpSchemaType>({
@@ -30,7 +30,9 @@ export const useSignUp = () => {
       formData.append('email', data.email);
       formData.append('password', data.password);
       formData.append('fullName', data.fullName);
-      formData.append('referralCode', 'IXM7TZYO');
+      if (referralCode) {
+        formData.append('referralCode', referralCode);
+      }
       const res = await RegisterAction(formData);
       if (!res?.success) {
         throw new Error(res?.message);
@@ -59,5 +61,6 @@ export const useSignUp = () => {
     handleSubmit,
     onSubmit,
     status,
+    referralCode,
   };
 };

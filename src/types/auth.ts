@@ -1,6 +1,6 @@
 export interface InputLists {
   name: string;
-  type: 'text' | 'email' | 'password';
+  type: 'text' | 'email' | 'password' | 'ordinary';
   label: string;
   placeholder: string;
 }

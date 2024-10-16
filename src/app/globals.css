@@ -16,11 +16,21 @@
   }
 }
 
+body {
+  background-color: #fcfdfe;
+}
 .bg-overlay {
   background-image: url('/images/overlayBanner.png');
-  height: 500px;
-  background-size: cover;
-  background-position: center;
+}
+
+.bg-overlay-2 {
+  background-image: url('/images/Backgroundfeature.png');
+}
+.bg-overlay-3 {
+  background-image: url('/images/Backgroundfeature.png');
+}
+.bg-overlay-4 {
+  background-image: url('/images/bottomimage.png');
 }
 
 @layer utilities {
@@ -29,6 +39,13 @@
   }
 }
 
+.wrapper {
+  @apply mx-auto container max-w-[1144px];
+}
+
+.benefitSection__card {
+  @apply grid grid-cols-1 md:grid-cols-2 w-full gap-8 md:gap-[76px] items-center px-4 md:px-0;
+}
 @layer base {
   :root {
     --background: 0 0% 100%;

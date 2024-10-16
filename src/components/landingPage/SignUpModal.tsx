@@ -14,6 +14,7 @@ export const SignUpModal = () => {
     handleSubmit,
     onSubmit,
     status,
+    referralCode,
   } = useSignUp();
 
   return (
@@ -34,11 +35,17 @@ export const SignUpModal = () => {
             key={input.name}
             name={input.name}
             type={input.type}
-            label={input.label}
+            label={
+              input.type === 'ordinary' && !referralCode ? '' : input.label
+            }
             control={control}
             placeholder={input.placeholder}
+            value={
+              input.type === 'ordinary' && !referralCode ? '' : referralCode
+            }
           />
         ))}
+
         <Button
           type="submit"
           className={`w-full  h-[52px] text-base font-normal ${

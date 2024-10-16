@@ -6,7 +6,6 @@ import Link from 'next/link';
 import React from 'react';
 
 export const MoreHeader = ({ data, subscription }: props) => {
-  console.log(subscription);
   return (
     <section>
       <div className="top-[44px] py-5 px-3 bg-off-white">
