@@ -14,7 +14,7 @@ export const SignUpModal = () => {
     control,
     handleSubmit,
     onSubmit,
-    status,
+    isPending,
     referralCode,
   } = useSignUp();
 
@@ -54,11 +54,11 @@ export const SignUpModal = () => {
         <Button
           type="submit"
           className={`w-full  h-[52px] text-base font-normal ${
-            status ? "opacity-55 cursor-not-allowed" : ""
+            isPending ? "opacity-55 cursor-not-allowed" : ""
           }`}
-          disabled={status}
+          disabled={isPending}
         >
-          {status ? "Loading..." : "Sign Up"}
+          {isPending ? "Loading..." : "Sign Up"}
         </Button>
       </form>
     </AuthWrapper>
