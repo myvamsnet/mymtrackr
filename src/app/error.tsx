@@ -32,7 +32,7 @@ export default function Error({
         </h2>
         <p className="text-center text-sm font-medium text-[#7A7A84] my-3">
           Our team is currently working on it. We apologize for any
-          inconveniences.
+          inconveniences caused.
         </p>
         <div className="flex justify-center items-center">
           <Button
