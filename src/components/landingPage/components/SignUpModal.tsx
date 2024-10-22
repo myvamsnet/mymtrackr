@@ -1,8 +1,8 @@
-import { CustomInput } from '@/components/CustomInput';
-import { Button } from '@/components/ui/button';
-import AuthWrapper from '@/components/Auth';
-import { useSignUp } from '../hook/useSignUp';
-import { inputLists } from '@/constant/auth';
+import { CustomInput } from "@/components/CustomInput";
+import { Button } from "@/components/ui/button";
+import AuthWrapper from "@/components/Auth";
+import { useSignUp } from "../hook/useSignUp";
+import { inputLists } from "@/constant/auth";
 export const SignUpModal = () => {
   const {
     modal,
@@ -16,7 +16,7 @@ export const SignUpModal = () => {
 
   return (
     <AuthWrapper
-      isOpen={modal.isOpen && modal.type === 'signUp'}
+      isOpen={modal.isOpen && modal.type === "signUp"}
       onCancel={onCancel}
       onConfirm={onConfirm}
       title="Sign Up"
@@ -41,11 +41,11 @@ export const SignUpModal = () => {
         <Button
           type="submit"
           className={`w-full  h-[52px] text-base font-normal ${
-            isPending ? 'opacity-55 cursor-not-allowed' : ''
+            isPending ? "opacity-55 cursor-not-allowed" : ""
           }`}
           disabled={isPending ? true : false}
         >
-          {isPending ? 'Loading...' : 'Sign Up'}
+          {isPending ? "Loading..." : "Sign Up"}
         </Button>
       </form>
     </AuthWrapper>

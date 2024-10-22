@@ -1,32 +1,32 @@
-'use client';
-import { RegisterAction } from '@/app/actions/RegisterAction';
-import useModal from '@/hooks/useModal';
-import { signUpSchema, SignUpSchemaType } from '@/lib/Schema/authSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
+"use client";
+import { RegisterAction } from "@/app/actions/RegisterAction";
+import useModal from "@/hooks/useModal";
+import { signUpSchema, SignUpSchemaType } from "@/lib/Schema/authSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export const useSignUp = () => {
   const [status, setStatus] = useState(false);
   const searchParam = useSearchParams();
-  const referralCode = searchParam.get('referralCode') as string;
+  const referralCode = searchParam.get("referralCode") as string;
   const { onConfirm, onCancel, modal } = useModal();
 
   const { control, handleSubmit, setValue } = useForm<SignUpSchemaType>({
     defaultValues: {
-      email: '',
-      password: '',
-      fullName: '',
-      referralCode: '' as string | undefined,
+      email: "",
+      password: "",
+      fullName: "",
+      referralCode: "" as string | undefined,
     },
     resolver: zodResolver(signUpSchema),
   });
 
   useEffect(() => {
     if (referralCode) {
-      setValue('referralCode', referralCode);
+      setValue("referralCode", referralCode);
     }
   }, [referralCode, setValue]);
 
@@ -34,11 +34,11 @@ export const useSignUp = () => {
     setStatus(true);
     try {
       const formData = new FormData();
-      formData.append('email', data.email);
-      formData.append('password', data.password);
-      formData.append('fullName', data.fullName);
+      formData.append("email", data.email);
+      formData.append("password", data.password);
+      formData.append("fullName", data.fullName);
       if (data?.referralCode) {
-        formData.append('referralCode', data?.referralCode);
+        formData.append("referralCode", data?.referralCode);
       }
       const res = await RegisterAction(formData);
       if (!res?.success) {
@@ -48,7 +48,7 @@ export const useSignUp = () => {
       if (
         (error as any).message !== undefined &&
         (error as any).message !== null &&
-        (error as any).message !== ''
+        (error as any).message !== ""
       ) {
         toast.error((error as any).message);
       }
@@ -60,14 +60,14 @@ export const useSignUp = () => {
     modal,
     onConfirm: () =>
       onConfirm({
-        type: 'signIn',
+        type: "signIn",
         isOpen: true,
       }),
     onCancel,
     control,
     handleSubmit,
     onSubmit,
-    status,
+    isPending: status,
     referralCode,
   };
 };
