@@ -6,12 +6,12 @@ export const MobileTab = ({ toggle, isOpen }: props) => {
   const routes = [
     {
       name: "Home",
-      path: "/home",
+      path: "/app/home",
       icon: Icons.HomeIcon,
     },
     {
       name: "Records",
-      path: "/records",
+      path: "/app/records",
       icon: Icons.RecordIcon,
     },
     {
@@ -22,12 +22,12 @@ export const MobileTab = ({ toggle, isOpen }: props) => {
     },
     {
       name: "Help",
-      path: "/help",
+      path: "/app/help",
       icon: Icons.HelpIcon,
     },
     {
       name: "More",
-      path: "/more",
+      path: "/app/more",
       icon: Icons.MoreIcon,
     },
   ];
