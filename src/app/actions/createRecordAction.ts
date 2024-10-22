@@ -1,17 +1,17 @@
-'use server';
-import { createClient } from '@/lib/supabse/server';
-import { uploadImageToCloudinary } from '@/lib/uploadImageToCloudinary';
-import { revalidatePath } from 'next/cache';
+"use server";
+import { createClient } from "@/lib/supabse/server";
+import { uploadImageToCloudinary } from "@/lib/uploadImageToCloudinary";
+import { revalidatePath } from "next/cache";
 
 export const createRecordAction = async (formData: FormData) => {
-  const type = formData.get('type');
-  const amount = formData.get('amount') as string;
-  const name = formData.get('name') as string;
-  const note = formData.get('note') as string;
-  const image = formData.get('file') as File;
+  const type = formData.get("type");
+  const amount = formData.get("amount") as string;
+  const name = formData.get("name") as string;
+  const note = formData.get("note") as string;
+  const image = formData.get("file") as File;
 
   if (!type) {
-    return { success: false, message: 'Record Type is required' };
+    return { success: false, message: "Record Type is required" };
   }
 
   const supabaseApi = createClient();
@@ -19,7 +19,7 @@ export const createRecordAction = async (formData: FormData) => {
 
   const userId = userData?.user?.id;
   if (!userId) {
-    return { success: false, message: 'User not found' };
+    return { success: false, message: "User not found" };
   }
 
   const payload = {
@@ -34,25 +34,29 @@ export const createRecordAction = async (formData: FormData) => {
     if (image) {
       const imageUrl = (await uploadImageToCloudinary(image)) as string;
       if (!imageUrl) {
-        return { success: false, message: 'Failed to upload image' };
+        return { success: false, message: "Failed to upload image" };
       }
 
       payload.imageUrl = imageUrl;
     }
+
+    console.log(payload, "payload");
     const { data, error } = await supabaseApi
-      .from('records')
+      .from("records")
       .insert([payload])
-      .select();
+      .eq("user_id", userId)
+      .single();
+
     if (error) {
-      console.log(error, 'Failed to create record');
-      return { success: false, message: 'Failed to create record' };
+      console.log(error, "Failed to create record");
+      return { success: false, message: "Failed to create record" };
     }
-    revalidatePath('/app/home');
+    revalidatePath("/app/home");
     return { success: true, data };
   } catch (error) {
     return {
       success: false,
-      message: error instanceof Error ? error.message : 'Something went wrong',
+      message: error instanceof Error ? error.message : "Something went wrong",
     };
   }
 };
