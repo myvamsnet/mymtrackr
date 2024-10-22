@@ -1,20 +1,20 @@
-import { Button } from "@/components/ui/button";
-import { Modal } from "@/components/ui/Modal";
-import { CustomInput } from "@/components/CustomInput";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { resetPassword, ResetPasswordType } from "@/lib/Schema/resetPassword";
-import useModal from "@/hooks/useModal";
-import toast from "react-hot-toast";
-import { useMutation } from "@tanstack/react-query";
-import { createClient } from "@/lib/supabse/client";
-import { useRedirect } from "@/hooks/useRedirect";
+import { Button } from '@/components/ui/button';
+import { Modal } from '@/components/ui/Modal';
+import { CustomInput } from '@/components/CustomInput';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { resetPassword, ResetPasswordType } from '@/lib/Schema/resetPassword';
+import useModal from '@/hooks/useModal';
+import toast from 'react-hot-toast';
+import { useMutation } from '@tanstack/react-query';
+import { createClient } from '@/lib/supabse/client';
+import { useRedirect } from '@/hooks/useRedirect';
 const ChangePasswordModal = () => {
   const { onCancel, modal } = useModal();
   const { control, handleSubmit, reset } = useForm<ResetPasswordType>({
     defaultValues: {
-      newPassword: "",
-      confirmPassword: "",
+      newPassword: '',
+      confirmPassword: '',
     },
     resolver: zodResolver(resetPassword),
   });
@@ -28,24 +28,24 @@ const ChangePasswordModal = () => {
 
       if (error) {
         return {
-          status: "error",
+          status: 'error',
           message: error.message,
         };
       }
       return {
-        status: "success",
-        message: "Password changed successfully",
+        status: 'success',
+        message: 'Password changed successfully',
       };
     },
     onSuccess: (data) => {
-      if (data?.status === "error" && data?.message) {
+      if (data?.status === 'error' && data?.message) {
         return toast.error(data?.message);
       }
-      if (data?.status === "success") {
+      if (data?.status === 'success') {
         toast.success(data?.message);
         onCancel();
         reset();
-        return redirect("/home");
+        return redirect('/home');
       }
     },
   });
@@ -54,7 +54,7 @@ const ChangePasswordModal = () => {
   };
   return (
     <Modal
-      isOpen={modal?.isOpen && modal?.type === "setNewPassword"}
+      isOpen={modal?.isOpen && modal?.type === 'setNewPassword'}
       onClose={onCancel}
       title="Reset Password"
       className="max-w-[452px]"
@@ -84,7 +84,7 @@ const ChangePasswordModal = () => {
               disabled={isPending ? true : false}
               type="submit"
             >
-              {isPending ? "Loading..." : "Save Changes"}
+              {isPending ? 'Loading...' : 'Save Changes'}
             </Button>
           </div>
         </form>
@@ -97,21 +97,21 @@ export default ChangePasswordModal;
 
 const inputFields: InputProps[] = [
   {
-    name: "newPassword",
-    type: "password",
-    label: "New password",
-    placeholder: "Enter new password",
+    name: 'newPassword',
+    type: 'password',
+    label: 'New password',
+    placeholder: 'Enter new password',
   },
   {
-    name: "confirmPassword",
-    type: "password",
-    label: "Confirm password",
-    placeholder: "Confirm password",
+    name: 'confirmPassword',
+    type: 'password',
+    label: 'Confirm password',
+    placeholder: 'Confirm password',
   },
 ];
 interface InputProps {
   name: string;
-  type: "password";
+  type: 'password';
   label: string;
   placeholder: string;
 }

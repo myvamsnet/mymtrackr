@@ -1,14 +1,14 @@
-"use client";
-import useModal from "@/hooks/useModal";
+'use client';
+import useModal from '@/hooks/useModal';
 import {
   forgotPasswordSchema,
   ForgotPasswordSchemaType,
-} from "@/lib/Schema/authSchema";
-import { createClient } from "@/lib/supabse/client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+} from '@/lib/Schema/authSchema';
+import { createClient } from '@/lib/supabse/client';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 export const useForgotPassword = () => {
   const handleForgotPassword = async (data: ForgotPasswordSchemaType) => {
@@ -29,7 +29,7 @@ export const useForgotPassword = () => {
   const { onConfirm, onCancel, modal } = useModal();
   const { control, handleSubmit, reset } = useForm<ForgotPasswordSchemaType>({
     defaultValues: {
-      email: "",
+      email: '',
     },
     resolver: zodResolver(forgotPasswordSchema),
   });
@@ -41,10 +41,10 @@ export const useForgotPassword = () => {
     },
     onSuccess: (data) => {
       if (data?.success) {
-        toast("Reset Password Link sent", {
+        toast('Reset Password Link sent', {
           description:
             "We've sent a password reset link to your email address. Please check your inbox.",
-          position: "top-right",
+          position: 'top-right',
         });
         reset();
         onCancel();
@@ -55,8 +55,14 @@ export const useForgotPassword = () => {
       }
     },
     onError: (error) => {
-      console.log(error);
-      toast.error("An error occurred. Please try again");
+      if (
+        error?.message !== undefined &&
+        error?.message !== null &&
+        error?.message !== ''
+      ) {
+        toast.error('Something went wrong , Try Again');
+      }
+      return;
     },
   });
   return {

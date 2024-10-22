@@ -1,7 +1,9 @@
+import React from 'react';
+
 export const DiamondIcon = ({
-  color = "#010114",
-  width = "16",
-  height = "16",
+  color = '#010114',
+  width = '16',
+  height = '16',
   ...props
 }) => {
   return (

@@ -1,8 +1,8 @@
 export const sortArray = <T extends number | string | IObjectWithCreatedAt>(
   dataArray: T[] | undefined | null,
-  type: 'updateat' | 'createdAt'
+  type: 'updated_at' | 'created_at'
 ) => {
-  if (type === 'updateat') {
+  if (type === 'updated_at') {
     if (dataArray === undefined || dataArray === null)
       return [] as unknown as T[];
 
@@ -11,7 +11,7 @@ export const sortArray = <T extends number | string | IObjectWithCreatedAt>(
       dataArray?.sort((a, b) => {
         if (typeof a === 'object' && typeof b === 'object') {
           return (
-            new Date(b.updateat).getTime() - new Date(a.updateat).getTime()
+            new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
           );
         } else {
           return 0;
@@ -21,7 +21,7 @@ export const sortArray = <T extends number | string | IObjectWithCreatedAt>(
     return sortedArray;
   }
 
-  if (type === 'createdAt') {
+  if (type === 'created_at') {
     if (dataArray === undefined || dataArray === null)
       return [] as unknown as T[];
 
@@ -30,7 +30,7 @@ export const sortArray = <T extends number | string | IObjectWithCreatedAt>(
       dataArray?.sort((a, b) => {
         if (typeof a === 'object' && typeof b === 'object') {
           return (
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
           );
         } else {
           return 0;
@@ -42,6 +42,6 @@ export const sortArray = <T extends number | string | IObjectWithCreatedAt>(
 };
 
 interface IObjectWithCreatedAt {
-  createdAt: string;
-  updateat: string;
+  created_at: string;
+  updated_at: string;
 }

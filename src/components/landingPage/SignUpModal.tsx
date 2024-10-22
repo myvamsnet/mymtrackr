@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import AuthWrapper from "@/components/Auth";
 import { inputLists } from "@/constant/auth";
 import { useSignUp } from "./hook/useSignUp";
+import { RegisterAction } from "@/app/actions/RegisterAction";
+import Link from "next/link";
 export const SignUpModal = () => {
   const {
     modal,
@@ -13,6 +15,7 @@ export const SignUpModal = () => {
     handleSubmit,
     onSubmit,
     isPending,
+    referralCode,
   } = useSignUp();
 
   return (
@@ -24,7 +27,10 @@ export const SignUpModal = () => {
       subTitle="Already have an account?"
       content="Sign In"
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 py-3">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="grid gap-4 py-3"
+      >
         {inputLists.map((input) => (
           <CustomInput
             key={input.name}
@@ -35,6 +41,16 @@ export const SignUpModal = () => {
             placeholder={input.placeholder}
           />
         ))}
+        <small>
+          By continuing you agree to our{" "}
+          <Link
+            href={"https://www.myvamsnet.com/terms-of-service"}
+            target="_blank"
+            className="text-primary text-sm font-normal"
+          >
+            Terms of Service
+          </Link>
+        </small>
         <Button
           type="submit"
           className={`w-full  h-[52px] text-base font-normal ${
