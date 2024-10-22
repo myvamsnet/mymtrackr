@@ -4,7 +4,7 @@ import useModal from '@/hooks/useModal';
 import { signUpSchema, SignUpSchemaType } from '@/lib/Schema/authSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
@@ -14,14 +14,21 @@ export const useSignUp = () => {
   const referralCode = searchParam.get('referralCode') as string;
   const { onConfirm, onCancel, modal } = useModal();
 
-  const { control, handleSubmit } = useForm<SignUpSchemaType>({
+  const { control, handleSubmit, setValue } = useForm<SignUpSchemaType>({
     defaultValues: {
       email: '',
       password: '',
       fullName: '',
+      referralCode: '' as string | undefined,
     },
     resolver: zodResolver(signUpSchema),
   });
+
+  useEffect(() => {
+    if (referralCode) {
+      setValue('referralCode', referralCode);
+    }
+  }, [referralCode, setValue]);
 
   const onSubmit = async (data: SignUpSchemaType) => {
     setStatus(true);
@@ -30,8 +37,8 @@ export const useSignUp = () => {
       formData.append('email', data.email);
       formData.append('password', data.password);
       formData.append('fullName', data.fullName);
-      if (referralCode) {
-        formData.append('referralCode', referralCode);
+      if (data?.referralCode) {
+        formData.append('referralCode', data?.referralCode);
       }
       const res = await RegisterAction(formData);
       if (!res?.success) {

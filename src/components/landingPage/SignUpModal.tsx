@@ -1,10 +1,11 @@
-'use client';
-import { CustomInput } from '@/components/CustomInput';
-import { Button } from '@/components/ui/button';
-import AuthWrapper from '@/components/Auth';
-import { inputLists } from '@/constant/auth';
-import { useSignUp } from './hook/useSignUp';
-import { RegisterAction } from '@/app/actions/RegisterAction';
+"use client";
+import { CustomInput } from "@/components/CustomInput";
+import { Button } from "@/components/ui/button";
+import AuthWrapper from "@/components/Auth";
+import { inputLists } from "@/constant/auth";
+import { useSignUp } from "./hook/useSignUp";
+import { RegisterAction } from "@/app/actions/RegisterAction";
+import Link from "next/link";
 export const SignUpModal = () => {
   const {
     modal,
@@ -19,7 +20,7 @@ export const SignUpModal = () => {
 
   return (
     <AuthWrapper
-      isOpen={modal.isOpen && modal.type === 'signUp'}
+      isOpen={modal.isOpen && modal.type === "signUp"}
       onCancel={onCancel}
       onConfirm={onConfirm}
       title="Sign Up"
@@ -35,25 +36,29 @@ export const SignUpModal = () => {
             key={input.name}
             name={input.name}
             type={input.type}
-            label={
-              input.type === 'ordinary' && !referralCode ? '' : input.label
-            }
+            label={input.label}
             control={control}
             placeholder={input.placeholder}
-            value={
-              input.type === 'ordinary' && !referralCode ? '' : referralCode
-            }
           />
         ))}
-
+        <small>
+          By continuing you agree to our{" "}
+          <Link
+            href={"https://www.myvamsnet.com/terms-of-service"}
+            target="_blank"
+            className="text-primary text-sm font-normal"
+          >
+            Terms of Service
+          </Link>
+        </small>
         <Button
           type="submit"
           className={`w-full  h-[52px] text-base font-normal ${
-            status ? 'opacity-55 cursor-not-allowed' : ''
+            status ? "opacity-55 cursor-not-allowed" : ""
           }`}
           disabled={status}
         >
-          {status ? 'Loading...' : 'Sign Up'}
+          {status ? "Loading..." : "Sign Up"}
         </Button>
       </form>
     </AuthWrapper>

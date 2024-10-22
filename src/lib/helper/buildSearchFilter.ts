@@ -14,14 +14,14 @@ export function buildSearchFilter(
   // Add search term filters if searchTerm is provided and valid
   if (
     searchTerm &&
-    searchTerm !== '' &&
-    searchTerm !== 'undefined' &&
-    searchTerm !== 'null' &&
-    searchTerm !== 'NaN'
+    searchTerm !== "" &&
+    searchTerm !== "undefined" &&
+    searchTerm !== "null" &&
+    searchTerm !== "NaN"
   ) {
     searchFilter.OR = [
-      { name: { contains: searchTerm, mode: 'insensitive' } }, // Search by name (case-insensitive)
-      { amount: { contains: searchTerm, mode: 'insensitive' } }, // Search by amount as a string (case-insensitive)
+      { name: { contains: searchTerm, mode: "insensitive" } }, // Search by name (case-insensitive)
+      { amount: { contains: searchTerm, mode: "insensitive" } }, // Search by amount as a string (case-insensitive)
     ];
   }
 
@@ -36,6 +36,5 @@ export function buildSearchFilter(
     };
   }
 
-  console.log(searchFilter);
   return searchFilter;
 }

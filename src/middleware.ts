@@ -1,20 +1,19 @@
-import { NextRequest } from 'next/server';
-import { updateSession } from './lib/supabse/middleware';
+import { NextRequest } from "next/server";
+import { updateSession } from "./lib/supabse/middleware";
 
 export async function middleware(request: NextRequest) {
   // update user's auth session
   return await updateSession(request);
 }
-
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * Feel free to modify this pattern to include more paths.
-     */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    "/app/home/:path*",
+    "/app/help/:path*",
+    "/app/about/:path*",
+    "/app/more/:path*",
+    "/app/account/:path*",
+    "/app/settings/:path*",
+    "/app/profile/:path*",
+    "/app/subscription/:path*",
   ],
 };

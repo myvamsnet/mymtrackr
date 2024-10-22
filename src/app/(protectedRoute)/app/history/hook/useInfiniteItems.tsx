@@ -1,9 +1,9 @@
-import axiosInstance from '@/lib/axios';
-import { sortArray } from '@/lib/helper/sortData';
-import { Records, RecordsResponse } from '@/types/records';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import dayjs from 'dayjs';
-import { useSearchParams } from 'next/navigation';
+import axiosInstance from "@/lib/axios";
+import { sortArray } from "@/lib/helper/sortData";
+import { Records, RecordsResponse } from "@/types/records";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import dayjs from "dayjs";
+import { useSearchParams } from "next/navigation";
 
 interface RecordsPage {
   data: RecordsResponse;
@@ -11,12 +11,12 @@ interface RecordsPage {
 }
 
 const useInfiniteItems = () => {
-  const today = dayjs().add(1, 'day');
-  const currentDate = dayjs().format('YYYY-MM-DD');
+  const today = dayjs().add(1, "day");
+  const currentDate = dayjs().format("YYYY-MM-DD");
   const searchParam = useSearchParams();
-  const startDate = searchParam.get('startDate') ?? currentDate;
+  const startDate = searchParam.get("startDate") ?? currentDate;
   const endDate =
-    searchParam.get('endDate') ?? dayjs(today).format('YYYY-MM-DD');
+    searchParam.get("endDate") ?? dayjs(today).format("YYYY-MM-DD");
 
   const {
     data,
@@ -27,7 +27,7 @@ const useInfiniteItems = () => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery<RecordsPage>({
-    queryKey: ['records-infinite', startDate, endDate],
+    queryKey: ["records-infinite", startDate, endDate],
     queryFn: async ({ pageParam = 0 }) => {
       const values = {
         startDate,
@@ -37,7 +37,7 @@ const useInfiniteItems = () => {
       const param = new URLSearchParams(values as any).toString();
 
       const { data } = await axiosInstance.get<RecordsPage>(
-        `/records/${param ? `?${param}` : ''}`
+        `/records/${param ? `?${param}` : ""}`
       );
       return data;
     },
@@ -48,7 +48,7 @@ const useInfiniteItems = () => {
   const records = data?.pages.flatMap(
     (page) => page.data
   ) as unknown as Records[];
-  console.log(records);
+
   return {
     records: records ?? [],
     error,

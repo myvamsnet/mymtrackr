@@ -1,29 +1,28 @@
-import { Icons } from '@/assets/icons';
-import { currencyFormatter } from '@/lib/helper/currencyFormatter';
-import { handleTypeColor, Type } from '@/lib/helper/handleTypeColor';
-import { Records } from '@/types/records';
-import dayjs from 'dayjs';
-import Link from 'next/link';
-import { FC } from 'react';
+import { Icons } from "@/assets/icons";
+import { currencyFormatter } from "@/lib/helper/currencyFormatter";
+import { handleTypeColor, Type } from "@/lib/helper/handleTypeColor";
+import { Records } from "@/types/records";
+import dayjs from "dayjs";
+import Link from "next/link";
+import { FC } from "react";
 
 export const RecordItem: FC<TransactionItemPros> = ({ record }) => {
   const handleType = (type: Type) => {
     switch (type) {
-      case 'income':
+      case "income":
         return <Icons.ArrowDownIcon />;
-      case 'expense':
+      case "expense":
         return <Icons.ArrowUpIcon />;
-      case 'debtor':
+      case "debtor":
         return <Icons.ArrowRightIcon />;
 
-      case 'payable':
+      case "payable":
         return <Icons.ArrowLeftIcon />;
 
       default:
         return <Icons.ArrowDownIcon />;
     }
   };
-  console.log(record);
   return (
     <Link
       href={`/app/records/details/${record?.id}`}
@@ -41,7 +40,7 @@ export const RecordItem: FC<TransactionItemPros> = ({ record }) => {
             {record?.name}
           </p>
           <span className="text-xs font-normal text-dark-200">
-            {dayjs(record?.updated_at).format('MMM D, YYYY h:mm A')}
+            {dayjs(record?.updated_at).format("MMM D, YYYY h:mm A")}
           </span>
         </div>
       </div>

@@ -1,9 +1,9 @@
-import { FacebookIcon } from '@/assets/icons/FacebookIcon';
-import { InstagramIcon } from '@/assets/icons/InstagramIcon';
-import { LinkedInIcon } from '@/assets/icons/LinkedInIcon';
-import { Copyright } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { FacebookIcon } from "@/assets/icons/FacebookIcon";
+import { InstagramIcon } from "@/assets/icons/InstagramIcon";
+import { LinkedInIcon } from "@/assets/icons/LinkedInIcon";
+import { Copyright } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 export const FooterSection = () => {
   return (
@@ -15,7 +15,7 @@ export const FooterSection = () => {
             className="flex justify-center items-center gap-4 sm:gap-12"
           >
             <Image
-              src={'/images/logo.svg'}
+              src={"/images/logo_white.svg"}
               alt="logo"
               className=""
               height={31}
@@ -39,15 +39,30 @@ export const FooterSection = () => {
       <div className="py-6">
         <hr className="w-full bg-dark-300" />
       </div>
-      <div className="wrapper px-4 flex  sm:flex-row  gap-6 items-center justify-between md:flex-row flex-col">
-        <div className="text-off-white-400 font-inter flex space-x-1">
-          <Copyright className="w-4 h-4 mt-2" />{' '}
+      <div className="wrapper  flex justify-between md:flex-raw flex-col gap-6 px-4 md:px-0">
+        <div className="text-off-white-400 font-inter flex space-x-1 flex-1">
+          <Copyright className="w-4 h-4 mt-2" />{" "}
           <span className="font-medium text-sm   gap-x-1 leading-[30px]">
             2024 MyVamsnet Ltd. Copyright and rights reserved
           </span>
         </div>
-        <div className="text-off-white-400 font-inter font-medium text-xs flex md:justify-between items-center space-x-4 w-full">
-          <p> Terms and Conditions</p> <p>&middot;</p> <p>Privacy Policy</p>
+        <div className="text-off-white-400 font-inter font-medium text-xs flex items-center gap-6 ">
+          <Link
+            href={"https://www.myvamsnet.com/terms-of-service"}
+            target="_blank"
+            className="block"
+          >
+            {" "}
+            Terms of Service{" "}
+          </Link>{" "}
+          <p>&middot;</p>{" "}
+          <Link
+            href={"https://www.myvamsnet.com/privacy-policy"}
+            target="_blank"
+            className="block"
+          >
+            Privacy Policy
+          </Link>
         </div>
       </div>
     </div>

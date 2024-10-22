@@ -37,11 +37,16 @@ export const ProfileForm = ({ user }: Props) => {
               previewUrl ? (previewUrl as string) : (user?.imageUrl as string)
             }
           />
-          <label className=" absolute bottom-0 right-0">
+          <label
+            className=" absolute bottom-0 right-0"
+            id="file"
+            htmlFor="upload-profile"
+          >
             <CameraIcon />
             <input
               type="file"
               hidden
+              id="upload-profile"
               onChange={handleFileChange}
             />
           </label>

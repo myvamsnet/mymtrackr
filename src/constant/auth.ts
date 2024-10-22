@@ -15,8 +15,8 @@ export const inputLists: InputLists[] = [
   },
   {
     name: 'referralCode',
-    type: 'ordinary',
-    label: 'Referral Code',
+    type: 'text',
+    label: 'Referral Code (Optional)',
     placeholder: 'Enter Referral Code',
   },
   {

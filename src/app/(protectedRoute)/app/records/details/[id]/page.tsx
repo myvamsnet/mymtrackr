@@ -1,11 +1,11 @@
-import { getRecordsById } from '@/app/actions/getRecordsById';
-import { CustomHeader } from '@/components/CustomHeader';
-import React from 'react';
-import { Details } from './components/Details';
-import { Records } from '@/types/records';
+import { getRecordsById } from "@/app/actions/getRecordsById";
+import { CustomHeader } from "@/components/CustomHeader";
+import React from "react";
+import { Details } from "./components/Details";
+import { Records } from "@/types/records";
 
-import { notFound } from 'next/navigation';
-import { DeleteAndEditRecord } from './components/DeleteAndEditRecord';
+import { notFound } from "next/navigation";
+import { DeleteAndEditRecord } from "./components/DeleteAndEditRecord";
 
 const page = async ({
   params,
@@ -15,7 +15,6 @@ const page = async ({
   };
 }) => {
   const { data, error } = await getRecordsById(params?.id);
-  console.log(data);
   if (error) {
     return notFound();
   }

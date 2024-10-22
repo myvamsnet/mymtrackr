@@ -1,13 +1,13 @@
-'use client';
-import { useState } from 'react';
-import { currencyFormatter } from '@/lib/helper/currencyFormatter';
-import { SelectWorth } from './SelectWorth';
-import { calculateWorth } from '@/lib/helper/calculateWorth';
-import { Records } from '@/types/records';
-import useRecordStore from '@/zustand/recordStore';
-import { Icons } from '@/assets/icons';
-import { User } from '@/types/auth';
-import Link from 'next/link';
+"use client";
+import { useState } from "react";
+import { currencyFormatter } from "@/lib/helper/currencyFormatter";
+import { SelectWorth } from "./SelectWorth";
+import { calculateWorth } from "@/lib/helper/calculateWorth";
+import { Records } from "@/types/records";
+import useRecordStore from "@/zustand/recordStore";
+import { Icons } from "@/assets/icons";
+import { User } from "@/types/auth";
+import Link from "next/link";
 
 const Balance = ({ user, data }: Props) => {
   const records = data;
@@ -25,7 +25,7 @@ const Balance = ({ user, data }: Props) => {
       <div className="flex justify-between px-2">
         <SelectWorth />
         <Link
-          href={'/app/referral-history'}
+          href={"/app/referral-history"}
           className="text-sm leading-[10px] text-primary font-medium bg-off-white rounded-lg px-3 py-px flex justify-center items-center"
         >
           Refer & Earn
@@ -36,7 +36,7 @@ const Balance = ({ user, data }: Props) => {
           <p className="text-off-white-300 text-2xl font-semibold">
             {
               // Show GrossWorth or NetWorth based on balanceType state
-              balanceType === 'gross'
+              balanceType === "gross"
                 ? currencyFormatter(Number(grossWorth))
                 : currencyFormatter(Number(netWorth))
             }

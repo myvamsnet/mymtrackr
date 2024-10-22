@@ -7,7 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import { Fragment, useEffect } from 'react';
 import ChangePasswordModal from './ChangePasswordModal';
 import React from 'react';
-import { Navbar } from './components/Navbar';
+import { SignUpModal } from './SignUpModal';
 
 export const Header = () => {
   const { onConfirm } = useModal();
@@ -25,15 +25,10 @@ export const Header = () => {
 
   return (
     <Fragment>
-      <header
-        className={`bg-[url('/images/overlayBanner.png')] w-full bg-center bg-cover  h-[80vh] rounded-br-lg rounded-bl-lg 
-          py-2 px-4`}
-      >
-        <Navbar />
-      </header>
       <SignInModal />
       <ForgotPasswordModal />
       <ChangePasswordModal />
+      <SignUpModal />
     </Fragment>
   );
 };

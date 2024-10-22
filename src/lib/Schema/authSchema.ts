@@ -20,6 +20,7 @@ export const signUpSchema = zod.object({
       message: 'Full name is required',
     })
     .trim(),
+  referralCode: zod.string().optional(),
 });
 
 export const signInSchema = zod.object({

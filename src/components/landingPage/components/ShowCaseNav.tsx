@@ -1,8 +1,9 @@
-'use client';
-import { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { landingPageNav } from '@/constant/landingPageNav';
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { landingPageNav } from "@/constant/landingPageNav";
+import useModal from "@/hooks/useModal";
 
 export const ShowCaseNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,6 +11,7 @@ export const ShowCaseNav = () => {
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
+  const { onConfirm } = useModal();
 
   return (
     <header className={`relative z-20 w-full `}>
@@ -17,7 +19,7 @@ export const ShowCaseNav = () => {
         <nav className="wrapper bg-dark flex items-center justify-between rounded-full py-3 px-4">
           <Link href="/">
             <Image
-              src={'/images/logo.svg'}
+              src={"/images/logo_white.svg"}
               alt="logo"
               className="w-full h-full"
               height={107}
@@ -37,14 +39,22 @@ export const ShowCaseNav = () => {
             ))}
           </ul>
 
-          <button className="hidden md:block font-inter text-base font-medium text-off-white-400 bg-primary rounded-full py-3 px-6">
+          <button
+            className="hidden md:block font-inter text-base font-medium text-off-white-400 bg-primary rounded-full py-3 px-6"
+            onClick={() => {
+              onConfirm({
+                isOpen: true,
+                type: "signIn",
+              });
+            }}
+          >
             Login
           </button>
           {isMenuOpen ? (
             <button className="md:hidden ">
               {isMenuOpen ? (
                 <Image
-                  src={'/images/close.svg'}
+                  src={"/images/close.svg"}
                   alt="Close"
                   onClick={toggleMenu}
                   height={24}
@@ -107,7 +117,15 @@ export const ShowCaseNav = () => {
                 </li>
               ))}
             </ul>
-            <button className="font-inter text-base font-medium text-off-white-400 bg-primary rounded-full h-[41px] w-[100px] text-center py-3 px-6 flex items-center justify-center ">
+            <button
+              className="font-inter text-base font-medium text-off-white-400 bg-primary rounded-full h-[41px] w-[100px] text-center py-3 px-6 flex items-center justify-center "
+              onClick={() => {
+                onConfirm({
+                  isOpen: true,
+                  type: "signIn",
+                });
+              }}
+            >
               Login
             </button>
           </div>
