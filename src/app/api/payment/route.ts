@@ -1,8 +1,7 @@
-import axios from "axios";
-import { NextRequest, NextResponse } from "next/server";
+import axios from 'axios';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
-  console.log(req);
   try {
     const { email, fullName } = (await req.json()) as {
       email: string;
@@ -11,7 +10,7 @@ export async function POST(req: NextRequest) {
 
     if (!email && !fullName) {
       return NextResponse.json(
-        { error: "Email  and FullName is required" },
+        { error: 'Email  and FullName is required' },
         { status: 400 }
       );
     }
@@ -28,24 +27,24 @@ export async function POST(req: NextRequest) {
       !secretKey
     ) {
       return NextResponse.json(
-        { error: "Missing required configuration" },
+        { error: 'Missing required configuration' },
         { status: 500 }
       );
     }
 
     const response = await axios.post(
-      flutterwaveUrl,
+      `${flutterwaveUrl}/payments`,
       {
         tx_ref: Date.now(),
         amount: subscriptionAmount,
-        currency: "NGN",
+        currency: 'NGN',
         payment_plan: paymentPlanId,
-        payment_type: "card",
-        redirect_url: `${process.env.NEXT_PUBLIC_BASE_URL}/subscription`, // Modify to your production URL
-        customer: { email },
+        payment_type: 'card',
+        redirect_url: `${process.env.NEXT_PUBLIC_BASE_URL}/app/subscription`, // Modify to your production URL
+        customer: { email, name: fullName },
         customizations: {
-          title: "Subscription Service",
-          description: "Payment for subscription",
+          title: 'Subscription Service',
+          description: 'Payment for subscription',
         },
       },
       {
@@ -58,7 +57,7 @@ export async function POST(req: NextRequest) {
     const checkoutUrl = response?.data?.data?.link;
     if (!checkoutUrl) {
       return NextResponse.json(
-        { error: "Failed to get payment link" },
+        { error: 'Failed to get payment link' },
         { status: 500 }
       );
     }
@@ -66,11 +65,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ checkoutUrl }, { status: 200 });
   } catch (error: any) {
     console.error(
-      "Payment initiation error:",
+      'Payment initiation error:',
       error.response?.data || error.message
     );
     return NextResponse.json(
-      { error: "Payment initiation failed" },
+      { error: 'Payment initiation failed' },
       { status: 500 }
     );
   }

@@ -1,19 +1,19 @@
-import { type NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import { updateSession } from "./lib/supabse/middleware";
 
 export async function middleware(request: NextRequest) {
+  // update user's auth session
   return await updateSession(request);
 }
-
 export const config = {
   matcher: [
-    "/home/:path*",
-    "/help/:path*",
-    "/about/:path*",
-    "/more/:path*",
-    "/account/:path*",
-    "/settings/:path*",
-    "/profile/:path*",
-    "/subscription/:path*",
+    "/app/home/:path*",
+    "/app/help/:path*",
+    "/app/about/:path*",
+    "/app/more/:path*",
+    "/app/account/:path*",
+    "/app/settings/:path*",
+    "/app/profile/:path*",
+    "/app/subscription/:path*",
   ],
 };

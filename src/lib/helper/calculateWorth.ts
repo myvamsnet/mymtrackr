@@ -9,16 +9,16 @@ export function calculateWorth(records: Records[]) {
   records?.forEach((record) => {
     switch (record?.type) {
       case 'income':
-        totalIncome += record?.amount;
+        totalIncome += Number(record?.amount);
         break;
       case 'payable':
-        totalPayable += record?.amount;
+        totalPayable += Number(record?.amount);
         break;
       case 'debtor':
-        totalDebtor += record?.amount;
+        totalDebtor += Number(record?.amount);
         break;
       case 'expense':
-        totalExpense += record?.amount;
+        totalExpense += Number(record?.amount);
         break;
     }
   });

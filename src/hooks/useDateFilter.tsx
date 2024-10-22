@@ -1,15 +1,15 @@
-"use client";
-import dayjs from "dayjs";
-import { useEffect, useState } from "react";
-import { useUpdateQuery } from "./useUpdateQuery";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+'use client';
+import dayjs from 'dayjs';
+import { useEffect, useState } from 'react';
+import { useUpdateQuery } from './useUpdateQuery';
+import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 
 export const useDateFilter = () => {
   const searchParams = useSearchParams();
-  const type = searchParams.get("type");
+  const type = searchParams.get('type');
   const router = useRouter();
   const pathname = usePathname();
-  const [dateFilter, setDateFilter] = useState<string>("Today");
+  const [dateFilter, setDateFilter] = useState<string>('Today');
   const [showCustom, setShowCustom] = useState<boolean>(false);
 
   const { updateQueryParams } = useUpdateQuery();
@@ -19,10 +19,10 @@ export const useDateFilter = () => {
     startDate?: string,
     endDate?: string
   ) => {
-    const today = dayjs().add(1, "day").format("YYYY-MM-DD");
+    const today = dayjs().add(1, 'day').format('YYYY-MM-DD');
     updateQueryParams({
       type: e,
-      startDate: startDate || "",
+      startDate: startDate || '',
       endDate: endDate || today,
     });
     setDateFilter(e);
@@ -30,52 +30,52 @@ export const useDateFilter = () => {
 
   const onChangeDate = (e: string) => {
     switch (e) {
-      case "custom":
+      case 'custom':
         setShowCustom(true);
         handleDateFilter(e);
         break;
-      case "today":
+      case 'today':
         handleDateFilter(
           e,
-          dayjs().format("YYYY-MM-DD"),
-          dayjs().add(1, "day").format("YYYY-MM-DD")
+          dayjs().format('YYYY-MM-DD'),
+          dayjs().add(1, 'day').format('YYYY-MM-DD')
         );
         break;
-      case "yesterday":
+      case 'yesterday':
         handleDateFilter(
           e,
-          dayjs().subtract(1, "day").format("YYYY-MM-DD"),
-          dayjs().format("YYYY-MM-DD")
+          dayjs().subtract(1, 'day').format('YYYY-MM-DD'),
+          dayjs().format('YYYY-MM-DD')
         );
         break;
-      case "this week":
+      case 'this week':
         handleDateFilter(
           e,
-          dayjs().startOf("week").format("YYYY-MM-DD"),
-          dayjs().add(1, "day").format("YYYY-MM-DD")
+          dayjs().startOf('week').format('YYYY-MM-DD'),
+          dayjs().add(1, 'day').format('YYYY-MM-DD')
         );
         break;
-      case "this month":
+      case 'this month':
         handleDateFilter(
           e,
-          dayjs().startOf("month").format("YYYY-MM-DD"),
-          dayjs().add(1, "day").format("YYYY-MM-DD")
+          dayjs().startOf('month').format('YYYY-MM-DD'),
+          dayjs().add(1, 'day').format('YYYY-MM-DD')
         );
         break;
-      case "this year":
+      case 'this year':
         handleDateFilter(
           e,
-          dayjs().startOf("year").format("YYYY-MM-DD"),
-          dayjs().add(1, "day").format("YYYY-MM-DD")
+          dayjs().startOf('year').format('YYYY-MM-DD'),
+          dayjs().add(1, 'day').format('YYYY-MM-DD')
         );
         break;
       default:
         handleDateFilter(e);
         const currentParams = new URLSearchParams(window.location.search);
-        currentParams.delete("custom");
-        currentParams.delete("startDate");
-        currentParams.delete("endDate");
-        currentParams.delete("type");
+        currentParams.delete('custom');
+        currentParams.delete('startDate');
+        currentParams.delete('endDate');
+        currentParams.delete('type');
         router.replace(`${pathname}?${currentParams.toString()}`);
         break;
     }
@@ -89,7 +89,7 @@ export const useDateFilter = () => {
 
   const toggleOut = () => {
     const currentParams = new URLSearchParams(window.location.search);
-    currentParams.delete("custom");
+    currentParams.delete('custom');
     router.replace(`${pathname}?${currentParams.toString()}`);
     setShowCustom(false);
   };
@@ -99,9 +99,9 @@ export const useDateFilter = () => {
     updateQueryParams({
       startDate,
       endDate,
-      type: "custom",
+      type: 'custom',
     });
-    setDateFilter("Select Options");
+    setDateFilter('Select Options');
   };
 
   return {

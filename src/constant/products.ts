@@ -8,7 +8,6 @@ import { DiamondIcon } from "@/assets/icons/DiamondIcon";
 import { NoteIcon } from "@/assets/icons/NoteIcon";
 import { ReferalIcon } from "@/assets/icons/ReferalIcon";
 import { SettingsIcon } from "@/assets/icons/SettingsIcon";
-import { TargetIcon } from "@/assets/icons/TargetIcon";
 import { WhatsAppIcon } from "@/assets/icons/WhatsAppIcon";
 export const products = [
   {
@@ -77,7 +76,7 @@ export const menuItems = [
     icon: DiamondIcon,
     text: "Subscription",
     textColor: "text-dark",
-    link: "/subscription",
+    link: "/app/subscription",
   },
   {
     icon: WhatsAppIcon,
@@ -90,15 +89,20 @@ export const menuItems = [
     icon: AnalyticsIcon,
     text: "Business Analytics",
     textColor: "text-dark",
-    link: "/analytics",
+    link: "/app/analytics",
   },
-  { icon: ReferalIcon, text: "Earn with Referal", textColor: "text-dark" },
+  {
+    icon: ReferalIcon,
+    text: "Earn with Referal",
+    textColor: "text-dark",
+    link: "/app/referral-history",
+  },
 
   {
     icon: SettingsIcon,
     text: "Settings",
     textColor: "text-dark",
-    link: "/settings",
+    link: "/app/settings",
   },
 ];
 

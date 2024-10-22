@@ -1,4 +1,6 @@
-export const HelpIcon = ({ color = "#7A7A84", ...props }) => {
+import React from 'react';
+
+export const HelpIcon = ({ color = '#7A7A84', ...props }) => {
   return (
     <>
       <svg
@@ -19,7 +21,11 @@ export const HelpIcon = ({ color = "#7A7A84", ...props }) => {
         </g>
         <defs>
           <clipPath id="clip0_698_2377">
-            <rect width="16" height="16" fill="white" />
+            <rect
+              width="16"
+              height="16"
+              fill="white"
+            />
           </clipPath>
         </defs>
       </svg>

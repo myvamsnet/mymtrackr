@@ -1,15 +1,14 @@
-"use server";
-import { createClient } from "@/lib/supabse/server";
-import { revalidatePath } from "next/cache";
-import { permanentRedirect } from "next/navigation";
+'use server';
+import { createClient } from '@/lib/supabse/server';
+import { revalidatePath } from 'next/cache';
 
 export const ChangePasswordAction = async (formData: FormData) => {
-  const newPassword = formData.get("newPassword") as string;
-  const confirmPassword = formData.get("confirmPassword");
+  const newPassword = formData.get('newPassword') as string;
+  const confirmPassword = formData.get('confirmPassword');
 
   if (newPassword !== confirmPassword) {
     return {
-      error: "Passwords do not match",
+      error: 'Passwords do not match',
       success: false,
     };
   }
@@ -27,7 +26,7 @@ export const ChangePasswordAction = async (formData: FormData) => {
       };
     }
 
-    revalidatePath("/home");
+    revalidatePath('/app/home');
     return {
       success: true,
       data: UpdatedUser,
@@ -35,9 +34,7 @@ export const ChangePasswordAction = async (formData: FormData) => {
   } catch (error) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Something went wrong",
+      error: error instanceof Error ? error.message : 'Something went wrong',
     };
-  } finally {
-    permanentRedirect("/home");
   }
 };

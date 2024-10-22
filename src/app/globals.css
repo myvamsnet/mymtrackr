@@ -16,12 +16,36 @@
   }
 }
 
+body {
+  background-color: #fcfdfe;
+}
+.bg-overlay {
+  background-image: url('/images/overlayBanner.png');
+}
+
+.bg-overlay-2 {
+  background-image: url('/images/Backgroundfeature.png');
+}
+.bg-overlay-3 {
+  background-image: url('/images/Backgroundfeature.png');
+}
+.bg-overlay-4 {
+  background-image: url('/images/bottomimage.png');
+}
+
 @layer utilities {
   .text-balance {
-    text-wrap: balance;
+    text-align: center;
   }
 }
 
+.wrapper {
+  @apply mx-auto container max-w-[1144px];
+}
+
+.benefitSection__card {
+  @apply grid grid-cols-1 md:grid-cols-2 w-full gap-8 md:gap-[76px] items-center px-4 md:px-0;
+}
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -108,14 +132,14 @@
   scrollbar-width: none !important; /* Firefox */
 }
 
-input[type="number"] {
+input[type='number'] {
   /* Hide number input arrow */
   -moz-appearance: textfield; /* Firefox */
   appearance: textfield; /* Safari and Chrome */
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   /* Hide number input arrow */
   -webkit-appearance: none;
   appearance: none;
