@@ -1,12 +1,16 @@
-import Image from 'next/image';
+import Image from "next/image";
+import Link from "next/link";
 
 export const BenefitSection = () => {
   return (
-    <div className="bg-off-white-400 py-16 px-4 md:py-24 lg:py-[180px] gap-16 lg:gap-[156px] grid wrapper">
+    <div
+      className="bg-off-white-400 py-16 px-4 md:py-24 lg:py-[180px] gap-16 lg:gap-[156px] grid wrapper"
+      id="benefits"
+    >
       <div className="benefitSection__card">
         <div className="rounded-2xl bg-off-white w-full flex justify-center items-center">
           <Image
-            src={'/images/history.png'}
+            src={"/images/history.png"}
             alt="business-die"
             className="h-full mt-3"
             height={0}
@@ -22,9 +26,15 @@ export const BenefitSection = () => {
             Mtrackr gives you the freedom and flexibility to run your business
             smoothly.
           </p>
-          <button className="rounded-2xl border py-3 px-8 gap-[10px] font-inter font-medium text-base md:text-[18px] text-center border-dark">
-            Learn more
-          </button>
+          <div>
+            <Link
+              href={"https://wa.me/+2348057384590"}
+              className="rounded-2xl border  py-3 px-8 gap-[10px] font-inter font-medium text-base md:text-[18px] text-center border-dark"
+              target="_blank"
+            >
+              Learn more
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -38,13 +48,19 @@ export const BenefitSection = () => {
             Unclear cash flow can hurt your business. You deserve a simple way
             to stay on top of your game.
           </p>
-          <button className="rounded-2xl border py-3 px-8 gap-[10px] font-inter font-medium text-base md:text-[18px] text-center border-dark">
-            Learn more
-          </button>
+          <div>
+            <Link
+              href={"https://wa.me/+2348057384590"}
+              className="rounded-2xl border  py-3 px-8 gap-[10px] font-inter font-medium text-base md:text-[18px] text-center border-dark"
+              target="_blank"
+            >
+              Learn more
+            </Link>
+          </div>
         </div>
         <div className="rounded-2xl bg-off-white w-full md:order-last order-first flex justify-center items-center">
           <Image
-            src={'/images/records.png'}
+            src={"/images/records.png"}
             alt="business-stress"
             className="h-full mt-3"
             height={0}
@@ -56,7 +72,7 @@ export const BenefitSection = () => {
       <div className="benefitSection__card">
         <div className="rounded-2xl bg-off-white w-full flex justify-center items-center">
           <Image
-            src={'/images/history.png'}
+            src={"/images/history.png"}
             alt="business-die"
             className="h-full mt-3"
             height={0}
@@ -72,9 +88,15 @@ export const BenefitSection = () => {
             Mtrackr gives you the freedom and flexibility to run your business
             smoothly.
           </p>
-          <button className="rounded-2xl border py-3 px-8 gap-[10px] font-inter font-medium text-base md:text-[18px]  text-center border-dark">
-            Learn more
-          </button>
+          <div>
+            <Link
+              href={"https://wa.me/+2348057384590"}
+              className="rounded-2xl border  py-3 px-8 gap-[10px] font-inter font-medium text-base md:text-[18px] text-center border-dark"
+              target="_blank"
+            >
+              Learn more
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -88,13 +110,19 @@ export const BenefitSection = () => {
             Unclear cash flow can hurt your business. You deserve a simple way
             to stay on top of your game.
           </p>
-          <button className="rounded-2xl border py-3 px-8 gap-[10px] font-inter font-medium text-base md:text-[18px] text-center border-dark">
-            Learn more
-          </button>
+          <div>
+            <Link
+              href={"https://wa.me/+2348057384590"}
+              className="rounded-2xl border  py-3 px-8 gap-[10px] font-inter font-medium text-base md:text-[18px] text-center border-dark"
+              target="_blank"
+            >
+              Learn more
+            </Link>
+          </div>
         </div>
         <div className="rounded-2xl bg-off-white w-full flex justify-center items-center  md:order-last order-first">
           <Image
-            src={'/images/records.png'}
+            src={"/images/records.png"}
             alt="business-stress"
             className="h-full mt-3"
             height={0}
