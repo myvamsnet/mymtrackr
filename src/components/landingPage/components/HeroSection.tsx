@@ -1,11 +1,14 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 export const HeroSection = () => {
   return (
-    <div className="wrapper py-16 px-4 md:py-24 lg:py-[180px] gap-16 lg:gap-[156px] grid">
+    <div
+      className="wrapper py-16 px-4 md:py-24 lg:py-[180px] gap-16 lg:gap-[156px] grid"
+      id="about"
+    >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-[76px] items-center">
         <Image
-          src={'/images/businessdie.png'}
+          src={"/images/businessdie.png"}
           alt="business-die"
           height={309}
           width={530}
@@ -33,7 +36,7 @@ export const HeroSection = () => {
           </p>
         </div>
         <Image
-          src={'/images/businessstress.png'}
+          src={"/images/businessstress.png"}
           alt="business-stress"
           className="w-full md:order-last order-first"
           height={309}
