@@ -27,13 +27,14 @@ export const ShowCaseNav = () => {
             />
           </Link>
           <ul className="hidden md:flex items-center justify-center  gap-8 font-inter text-base font-normal">
-            {landingPageNav.map((item, index) => {
+            {landingPageNav?.map((item, index) => {
               return item.path ? (
                 <li>
                   <Link
                     className="text-white capitalize cursor-pointer"
                     href={item.path}
                     target="_blank"
+                    key={`${item.name}-${index}`}
                   >
                     {item.name}
                   </Link>
@@ -124,13 +125,14 @@ export const ShowCaseNav = () => {
         <section className="md:hidden absolute top-[100%] bg-primary h-[461px] z-40 w-full">
           <div className="bg-[#010114] py-10 px-[30px] h-full rounded-[100px] w-full flex flex-col items-center gap-10">
             <ul className=" text-off-white-500 font-inter text-base font-normal grid gap-10">
-              {landingPageNav.map((item, index) => {
+              {landingPageNav?.map((item, index) => {
                 return item.path ? (
                   <li>
                     <Link
                       className="text-white capitalize cursor-pointer"
                       href={item.path}
                       target="_blank"
+                      key={`${item.name}-${index}`}
                     >
                       {item.name}
                     </Link>
