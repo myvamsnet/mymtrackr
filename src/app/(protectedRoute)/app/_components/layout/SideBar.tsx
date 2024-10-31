@@ -8,7 +8,10 @@ export const SideBar = () => {
   const active = usePathname();
   return (
     <aside className="w-[220px] py-6 bg-off-white-300 h-full px-4 lg:block hidden rounded-lg space-y-10 sticky top-0 ">
-      <Link href="/home" className="h-8">
+      <Link
+        href="/app/home"
+        className="h-8"
+      >
         <Image
           src="/images/logo.svg"
           alt="logo"

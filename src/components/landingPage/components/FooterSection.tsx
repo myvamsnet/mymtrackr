@@ -37,6 +37,7 @@ export const FooterSection = () => {
                       type: item.type as "signIn" | "signUp",
                     });
                   }}
+                  key={`${item.name}-${index}`}
                 >
                   {item.name}
                 </Link>

@@ -1,29 +1,43 @@
-import React from 'react';
-import { Header } from './__components/Header';
-import Balance from './__components/Balance';
-import { RecentRecords } from './__components/RecentRecords';
-import ProtectedLayout from '../_components/layout/ProtectedLayout';
-import { getAllRecords } from '@/app/actions/AllRecords';
-import { getUser } from '@/app/actions/getUser';
-import { UserResponse } from '@/types/auth';
-import { Records } from '@/types/records';
+import React, { FC } from "react";
+import { Header } from "./__components/Header";
+import Balance from "./__components/Balance";
+import { RecentRecords } from "./__components/RecentRecords";
+import ProtectedLayout from "../_components/layout/ProtectedLayout";
+import { getAllRecords } from "@/app/actions/AllRecords";
+import { getUser } from "@/app/actions/getUser";
+import { UserResponse } from "@/types/auth";
+import { Records } from "@/types/records";
 
-const Home = async () => {
-  const user = (await getUser()) as unknown as UserResponse;
-  const records = await getAllRecords();
-  return (
-    <ProtectedLayout>
-      <Header user={user?.data} />
-      <Balance
-        user={user?.data}
-        data={records?.data as unknown as Records[]}
-      />
-      <RecentRecords
-        data={records?.data as unknown as Records[]}
-        error={!records?.success ? records?.message ?? '' : ''}
-      />
-    </ProtectedLayout>
-  );
+const Home: FC = async () => {
+  try {
+    // Fetch user and records data
+    const userResponse = await getUser();
+    const recordsResponse = await getAllRecords();
+
+    const user = userResponse as UserResponse;
+    const records = recordsResponse?.data as Records[];
+
+    return (
+      <ProtectedLayout>
+        <Header user={user?.data} />
+        <Balance
+          user={user?.data}
+          data={records}
+        />
+        <RecentRecords
+          data={records}
+          error={recordsResponse?.success ? "" : recordsResponse?.message || ""}
+        />
+      </ProtectedLayout>
+    );
+  } catch (error) {
+    console.error("Failed to fetch data:", error);
+    return (
+      <ProtectedLayout>
+        <p>Failed to load data. Please try again later.</p>
+      </ProtectedLayout>
+    );
+  }
 };
 
 export default Home;
