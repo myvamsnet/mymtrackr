@@ -1,21 +1,21 @@
-'use server';
-import { cloudinary_url } from '@/constant/path';
-import { createClient } from '@/lib/supabse/server';
-import { uploadImageToCloudinary } from '@/lib/uploadImageToCloudinary';
-import axios from 'axios';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+"use server";
+import { cloudinary_url } from "@/constant/path";
+import { createClient } from "@/lib/supabse/server";
+import { uploadImageToCloudinary } from "@/lib/uploadImageToCloudinary";
+import axios from "axios";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export const updateProfileAction = async (formData: FormData) => {
-  const email = formData.get('email') as string;
-  const fullName = formData.get('fullName') as string;
-  const phoneNumber = formData.get('phoneNumber') as string;
-  const image = formData.get('file') as File;
+  const email = formData.get("email") as string;
+  const fullName = formData.get("fullName") as string;
+  const phoneNumber = formData.get("phoneNumber") as string;
+  const image = formData.get("file") as File;
 
   if (!email || !fullName || !phoneNumber) {
     return {
       success: false,
-      error: 'Please provide email, full name, and phone number',
+      error: "Please provide email, full name, and phone number",
     };
   }
 
@@ -25,7 +25,7 @@ export const updateProfileAction = async (formData: FormData) => {
   if (!user?.data?.user?.id) {
     return {
       success: false,
-      error: 'User not found',
+      error: "User not found",
     };
   }
 
@@ -41,31 +41,29 @@ export const updateProfileAction = async (formData: FormData) => {
     if (image) {
       const imageUrl = (await uploadImageToCloudinary(image)) as string;
       if (!imageUrl) {
-        return { success: false, message: 'Failed to upload image' };
+        return { success: false, message: "Failed to upload image" };
       }
       updateData.imageUrl = imageUrl;
     }
 
     const { data, error } = await supabaseApi
-      .from('userProfile')
+      .from("userProfile")
       .update(updateData)
-      .eq('email', email)
-      .eq('id', user.data.user.id)
+      .eq("email", email)
+      .eq("id", user.data.user.id)
       .select()
       .single();
 
     if (error) {
-      console.log(error, 'Failed to update profile');
-      return { success: false, error: 'Failed to update profile' };
+      return { success: false, error: "Failed to update profile" };
     }
 
-    revalidatePath('/app/home');
+    revalidatePath("/app/home");
     return { success: true, data };
   } catch (error) {
-    console.log(error);
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Something went wrong',
+      error: error instanceof Error ? error.message : "Something went wrong",
     };
   }
 };

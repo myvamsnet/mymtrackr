@@ -1,6 +1,6 @@
-'use server';
+"use server";
 
-import { createClient } from '@/lib/supabse/server';
+import { createClient } from "@/lib/supabse/server";
 
 export const getSubscription = async () => {
   const supabase = createClient();
@@ -13,16 +13,15 @@ export const getSubscription = async () => {
   }
 
   const { data: subscriptionData, error } = await supabase
-    .from('subscriptions')
-    .select('*')
-    .eq('user_id', user?.id)
+    .from("subscriptions")
+    .select("*")
+    .eq("user_id", user?.id)
     .single();
 
   if (error) {
-    console.log(error);
     return {
       data: null,
-      message: 'Failed to fetch subscriptions',
+      message: "Failed to fetch subscriptions",
       success: false,
     };
   }
@@ -30,7 +29,7 @@ export const getSubscription = async () => {
   const data = subscriptionData as SubscriptionType;
   return {
     data,
-    message: 'Subscriptions fetched successfully',
+    message: "Subscriptions fetched successfully",
     success: true,
   } as unknown as SubscriptionPayload;
 };
@@ -39,7 +38,7 @@ export interface SubscriptionType {
   id: string;
   user_id: string;
   plan_id: string;
-  status: 'trial' | 'active';
+  status: "trial" | "active";
   amount: number;
   userProfile_id: string;
   expiresAt: string;
