@@ -40,7 +40,6 @@ export const createRecordAction = async (formData: FormData) => {
       payload.imageUrl = imageUrl;
     }
 
-    console.log(payload, "payload");
     const { data, error } = await supabaseApi
       .from("records")
       .insert([payload])
@@ -48,7 +47,6 @@ export const createRecordAction = async (formData: FormData) => {
       .single();
 
     if (error) {
-      console.log(error, "Failed to create record");
       return { success: false, message: "Failed to create record" };
     }
     revalidatePath("/app/home");

@@ -1,19 +1,19 @@
-'use server';
+"use server";
 
-import { createClient } from '@/lib/supabse/server';
-import dayjs from 'dayjs';
-import { redirect } from 'next/navigation';
+import { createClient } from "@/lib/supabse/server";
+import dayjs from "dayjs";
+import { redirect } from "next/navigation";
 
 export const loginAction = async (formData: FormData) => {
   const supabase = createClient();
-  const email = formData.get('email') as string;
-  const password = formData.get('password') as string;
-  const validateUserError = 'Invalid login credentials';
-  const generalErrorMessage = 'Something went wrong, please try again later';
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+  const validateUserError = "Invalid login credentials";
+  const generalErrorMessage = "Something went wrong, please try again later";
   if (!email || !password) {
     return {
       success: false,
-      message: 'Please provide all required fields',
+      message: "Please provide all required fields",
     };
   }
 
@@ -24,7 +24,6 @@ export const loginAction = async (formData: FormData) => {
     });
 
   if (loginError) {
-    console.log(loginError.message, 'Login Failed');
     return {
       success: false,
       message: validateUserError,
@@ -35,18 +34,17 @@ export const loginAction = async (formData: FormData) => {
 
   // Step 2: Fetch the user with referrals and subscriptions
   const { data: user, error: userError } = await supabase
-    .from('userProfile')
+    .from("userProfile")
     .select(
       `
       *,
       subscriptions(expiresAt)
     `
     )
-    .eq('id', userId)
+    .eq("id", userId)
     .single();
 
   if (userError || !user) {
-    console.log(userError);
     await supabase.auth.signOut();
     return {
       success: false,
@@ -63,13 +61,12 @@ export const loginAction = async (formData: FormData) => {
     if (subscriptionExpiryDate.isBefore(now)) {
       // If the subscription has expired, update its status to "expired"
       const { error: updateError } = await supabase
-        .from('subscriptions')
-        .update({ status: 'expired' })
-        .eq('user_id', user.id);
+        .from("subscriptions")
+        .update({ status: "expired" })
+        .eq("user_id", user.id);
 
       if (updateError) {
         await supabase.auth.signOut();
-        console.log('Error updating subscription status:', updateError);
         return {
           success: false,
           message: generalErrorMessage,
@@ -80,17 +77,16 @@ export const loginAction = async (formData: FormData) => {
 
   // Step 4: Fetch the user's referrals and join with referees and their subscriptions
   const { data: referrals, error: referralsError } = await supabase
-    .from('referrals')
+    .from("referrals")
     .select(
       `
       refereeId,
       referee:userProfile!referrals_refereeId_fkey (subscriptions(status))
     `
     )
-    .eq('referrerId', user.id);
+    .eq("referrerId", user.id);
 
   if (referralsError) {
-    console.log('Error fetching referrals:', referralsError);
     await supabase.auth.signOut();
     return {
       success: false,
@@ -107,22 +103,21 @@ export const loginAction = async (formData: FormData) => {
   });
 
   if (
-    activeCount.every((status) => status === 'active') &&
+    activeCount.every((status) => status === "active") &&
     activeCount.length >= 3 &&
-    user.subscriptions?.status === 'active'
+    user.subscriptions?.status === "active"
   ) {
     // Step 5: If the user has referred 3 or more users and all referees have active subscriptions, extend the user's subscription
     const newExpiryDate = dayjs(user.subscriptions.expiresAt)
-      .add(1, 'year')
+      .add(1, "year")
       .toDate();
 
     const { error: subscriptionUpdateError } = await supabase
-      .from('subscriptions')
+      .from("subscriptions")
       .update({ expiresAt: newExpiryDate })
-      .eq('user_id', user.id);
+      .eq("user_id", user.id);
 
     if (subscriptionUpdateError) {
-      console.log('Error updating subscription:', subscriptionUpdateError);
       await supabase.auth.signOut();
       return {
         success: false,
@@ -130,7 +125,7 @@ export const loginAction = async (formData: FormData) => {
       };
     }
   }
-  redirect('/app/home');
+  redirect("/app/home");
 };
 interface ReferralsType {
   refereeId: string;

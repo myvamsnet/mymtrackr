@@ -1,20 +1,20 @@
-'use server';
+"use server";
 
-import { generateReferralCode } from '@/lib/helper/generateReferralCode';
-import { createClient } from '@/lib/supabse/server';
-import { redirect } from 'next/navigation';
+import { generateReferralCode } from "@/lib/helper/generateReferralCode";
+import { createClient } from "@/lib/supabse/server";
+import { redirect } from "next/navigation";
 
 export const RegisterAction = async (formData: FormData) => {
   const supabase = createClient();
-  const referralCode = formData.get('referralCode') as string;
-  const email = formData.get('email') as string;
-  const password = formData.get('password') as string;
-  const fullName = formData.get('fullName') as string;
+  const referralCode = formData.get("referralCode") as string;
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+  const fullName = formData.get("fullName") as string;
 
   if (!email && !password && !fullName) {
     return {
       success: false,
-      message: 'Please provide all required fields',
+      message: "Please provide all required fields",
     };
   }
   let { data: signUpData, error: signUpError } = await supabase.auth.signUp({
@@ -23,10 +23,9 @@ export const RegisterAction = async (formData: FormData) => {
   });
 
   if (signUpError) {
-    console.log(signUpError.message, 'Register Failed');
     return {
       success: false,
-      message: 'Something wrent wrong , Try Again later',
+      message: "Something wrent wrong , Try Again later",
     };
   }
   // // Get the newly created user ID
@@ -36,7 +35,7 @@ export const RegisterAction = async (formData: FormData) => {
 
   if (signUpData?.user?.id) {
     const { error: userProfileError } = await supabase
-      .from('userProfile')
+      .from("userProfile")
       .insert([
         {
           id: userId as string,
@@ -46,39 +45,37 @@ export const RegisterAction = async (formData: FormData) => {
           referralCode: userReferralCode, // Store the referral code in the User table
         },
       ])
-      .select('*')
+      .select("*")
       .single();
 
     if (userProfileError) {
-      console.log(userProfileError.message, 'User Profile Creation Failed');
       return {
         success: false,
-        message: 'User Profile Creation Failed',
+        message: "User Profile Creation Failed",
       };
     }
   }
   if (referralCode) {
     // Find the referrer by referral code
     const { data: referrer, error: referrerError } = await supabase
-      .from('userProfile')
-      .select('*')
-      .eq('referralCode', referralCode)
+      .from("userProfile")
+      .select("*")
+      .eq("referralCode", referralCode)
       .single();
 
     if (referrer && !referrerError) {
       // Create a referral entry
       const { error: referralCreateError } = await supabase
-        .from('referrals')
+        .from("referrals")
         .insert({
           referrerId: referrer.id,
           refereeId: userId, // Set the newly created user as the referee
         });
 
       if (referralCreateError) {
-        console.log(referralCreateError, 'referralCreateError');
         return {
           success: false,
-          message: 'Failed to create referral',
+          message: "Failed to create referral",
         };
       }
     }
@@ -90,22 +87,21 @@ export const RegisterAction = async (formData: FormData) => {
 
   const { error: subscriptionCreateError, data: subscriptionsData } =
     await supabase
-      .from('subscriptions')
+      .from("subscriptions")
       .insert({
         user_id: userId,
         userProfile_id: userId,
-        status: 'trial',
+        status: "trial",
         expiresAt: trialExpiration.toISOString(),
         amount: 0, // Set the amount for the subscription, can be adjusted based on your pricing model
       })
-      .select('*')
+      .select("*")
       .single();
 
   if (subscriptionCreateError) {
-    console.log(subscriptionCreateError, 'subscriptionCreateError');
-    return { message: 'Failed to create subscription.', success: false };
+    return { message: "Failed to create subscription.", success: false };
   }
 
   // Redirect to the home page upon successful registration
-  redirect('/app/home'); // Redirecting to the home page
+  redirect("/app/home"); // Redirecting to the home page
 };

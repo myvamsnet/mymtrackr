@@ -1,5 +1,5 @@
-import { createClient } from '@/lib/supabse/server';
-import { revalidatePath } from 'next/cache';
+import { createClient } from "@/lib/supabse/server";
+import { revalidatePath } from "next/cache";
 
 export async function getUser() {
   const supabase = createClient();
@@ -9,16 +9,15 @@ export async function getUser() {
 
   if (user?.id) {
     const { data: userProfileData, error: userProfileError } = await supabase
-      .from('userProfile')
-      .select('*')
-      .eq('id', user.id)
+      .from("userProfile")
+      .select("*")
+      .eq("id", user.id)
       .single();
 
     if (userProfileError) {
-      console.log(userProfileError.message, 'User Profile Fetch Failed');
       return {
         success: false,
-        message: 'User Profile Fetch Failed',
+        message: "User Profile Fetch Failed",
       };
     }
 
@@ -30,7 +29,7 @@ export async function getUser() {
       phoneNumber: userProfileData.phoneNumber,
       referralCode: userProfileData.referralCode,
     };
-    revalidatePath('/app/home');
+    revalidatePath("/app/home");
     return {
       success: true,
       data,
