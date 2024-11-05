@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { NextRequest, NextResponse } from 'next/server';
+import axios from "axios";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,15 +10,15 @@ export async function POST(req: NextRequest) {
 
     if (!email && !fullName) {
       return NextResponse.json(
-        { error: 'Email  and FullName is required' },
+        { error: "Email  and FullName is required" },
         { status: 400 }
       );
     }
 
-    const flutterwaveUrl = process.env.FLUTTERWAVE_URL;
-    const subscriptionAmount = process.env.SUBSCRIPTION_AMOUNT;
-    const paymentPlanId = process.env.SUBSCRIPTION_PLAN_ID;
-    const secretKey = process.env.FLUTTERWAVE_SECRET_KEY;
+    const flutterwaveUrl = process.env.FLUTTERWAVE_URL as string;
+    const subscriptionAmount = process.env.SUBSCRIPTION_AMOUNT as string;
+    const paymentPlanId = process.env.SUBSCRIPTION_PLAN_ID as string;
+    const secretKey = process.env.FLUTTERWAVE_SECRET_KEY as string;
 
     if (
       !flutterwaveUrl ||
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       !secretKey
     ) {
       return NextResponse.json(
-        { error: 'Missing required configuration' },
+        { error: "Missing required configuration" },
         { status: 500 }
       );
     }
@@ -37,14 +37,14 @@ export async function POST(req: NextRequest) {
       {
         tx_ref: Date.now(),
         amount: subscriptionAmount,
-        currency: 'NGN',
+        currency: "NGN",
         payment_plan: paymentPlanId,
-        payment_type: 'card',
-        redirect_url: `${process.env.NEXT_PUBLIC_BASE_URL}/app/subscription`, // Modify to your production URL
+        payment_type: "card",
+        redirect_url: `/app/subscription`, // Modify to your production URL
         customer: { email, name: fullName },
         customizations: {
-          title: 'Subscription Service',
-          description: 'Payment for subscription',
+          title: "Subscription Service",
+          description: "Payment for subscription",
         },
       },
       {
@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
     const checkoutUrl = response?.data?.data?.link;
     if (!checkoutUrl) {
       return NextResponse.json(
-        { error: 'Failed to get payment link' },
+        { error: "Failed to get payment link" },
         { status: 500 }
       );
     }
@@ -65,11 +65,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ checkoutUrl }, { status: 200 });
   } catch (error: any) {
     console.error(
-      'Payment initiation error:',
+      "Payment initiation error:",
       error.response?.data || error.message
     );
     return NextResponse.json(
-      { error: 'Payment initiation failed' },
+      { error: "Payment initiation failed" },
       { status: 500 }
     );
   }
