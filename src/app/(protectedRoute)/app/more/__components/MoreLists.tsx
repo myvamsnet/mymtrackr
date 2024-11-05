@@ -44,7 +44,7 @@ export const MoreLists = ({ data }: props) => {
               onClick={() => {
                 if (item.text === "Earn with Referal") {
                   handleCopy(
-                    `${app_url}?referCode=${data?.referralCode}`,
+                    `/?referCode=${data?.referralCode}`,
                     "Referral link copied"
                   );
                 }
