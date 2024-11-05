@@ -13,7 +13,6 @@ export const userReferrals = async (userId: string) => {
     .range(0, 6);
 
   if (referralsError) {
-    console.log("Error fetching referrals:", referralsError);
     await supabase.auth.signOut();
     return {
       success: false,

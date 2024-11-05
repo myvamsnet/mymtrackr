@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { landingPageNav } from "@/constant/landingPageNav";
 import useModal from "@/hooks/useModal";
-
+import ScrollIntoView from "react-scroll-into-view";
 export const ShowCaseNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -27,16 +27,35 @@ export const ShowCaseNav = () => {
             />
           </Link>
           <ul className="hidden md:flex items-center justify-center  gap-8 font-inter text-base font-normal">
-            {landingPageNav.map((item, index) => (
-              <li key={index}>
-                <Link
-                  href={item.path}
-                  className="text-white"
-                >
-                  {item.name}
-                </Link>
-              </li>
-            ))}
+            {landingPageNav?.map((item, index) => {
+              return item.path ? (
+                <li>
+                  <Link
+                    className="text-white capitalize cursor-pointer"
+                    href={item.path}
+                    target="_blank"
+                    key={`${item.name}-${index}`}
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ) : (
+                <li key={index}>
+                  <ScrollIntoView
+                    selector={`#${item.name}`}
+                    className="text-white capitalize cursor-pointer"
+                    key={`${item.name}-${index}`}
+                    scrollOptions={{
+                      behavior: "smooth",
+                      block: "start",
+                      inline: "nearest",
+                    }}
+                  >
+                    {item.name}
+                  </ScrollIntoView>
+                </li>
+              );
+            })}
           </ul>
 
           <button
@@ -106,16 +125,36 @@ export const ShowCaseNav = () => {
         <section className="md:hidden absolute top-[100%] bg-primary h-[461px] z-40 w-full">
           <div className="bg-[#010114] py-10 px-[30px] h-full rounded-[100px] w-full flex flex-col items-center gap-10">
             <ul className=" text-off-white-500 font-inter text-base font-normal grid gap-10">
-              {landingPageNav.map((item, index) => (
-                <li key={index}>
-                  <Link
-                    href={item.path}
-                    className="text-white"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
+              {landingPageNav?.map((item, index) => {
+                return item.path ? (
+                  <li>
+                    <Link
+                      className="text-white capitalize cursor-pointer"
+                      href={item.path}
+                      target="_blank"
+                      key={`${item.name}-${index}`}
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ) : (
+                  <li key={index}>
+                    <ScrollIntoView
+                      selector={`#${item.name}`}
+                      className="text-white capitalize cursor-pointer"
+                      key={`${item.name}-${index}`}
+                      scrollOptions={{
+                        behavior: "smooth",
+                        block: "start",
+                        inline: "nearest",
+                      }}
+                      onClick={toggleMenu}
+                    >
+                      {item.name}
+                    </ScrollIntoView>
+                  </li>
+                );
+              })}
             </ul>
             <button
               className="font-inter text-base font-medium text-off-white-400 bg-primary rounded-full h-[41px] w-[100px] text-center py-3 px-6 flex items-center justify-center "
