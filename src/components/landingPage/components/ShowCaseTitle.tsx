@@ -2,6 +2,8 @@
 import useModal from "@/hooks/useModal";
 import { MoveRight } from "lucide-react";
 import { Fade } from "react-awesome-reveal";
+import { SignUpModal } from "../SignUpModal";
+import { SignInModal } from "../SignInModal";
 export const ShowCaseTitle = () => {
   const { onConfirm } = useModal();
   return (
@@ -19,31 +21,18 @@ export const ShowCaseTitle = () => {
       </div>
       <div className="flex items-center justify-center mx-auto gap-3">
         <Fade direction="top-left">
-          <button
+          <SignUpModal
+            btnText={
+              <>
+                Get Started Free <MoveRight />
+              </>
+            }
             className="font-inter font-medium text-[14px] leading-[16.94px] md:text-base text-dark bg-[#F9D40E] md:w-[298px] py-[14px] px-6  rounded-[24px] flex items-center justify-center gap-[10px] "
-            onClick={() => {
-              onConfirm({
-                isOpen: true,
-                type: "signUp",
-              });
-            }}
-          >
-            Get Started Free <MoveRight />
-          </button>
+          />
         </Fade>
 
         <Fade direction="top-right">
-          <button
-            className="md:hidden lg:hidden font-inter font-medium text-[14px] leading-[16.94px]  text-center text-off-white-400 border rounded-[24px] py-[14px] px-6 flex items-center justify-center gap-[10px] "
-            onClick={() => {
-              onConfirm({
-                isOpen: true,
-                type: "signIn",
-              });
-            }}
-          >
-            Login
-          </button>
+          <SignInModal className="md:hidden lg:hidden font-inter font-medium text-[14px] leading-[16.94px]  text-center text-off-white-400 border rounded-[24px] py-[14px] px-6 flex items-center justify-center gap-[10px] " />
         </Fade>
       </div>
     </div>

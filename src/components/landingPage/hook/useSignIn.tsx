@@ -1,11 +1,11 @@
-'use client';
-import { loginAction } from '@/app/actions/loginAction';
-import useModal from '@/hooks/useModal';
-import { signInSchema, SignInSchemaType } from '@/lib/Schema/authSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
+"use client";
+import { loginAction } from "@/app/actions/loginAction";
+import useModal from "@/hooks/useModal";
+import { signInSchema, SignInSchemaType } from "@/lib/Schema/authSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export const useSignIn = () => {
   const [status, setStatus] = useState(false);
@@ -16,8 +16,8 @@ export const useSignIn = () => {
     formState: { isValid },
   } = useForm<SignInSchemaType>({
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
     resolver: zodResolver(signInSchema),
   });
@@ -26,8 +26,8 @@ export const useSignIn = () => {
     setStatus(true);
     try {
       const formData = new FormData();
-      formData.append('email', data.email);
-      formData.append('password', data.password);
+      formData.append("email", data.email);
+      formData.append("password", data.password);
       const res = await loginAction(formData);
       if (!res?.success) {
         throw new Error(res?.message);
@@ -36,7 +36,7 @@ export const useSignIn = () => {
       if (
         (error as any).message !== undefined &&
         (error as any).message !== null &&
-        (error as any).message !== ''
+        (error as any).message !== ""
       ) {
         toast.error((error as any).message);
       }
@@ -45,10 +45,13 @@ export const useSignIn = () => {
     }
   };
 
-  const handleOnConfirm = (type: 'signUp' | 'forgotPassword') => {
+  const handleOnConfirm = (
+    type: "signUp" | "forgotPassword" | "signIn",
+    isOpen = true
+  ) => {
     onConfirm({
       type: type,
-      isOpen: true,
+      isOpen: isOpen,
     });
   };
 

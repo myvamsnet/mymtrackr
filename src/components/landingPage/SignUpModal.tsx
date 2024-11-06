@@ -6,7 +6,9 @@ import { inputLists } from "@/constant/auth";
 import { useSignUp } from "./hook/useSignUp";
 import { RegisterAction } from "@/app/actions/RegisterAction";
 import Link from "next/link";
-export const SignUpModal = () => {
+import { CustomModal } from "../CustomModal";
+import React from "react";
+export const SignUpModal = ({ btnText, className }: Props) => {
   const {
     modal,
     onConfirm,
@@ -15,21 +17,22 @@ export const SignUpModal = () => {
     handleSubmit,
     onSubmit,
     isPending,
-    referralCode,
   } = useSignUp();
 
   return (
-    <AuthWrapper
+    <CustomModal
       isOpen={modal.isOpen && modal.type === "signUp"}
-      onCancel={onCancel}
-      onConfirm={onConfirm}
+      onOpenChange={(open) => onConfirm("signUp", open)}
+      onConfirm={() => onConfirm("signIn")}
       title="Sign Up"
       subTitle="Already have an account?"
       content="Sign In"
+      btnText={btnText || "Get Started"}
+      className={className}
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="grid gap-4 py-3"
+        className="grid gap-3 py-2"
       >
         {inputLists.map((input) => (
           <CustomInput
@@ -61,6 +64,11 @@ export const SignUpModal = () => {
           {isPending ? "Loading..." : "Sign Up"}
         </Button>
       </form>
-    </AuthWrapper>
+    </CustomModal>
   );
 };
+
+interface Props {
+  btnText: React.ReactNode;
+  className?: string;
+}
