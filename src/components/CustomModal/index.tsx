@@ -32,7 +32,7 @@ export const CustomModal = ({
       <DialogTrigger asChild>
         <Button className={className}>{btnText}</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="">
         <div className="w-full justify-center items-center flex py-4">
           <Image
             src={"/images/logo.svg"}
