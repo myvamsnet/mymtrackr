@@ -1,6 +1,5 @@
-import { SignInModal } from './SignInModal';
-import useModal from '@/hooks/useModal';
-import Image from 'next/image';
+import useModal from "@/hooks/useModal";
+import Image from "next/image";
 
 export const Header = () => {
   const { onConfirm } = useModal();
@@ -8,7 +7,7 @@ export const Header = () => {
     <>
       <nav className="flex justify-between items-center py-6 sticky top-0 bg-off-white">
         <Image
-          src={'/images/logo.svg'}
+          src={"/images/logo.svg"}
           alt="logo"
           loading="lazy"
         />
@@ -17,7 +16,7 @@ export const Header = () => {
             <button
               onClick={() =>
                 onConfirm({
-                  type: 'signIn',
+                  type: "signIn",
                   isOpen: true,
                 })
               }
@@ -27,7 +26,6 @@ export const Header = () => {
           </li>
         </ul>
       </nav>
-      <SignInModal />
     </>
   );
 };

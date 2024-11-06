@@ -56,13 +56,16 @@ export const useSignUp = () => {
       setStatus(false);
     }
   };
+
+  const handleOnConfirm = (type: "signUp" | "signIn", isOpen = true) => {
+    onConfirm({
+      type: type,
+      isOpen: isOpen,
+    });
+  };
   return {
     modal,
-    onConfirm: () =>
-      onConfirm({
-        type: "signIn",
-        isOpen: true,
-      }),
+    onConfirm: handleOnConfirm,
     onCancel,
     control,
     handleSubmit,
