@@ -26,7 +26,7 @@ export const BenefitSection = () => {
             <div className="w-full md:w-[538px] h-auto md:h-[349px] gap-6 space-y-6">
               <h2 className="font-inter font-semibold text-[28px] md:text-[44px] leading-[40px] md:leading-[65px] text-dark">
                 {benefit.title}
-                <span className="text-primary">{benefit.subtitle}</span>
+                <span className="text-primary mx-1">{benefit.subtitle}</span>
               </h2>
               <p className="font-inter font-normal text-base md:text-xl md:leading-[30px] text-dark-300">
                 {benefit.content}
@@ -50,7 +50,7 @@ export const BenefitSection = () => {
             <div className="w-full md:w-[538px] h-auto md:h-[349px] gap-6 space-y-6">
               <h2 className="font-inter font-semibold text-[28px] md:text-[44px] leading-[40px] md:leading-[65px] text-dark">
                 {benefit.title}
-                <span className="text-primary">{benefit.subtitle}</span>
+                <span className="text-primary mx-1">{benefit.subtitle}</span>
               </h2>
               <p className="font-inter font-normal text-base md:text-xl leading-[24px] md:leading-[30px] text-dark-300 ">
                 {benefit.content}
