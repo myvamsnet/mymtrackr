@@ -11,8 +11,8 @@ export async function GET() {
 
     if (!userInfo.data?.user?.id) return;
     const { data, error } = await supabase
-      .from("usersprofile") // Replace with your table name
-      .select("*") // Or specify columns like 'id, name, etc.'
+      .from("userProfile") // Replace with your table name
+      .select("*, subscriptions(*)") // Or specify columns like 'id, name, etc.'
       .eq("user_id", userInfo.data?.user?.id)
       .single();
 

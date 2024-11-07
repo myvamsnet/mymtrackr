@@ -2,6 +2,7 @@
 import { SubscriptionType } from "@/app/actions/getSubscription";
 import { UserProfile } from "@/app/actions/getUser";
 import { Button } from "@/components/ui/button";
+import { useSubscription } from "@/hooks/useSubscription";
 import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 import axiosInstance from "@/lib/axios";
 import { currencyFormatter } from "@/lib/helper/currencyFormatter";
@@ -18,20 +19,7 @@ export const SubDetails = ({ subscription, user }: Props) => {
   const transaction_id = searchParams.get("transaction_id");
   const { updateQueryParams } = useUpdateQuery();
 
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: (data: SubscriptionPayload) =>
-      axiosInstance.post("/payment", data).then((res) => res.data),
-  });
-
-  const handleClickPayment = async () => {
-    if (!user) return;
-    const { checkoutUrl } = await mutateAsync({
-      email: user.email,
-      fullName: user.fullName,
-    });
-    window.location.href = checkoutUrl;
-  };
-
+  const { handleClickPayment, isPending } = useSubscription();
   const { data } = useQuery({
     queryKey: ["subscription", paymentStatus, tx_ref],
     queryFn: () => {

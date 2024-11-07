@@ -1,11 +1,10 @@
 "use client";
-import useModal from "@/hooks/useModal";
+
 import { MoveRight } from "lucide-react";
 import { Fade } from "react-awesome-reveal";
 import { SignUpModal } from "../SignUpModal";
 import { SignInModal } from "../SignInModal";
 export const ShowCaseTitle = () => {
-  const { onConfirm } = useModal();
   return (
     <div className="grid md:gap-[52px] gap-6 relative z-10 w-full md:max-w-[821px] mx-auto py-3 px-4">
       <h2 className="font-inter font-semibold text-center lg:text-[56px] lg:leading-[75px]  text-off-white-400 text-[32px] leading-[42px] ">

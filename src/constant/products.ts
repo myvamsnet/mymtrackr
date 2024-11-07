@@ -95,7 +95,7 @@ export const menuItems = [
     icon: ReferalIcon,
     text: "Earn with Referal",
     textColor: "text-dark",
-    link: "/app/referral-history",
+    link: "/app/referral-history?status=trial",
   },
 
   {

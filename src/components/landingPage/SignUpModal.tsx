@@ -1,23 +1,14 @@
 "use client";
 import { CustomInput } from "@/components/CustomInput";
 import { Button } from "@/components/ui/button";
-import AuthWrapper from "@/components/Auth";
 import { inputLists } from "@/constant/auth";
 import { useSignUp } from "./hook/useSignUp";
-import { RegisterAction } from "@/app/actions/RegisterAction";
 import Link from "next/link";
 import { CustomModal } from "../CustomModal";
 import React from "react";
 export const SignUpModal = ({ btnText, className }: Props) => {
-  const {
-    modal,
-    onConfirm,
-    onCancel,
-    control,
-    handleSubmit,
-    onSubmit,
-    isPending,
-  } = useSignUp();
+  const { modal, onConfirm, control, handleSubmit, onSubmit, isPending } =
+    useSignUp();
 
   return (
     <CustomModal

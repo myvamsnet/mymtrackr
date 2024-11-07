@@ -1,4 +1,4 @@
-"use client"; // Error boundaries must be Client Components
+"use client";
 
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -34,14 +34,7 @@ export default function Error({
           inconveniences caused.
         </p>
         <div className="flex justify-center items-center">
-          <Button
-            onClick={
-              // Attempt to recover by trying to re-render the segment
-              () => reset()
-            }
-          >
-            Try again
-          </Button>
+          <Button onClick={() => reset()}>Try again</Button>
         </div>
       </div>
     </main>
