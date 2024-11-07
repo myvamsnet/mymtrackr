@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server';
-import axios from 'axios';
-import { createClient } from '@/lib/supabse/server';
+import { NextResponse } from "next/server";
+import axios from "axios";
+import { createClient } from "@/lib/supabse/server";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const status = searchParams.get('status');
-  const tx_ref = searchParams.get('tx_ref');
-  const transaction_id = searchParams.get('transaction_id');
+  const status = searchParams.get("status");
+  const tx_ref = searchParams.get("tx_ref");
+  const transaction_id = searchParams.get("transaction_id");
   const supabase = createClient();
 
   try {
@@ -14,46 +14,46 @@ export async function GET(request: Request) {
     } = await supabase.auth.getUser();
 
     if (!user?.id)
-      return NextResponse.json({ message: 'User not found' }, { status: 404 });
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
 
-    if (status !== 'successful' && !tx_ref && !transaction_id) {
+    if (status !== "successful" && !tx_ref && !transaction_id) {
       return NextResponse.json(
-        { message: 'Invalid payment status' },
+        { message: "Invalid payment status" },
         { status: 400 }
       );
     }
-    const flutterwaveUrl = process.env.FLUTTERWAVE_URL;
+    const flutterwaveUrl = process.env.NEXT_PUBLIC_FLUTTERWAVE_URL;
     // Verify payment with Flutterwave API
     const response = await axios.get(
       `${flutterwaveUrl}/transactions/${transaction_id}/verify`,
       {
         headers: {
-          Authorization: `Bearer ${process.env.FLUTTERWAVE_SECRET_KEY}`,
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_FLUTTERWAVE_SECRET_KEY}`,
         },
       }
     );
 
     const { customer, status: paymentStatus } = response?.data?.data;
 
-    if (paymentStatus === 'successful') {
+    if (paymentStatus === "successful") {
       const userEmail = customer.email;
 
       // Step 2: Fetch the user with referrals and subscriptions
       const { data: userData, error: userError } = await supabase
-        .from('userProfile')
+        .from("userProfile")
         .select(
           `
       user_id,
       subscriptions(expiresAt, user_id)
     `
         )
-        .eq('email', userEmail)
+        .eq("email", userEmail)
         .single();
 
       if (userError) {
         console.error(userError);
         return NextResponse.json(
-          { message: 'Failed to fetch user data' },
+          { message: "Failed to fetch user data" },
           { status: 404 }
         );
       }
@@ -67,34 +67,34 @@ export async function GET(request: Request) {
       const newExpiryDate = new Date(
         currentExpiry.setFullYear(currentExpiry.getFullYear() + 1)
       );
-      const subscriptionAmount = process.env.SUBSCRIPTION_AMOUNT;
+      const subscriptionAmount = process.env.NEXT_PUBLIC_SUBSCRIPTION_AMOUNT;
       // Update subscription status and expiry date
       const { error: updateError } = await supabase
-        .from('subscriptions')
+        .from("subscriptions")
         .update({
-          status: 'active',
+          status: "active",
           expiresAt: newExpiryDate.toISOString(),
           amount: Number(subscriptionAmount),
         })
-        .eq('user_id', user_id);
+        .eq("user_id", user_id);
 
       if (updateError) {
-        console.error('Failed to update subscription:', updateError);
+        console.error("Failed to update subscription:", updateError);
         return NextResponse.json(
-          { message: 'Failed to update subscription' },
+          { message: "Failed to update subscription" },
           { status: 500 }
         );
       }
 
       // Redirect to success page
       return NextResponse.json(
-        { message: 'Subscription successful' },
+        { message: "Subscription successful" },
         { status: 200 }
       );
     }
   } catch (error) {
     return NextResponse.json({
-      message: 'Payment verification failed',
+      message: "Payment verification failed",
       error: (error as any).response?.data || (error as any).message,
     });
   }
