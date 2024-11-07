@@ -5,6 +5,7 @@ import ReferralCodeUi from "./components/ReferralCodeUi";
 import { userReferrals } from "@/app/actions/userReferrals";
 import { SubscriptionType } from "@/app/actions/getSubscription";
 import { FC } from "react";
+import { Button } from "@/components/ui/button";
 
 // Interfaces for types
 export interface Referee {
@@ -44,7 +45,12 @@ const Page: FC = async () => {
   } catch (error) {
     console.error("Failed to fetch user data or referrals:", error);
     // Optionally, render an error message or fallback UI
-    return <p>Failed to load page. Please try again later.</p>;
+    return (
+      <div>
+        <p>Failed to load page. Please try again later.</p>;
+        <Button>Try Again</Button>
+      </div>
+    );
   }
 };
 

@@ -1,11 +1,11 @@
-import zod from 'zod';
+import zod from "zod";
 
 export const profileSchema = zod.object({
   email: zod.string().email({
-    message: 'Invalid email',
+    message: "Invalid email",
   }),
   fullName: zod.string().min(1, {
-    message: 'Full name is required',
+    message: "Full name is required",
   }),
   phoneNumber: zod.string().nullable(),
 });
