@@ -3,9 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, fullName } = (await req.json()) as {
+    const { email, fullName, redirect_url } = (await req.json()) as {
       email: string;
       fullName: string;
+      redirect_url: string;
     };
 
     if (!email && !fullName) {
@@ -40,7 +41,7 @@ export async function POST(req: NextRequest) {
         currency: "NGN",
         payment_plan: paymentPlanId,
         payment_type: "card",
-        redirect_url: `/app/subscription`, // Modify to your production URL
+        redirect_url, // Modify to your production URL
         customer: { email, name: fullName },
         customizations: {
           title: "Subscription Service",

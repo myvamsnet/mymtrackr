@@ -1,18 +1,18 @@
-import React from 'react';
-import { MoreHeader } from './__components/MoreHeader';
-import { MoreLists } from './__components/MoreLists';
-import ProtectedLayout from '../_components/layout/ProtectedLayout';
-import { getUser, UserProfile } from '@/app/actions/getUser';
+import React from "react";
+import { MoreHeader } from "./__components/MoreHeader";
+import { MoreLists } from "./__components/MoreLists";
+import ProtectedLayout from "../_components/layout/ProtectedLayout";
+import { getUser, UserProfile } from "@/app/actions/getUser";
 import {
   getSubscription,
   SubscriptionType,
-} from '@/app/actions/getSubscription';
+} from "@/app/actions/getSubscription";
 
 const More = async () => {
   const user = await getUser();
   const subscription = await getSubscription();
   return (
-    <ProtectedLayout>
+    <ProtectedLayout className="bg-[#F4F8FF]">
       <MoreHeader
         data={user?.data as UserProfile}
         subscription={subscription?.data as SubscriptionType}

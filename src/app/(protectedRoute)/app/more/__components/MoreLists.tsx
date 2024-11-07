@@ -22,7 +22,7 @@ export const MoreLists = ({ data }: props) => {
           <Link
             href={item.link}
             key={index}
-            className="flex border-b-2 border-[#F4F5F7] gap-2 py-6 px-2"
+            className="flex border-b-2 border-[#F4F5F7] gap-2 py-6 px-4"
             target={item.target ? "_blank" : "_self"}
           >
             <div
