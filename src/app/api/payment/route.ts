@@ -16,10 +16,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const flutterwaveUrl = process.env.FLUTTERWAVE_URL as string;
-    const subscriptionAmount = process.env.SUBSCRIPTION_AMOUNT as string;
-    const paymentPlanId = process.env.SUBSCRIPTION_PLAN_ID as string;
-    const secretKey = process.env.FLUTTERWAVE_SECRET_KEY as string;
+    const flutterwaveUrl = process.env.NEXT_PUBLIC_FLUTTERWAVE_URL as string;
+    const subscriptionAmount = process.env
+      .NEXT_PUBLIC_SUBSCRIPTION_AMOUNT as string;
+    const paymentPlanId = process.env
+      .NEXT_PUBLIC_SUBSCRIPTION_PLAN_ID as string;
+    const secretKey = process.env.NEXT_PUBLIC_FLUTTERWAVE_SECRET_KEY as string;
 
     if (
       !flutterwaveUrl ||
