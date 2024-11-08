@@ -4,6 +4,7 @@
 
 body {
   background-color: #fcfdfe;
+  overflow-x: hidden !important;
 }
 .bg-overlay {
   background-image: url("/images/overlayBanner.png");
