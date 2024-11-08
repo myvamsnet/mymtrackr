@@ -17,8 +17,8 @@ export const MoreLists = ({ data }: props) => {
     toast.success(text);
   };
   return (
-    <>
-      <section className="bg-off-white-300 rounded-xl py-3 px-4 grid gap-2">
+    <section className="h-screen overflow-y-auto">
+      <section className="bg-off-white-300 rounded-xl py-3 px-4 grid gap-2 ">
         {menuItems?.map((item, index) => {
           return item?.link ? (
             <Link
@@ -75,7 +75,7 @@ export const MoreLists = ({ data }: props) => {
         </button>
       </section>
       <LogoutModal />
-    </>
+    </section>
   );
 };
 interface props {
