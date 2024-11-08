@@ -4,6 +4,7 @@ import { ArrowLeftIcon } from "@/assets/icons/ArrowLeftIcon";
 import { ArrowRightIcon } from "@/assets/icons/ArrowRightIcon";
 import { ArrowUpIcon } from "@/assets/icons/ArrowUpIcon";
 import { DiamondIcon } from "@/assets/icons/DiamondIcon";
+import { LogoutIcon } from "@/assets/icons/LogoutIcon";
 
 import { NoteIcon } from "@/assets/icons/NoteIcon";
 import { ReferalIcon } from "@/assets/icons/ReferalIcon";
@@ -103,6 +104,11 @@ export const menuItems = [
     text: "Settings",
     textColor: "text-dark",
     link: "/app/settings",
+  },
+  {
+    icon: LogoutIcon,
+    text: "logout",
+    textColor: "text-danger",
   },
 ];
 

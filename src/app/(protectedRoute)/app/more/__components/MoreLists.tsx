@@ -2,20 +2,13 @@
 import { menuItems } from "@/constant/products";
 import Link from "next/link";
 import React from "react";
-import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
-import toast from "react-hot-toast";
 import { UserProfile } from "@/app/actions/getUser";
 import { LogoutModal } from "./LogoutModal";
-import { LogoutIcon } from "@/assets/icons/LogoutIcon";
 import useModal from "@/hooks/useModal";
 
 export const MoreLists = ({ data }: props) => {
-  const [doCopy] = useCopyToClipboard();
   const { onConfirm } = useModal();
-  const handleCopy = (refId: string, text: string) => {
-    doCopy(refId);
-    toast.success(text);
-  };
+
   return (
     <section className="h-screen overflow-y-auto">
       <section className="bg-off-white-300 rounded-xl py-3 px-4 grid gap-2 ">
@@ -42,37 +35,24 @@ export const MoreLists = ({ data }: props) => {
               key={index}
             >
               <div
-                className="flex items-center gap-2 cursor-pointer"
+                className={`font-inter font-normal text-base/5 flex items-center gap-2 ${item.textColor} capitalize `}
                 onClick={() => {
-                  if (item.text === "Earn with Referal") {
-                    handleCopy(
-                      `/?referCode=${data?.referralCode}`,
-                      "Referral link copied"
-                    );
+                  if (item.text === "logout") {
+                    return onConfirm({
+                      type: "logout",
+                      isOpen: true,
+                    });
                   }
                 }}
               >
                 <div className="h-8 w-8 bg-[#F4F8FF] rounded-full flex justify-center items-center">
                   <item.icon fontSize={24} />
                 </div>
-                {item.text}
+                <span className="text-danger cur">{item.text}</span>
               </div>
             </div>
           );
         })}
-        <button
-          type="submit"
-          className="font-inter px-2 py-4 flex items-center gap-2  font-normal text-base/5 text-danger"
-          onClick={() =>
-            onConfirm({
-              type: "logout",
-              isOpen: true,
-            })
-          }
-        >
-          <LogoutIcon />
-          {"Logout"}
-        </button>
       </section>
       <LogoutModal />
     </section>
