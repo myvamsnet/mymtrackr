@@ -31,7 +31,7 @@ export const RecentRecords = ({
         </Link>
       </section>
 
-      <section className=" bg-off-white-300 overflow-y-auto overflow-x-hidden ">
+      <section className=" bg-off-white-300 overflow-y-auto overflow-x-hidden  h-screen">
         {records && records?.length === 0 && <RecordsNotFound />}
         {records &&
           records?.length > 0 &&

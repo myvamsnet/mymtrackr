@@ -8,6 +8,7 @@ export const Modal = ({
   onClose,
   children,
   className,
+  title,
 }: Props) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -41,7 +42,14 @@ export const Modal = ({
         <section
           className={` bg-off-white-100 md:w-[40%] w-full mx-auto  rounded-md md:p-4 p-2 ${className}`}
         >
-          <div className={`p-2 flex  items-center justify-end`}>
+          <div
+            className={`p-2 flex  items-center  ${
+              title ? "justify-between" : "justify-end"
+            }`}
+          >
+            {title && (
+              <p className="text-base font-medium text-dark">{title}</p>
+            )}
             <div className="bg-primary rounded-full p-1 flex justify-center items-center cursor-pointer">
               <X
                 className="text-white cursor-pointer"

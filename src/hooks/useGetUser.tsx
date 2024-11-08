@@ -10,7 +10,7 @@ export const useGetUser = () => {
       return res.data;
     },
   });
-  console.log(data);
+
   return {
     user: data?.data as IUser,
     isLoading,

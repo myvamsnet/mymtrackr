@@ -10,7 +10,7 @@ export const getAllRecords = async () => {
     .from("records")
     .select("*")
     .eq("user_id", userId)
-    .range(0, 9)
+    .range(0, 5)
     .order("updated_at", { ascending: false });
 
   if (error) {

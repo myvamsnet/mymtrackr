@@ -21,7 +21,7 @@ const Balance = ({ user, data }: Props) => {
   };
 
   return (
-    <section className=" bg-primary rounded-xl py-3 grid gap-4 mt-16 lg:mt-0">
+    <section className=" bg-primary rounded-xl py-3 grid gap-4 relative">
       <div className="flex justify-between px-2">
         <SelectWorth />
         <Link

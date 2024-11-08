@@ -15,11 +15,9 @@ const ProtectedLayout = ({ children, className }: MainLayoutProps) => {
     setIsOpen((prevSate) => !prevSate);
   };
   return (
-    <section className="container mx-auto  md:max-w-[80%] font-inter lg:p-0 px-3    my-3 h-screen md:flex gap-6 md:flex-row flex-col relative">
+    <section className="container mx-auto  md:max-w-[80%] font-inter lg:p-0 px-3    md:flex gap-6 md:flex-row flex-col relative">
       <SideBar />
-      <section
-        className={`flex-1 w-full overflow-y-auto h-[90vh] ${className} md:p-3 p-0`}
-      >
+      <section className={`flex-1 w-full  ${className} md:p-3 p-0 h-screen`}>
         {children}
 
         {

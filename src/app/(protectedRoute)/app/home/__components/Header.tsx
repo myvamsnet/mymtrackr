@@ -1,41 +1,41 @@
-'use client';
-import { Icons } from '@/assets/icons';
-import CustomAvatar from '@/components/ui/Avatar/index';
-import { useUpdateQuery } from '@/hooks/useUpdateQuery';
-import { User } from '@/types/auth';
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
-import toast from 'react-hot-toast';
+"use client";
+import { Icons } from "@/assets/icons";
+import CustomAvatar from "@/components/ui/Avatar/index";
+import { useUpdateQuery } from "@/hooks/useUpdateQuery";
+import { User } from "@/types/auth";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 export const Header = ({ user }: headerProps) => {
   const searchParam = useSearchParams();
-  const login = searchParam.get('login');
-  const signup = searchParam.get('signup');
+  const login = searchParam.get("login");
+  const signup = searchParam.get("signup");
   const { updateQueryParams } = useUpdateQuery();
   useEffect(() => {
     if (login) {
-      toast.success('Login successful', {
-        id: 'login',
+      toast.success("Login successful", {
+        id: "login",
       });
-      updateQueryParams({ login: '', signup: '' });
+      updateQueryParams({ login: "", signup: "" });
     }
     if (signup) {
-      toast.success('Signup successful', {
-        id: 'signup',
+      toast.success("Signup successful", {
+        id: "signup",
       });
-      updateQueryParams({ login: '', signup: '' });
+      updateQueryParams({ login: "", signup: "" });
     }
   }, [login, signup, updateQueryParams]);
   return (
-    <section className="lg:py-4 py-4 lg:-ml-0 -ml-4 px-3 flex justify-between items-center lg:sticky fixed w-full top-0 z-30 bg-[#f1f5fd]">
+    <section className=" py-4 bg-[#F4F8FF]   flex justify-between items-center  w-full  z-30 sticky top-0 h-[58px]">
       <div className="flex items-center gap-1">
         <Link
-          href={'/app/settings/profile'}
+          href={"/app/settings/profile"}
           className=" cursor-pointer"
         >
           <CustomAvatar
-            name={user?.fullName || 'M Tracker'}
+            name={user?.fullName || "M Tracker"}
             imgUrl={user?.imageUrl as string}
             className="w-8 h-8 text-white font-semibold"
           />

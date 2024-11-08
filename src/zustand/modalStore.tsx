@@ -37,5 +37,6 @@ export interface ModalStoreStete {
     | "conform-otp"
     | "change-password"
     | "setNewPassword"
-    | "confirmEmail";
+    | "confirmEmail"
+    | "logout";
 }

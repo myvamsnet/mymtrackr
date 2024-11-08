@@ -1,27 +1,26 @@
-'use client';
-import { CustomSelect } from '@/components/CustomSelect';
-import { SearchableSelect } from '@/components/SearchableSelect';
-import { selectByDate } from '@/constant/selectOptions';
-import { useDateFilter } from '@/hooks/useDateFilter';
-import React, { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+"use client";
+import { SearchableSelect } from "@/components/SearchableSelect";
+import { selectByDate } from "@/constant/selectOptions";
+import { useDateFilter } from "@/hooks/useDateFilter";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
 export const FilterHistory = () => {
   const { onChangeDate } = useDateFilter();
   const { control, watch, setValue } = useForm({
     defaultValues: {
-      filterDate: 'today',
+      filterDate: "today",
     },
   });
 
-  const watchFramework = watch('filterDate');
+  const watchFramework = watch("filterDate");
   useEffect(() => {
     if (watchFramework) {
       onChangeDate(watchFramework);
     }
 
     if (!watchFramework) {
-      setValue('filterDate', 'today');
+      setValue("filterDate", "today");
     }
   }, [watchFramework, onChangeDate, setValue]);
   return (

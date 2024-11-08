@@ -1,10 +1,10 @@
-'use client';
-import { RecordItem } from '@/app/(protectedRoute)/app/_components/common/records/RecordItem';
-import { RecordsNotFound } from '@/app/(protectedRoute)/app/_components/common/records/RecordsNotFound';
-import { LoadingRecords } from '@/components/LoadingRecords';
-import React, { useEffect } from 'react';
-import useInfiniteItems from '../hook/useInfiniteItems';
-import { useInView } from 'react-intersection-observer';
+"use client";
+import { RecordItem } from "@/app/(protectedRoute)/app/_components/common/records/RecordItem";
+import { RecordsNotFound } from "@/app/(protectedRoute)/app/_components/common/records/RecordsNotFound";
+import { LoadingRecords } from "@/components/LoadingRecords";
+import React, { useEffect } from "react";
+import useInfiniteItems from "../hook/useInfiniteItems";
+import { useInView } from "react-intersection-observer";
 export const HistoryLists = () => {
   const {
     records,
@@ -22,15 +22,15 @@ export const HistoryLists = () => {
     }
   }, [inView, hasNextPage, fetchNextPage]);
   return (
-    <section className=" bg-off-white-300 overflow-y-auto overflow-x-hidden ">
-      {status === 'error' && <p>{error?.name}</p>}
-      {records && records?.length === 0 && status === 'success' && (
+    <section className=" bg-[#FBFCFF] overflow-y-auto overflow-x-hidden ">
+      {status === "error" && <p>{error?.name}</p>}
+      {records && records?.length === 0 && status === "success" && (
         <RecordsNotFound />
       )}
-      {status === 'pending' && <LoadingRecords />}
+      {status === "pending" && <LoadingRecords />}
       {records &&
         records?.length > 0 &&
-        status === 'success' &&
+        status === "success" &&
         records?.map((record, index) => (
           <RecordItem
             key={`${record?.id}-${index}`}
@@ -38,12 +38,12 @@ export const HistoryLists = () => {
           />
         ))}
 
-      {status === 'success' && records?.length > 0 && (
+      {status === "success" && records?.length > 0 && (
         <div
           ref={ref}
           className="py-6 flex justify-center items-center text-primary font-medium"
         >
-          {isFetchingNextPage ? 'Loading more...' : ''}
+          {isFetchingNextPage ? "Loading more..." : ""}
         </div>
       )}
     </section>

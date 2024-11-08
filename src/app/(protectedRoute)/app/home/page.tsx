@@ -18,7 +18,7 @@ const Home: FC = async () => {
     const records = recordsResponse?.data as Records[];
 
     return (
-      <ProtectedLayout>
+      <ProtectedLayout className="bg-off-white relative">
         <Header user={user?.data} />
         <Balance
           user={user?.data}

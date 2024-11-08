@@ -14,9 +14,8 @@ const useInfiniteItems = () => {
   const today = dayjs().add(1, "day");
   const currentDate = dayjs().format("YYYY-MM-DD");
   const searchParam = useSearchParams();
-  const startDate = searchParam.get("startDate") ?? currentDate;
-  const endDate =
-    searchParam.get("endDate") ?? dayjs(today).format("YYYY-MM-DD");
+  const startDate = searchParam.get("startDate") ?? "";
+  const endDate = searchParam.get("endDate") ?? "";
 
   const {
     data,

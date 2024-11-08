@@ -38,7 +38,7 @@ export const DeleteAndEditRecord: FC<DeleteAndEditRecordProps> = ({ data }) => {
         onClose={onCancel}
         closeOutside={true}
       >
-        <section className="overflow-hidden">
+        <section className="overflow-scroll md:h-auto h-[400px]">
           <EditRecordForm
             recordType={
               data?.type as "expense" | "income" | "debtor" | "payable"

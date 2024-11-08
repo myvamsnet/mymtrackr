@@ -60,6 +60,7 @@ export async function GET(req: NextRequest) {
 
     // Execute the query and handle response
     const { data, error } = await query;
+
     if (error) {
       console.error("Query error:", error);
       return NextResponse.json({ error: error.message }, { status: 400 });

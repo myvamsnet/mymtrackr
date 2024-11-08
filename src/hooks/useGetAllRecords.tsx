@@ -12,14 +12,14 @@ export const useGetAllRecords = () => {
   const monthlyRange = searchParams.get("month");
   const searchTerm = searchParams.get("searchTerm");
 
-  const startDate = dayjs(monthlyRange)
-    .year(Number(yearlyRange))
-    .format("YYYY-MM-DD");
+  const startDate =
+    dayjs(monthlyRange).year(Number(yearlyRange)).format("YYYY-MM-DD") ?? "";
 
-  const endDate = dayjs(yearlyRange)
-    .month(Number(monthlyRange))
-    .add(1, "day")
-    .format("YYYY-MM-DD");
+  const endDate =
+    dayjs(yearlyRange)
+      .month(Number(monthlyRange))
+      .add(1, "day")
+      .format("YYYY-MM-DD") ?? "";
   const values = {
     startDate,
     endDate,
