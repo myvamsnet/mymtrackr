@@ -36,7 +36,7 @@ export const Modal = ({
   return (
     <div className="fixed inset-0 bg-black/85 flex  z-50  overflow-hidden w-full h-screen p-4">
       <div
-        className={`container md:p-0  mx-auto flex justify-center items-center  h-screen w-full  `}
+        className={` md:p-0  mx-auto flex justify-center items-center   w-full overflow-hidden`}
         ref={modalRef}
       >
         <section
