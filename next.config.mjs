@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
+// @ts-nocheck
 import withPWAInit from "@ducanh2912/next-pwa";
+
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -14,12 +16,6 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === "production", // Remove console logs only in production
   },
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.cache = false;
-    }
-    return config;
-  },
 };
 
 const withPWA = withPWAInit({
@@ -28,7 +24,6 @@ const withPWA = withPWAInit({
   reloadOnOnline: true,
   aggressiveFrontEndNavCaching: true,
   disable: process.env.NODE_ENV === "development",
-  swcMinify: true,
   workboxOptions: {
     disableDevLogs: true,
   },

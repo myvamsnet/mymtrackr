@@ -11,7 +11,7 @@ export const benefits = [
   {
     title: " Track Debts and Outstanding Payments",
     subtitle: "Like the Pro!",
-    id: 1,
+    id: 2,
     content:
       "Unclear cash flow can hurt your business. You deserve a simple way to stay on top of your game.",
     image: "/images/records.png",
