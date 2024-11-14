@@ -23,7 +23,7 @@ export const RegisterForm = () => {
           placeholder={input.placeholder}
         />
       ))}
-      <small>
+      <small className="md:mt-0 mt-4">
         By continuing you agree to our{" "}
         <Link
           href={"https://www.myvamsnet.com/terms-of-service"}

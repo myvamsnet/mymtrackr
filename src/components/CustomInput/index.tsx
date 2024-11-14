@@ -48,7 +48,7 @@ export const CustomInput: FC<CustomInputProps> = ({
         {label}
       </label>
       {valid.includes(type) && (
-        <div className="bg-[#F1F5FD] py-3 px-4 h-[41px] text-base font-normal text-dark rounded-lg relative">
+        <div className="bg-[#F1F5FD] py-3 px-4  text-base font-normal text-dark rounded-lg relative">
           <input
             id={name}
             type={showPassword ? "text" : type}
@@ -97,7 +97,7 @@ export const CustomInput: FC<CustomInputProps> = ({
           onValueChange={(value) => field.onChange(value)}
           value={field.value || ""}
         >
-          <SelectTrigger className="bg-[#F1F5FD] py-3 px-4 h-[41px] text-base font-normal text-dark rounded-lg">
+          <SelectTrigger className="bg-[#F1F5FD] py-3 px-4  text-base font-normal text-dark rounded-lg">
             <SelectValue placeholder={placeholder || "Select Options"} />
           </SelectTrigger>
           <SelectContent>
@@ -116,7 +116,7 @@ export const CustomInput: FC<CustomInputProps> = ({
       {type === "file" && (
         <label
           htmlFor={name}
-          className="bg-[#F1F5FD] py-3 px-4 h-[41px] text-base font-normal text-dark rounded-lg"
+          className="bg-[#F1F5FD] py-3 px-4  text-base font-normal text-dark rounded-lg"
         >
           <input
             type="file"
