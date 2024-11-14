@@ -4,55 +4,60 @@ import { CustomInput } from "@/components/CustomInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { resetPassword, ResetPasswordType } from "@/lib/Schema/resetPassword";
-import useModal from "@/hooks/useModal";
 import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
-import { createClient } from "@/lib/supabse/client";
-import { useRedirect } from "@/hooks/useRedirect";
 import AuthLayout from "./AuthLayout";
+import { resetPasswordAction } from "@/app/actions/resetPasswordAction";
+import { useSearchParams } from "next/navigation";
+import { createClient } from "@/lib/supabse/client";
+
 const ChangePasswordForm = () => {
-  const { onCancel, modal } = useModal();
-  const { control, handleSubmit, reset } = useForm<ResetPasswordType>({
+  const searchParams = useSearchParams();
+  const supabase = createClient();
+  const access_token = searchParams?.get("code") as string;
+  console.log(access_token);
+  const { control, handleSubmit } = useForm<ResetPasswordType>({
     defaultValues: {
       newPassword: "",
       confirmPassword: "",
     },
     resolver: zodResolver(resetPassword),
   });
-  const redirect = useRedirect();
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: ResetPasswordType) => {
-      const supabase = createClient();
-      const { error } = await supabase.auth.updateUser({
-        password: data.newPassword,
+      if (!access_token) return;
+      const user = await supabase?.auth?.setSession({
+        access_token,
+        refresh_token: "",
       });
+      const formData = new FormData();
+      formData.append("password", data.newPassword);
+      formData.append("access_token", access_token);
+      const res = await resetPasswordAction(formData);
+      if (!res.success) {
+        throw new Error(res.message);
+      }
 
-      if (error) {
-        return {
-          status: "error",
-          message: error.message,
-        };
-      }
-      return {
-        status: "success",
-        message: "Password changed successfully",
-      };
+      return res;
     },
-    onSuccess: (data) => {
-      if (data?.status === "error" && data?.message) {
-        return toast.error(data?.message);
-      }
-      if (data?.status === "success") {
-        toast.success(data?.message);
-        onCancel();
-        reset();
-        return redirect("/home");
+    onSuccess: () => {
+      toast.success("Password reset successfully");
+    },
+    onError(error) {
+      console.log(error);
+      if (
+        error?.message !== "" &&
+        error?.message == null &&
+        error.message !== undefined
+      ) {
+        return toast.error(error.message);
       }
     },
   });
   const onSubmit = (data: ResetPasswordType) => {
     mutate(data);
   };
+
   return (
     <AuthLayout
       title="Reset Password"

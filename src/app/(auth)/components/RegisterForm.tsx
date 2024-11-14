@@ -2,7 +2,7 @@
 import { CustomInput } from "@/components/CustomInput";
 import { Button } from "@/components/ui/button";
 import { inputLists } from "@/constant/auth";
-import { useSignUp } from "../../../components/landingPage/hook/useSignUp";
+import { useSignUp } from "../hook/useSignUp";
 import Link from "next/link";
 import React from "react";
 export const RegisterForm = () => {
@@ -11,7 +11,7 @@ export const RegisterForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="grid gap-3 py-2"
+      className="grid gap-4 py-2"
     >
       {inputLists.map((input) => (
         <CustomInput

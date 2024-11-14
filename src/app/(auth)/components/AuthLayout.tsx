@@ -12,7 +12,7 @@ const AuthLayout = ({
   path,
 }: AuthWrapperProps) => {
   return (
-    <main className="h-screen bg-white overflow-x-hidden w-full  pt-5">
+    <main className="bg-white overflow-x-hidden w-full  pt-5">
       <section className="p-4 overflow-hidden  md:w-1/2 mx-auto w-full">
         <Link
           href={"/"}

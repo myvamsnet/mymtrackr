@@ -1,6 +1,5 @@
 "use client";
 import { RegisterAction } from "@/app/actions/RegisterAction";
-import useModal from "@/hooks/useModal";
 import { signUpSchema, SignUpSchemaType } from "@/lib/Schema/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
@@ -12,7 +11,6 @@ export const useSignUp = () => {
   const [status, setStatus] = useState(false);
   const searchParam = useSearchParams();
   const referralCode = searchParam.get("referralCode") as string;
-  const { onConfirm, onCancel, modal } = useModal();
 
   const { control, handleSubmit, setValue } = useForm<SignUpSchemaType>({
     defaultValues: {
@@ -57,16 +55,7 @@ export const useSignUp = () => {
     }
   };
 
-  const handleOnConfirm = (type: "signUp" | "signIn", isOpen = true) => {
-    onConfirm({
-      type: type,
-      isOpen: isOpen,
-    });
-  };
   return {
-    modal,
-    onConfirm: handleOnConfirm,
-    onCancel,
     control,
     handleSubmit,
     onSubmit,

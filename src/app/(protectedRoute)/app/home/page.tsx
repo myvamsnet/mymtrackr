@@ -7,6 +7,7 @@ import { getAllRecords } from "@/app/actions/AllRecords";
 import { getUser } from "@/app/actions/getUser";
 import { UserResponse } from "@/types/auth";
 import { Records } from "@/types/records";
+import { redirect } from "next/navigation";
 
 const Home: FC = async () => {
   try {
@@ -31,12 +32,7 @@ const Home: FC = async () => {
       </ProtectedLayout>
     );
   } catch (error) {
-    console.error("Failed to fetch data:", error);
-    return (
-      <ProtectedLayout>
-        <p>Failed to load data. Please try again later.</p>
-      </ProtectedLayout>
-    );
+    redirect("/login");
   }
 };
 

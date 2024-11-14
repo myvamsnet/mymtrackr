@@ -3,7 +3,7 @@ import { ForgottenPasswordInputLists } from "@/constant/auth";
 import AuthWrapper from "../Auth";
 import { CustomInput } from "../CustomInput";
 import { Button } from "../ui/button";
-import { useForgotPassword } from "./hook/useForgotPassword";
+import { useForgotPassword } from "../../app/(auth)/hook/useForgotPassword";
 import { ForgotPasswordSchemaType } from "@/lib/Schema/authSchema";
 
 export const ForgotPasswordModal = () => {
@@ -21,7 +21,10 @@ export const ForgotPasswordModal = () => {
       subTitle="Enter the email  you registered with and wait for an OTP code to be sent."
       content=""
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="grid gap-4"
+      >
         {ForgottenPasswordInputLists.map((input) => (
           <CustomInput
             key={input.name}

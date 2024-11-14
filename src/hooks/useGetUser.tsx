@@ -1,3 +1,4 @@
+"use client";
 import axiosInstance from "@/lib/axios";
 import { createClient } from "@/lib/supabse/client";
 import { useQuery } from "@tanstack/react-query";

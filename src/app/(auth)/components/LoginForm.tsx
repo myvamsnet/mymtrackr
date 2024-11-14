@@ -2,7 +2,7 @@
 import { signInputLists } from "@/constant/auth";
 import { CustomInput } from "../../../components/CustomInput";
 import { Button } from "../../../components/ui/button";
-import { useSignIn } from "../../../components/landingPage/hook/useSignIn";
+import { useSignIn } from "../hook/useSignIn";
 import Link from "next/link";
 import { unprotectedRoute } from "@/constant/app";
 export const LoginForm = () => {

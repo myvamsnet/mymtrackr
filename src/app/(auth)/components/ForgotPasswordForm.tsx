@@ -4,7 +4,8 @@ import { ForgotPasswordSchemaType } from "@/lib/Schema/authSchema";
 import { CustomInput } from "@/components/CustomInput";
 import { Button } from "@/components/ui/button";
 import AuthLayout from "./AuthLayout";
-import { useForgotPassword } from "@/components/landingPage/hook/useForgotPassword";
+import { useForgotPassword } from "@/app/(auth)/hook/useForgotPassword";
+import { unprotectedRoute } from "@/constant/app";
 
 export const ForgotPasswordForm = () => {
   const { control, mutate, isPending, handleSubmit } = useForgotPassword();
@@ -16,9 +17,9 @@ export const ForgotPasswordForm = () => {
     <AuthLayout
       title="Forgot password?"
       subTitle="Enter the email  you registered with and wait for an OTP code to be sent."
-      content=""
-      authContent=""
-      path=""
+      authContent="Already have an account?"
+      content="Login"
+      path={unprotectedRoute.Login}
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
