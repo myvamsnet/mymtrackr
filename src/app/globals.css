@@ -6,6 +6,13 @@ body,
 html {
   background-color: #fcfdfe;
 }
+
+input,
+textarea,
+select {
+  font-size: 1rem !important;
+}
+
 .bg-overlay {
   background-image: url("/images/overlayBanner.png");
 }

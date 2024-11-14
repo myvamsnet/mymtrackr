@@ -1,13 +1,13 @@
-import { FC, useState } from 'react';
-import { useController, Control } from 'react-hook-form';
+import { FC, useState } from "react";
+import { useController, Control } from "react-hook-form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Eye, EyeOff } from 'lucide-react';
+} from "@/components/ui/select";
+import { Eye, EyeOff } from "lucide-react";
 export const CustomInput: FC<CustomInputProps> = ({
   name,
   control,
@@ -33,12 +33,12 @@ export const CustomInput: FC<CustomInputProps> = ({
   });
 
   const preventNumberInputScroll = (e: React.KeyboardEvent) => {
-    if (type === 'number' && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+    if (type === "number" && (e.key === "ArrowUp" || e.key === "ArrowDown")) {
       e.preventDefault();
     }
   };
 
-  const valid = ['text', 'number', 'email', 'password'];
+  const valid = ["text", "number", "email", "password"];
   return (
     <div className="grid gap-2">
       <label
@@ -48,18 +48,18 @@ export const CustomInput: FC<CustomInputProps> = ({
         {label}
       </label>
       {valid.includes(type) && (
-        <div className="bg-[#F1F5FD] py-3 px-4 h-[41px] text-sm font-normal text-dark rounded-lg relative">
+        <div className="bg-[#F1F5FD] py-3 px-4 h-[41px] text-base font-normal text-dark rounded-lg relative">
           <input
             id={name}
-            type={showPassword ? 'text' : type}
+            type={showPassword ? "text" : type}
             {...field}
             {...rest}
             onKeyDown={preventNumberInputScroll}
-            value={field?.value || ''}
-            className="w-full h-full border-none outline-none bg-transparent"
+            value={field?.value || ""}
+            className="w-full h-full border-none  text-base outline-none bg-transparent"
             placeholder={placeholder}
           />
-          {type === 'password' && (
+          {type === "password" && (
             <div>
               {showPassword ? (
                 <Eye
@@ -76,7 +76,7 @@ export const CustomInput: FC<CustomInputProps> = ({
           )}
         </div>
       )}
-      {type === 'textarea' && (
+      {type === "textarea" && (
         <div>
           <textarea
             id={name}
@@ -85,20 +85,20 @@ export const CustomInput: FC<CustomInputProps> = ({
             placeholder={placeholder}
             {...field}
             {...rest}
-            value={field?.value || ''}
-            className="bg-[#F1F5FD] py-3 px-4  w-full text-sm font-normal text-dark rounded-lg border-none outline-none resize-none"
+            value={field?.value || ""}
+            className="bg-[#F1F5FD] py-3 px-4  w-full text-base font-normal text-dark rounded-lg border-none outline-none resize-none"
           ></textarea>
         </div>
       )}
 
-      {type === 'select' && (
+      {type === "select" && (
         <Select
           name={name}
           onValueChange={(value) => field.onChange(value)}
-          value={field.value || ''}
+          value={field.value || ""}
         >
-          <SelectTrigger className="bg-[#F1F5FD] py-3 px-4 h-[41px] text-sm font-normal text-dark rounded-lg">
-            <SelectValue placeholder={placeholder || 'Select Options'} />
+          <SelectTrigger className="bg-[#F1F5FD] py-3 px-4 h-[41px] text-base font-normal text-dark rounded-lg">
+            <SelectValue placeholder={placeholder || "Select Options"} />
           </SelectTrigger>
           <SelectContent>
             {options?.map((option) => (
@@ -113,30 +113,30 @@ export const CustomInput: FC<CustomInputProps> = ({
         </Select>
       )}
 
-      {type === 'file' && (
+      {type === "file" && (
         <label
           htmlFor={name}
-          className="bg-[#F1F5FD] py-3 px-4 h-[41px] text-sm font-normal text-dark rounded-lg"
+          className="bg-[#F1F5FD] py-3 px-4 h-[41px] text-base font-normal text-dark rounded-lg"
         >
           <input
             type="file"
             id={name}
             hidden
             onChange={handleFileChange}
-            className="w-full h-full border-none outline-none bg-transparent"
+            className="w-full h-full border-none text-base outline-none bg-transparent"
             placeholder={placeholder}
           />
           {placeholder}
         </label>
       )}
 
-      {type === 'ordinary' && value && (
+      {type === "ordinary" && value && (
         <input
           readOnly
           id={name}
           type={type}
           value={value}
-          className="w-full h-full border rounded-lg text-primary p-3 outline-none bg-transparent"
+          className="w-full h-full border text-base rounded-lg text-primary p-3 outline-none bg-transparent"
           placeholder={placeholder}
         />
       )}
@@ -167,14 +167,14 @@ interface CustomInputProps
   name: string;
   control: Control<any>;
   type:
-    | 'text'
-    | 'textarea'
-    | 'number'
-    | 'select'
-    | 'file'
-    | 'email'
-    | 'password'
-    | 'ordinary';
+    | "text"
+    | "textarea"
+    | "number"
+    | "select"
+    | "file"
+    | "email"
+    | "password"
+    | "ordinary";
   cols?: number;
   rows?: number;
   defaultValue?: string;
