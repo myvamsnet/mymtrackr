@@ -24,7 +24,11 @@ const ConfirmOtp = () => {
           >
             {isPending ? "Sending OTP..." : "Proceed"}
           </Button>
-          <Button type="submit" variant={"outline"} onClick={onCancel}>
+          <Button
+            type="submit"
+            variant={"outline"}
+            onClick={onCancel}
+          >
             Cancel
           </Button>
         </div>

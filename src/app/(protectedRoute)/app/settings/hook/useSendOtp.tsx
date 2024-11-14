@@ -1,5 +1,4 @@
 import useModal from "@/hooks/useModal";
-import { useRedirect } from "@/hooks/useRedirect";
 import axiosInstance from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
