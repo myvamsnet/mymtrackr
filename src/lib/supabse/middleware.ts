@@ -1,5 +1,5 @@
-import { createServerClient } from '@supabase/ssr';
-import { NextResponse, type NextRequest } from 'next/server';
+import { createServerClient } from "@supabase/ssr";
+import { NextResponse, type NextRequest } from "next/server";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -36,17 +36,19 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user?.id && request.nextUrl.pathname !== '/') {
+  const unprotectedRoutes = ["/", "/login", "/register"];
+
+  if (!user?.id && !unprotectedRoutes.includes(request.nextUrl.pathname)) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
-    url.pathname = '/';
+    url.pathname = "/login";
     return NextResponse.redirect(url);
   }
 
-  if (user?.id && request.nextUrl.pathname === '/') {
+  if (user?.id && unprotectedRoutes.includes(request.nextUrl.pathname)) {
     // user is logged in, potentially respond by redirecting the user to the home page
     const url = request.nextUrl.clone();
-    url.pathname = '/app/home';
+    url.pathname = "/app/home";
     return NextResponse.redirect(url);
   }
 

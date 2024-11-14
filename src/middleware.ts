@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { updateSession } from "./lib/supabse/middleware";
 import { createClient } from "./lib/supabse/server";
 export async function middleware(request: NextRequest) {
-  console.log(request.headers.getSetCookie().values);
   // update user's auth session
   const supabase = createClient();
   const { data } = await supabase?.auth?.getUser();

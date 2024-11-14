@@ -3,9 +3,9 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { landingPageNav } from "@/constant/landingPageNav";
-import useModal from "@/hooks/useModal";
 import ScrollIntoView from "react-scroll-into-view";
-import { SignInModal } from "../SignInModal";
+import { Button } from "@/components/ui/button";
+import { unprotectedRoute } from "@/constant/app";
 export const ShowCaseNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -56,7 +56,12 @@ export const ShowCaseNav = () => {
             })}
           </ul>
 
-          <SignInModal />
+          <Link
+            href={unprotectedRoute.Login}
+            className="md:block hidden text-white bg-primary w-[110px] h-[46px] py-3 px-6 rounded-3xl text-center"
+          >
+            Login
+          </Link>
           {isMenuOpen ? (
             <button className="md:hidden ">
               {isMenuOpen ? (
@@ -142,10 +147,12 @@ export const ShowCaseNav = () => {
                 );
               })}
             </ul>
-            <SignInModal
+            <Link
+              href={unprotectedRoute.Login}
               className="font-inter text-base font-medium text-off-white-400 bg-primary rounded-full h-[41px] w-[100px] text-center py-3 px-6 flex items-center justify-center "
-              closeMenu={toggleMenu}
-            />
+            >
+              Login
+            </Link>
           </div>
         </section>
       )}
