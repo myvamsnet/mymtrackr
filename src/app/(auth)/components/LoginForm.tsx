@@ -1,25 +1,18 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client";
 import { signInputLists } from "@/constant/auth";
 import { CustomInput } from "../../../components/CustomInput";
 import { Button } from "../../../components/ui/button";
 import { useSignIn } from "../../../components/landingPage/hook/useSignIn";
+import Link from "next/link";
+import { unprotectedRoute } from "@/constant/app";
 export const LoginForm = () => {
-  const {
-    modal,
-    onConfirm,
-    control,
-    handleSubmit,
-    onSubmit,
-    isPending,
-    isValid,
-  } = useSignIn();
+  const { control, handleSubmit, onSubmit, isPending } = useSignIn();
 
   return (
-    <>
+    <section>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="grid gap-4"
+        className="grid gap-4 w-full"
       >
         {signInputLists.map((input) => (
           <CustomInput
@@ -32,19 +25,19 @@ export const LoginForm = () => {
           />
         ))}
         <div className="flex justify-end items-center text-primary text-xs py-2">
-          <p onClick={() => onConfirm("forgotPassword")}>Forgot password?</p>
+          <Link href={unprotectedRoute.FORGOTPASSWORD}>Forgot password?</Link>
         </div>
         <Button
           type="submit"
           className={`w-full  h-[52px] text-base font-normal ${
             isPending ? "opacity-55 cursor-not-allowed" : ""
           }`}
-          disabled={isPending || !isValid}
+          disabled={isPending}
         >
           {isPending ? "Loading..." : "Login"}
         </Button>
       </form>
-    </>
+    </section>
   );
 };
 interface Props {

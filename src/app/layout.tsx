@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 const APP_NAME = "MTrackr";
 const APP_DEFAULT_TITLE = "Simplify Your Financial Management with Mtrackr";
-const APP_TITLE_TEMPLATE = "%s - PWA App";
+const APP_TITLE_TEMPLATE = "%s";
 const APP_DESCRIPTION =
   "Say goodbye to someone must be stealing my money, stress and the Hassles of Traditional Money Management. Mtrackr allows you to effortlessly manage money with confidence and ease.";
 
@@ -59,7 +59,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className=" overflow-x-hidden ">
+        <main>
           <Provider>{children}</Provider>
         </main>
         <Toaster position="top-right" />

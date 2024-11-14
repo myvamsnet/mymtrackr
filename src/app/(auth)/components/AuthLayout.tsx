@@ -9,6 +9,7 @@ const AuthLayout = ({
   content,
   children,
   authContent,
+  path,
 }: AuthWrapperProps) => {
   return (
     <main className="h-screen bg-white overflow-x-hidden w-full  pt-5">
@@ -31,10 +32,18 @@ const AuthLayout = ({
         </div>
         <div>
           {children}
-          <p className="text-sm text-dark-200 my-6">
-            {authContent}{" "}
-            <button className="text-primary cursor-pointer">{content}</button>
-          </p>
+
+          {path && authContent && (
+            <p className="text-sm text-dark-200 my-6">
+              {authContent}{" "}
+              <Link
+                href={path}
+                className="text-primary cursor-pointer"
+              >
+                {content}
+              </Link>
+            </p>
+          )}
         </div>
       </section>
     </main>
@@ -48,4 +57,5 @@ interface AuthWrapperProps {
   authContent: string;
   subTitle: string;
   content: string;
+  path: string;
 }

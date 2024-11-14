@@ -12,5 +12,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <main className=" overflow-x-hidden ">{children}</main>;
+  return <main className="">{children}</main>;
 }
