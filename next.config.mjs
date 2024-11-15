@@ -20,6 +20,7 @@ const nextConfig = {
 
 const withPWA = withPWAInit({
   dest: "public",
+  register: true,
   cacheOnFrontendNav: true,
   reloadOnOnline: true,
   aggressiveFrontEndNavCaching: true,

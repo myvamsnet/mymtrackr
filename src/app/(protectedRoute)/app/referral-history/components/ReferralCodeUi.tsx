@@ -118,9 +118,7 @@ const ReferralCodeUi = ({ referralCode, userReferrals }: Props) => {
                         : "text-success"
                     }`}
                   >
-                    {referral.referee.subscriptions?.status === "trial"
-                      ? "Inactive"
-                      : "Active"}
+                    2000
                   </p>
                 </div>
               ))
