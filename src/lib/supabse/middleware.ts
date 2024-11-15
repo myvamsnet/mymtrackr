@@ -36,7 +36,7 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const unprotectedRoutes = ["/", "/login", "/register"];
+  const unprotectedRoutes = ["/", "/login", "/register", "/forgot-password"];
 
   if (!user?.id && !unprotectedRoutes.includes(request.nextUrl.pathname)) {
     // no user, potentially respond by redirecting the user to the login page

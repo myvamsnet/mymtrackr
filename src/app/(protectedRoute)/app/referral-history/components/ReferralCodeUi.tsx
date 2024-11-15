@@ -9,7 +9,8 @@ import { SubscriptionType } from "@/app/actions/getSubscription";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import dayjs from "dayjs";
-
+import { ShareSocial } from "react-share-social";
+import { ReferralModal } from "./ReferralModal";
 const ReferralCodeUi = ({ referralCode, userReferrals }: Props) => {
   const [doCopy] = useCopyToClipboard();
   const pathname = useSearchParams().get("status");
@@ -54,23 +55,7 @@ const ReferralCodeUi = ({ referralCode, userReferrals }: Props) => {
             </p>
           </div>
         </div>
-        <div
-          className="flex justify-between items-center py-2"
-          onClick={() =>
-            handleCopy(
-              `${appUrl}/?referralCode=${referralCode}`,
-              "Referral link copied"
-            )
-          }
-        >
-          <p className="flex items-center gap-2 text-primary font-medium text-sm">
-            <ReferralIcon /> Invite friends now
-          </p>
-          <ChevronRight
-            color="#246BFD"
-            fontSize={18}
-          />
-        </div>
+        <ReferralModal referralCode={referralCode} />
       </section>
       <section className="bg-off-white-300 rounded-xl">
         <div className=" rounded-xl p-4">

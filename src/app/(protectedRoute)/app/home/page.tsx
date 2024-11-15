@@ -10,30 +10,26 @@ import { Records } from "@/types/records";
 import { redirect } from "next/navigation";
 
 const Home: FC = async () => {
-  try {
-    // Fetch user and records data
-    const userResponse = await getUser();
-    const recordsResponse = await getAllRecords();
+  // Fetch user and records data
+  const userResponse = await getUser();
+  const recordsResponse = await getAllRecords();
 
-    const user = userResponse as UserResponse;
-    const records = recordsResponse?.data as Records[];
+  const user = userResponse as UserResponse;
+  const records = recordsResponse?.data as Records[];
 
-    return (
-      <ProtectedLayout className="bg-off-white relative">
-        <Header user={user?.data} />
-        <Balance
-          user={user?.data}
-          data={records}
-        />
-        <RecentRecords
-          data={records}
-          error={recordsResponse?.success ? "" : recordsResponse?.message || ""}
-        />
-      </ProtectedLayout>
-    );
-  } catch (error) {
-    redirect("/login");
-  }
+  return (
+    <ProtectedLayout className="bg-off-white relative">
+      <Header user={user?.data} />
+      <Balance
+        user={user?.data}
+        data={records}
+      />
+      <RecentRecords
+        data={records}
+        error={recordsResponse?.success ? "" : recordsResponse?.message || ""}
+      />
+    </ProtectedLayout>
+  );
 };
 
 export default Home;

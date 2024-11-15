@@ -1,26 +1,38 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-function useLocalStorage<T>(key: string, initialValue: T) {
+function useLocalStorage<T>(
+  key: string,
+  initialValue: T
+): [T, (value: T | ((val: T) => T)) => void] {
+  // State to store the value
   const [storedValue, setStoredValue] = useState<T>(() => {
+    if (typeof window === "undefined") {
+      return initialValue; // Return the initial value during SSR
+    }
     try {
-      const item = localStorage.getItem(key);
+      const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return initialValue;
     }
   });
 
-  const setValue = (value: T) => {
+  // Function to set the value both in state and localStorage
+  const setValue = (value: T | ((val: T) => T)) => {
     try {
-      setStoredValue(value);
-      localStorage.setItem(key, JSON.stringify(value));
+      const valueToStore =
+        value instanceof Function ? value(storedValue) : value;
+      setStoredValue(valueToStore);
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
-  return [storedValue, setValue] as const;
+  return [storedValue, setValue];
 }
 
 export default useLocalStorage;
