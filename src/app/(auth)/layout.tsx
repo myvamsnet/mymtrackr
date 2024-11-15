@@ -9,16 +9,8 @@ export const metadata: Metadata = {
 
 export default function AuthRootLayout({
   children,
-  pageTitle,
 }: Readonly<{
   children: React.ReactNode;
-  pageTitle: string;
 }>) {
-  console.log(pageTitle);
-  return (
-    <main className="">
-      {children}
-      {pageTitle}
-    </main>
-  );
+  return <main className="">{children}</main>;
 }
