@@ -7,10 +7,18 @@ export const metadata: Metadata = {
   description: APP_DESCRIPTION,
 };
 
-export default function RootLayout({
+export default function AuthRootLayout({
   children,
+  pageTitle,
 }: Readonly<{
   children: React.ReactNode;
+  pageTitle: string;
 }>) {
-  return <main className="">{children}</main>;
+  console.log(pageTitle);
+  return (
+    <main className="">
+      {children}
+      {pageTitle}
+    </main>
+  );
 }

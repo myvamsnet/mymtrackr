@@ -11,6 +11,7 @@ import { useSearchParams } from "next/navigation";
 import dayjs from "dayjs";
 import { ShareSocial } from "react-share-social";
 import { ReferralModal } from "./ReferralModal";
+import { currencyFormatter } from "@/lib/helper/currencyFormatter";
 const ReferralCodeUi = ({ referralCode, userReferrals }: Props) => {
   const [doCopy] = useCopyToClipboard();
   const pathname = useSearchParams().get("status");
@@ -103,7 +104,7 @@ const ReferralCodeUi = ({ referralCode, userReferrals }: Props) => {
                         : "text-success"
                     }`}
                   >
-                    2000
+                    {currencyFormatter(2000)}
                   </p>
                 </div>
               ))
