@@ -15,18 +15,22 @@ import { ShareSocial } from "react-share-social";
 export const ReferralModal = ({ referralCode }: Props) => {
   const appUrl = String(process.env.NEXT_PUBLIC_BASE_URL);
   const handleWhatsAppShare = () => {
-    const message = encodeURIComponent(
-      "I use Mtrackr for records keeping  and earn high interests on my referral. Join me on Mtrackr  and get ₦2000 on referral!"
-    );
-    const url = encodeURIComponent(appUrl);
+    const message =
+      "I use Mtrackr for records keeping  and earn high interests on my referral. Join me on Mtrackr  and get ₦2000 on referral!";
+    const url = appUrl; // The URL to share
+
+    // Combine message and URL
+    const fullMessage = `${message} ${url}`;
+    const encodedMessage = encodeURIComponent(fullMessage);
+
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     if (isMobile) {
       // Use `whatsapp://send` for mobile devices
-      window.location.href = `whatsapp://send?text=${message} ${url}`;
+      window.location.href = `whatsapp://send?text=${encodedMessage}`;
     } else {
       // Use `https://wa.me` for desktop as a fallback
-      window.open(`https://wa.me/?text=${message}%20${url}`, "_blank");
+      window.open(`https://wa.me/?text=${encodedMessage}`, "_blank");
     }
   };
 
