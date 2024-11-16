@@ -1,14 +1,6 @@
 import { ReferralIcon } from "@/assets/icons/ReferralIcon";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { ChevronRight } from "lucide-react";
 import { ShareSocial } from "react-share-social";
 
@@ -69,7 +61,7 @@ export const ReferralModal = ({ referralCode }: Props) => {
       <DialogContent className="sm:max-w-[425px]">
         <div className="grid gap-4 py-4">
           <ShareSocial
-            url={`${appUrl}/register?referralCode=${referralCode}`}
+            url={`${appUrl}/register/${referralCode}`}
             socialTypes={[
               "whatsapp",
               "facebook",

@@ -12,17 +12,12 @@ export const Header = ({ user }: headerProps) => {
   const searchParam = useSearchParams();
   const login = searchParam.get("login");
   const signup = searchParam.get("signup");
+  console.log(login);
   const { updateQueryParams } = useUpdateQuery();
   useEffect(() => {
-    if (login) {
-      toast.success("Login successful", {
-        id: "login",
-      });
-      updateQueryParams({ login: "", signup: "" });
-    }
-    if (signup) {
-      toast.success("Signup successful", {
-        id: "signup",
+    if (login === "success" || signup === "success") {
+      toast.success(`${login ? "Login" : "Register"} successful`, {
+        id: login || signup || "",
       });
       updateQueryParams({ login: "", signup: "" });
     }

@@ -30,12 +30,15 @@ export function BlogsCarousel() {
     <ScrollArea className="w-full whitespace-nowrap">
       <div className="flex w-max space-x-4 p-4">
         {blogs.map((blog) => (
-          <figure key={blog.title} className="shrink-0">
+          <figure
+            key={blog.title}
+            className="shrink-0"
+          >
             <div className="overflow-hidden rounded-md">
               <Image
                 src={"/images/welcome-mtrackr.svg"}
                 alt={`Photo by ${blog.title}`}
-                className="aspect-[224.5px] h-[106px] w-fit object-cover"
+                className=" h-[106px] w-fit object-cover"
                 width={300}
                 height={400}
               />

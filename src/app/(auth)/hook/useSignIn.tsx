@@ -1,15 +1,12 @@
 "use client";
 import { loginAction } from "@/app/actions/loginAction";
-import useModal from "@/hooks/useModal";
 import { signInSchema, SignInSchemaType } from "@/lib/Schema/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export const useSignIn = () => {
-  const [status, setStatus] = useState(false);
-  const { onConfirm, onCancel, modal } = useModal();
   const {
     control,
     handleSubmit,
@@ -22,9 +19,8 @@ export const useSignIn = () => {
     resolver: zodResolver(signInSchema),
   });
 
-  const onSubmit = async (data: SignInSchemaType) => {
-    setStatus(true);
-    try {
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (data: SignInSchemaType) => {
       const formData = new FormData();
       formData.append("email", data.email);
       formData.append("password", data.password);
@@ -32,37 +28,22 @@ export const useSignIn = () => {
       if (!res?.success) {
         throw new Error(res?.message);
       }
-    } catch (error) {
-      if (
-        (error as any).message !== undefined &&
-        (error as any).message !== null &&
-        (error as any).message !== ""
-      ) {
-        toast.error((error as any).message);
+      return;
+    },
+    onError: (error) => {
+      if (error && error?.message) {
+        return toast.error(error.message);
       }
-    } finally {
-      setStatus(false);
-    }
-  };
-
-  const handleOnConfirm = (
-    type: "signUp" | "forgotPassword" | "signIn",
-    isOpen = true
-  ) => {
-    onConfirm({
-      type: type,
-      isOpen: isOpen,
-    });
+    },
+  });
+  const onSubmit = async (data: SignInSchemaType) => {
+    mutate(data);
   };
 
   return {
-    modal,
-    onConfirm: handleOnConfirm,
-    onCancel,
     control,
     handleSubmit,
     onSubmit,
-    isPending: status,
-    isValid,
+    isPending,
   };
 };

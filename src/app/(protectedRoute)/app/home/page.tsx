@@ -7,7 +7,6 @@ import { getAllRecords } from "@/app/actions/AllRecords";
 import { getUser } from "@/app/actions/getUser";
 import { UserResponse } from "@/types/auth";
 import { Records } from "@/types/records";
-import { redirect } from "next/navigation";
 
 const Home: FC = async () => {
   // Fetch user and records data

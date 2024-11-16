@@ -1,5 +1,6 @@
 "use server";
 
+import { supabaseError } from "@/constant/systemError";
 import { createClient } from "@/lib/supabse/server";
 import dayjs from "dayjs";
 import { redirect } from "next/navigation";
@@ -24,9 +25,12 @@ export const loginAction = async (formData: FormData) => {
     });
 
   if (loginError) {
+    const errorMessage = supabaseError.includes(loginError?.code as string)
+      ? loginError.message
+      : "Something went wrong. Please try again.";
     return {
       success: false,
-      message: validateUserError,
+      message: errorMessage,
     };
   }
 
@@ -74,7 +78,7 @@ export const loginAction = async (formData: FormData) => {
       }
     }
   }
-  redirect("/app/home");
+  redirect("/app/home?login=success"); // Redirecting to the home page
 
   // // Step 4: Fetch the user's referrals and join with referees and their subscriptions
   // const { data: referrals, error: referralsError } = await supabase

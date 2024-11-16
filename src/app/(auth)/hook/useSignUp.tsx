@@ -2,13 +2,13 @@
 import { RegisterAction } from "@/app/actions/RegisterAction";
 import { signUpSchema, SignUpSchemaType } from "@/lib/Schema/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export const useSignUp = () => {
-  const [status, setStatus] = useState(false);
   const searchParam = useSearchParams();
   const referralCode = searchParam.get("referralCode") as string;
 
@@ -28,9 +28,8 @@ export const useSignUp = () => {
     }
   }, [referralCode, setValue]);
 
-  const onSubmit = async (data: SignUpSchemaType) => {
-    setStatus(true);
-    try {
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (data: SignUpSchemaType) => {
       const formData = new FormData();
       formData.append("email", data.email);
       formData.append("password", data.password);
@@ -42,24 +41,24 @@ export const useSignUp = () => {
       if (!res?.success) {
         throw new Error(res?.message);
       }
-    } catch (error) {
-      if (
-        (error as any).message !== undefined &&
-        (error as any).message !== null &&
-        (error as any).message !== ""
-      ) {
-        toast.error((error as any).message);
+      return;
+    },
+    onError: (error) => {
+      if (error && error?.message) {
+        return toast.error(error.message);
       }
-    } finally {
-      setStatus(false);
-    }
+    },
+  });
+
+  const onSubmit = async (data: SignUpSchemaType) => {
+    mutate(data);
   };
 
   return {
     control,
     handleSubmit,
     onSubmit,
-    isPending: status,
+    isPending,
     referralCode,
   };
 };

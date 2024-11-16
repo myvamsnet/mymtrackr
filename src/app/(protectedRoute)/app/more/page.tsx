@@ -19,7 +19,7 @@ const More = async () => {
           subscription={subscription?.data as SubscriptionType}
         />
       </section>
-      <MoreLists data={user?.data as UserProfile} />
+      <MoreLists />
     </ProtectedLayout>
   );
 };
