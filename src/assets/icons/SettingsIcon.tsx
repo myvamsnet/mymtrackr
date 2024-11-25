@@ -1,11 +1,10 @@
-import React from 'react';
+import { CustomSVGProps } from "@/types/icon";
+import React from "react";
 
 export const SettingsIcon = ({
-  color = '#010114',
-  width = '16',
-  height = '16',
+  color = "#010114",
   ...props
-}) => {
+}: CustomSVGProps) => {
   return (
     <>
       <svg

@@ -10,11 +10,8 @@ import { User } from "@/types/auth";
 import Link from "next/link";
 
 const Balance = ({ user, data }: Props) => {
-  const records = data;
-
   const [showBalance, setShowBalance] = useState(true);
   const balanceType = useRecordStore((state) => state.balanceType);
-  const { grossWorth, netWorth } = calculateWorth(records as Records[]);
 
   const handleShowBalance = (showBalance: boolean) => {
     setShowBalance(showBalance);
@@ -37,8 +34,8 @@ const Balance = ({ user, data }: Props) => {
             {
               // Show GrossWorth or NetWorth based on balanceType state
               balanceType === "gross"
-                ? currencyFormatter(Number(grossWorth))
-                : currencyFormatter(Number(netWorth))
+                ? currencyFormatter(Number(data?.grossWorth))
+                : currencyFormatter(Number(data?.netWorth))
             }
           </p>
         ) : (
@@ -66,5 +63,8 @@ const Balance = ({ user, data }: Props) => {
 export default Balance;
 interface Props {
   user: User;
-  data: Records[];
+  data: {
+    grossWorth: number;
+    netWorth: number;
+  };
 }

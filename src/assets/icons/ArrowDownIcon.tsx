@@ -1,8 +1,7 @@
 export const ArrowDownIcon = ({
-  fill = "#F1F5FD",
-  stroke = "#3E3E4C",
-  width = "18",
-  height = "19",
+  color = "#06870B",
+  width = "14",
+  height = "14",
   ...props
 }) => {
   return (
@@ -10,20 +9,14 @@ export const ArrowDownIcon = ({
       <svg
         width={width}
         height={height}
-        viewBox="0 0 18 19"
+        viewBox="0 0 13 13"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         {...props}
       >
-        <rect
-          width="18"
-          height="18"
-          transform="matrix(1 0 0 -1 0 18.5)"
-          fill={fill}
-        />
         <path
-          d="M9 4.25V14.75M9 14.75L3.75 9.5M9 14.75L14.25 9.5"
-          stroke={stroke}
+          d="M6.5 1.25V11.75M6.5 11.75L1.25 6.5M6.5 11.75L11.75 6.5"
+          stroke={color}
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"

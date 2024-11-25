@@ -1,14 +1,11 @@
-export const Delete = ({
-  color = "#C25353",
-  width = "16",
-  height = "16",
-  ...props
-}) => {
+import { CustomSVGProps } from "@/types/icon";
+
+export const Delete = ({ color = "#C25353", ...props }: CustomSVGProps) => {
   return (
     <>
       <svg
-        width={width}
-        height={height}
+        height="16"
+        width="16"
         viewBox="0 0 16 16"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -18,13 +15,13 @@ export const Delete = ({
           fillRule="evenodd"
           clipRule="evenodd"
           d="M6.66667 6.66669C7.03486 6.66669 7.33333 6.96516 7.33333 7.33335V10.6667C7.33333 11.0349 7.03486 11.3334 6.66667 11.3334C6.29848 11.3334 6 11.0349 6 10.6667V7.33335C6 6.96516 6.29848 6.66669 6.66667 6.66669Z"
-          fill="#C25353"
+          fill={color}
         />
         <path
           fillRule="evenodd"
           clipRule="evenodd"
           d="M9.33329 6.66669C9.70148 6.66669 9.99996 6.96516 9.99996 7.33335V10.6667C9.99996 11.0349 9.70148 11.3334 9.33329 11.3334C8.9651 11.3334 8.66663 11.0349 8.66663 10.6667V7.33335C8.66663 6.96516 8.9651 6.66669 9.33329 6.66669Z"
-          fill="#C25353"
+          fill={color}
         />
         <path
           fillRule="evenodd"

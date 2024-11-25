@@ -35,7 +35,7 @@ export const MobileTab = ({ toggle, isOpen }: props) => {
   const active = usePathname();
 
   return (
-    <div className="   fixed bottom-0  left-0  z-40 bg-off-white-300  w-full  lg:hidden block ">
+    <div className="fixed bottom-0  left-0  z-40 bg-off-white-300  w-full  lg:hidden block ">
       <ul className="grid grid-cols-5 gap-4 p-3 ">
         {routes?.map((route, i) => {
           return route.type !== "button" ? (
