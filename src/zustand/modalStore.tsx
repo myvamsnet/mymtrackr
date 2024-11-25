@@ -38,5 +38,7 @@ export interface ModalStoreStete {
     | "change-password"
     | "setNewPassword"
     | "confirmEmail"
-    | "logout";
+    | "logout"
+    | "preview"
+    | "more";
 }

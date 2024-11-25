@@ -7,21 +7,28 @@ import { getAllRecords } from "@/app/actions/AllRecords";
 import { getUser } from "@/app/actions/getUser";
 import { UserResponse } from "@/types/auth";
 import { Records } from "@/types/records";
+import { getAllBalance } from "@/app/actions/getAllBalance";
 
 const Home: FC = async () => {
-  // Fetch user and records data
-  const userResponse = await getUser();
-  const recordsResponse = await getAllRecords();
+  const [getBalance, recordsResponse, userResponse] = await Promise.all([
+    getAllBalance(),
+    getAllRecords(),
+    getUser(), // Assuming you have a function to fetch user data
+  ]);
 
+  // Ensure the response data is cast correctly
   const user = userResponse as UserResponse;
-  const records = recordsResponse?.data as Records[];
-
+  const records = recordsResponse?.data as unknown as Records[];
+  const balance = {
+    netWorth: getBalance?.netWorth as number,
+    grossWorth: getBalance?.grossWorth as number,
+  };
   return (
     <ProtectedLayout className="bg-off-white relative">
       <Header user={user?.data} />
       <Balance
         user={user?.data}
-        data={records}
+        data={balance}
       />
       <RecentRecords
         data={records}

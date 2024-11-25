@@ -12,7 +12,10 @@ export const CustomHeader = ({ title, link }: CustomHeaderProps) => {
   return (
     <section className="bg-[#F4F8FF] sticky top-0 z-30">
       <header className="w-full flex items-center gap-4  py-3 px-4  ">
-        <div onClick={handleBack} className=" cursor-pointer">
+        <div
+          onClick={handleBack}
+          className=" cursor-pointer"
+        >
           <ArrowBackIcon />
         </div>
 

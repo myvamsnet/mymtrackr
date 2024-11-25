@@ -1,32 +1,35 @@
-import React from 'react';
-import { RecordHeader } from '../../_components/common/records/RecordHeader';
-import { Filters } from './components/Filters';
-import { RecordTypeLists } from './components/RecordTypeLists';
-import { ParamsProps } from '@/types/records';
-import Link from 'next/link';
-import { RecordsBalance } from '../../_components/common/records/RecordsBalance';
+import React from "react";
+import { RecordTypeLists } from "./components/RecordTypeLists";
+import { ParamsProps } from "@/types/records";
+import { recordTypes } from "@/constant/records";
+import { TypeLayout } from "./components/TypeLayout";
+import { Invoicesandreceipts } from "./components/Invoicesandreceipts";
 
 const RecordType = async ({ params }: ParamsProps) => {
-  return (
-    <main className="container mx-auto md:max-w-[700px] bg-off-white-300 overflow-y-auto overflow-x-hidden h-screen relative">
-      <div className=" h-[90vh] overflow-y-auto">
-        <RecordHeader title={`${params.type} List`} />
-        <section className="bg-[#FCFDFE] p-4 rounded-tl-lg rounded-tr-lg grid gap-3">
-          <Filters />
-          <RecordsBalance />
-        </section>
+  let content;
+  if (recordTypes.includes(params.type)) {
+    return (content = (
+      <TypeLayout>
         <RecordTypeLists />
-      </div>
-      <div>
-        <Link
-          href={`/app/records/add/${params.type}`}
-          className="text-xs font-semibold text-off-white-300 font-inter absolute right-6 bottom-0 z-30  p-4 rounded-2xl gap-2 bg-primary w-[121px] block my-4 btn-drop-shadow"
-        >
-          + Record New
-        </Link>
-      </div>
-    </main>
-  );
+      </TypeLayout>
+    ));
+  }
+
+  if (params.type === "tasks") {
+    return (content = (
+      <TypeLayout>
+        <h2>Tasks</h2>
+      </TypeLayout>
+    ));
+  }
+  if (params.type === "invoicesandreceipts") {
+    return (content = (
+      <TypeLayout>
+        <Invoicesandreceipts />
+      </TypeLayout>
+    ));
+  }
+  return content;
 };
 
 export default RecordType;

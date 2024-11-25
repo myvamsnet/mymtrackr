@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 
 export const Modal = ({
@@ -11,6 +11,16 @@ export const Modal = ({
   title,
 }: Props) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsVisible(true);
+    } else {
+      const timer = setTimeout(() => setIsVisible(false), 300); // Match animation duration
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -32,18 +42,25 @@ export const Modal = ({
     };
   }, [isOpen, closeOutside, onClose]);
 
-  if (!isOpen) return null;
+  if (!isVisible) return null;
+
   return (
-    <div className="fixed inset-0 bg-black/85 flex  z-50  overflow-hidden w-full h-screen p-4">
+    <div
+      className={`fixed inset-0 bg-black/50 flex z-50 overflow-hidden w-full h-screen p-4 transition-opacity duration-300 ${
+        isOpen ? "opacity-100" : "opacity-0"
+      }`}
+    >
       <div
-        className={` md:p-0  mx-auto flex justify-center items-center   w-full overflow-hidden`}
+        className={`mx-auto flex justify-center items-center w-full overflow-hidden`}
         ref={modalRef}
       >
         <section
-          className={` bg-off-white-100 md:w-[40%] w-full mx-auto  rounded-md md:p-4 p-2 ${className}`}
+          className={`bg-off-white-100 md:w-[40%] w-full mx-auto rounded-md md:p-4 p-2 transform transition-transform duration-300 ${
+            isOpen ? "scale-100" : "scale-90"
+          } ${className}`}
         >
           <div
-            className={`p-2 flex  items-center  ${
+            className={`p-2 flex items-center ${
               title ? "justify-between" : "justify-end"
             }`}
           >

@@ -45,7 +45,7 @@ export const RecordItem: FC<TransactionItemPros> = ({ record }) => {
         </div>
       </div>
       <div>
-        <p className={`${handleTypeColor(record?.type)} text-sm font-normal`}>
+        <p className={`${handleTypeColor(record?.type)}  text-sm font-normal`}>
           {currencyFormatter(Number(record?.amount))}
         </p>
       </div>
