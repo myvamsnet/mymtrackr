@@ -23,7 +23,6 @@ export const RegisterForm = () => {
           placeholder={input.placeholder}
         />
       ))}
-      <p>Passworf</p>
       <small className="md:mt-0 mt-4">
         By continuing you agree to our{" "}
         <Link
