@@ -1,14 +1,7 @@
-import { useModalStore } from '@/zustand/modalStore';
-import { useShallow } from 'zustand/react/shallow';
+import { useModalStore } from "@/zustand/modalStore";
 
 const useModal = () => {
-  const { modal, onCancel, onConfirm } = useModalStore(
-    useShallow((state) => ({
-      modal: state.modal,
-      onConfirm: state.onConfirm,
-      onCancel: state.onCancel,
-    }))
-  );
+  const { modal, onCancel, onConfirm } = useModalStore();
   return {
     modal,
     onCancel,

@@ -12,7 +12,7 @@ const More = async () => {
   const user = await getUser();
   const subscription = await getSubscription();
   return (
-    <ProtectedLayout className="bg-[#F4F8FF] ">
+    <ProtectedLayout className="bg-[#F4F8FF]  pb-10">
       <section className=" sticky top-0 z-50">
         <MoreHeader
           data={user?.data as UserProfile}

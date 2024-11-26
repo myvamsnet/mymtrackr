@@ -1,8 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Modal } from "@/components/ui/Modal";
 import { Lock } from "lucide-react";
-import { useSendOtp } from "../hook/useSendOtp";
 import useModal from "@/hooks/useModal";
 import ConfirmOtp from "./ConfirmOtp";
 import OtpModal from "./OtpModal";
@@ -20,7 +17,12 @@ const ResetPasswordModal = () => {
           });
         }}
       >
-        <Lock />
+        <div className="h-8 w-8 bg-off-white rounded-full flex justify-center items-center">
+          <Lock
+            height={"16"}
+            width={"16"}
+          />
+        </div>
         <p className="flex cursor-pointer text-sm font-normal text-dark">
           Reset Password
         </p>

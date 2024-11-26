@@ -11,6 +11,7 @@ const MoreModal = () => {
       isOpen={modal.isOpen && modal.type === "more"}
       onClose={onCancel}
       className="p-4 "
+      closeOutside={true}
     >
       <div className="flex items-center gap-1 py-4 border-b border-off-white-200 ">
         <div className="h-8 w-8 bg-off-white flex justify-center items-center">

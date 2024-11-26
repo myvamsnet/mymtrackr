@@ -1,14 +1,11 @@
-export const PenBook = ({
-  color = "#FCFDFE",
-  width = "18",
-  height = "18",
-  ...props
-}) => {
+import { CustomSVGProps } from "@/types/icon";
+
+export const PenBook = ({ color = "#FCFDFE", ...props }: CustomSVGProps) => {
   return (
     <>
       <svg
-        width={width}
-        height={height}
+        width="16"
+        height="16"
         viewBox="0 0 18 18"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
