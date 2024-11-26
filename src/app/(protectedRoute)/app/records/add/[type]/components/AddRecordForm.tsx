@@ -1,12 +1,11 @@
-'use client';
-import { CustomInput } from '@/components/CustomInput';
-import NumberInput from '@/components/NumberInput';
-import { InputType } from '@/constant/createRecords';
-import React, { FC } from 'react';
-import { useCreateRecord } from '../hook/useCreateRecord';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { AddRecordsSchemaType } from '@/lib/Schema/incomeSchema';
+"use client";
+import { CustomInput } from "@/components/CustomInput";
+import NumberInput from "@/components/NumberInput";
+import { InputType } from "@/constant/createRecords";
+import React, { FC } from "react";
+import { useCreateRecord } from "../hook/useCreateRecord";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export const AddRecordForm: FC<CreateRecordsProps> = ({ inputlists }) => {
   const {
@@ -25,10 +24,10 @@ export const AddRecordForm: FC<CreateRecordsProps> = ({ inputlists }) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       {inputlists.map((input, i) => {
-        return input.type === 'currency' ? (
+        return input.type === "currency" ? (
           <NumberInput
             key={`${input.name}-${i}`}
-            name={'amount'}
+            name={"amount"}
             type={input.type}
             label={input.label}
             control={control}
@@ -45,7 +44,7 @@ export const AddRecordForm: FC<CreateRecordsProps> = ({ inputlists }) => {
               handleFileChange={handleFileChange}
               fileError={errorMessage}
             />
-            {input.type === 'file' && (
+            {input.type === "file" && (
               <div className="flex justify-end items-center">
                 {previewUrl && (
                   <Image
@@ -67,12 +66,12 @@ export const AddRecordForm: FC<CreateRecordsProps> = ({ inputlists }) => {
       <div>
         <Button
           className={`bg-primary hover:bg-primary/80 w-full py-3 px-2 rounded-lg text-off-white-300 font-semibold h-[45px] ${
-            isPending ? 'opacity-55 cursor-not-allowed' : ''
+            isPending ? "opacity-55 cursor-not-allowed" : ""
           }`}
           type="submit"
           disabled={isPending ? true : false}
         >
-          {isPending ? 'Loading...' : 'Add  Record'}
+          {isPending ? "Loading..." : "Add  Record"}
         </Button>
       </div>
     </form>
@@ -80,7 +79,7 @@ export const AddRecordForm: FC<CreateRecordsProps> = ({ inputlists }) => {
 };
 
 interface CreateRecordsProps {
-  recordType: 'expense' | 'income' | 'debtor' | 'payable';
+  recordType: "expense" | "income" | "debtor" | "payable";
   inputlists: InputType[];
   title: string;
 }

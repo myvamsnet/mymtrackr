@@ -10,4 +10,11 @@ export const handleTypeColor = (type: Type) => {
     });
   }
 };
-export type Type = "income" | "expense" | "debtor" | "payable" | "history";
+export type Type =
+  | "income"
+  | "expense"
+  | "payable"
+  | "debtor"
+  | "tasks"
+  | "invoicesandreceipts"
+  | "history";

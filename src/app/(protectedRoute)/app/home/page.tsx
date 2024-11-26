@@ -24,7 +24,7 @@ const Home: FC = async () => {
     grossWorth: getBalance?.grossWorth as number,
   };
   return (
-    <ProtectedLayout className="bg-off-white relative">
+    <ProtectedLayout className="bg-off-white relative pb-40">
       <Header user={user?.data} />
       <Balance
         user={user?.data}
