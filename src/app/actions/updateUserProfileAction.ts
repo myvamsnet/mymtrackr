@@ -58,7 +58,7 @@ export const updateProfileAction = async (formData: FormData) => {
       return { success: false, error: "Failed to update profile" };
     }
 
-    revalidatePath("/app/home");
+    revalidatePath("/home");
     return { success: true, data };
   } catch (error) {
     return {

@@ -9,7 +9,7 @@ import { Type } from "@/types/records";
 export const addRecords = [
   {
     name: "Income",
-    path: "/app/records/add/income",
+    path: "/records/add/income",
     color: "#06870B",
     type: "income",
     icon: ArrowDownIcon,
@@ -18,7 +18,7 @@ export const addRecords = [
   },
   {
     name: "Expense",
-    path: "/app/records/add/expense",
+    path: "/records/add/expense",
     color: "#880606",
     type: "expense",
     icon: ArrowUpIcon,
@@ -28,7 +28,7 @@ export const addRecords = [
 
   {
     name: "Payable",
-    path: "/app/records/add/payable",
+    path: "/records/add/payable",
     color: "#9B8306",
     type: "payable",
     icon: ArrowLeftIcon,
@@ -37,7 +37,7 @@ export const addRecords = [
   },
   {
     name: "Debtors",
-    path: "/app/records/add/debtor",
+    path: "/records/add/debtor",
     color: "#3E3E4C",
     type: "debtor",
     icon: ArrowRightIcon,
@@ -46,14 +46,14 @@ export const addRecords = [
   },
   {
     name: "Invoice",
-    path: "/app/records/add/invoice",
+    path: "/invoicesandreceipts/invoice",
     color: "#010114",
     type: "invoice",
     icon: InvoiceIcon,
   },
   {
     name: "Receipt",
-    path: "/app/records/add/receipt",
+    path: "/invoicesandreceipts/receipt",
     color: "#010114",
     type: "receipt",
     icon: InvoiceIcon,
@@ -67,6 +67,7 @@ export const products = [
     title: "Income List",
     description: "Records of money inflow",
     type: "income",
+    path: "/records/income",
   },
   {
     id: 2,
@@ -74,6 +75,7 @@ export const products = [
     title: "Expense List",
     description: "Records of money outflow",
     type: "expense",
+    path: "/records/expense",
   },
   {
     id: 3,
@@ -81,6 +83,7 @@ export const products = [
     title: "Debtors List",
     description: "Records of my debtors",
     type: "debtor",
+    path: "/records/debtor",
   },
   {
     id: 4,
@@ -88,6 +91,7 @@ export const products = [
     title: "Payable List",
     description: "Records of money I owe people",
     type: "payable",
+    path: "/records/payable",
   },
   {
     id: 5,
@@ -95,6 +99,7 @@ export const products = [
     type: "invoicesandreceipts",
     title: "Invoices and Receipts",
     description: "Awaiting and received payments",
+    path: "/invoicesandreceipts",
   },
   {
     id: 6,
@@ -102,6 +107,7 @@ export const products = [
     type: "tasks",
     title: "My To-Do List",
     description: "Personal task tracker",
+    path: "/tasks",
   },
 ];
 

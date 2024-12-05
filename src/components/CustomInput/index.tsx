@@ -43,7 +43,7 @@ export const CustomInput: FC<CustomInputProps> = ({
     <div className="grid gap-2">
       <label
         htmlFor={name}
-        className={` text-sm font-normal text-dark-300 ${labelClassName}`}
+        className={` text-sm font-normal text-dark-300 capitalize ${labelClassName}`}
       >
         {label}
       </label>

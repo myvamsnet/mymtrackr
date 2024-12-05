@@ -90,7 +90,7 @@ export const menuItems = [
     icon: AnalyticsIcon,
     text: "Business Analytics",
     textColor: "text-dark",
-    link: "/app/analytics",
+    link: "/analytics",
   },
   {
     icon: ReferalIcon,

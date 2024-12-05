@@ -30,5 +30,5 @@ export const resetPasswordAction = async (formData: FormData) => {
       message: error!.message,
     };
   }
-  redirect("/app/home");
+  redirect("/home");
 };

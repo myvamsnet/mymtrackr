@@ -1,4 +1,4 @@
-import { ResetPasswordEmail } from "@/app/(protectedRoute)/app/_components/email/ResetPasswordEmail";
+import { ResetPasswordEmail } from "@/app/(protectedRoute)/_components/email/ResetPasswordEmail";
 import { createClient } from "@/lib/supabse/server";
 import { Resend } from "resend";
 import { NextResponse } from "next/server";

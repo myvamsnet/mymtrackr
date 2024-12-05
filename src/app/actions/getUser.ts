@@ -29,7 +29,7 @@ export async function getUser() {
       phoneNumber: userProfileData.phoneNumber,
       referralCode: userProfileData.referralCode,
     };
-    revalidatePath("/app/home");
+    revalidatePath("/home");
     return {
       success: true,
       data,
