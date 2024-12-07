@@ -22,7 +22,7 @@ const Balance = ({ user, data }: Props) => {
       <div className="flex justify-between px-2">
         <SelectWorth />
         <Link
-          href={"/app/referral-history?status=trial"}
+          href={"/referral-history?status=trial"}
           className="text-sm leading-[10px] text-primary font-medium bg-off-white rounded-lg px-3 py-px flex justify-center items-center"
         >
           Refer & Earn

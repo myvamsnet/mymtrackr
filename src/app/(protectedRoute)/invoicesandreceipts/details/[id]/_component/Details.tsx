@@ -2,7 +2,8 @@
 import { currencyFormatter } from "@/lib/helper/currencyFormatter";
 import { Button } from "@/components/ui/button";
 import useModal from "@/hooks/useModal";
-import { PreviewDetailsModal } from "../../../_components/PreviewDetailsModal";
+import { PreviewDetailsModal } from "@/app/(protectedRoute)/_components/PreviewDetailsModal";
+
 export const Details = () => {
   const { onConfirm } = useModal();
   return (
@@ -103,7 +104,7 @@ export const Details = () => {
           </Button>
         </section>
       </section>
-      <PreviewDetailsModal />
+      {/* <PreviewDetailsModal /> */}
     </>
   );
 };

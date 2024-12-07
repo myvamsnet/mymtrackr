@@ -25,13 +25,13 @@ const ReferralCodeUi = ({ referralCode, userReferrals }: Props) => {
     {
       name: "pending",
       id: "1",
-      link: "/app/referral-history?status=trial",
+      link: "/referral-history?status=trial",
       pathname: "trial",
     },
     {
       name: "Earned",
       id: "2",
-      link: "/app/referral-history?status=active",
+      link: "/referral-history?status=active",
       pathname: "active",
     },
   ];

@@ -1,9 +1,10 @@
 "use client";
 import React from "react";
-import { RecordHeader } from "../../../_components/common/records/RecordHeader";
+
 import { Dots } from "@/assets/icons/Dots";
 import MoreModal from "./MoreModal";
 import useModal from "@/hooks/useModal";
+import { RecordHeader } from "@/app/(protectedRoute)/_components/common/records/RecordHeader";
 
 export const Layout = ({ children }: Props) => {
   const { onConfirm } = useModal();
@@ -22,6 +23,7 @@ export const Layout = ({ children }: Props) => {
             }
           />
         }
+        url="/invoicesandreceipts"
       />
       {children}
       <MoreModal />

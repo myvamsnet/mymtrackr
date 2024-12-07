@@ -77,7 +77,7 @@ export const menuItems = [
     icon: DiamondIcon,
     text: "Subscription",
     textColor: "text-dark",
-    link: "/app/subscription",
+    link: "/subscription",
   },
   {
     icon: WhatsAppIcon,
@@ -96,14 +96,14 @@ export const menuItems = [
     icon: ReferalIcon,
     text: "Earn with Referal",
     textColor: "text-dark",
-    link: "/app/referral-history?status=trial",
+    link: "/referral-history?status=trial",
   },
 
   {
     icon: SettingsIcon,
     text: "Settings",
     textColor: "text-dark",
-    link: "/app/settings",
+    link: "/settings",
   },
   {
     icon: LogoutIcon,

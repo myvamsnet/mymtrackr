@@ -12,6 +12,7 @@ import {
 import { useInvoiceAndReceipt } from "../hooks/useInvoiceAndReceipt";
 import { PreviewDetailsModal } from "../../_components/PreviewDetailsModal";
 import { DiscountAndDeliveryForm } from "./DiscountAndDeliveryForm";
+import NumberInput from "@/components/NumberInput";
 
 export default function AddInvoicesAndReceiptForm() {
   const {
@@ -44,7 +45,7 @@ export default function AddInvoicesAndReceiptForm() {
             control={control}
             label="Issue date"
           />
-          {paramType === "invoice" && (
+          {paramType === "invoices" && (
             <CustomDatePicker
               name="dueDate"
               control={control}
@@ -90,7 +91,7 @@ export default function AddInvoicesAndReceiptForm() {
                 placeholder="Enter quantity"
               />
               <CustomInput
-                type={"text"}
+                type={"number"}
                 label={"Price"}
                 control={control}
                 name={`items.${index}.price`}

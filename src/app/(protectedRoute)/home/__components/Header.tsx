@@ -22,9 +22,10 @@ export const Header = ({ user }: headerProps) => {
       updateQueryParams({ login: "", signup: "" });
     }
   }, [login, signup, updateQueryParams]);
+
   return (
     <section className=" py-4 bg-[#F4F8FF]   flex justify-between items-center  w-full  z-30 sticky top-0 h-[58px]">
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-3">
         <Link
           href={"/app/settings/profile"}
           className=" cursor-pointer"

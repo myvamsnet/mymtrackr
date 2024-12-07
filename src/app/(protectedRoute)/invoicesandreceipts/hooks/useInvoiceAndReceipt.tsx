@@ -1,5 +1,6 @@
 import { useChange } from "@/hooks/useChange";
 import useModal from "@/hooks/useModal";
+import { isValidDate } from "@/lib/helper/isValidDate";
 import {
   invoiceAndReceiptSchema,
   InvoiceAndReceiptSchemaSchemaType,
@@ -48,7 +49,7 @@ export const useInvoiceAndReceipt = () => {
   const { setInvoiceAndReceipt, invoiceAndReceiptData } =
     useInvoiceAndReceiptStore();
   const params = useParams() as {
-    add: "receipt" | "invoice";
+    add: "receipts" | "invoices";
   };
 
   const {
@@ -79,8 +80,20 @@ export const useInvoiceAndReceipt = () => {
         "customerName",
         invoiceAndReceiptData.customerName ?? new Date()
       );
-      setValue("dueDate", new Date(invoiceAndReceiptData.dueDate));
-      setValue("issueDate", new Date(invoiceAndReceiptData.issueDate));
+      setValue(
+        "dueDate",
+        isValidDate(invoiceAndReceiptData.dueDate)
+          ? new Date(invoiceAndReceiptData.dueDate)
+          : new Date()
+      );
+
+      setValue(
+        "issueDate",
+        isValidDate(invoiceAndReceiptData.issueDate)
+          ? new Date(invoiceAndReceiptData.issueDate)
+          : new Date()
+      );
+
       setValue("items", invoiceAndReceiptData.items);
       setValues({
         discount: String(invoiceAndReceiptData.discount),

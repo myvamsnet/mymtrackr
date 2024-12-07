@@ -51,6 +51,7 @@ function InvoicesLists() {
             <SettingsIcon />
           </Link>
         }
+        url="/invoicesandreceipts"
       />
       <section className="bg-[#FCFDFE] p-4 rounded-tl-lg rounded-tr-lg grid gap-3">
         <Filters />
@@ -84,7 +85,7 @@ function InvoicesLists() {
           >
             {results?.map((list) => (
               <Link
-                href={`/app/records/invoice-and-receipt/${list.id}`}
+                href={`/invoicesandreceipts/details/${list.id}`}
                 className="flex justify-between py-4 border-b border-[#F4F5F7]"
                 key={list.id}
               >

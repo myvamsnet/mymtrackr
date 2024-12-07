@@ -1,5 +1,5 @@
-import { Details } from "../_component/Details";
-import { Layout } from "../_component/Layout";
+import { Details } from "./_component/Details";
+import { Layout } from "./_component/Layout";
 
 const InvoicesandreceiptsDetails = () => {
   return (

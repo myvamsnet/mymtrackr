@@ -1,9 +1,7 @@
 "use client";
 
 import { CalendarIcon } from "lucide-react";
-import { z } from "zod";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -13,24 +11,19 @@ import {
 import { Control, useController } from "react-hook-form";
 import dayjs from "dayjs";
 
-const FormSchema = z.object({
-  dob: z.date({
-    required_error: "A date of birth is required.",
-  }),
-});
-
 export const CustomDatePicker = ({
   name,
   defaultValue,
   control,
   label,
-  placeholder = "Pick a date",
+  placeholder,
 }: Props) => {
   const { field, fieldState } = useController({
     name,
     control,
     defaultValue,
   });
+
   return (
     <>
       <Popover>
@@ -54,13 +47,20 @@ export const CustomDatePicker = ({
                 !field.value && "text-muted-foreground"
               )}
             >
-              {field.value ? (
+              {field.value && !isNaN(new Date(field.value).getTime()) ? (
                 dayjs(field.value).format("MMM D, YYYY")
               ) : (
                 <span>{placeholder}</span>
               )}
+
               <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
             </div>
+
+            {fieldState.error && (
+              <p className="text-red-500 font-normal text-sm md:w-[300px] w-full">
+                {fieldState.error.message}
+              </p>
+            )}
           </section>
         </PopoverTrigger>
         <PopoverContent
@@ -72,7 +72,7 @@ export const CustomDatePicker = ({
             selected={field.value}
             onSelect={field.onChange}
             initialFocus
-            className="w-full"
+            className="w-full bg-white"
           />
         </PopoverContent>
       </Popover>
@@ -82,7 +82,7 @@ export const CustomDatePicker = ({
 interface Props {
   name: string;
   control: Control<any>;
-  defaultValue?: string;
+  defaultValue?: Date;
   label?: string;
   placeholder?: string;
 }

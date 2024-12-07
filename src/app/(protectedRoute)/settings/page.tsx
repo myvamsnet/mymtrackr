@@ -7,14 +7,17 @@ import React from "react";
 import { CustomHeader } from "@/components/CustomHeader";
 import ResetPasswordModal from "./__components/ResetPasswordModal";
 import { BusinessIcon } from "@/assets/icons/BusinessIcon";
+import { useGetBusiness } from "@/hooks/businessSettings/useGetBusiness";
 
 const Settings = () => {
+  const { data } = useGetBusiness();
+  const businessData = data?.data;
   return (
     <main className="container mx-auto md:max-w-[700px] bg-off-white relative h-screen py-2">
       <section className="bg-off-white  font-inter  px-3 gap-4   my-3">
         <CustomHeader
           title="Settings"
-          link="/"
+          link="/more"
         />
         <div className="bg-off-white-300 rounded-xl py-4">
           {lists?.map((list) => {
@@ -22,7 +25,11 @@ const Settings = () => {
               <ResetPasswordModal key={list.name} />
             ) : (
               <Link
-                href={list.path}
+                href={
+                  list.path === "/settings/business" && businessData?.id
+                    ? `${list.path}/${businessData?.id}`
+                    : list.path
+                }
                 className={`flex items-center cursor-pointer text-sm font-normal p-4 gap-2 border-b ${
                   list.name === "Delete Account"
                     ? "text-danger-500"
@@ -54,12 +61,12 @@ const lists = [
   {
     name: "Edit profile",
     icon: PenBook,
-    path: "/app/settings/profile",
+    path: "/settings/profile",
   },
   {
     name: "Business Settings",
     icon: BusinessIcon,
-    path: "/app/settings/business",
+    path: "/settings/business",
   },
   {
     name: "reset-password",

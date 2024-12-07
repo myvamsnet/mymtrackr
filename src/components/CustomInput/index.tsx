@@ -174,7 +174,8 @@ interface CustomInputProps
     | "file"
     | "email"
     | "password"
-    | "ordinary";
+    | "ordinary"
+    | "color";
   cols?: number;
   rows?: number;
   defaultValue?: string;

@@ -61,7 +61,7 @@ export const ReferralModal = ({ referralCode }: Props) => {
       <DialogContent className="sm:max-w-[425px]">
         <div className="grid gap-4 py-4">
           <ShareSocial
-            url={`${appUrl}/register/${referralCode}`}
+            url={`${appUrl}/register?referralCode=${referralCode}`}
             socialTypes={[
               "whatsapp",
               "facebook",

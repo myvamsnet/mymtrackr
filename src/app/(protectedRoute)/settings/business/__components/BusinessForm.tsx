@@ -2,7 +2,6 @@
 
 import { User } from "@/types/auth";
 import { useBusiness } from "../hook/useBusiness";
-import { ProfileLayout } from "../../__components/ProfileLayout";
 import { CustomInput } from "@/components/CustomInput";
 import { Button } from "@/components/ui/button";
 import { accountDetailsFields, inputFields } from "@/constant/profile";
@@ -10,9 +9,11 @@ import { ArrowDownIconSimple } from "@/assets/icons/ArrowDownIconSimple";
 import { Modal } from "@/components/ui/Modal";
 import { ColorPicker } from "react-color-palette";
 import useModal from "@/hooks/useModal";
+import { BusinessProfile } from "./BusinessProfile";
 
-export const BusinessForm = ({ user }: Props) => {
+export const BusinessForm = ({ direction }: Props) => {
   const { modal, onCancel, onConfirm } = useModal();
+
   const {
     control,
     previewUrl,
@@ -21,12 +22,13 @@ export const BusinessForm = ({ user }: Props) => {
     onSubmit,
     color,
     setColor,
-  } = useBusiness(user);
-  const isPending = false;
+    isPending,
+    imageLoader,
+  } = useBusiness(direction);
+
   return (
     <main className="bg-white">
-      <ProfileLayout
-        user={user}
+      <BusinessProfile
         previewUrl={previewUrl as string}
         handleFileChange={handleFileChange}
       />
@@ -89,9 +91,9 @@ export const BusinessForm = ({ user }: Props) => {
           <Button
             type="submit"
             className="  w-full font-semibold text-base"
-            disabled={isPending}
+            disabled={isPending || imageLoader}
           >
-            {isPending ? "Loading..." : "Save Changes"}
+            {isPending || imageLoader ? "Loading..." : "Save Changes"}
           </Button>
         </div>
       </form>
@@ -116,5 +118,5 @@ export const BusinessForm = ({ user }: Props) => {
   );
 };
 interface Props {
-  user: User;
+  direction: "create" | "update";
 }

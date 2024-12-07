@@ -2,21 +2,19 @@
 
 import { CameraIcon } from "@/assets/icons/CameraIcon";
 import CustomAvatar from "@/components/ui/Avatar/index";
-import { User } from "@/types/auth";
+import { useGetBusiness } from "@/hooks/businessSettings/useGetBusiness";
+import { BusinessData } from "@/types/business";
 
-export const ProfileLayout = ({
-  user,
-  previewUrl,
-  handleFileChange,
-}: Props) => {
+export const BusinessProfile = ({ previewUrl, handleFileChange }: Props) => {
+  const { data } = useGetBusiness();
+  const businessData = data?.data as BusinessData;
   return (
     <section className="py-4 flex justify-center items-center bg-off-white-300">
       <div className=" relative w-[120px]">
         <CustomAvatar
-          name={user?.fullName || "mtracker"}
-          imgUrl={
-            previewUrl ? (previewUrl as string) : (user?.imageUrl as string)
-          }
+          name={businessData?.businessName}
+          size={120}
+          imgUrl={previewUrl}
         />
         <label
           className=" absolute bottom-0 right-0 cursor-pointer"
@@ -36,7 +34,6 @@ export const ProfileLayout = ({
   );
 };
 interface Props {
-  user: User;
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   previewUrl: string;
 }
