@@ -43,12 +43,16 @@ export const CustomInput: FC<CustomInputProps> = ({
     <div className="grid gap-2">
       <label
         htmlFor={name}
-        className={` text-sm font-normal text-dark-300 capitalize ${labelClassName}`}
+        className={` text-sm font-normal text-dark-300 ${labelClassName}`}
       >
         {label}
       </label>
       {valid.includes(type) && (
-        <div className="bg-[#F1F5FD] py-3 px-4  text-base font-normal text-dark rounded-lg relative">
+        <div
+          className={`bg-[#F1F5FD] py-3 px-4  text-base font-normal text-dark rounded-lg relative w-full outline-none ${
+            fieldState.error ? "border-red-500 border" : ""
+          }`}
+        >
           <input
             id={name}
             type={showPassword ? "text" : type}
@@ -86,7 +90,9 @@ export const CustomInput: FC<CustomInputProps> = ({
             {...field}
             {...rest}
             value={field?.value || ""}
-            className="bg-[#F1F5FD] py-3 px-4  w-full text-base font-normal text-dark rounded-lg border-none outline-none resize-none"
+            className={`bg-[#F1F5FD] py-3 px-4  text-base font-normal text-dark rounded-lg resize-none w-full outline-none ${
+              fieldState.error ? "border-red-500 border" : ""
+            }`}
           ></textarea>
         </div>
       )}
@@ -97,7 +103,11 @@ export const CustomInput: FC<CustomInputProps> = ({
           onValueChange={(value) => field.onChange(value)}
           value={field.value || ""}
         >
-          <SelectTrigger className="bg-[#F1F5FD] py-3 px-4  text-base font-normal text-dark rounded-lg">
+          <SelectTrigger
+            className={`bg-[#F1F5FD] py-3 px-4  text-base font-normal text-dark rounded-lg relative w-full outline-none ${
+              fieldState.error ? "border-red-500 border" : ""
+            }`}
+          >
             <SelectValue placeholder={placeholder || "Select Options"} />
           </SelectTrigger>
           <SelectContent>
@@ -116,7 +126,9 @@ export const CustomInput: FC<CustomInputProps> = ({
       {type === "file" && (
         <label
           htmlFor={name}
-          className="bg-[#F1F5FD] py-3 px-4  text-base font-normal text-dark rounded-lg"
+          className={`bg-[#F1F5FD] py-3 px-4  text-base font-normal text-dark rounded-lg relative w-full outline-none ${
+            fieldState.error ? "border-red-500 border" : ""
+          }`}
         >
           <input
             type="file"
@@ -174,8 +186,7 @@ interface CustomInputProps
     | "file"
     | "email"
     | "password"
-    | "ordinary"
-    | "color";
+    | "ordinary";
   cols?: number;
   rows?: number;
   defaultValue?: string;

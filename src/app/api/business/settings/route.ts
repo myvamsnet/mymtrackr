@@ -32,13 +32,44 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         success: true,
-        message: "Business Created Successfully",
-      },
+        data,
+      } as BusinessResponseData,
       { status: 201 }
     );
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to create Business Account" },
+      { status: 500 }
+    );
+  }
+}
+
+// Fetch Business Account
+export async function GET() {
+  const supabaseApi = createClient();
+  const userInfo = await supabaseApi?.auth?.getUser();
+  try {
+    if (!userInfo?.data?.user?.id)
+      return NextResponse.json({ error: "User Not Found" }, { status: 500 });
+    const { data, error } = await supabaseApi
+      .from("businessProfile")
+      .select("*")
+      .eq("user_id", userInfo?.data?.user?.id)
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    return NextResponse.json(
+      {
+        success: true,
+        data,
+      } as BusinessResponseData,
+      { status: 201 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to fetch business Acouunt" },
       { status: 500 }
     );
   }

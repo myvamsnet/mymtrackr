@@ -1,6 +1,5 @@
 import { BusinessSettingFormData } from "@/lib/Schema/businessSchema";
 import { createClient } from "@/lib/supabse/server";
-import { BusinessResponseData } from "@/types/business";
 import { NextResponse } from "next/server";
 
 // Update Business Account
@@ -56,41 +55,6 @@ export async function PUT(
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to create Business Account" },
-      { status: 500 }
-    );
-  }
-}
-
-// Fetch Business Account
-export async function GET(
-  req: Request,
-  { params }: { params: { businessId: string } }
-) {
-  const supabaseApi = createClient();
-  const userInfo = await supabaseApi?.auth?.getUser();
-  try {
-    if (!userInfo?.data?.user?.id)
-      return NextResponse.json({ error: "User Not Found" }, { status: 500 });
-    const { data, error } = await supabaseApi
-      .from("businessProfile")
-      .select("*")
-      .eq("user_id", userInfo?.data?.user?.id)
-      .eq("id", params.businessId)
-      .single();
-
-    if (error) {
-      throw new Error(error.message);
-    }
-    return NextResponse.json(
-      {
-        success: true,
-        data,
-      } as BusinessResponseData,
-      { status: 201 }
-    );
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Failed to fetch business Acouunt" },
       { status: 500 }
     );
   }

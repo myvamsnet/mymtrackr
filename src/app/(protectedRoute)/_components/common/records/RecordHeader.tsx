@@ -11,10 +11,15 @@ export const RecordHeader = ({
   url,
 }: RecordHeaderProps) => {
   const redirectToPage = useRedirect();
+
+  const navigate = (url: string) => {
+    if (url) return redirectToPage(url);
+    return redirectToPage();
+  };
   return (
     <header className="p-4 flex justify-between items-center sticky top-0 bg-[#F4F8FF]  z-50">
       <div
-        onClick={() => redirectToPage(url ?? "/home")}
+        onClick={() => navigate(url as string)}
         className="flex items-center gap-4 cursor-pointer"
       >
         <MoveLeft

@@ -1,6 +1,7 @@
+"use client";
 import Image from "next/image";
 
-export const RecordsNotFound = ({ message = "Records" }: Props) => {
+export const DataNotFound = ({ message = "Records" }: Props) => {
   return (
     <div className="bg-off-white flex text-center justify-center py-10">
       <div className="">

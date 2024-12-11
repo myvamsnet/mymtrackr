@@ -1,7 +1,7 @@
-import InvoicesLists from "./_components/InvoicesLists";
+import { redirect } from "next/navigation";
 
 const Invoicesandreceipts = () => {
-  return <InvoicesLists />;
+  return redirect("/invoicesandreceipts/invoice");
 };
 
 export default Invoicesandreceipts;

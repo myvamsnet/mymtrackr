@@ -1,6 +1,6 @@
 "use client";
 import { RecordItem } from "@/app/(protectedRoute)/_components/common/records/RecordItem";
-import { RecordsNotFound } from "@/app/(protectedRoute)/_components/common/records/RecordsNotFound";
+import { DataNotFound } from "@/components/DataNotFound";
 import { LoadingRecords } from "@/components/LoadingRecords";
 import { useGetRecordByType } from "@/hooks/useGetRecordByType";
 import React from "react";
@@ -11,7 +11,7 @@ const RecordTypeLists = () => {
   return (
     <section className=" bg-off-white-300 overflow-y-auto overflow-x-hidden ">
       {status === "error" && <p>{error?.name}</p>}
-      {records && records?.length === 0 && <RecordsNotFound />}
+      {records && records?.length === 0 && <DataNotFound message="records" />}
       {status === "pending" && <LoadingRecords />}
       {records &&
         records?.length > 0 &&

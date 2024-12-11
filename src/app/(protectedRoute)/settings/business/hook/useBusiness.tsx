@@ -8,32 +8,34 @@ import {
 } from "@/lib/Schema/businessSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { IColor, useColor } from "react-color-palette";
+import { useColor } from "react-color-palette";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "@/lib/axios";
 import toast from "react-hot-toast";
 import { uploadImageToCloudinary } from "@/lib/uploadImageToCloudinary";
 import { useEffect, useState } from "react";
 import { handleError } from "@/lib/helper/handleError";
-import { useGetBusiness } from "@/hooks/businessSettings/useGetBusiness";
-import { BusinessData } from "@/types/business";
+import { BusinessData, BusinessResponseData } from "@/types/business";
 import { useParams } from "next/navigation";
 import { hexToIColor } from "@/lib/helper/hexToIColor";
+import { useRedirect } from "@/hooks/useRedirect";
+import userStore from "@/zustand/userStore";
 
 export const useBusiness = (direction: "create" | "update") => {
+  const redirectToPage = useRedirect();
   // Access the client
   const queryClient = useQueryClient();
   const { id } = useParams() as {
     id: string;
   };
-  const { data, status } = useGetBusiness();
-  const businessData = data?.data;
+  const { user } = userStore();
+  const businessData = user?.businessProfile;
+  console.log(businessData);
   // Initialize React Hook Form
   const {
     control,
     handleSubmit,
     setValue,
-    reset,
     formState: { isValid },
   } = useForm<BusinessSchemaType>({
     defaultValues: {
@@ -57,7 +59,7 @@ export const useBusiness = (direction: "create" | "update") => {
     useUploadImage();
 
   useEffect(() => {
-    if (direction === "update" && status === "success" && businessData?.id) {
+    if (businessData) {
       const {
         businessName,
         businessEmail,
@@ -87,7 +89,7 @@ export const useBusiness = (direction: "create" | "update") => {
 
       setPreviewUrl(imageUrl || "");
     }
-  }, [businessData, direction, setValue, setColor, setPreviewUrl, status]);
+  }, [businessData, direction, setValue, setColor, setPreviewUrl]);
 
   // Mutation for create/update operations
   const { isPending, mutate } = useMutation({
@@ -101,15 +103,15 @@ export const useBusiness = (direction: "create" | "update") => {
       const response = await axiosInstance[method](endpoint, formData);
       return response.data;
     },
-    onSuccess: (response) => {
+    onSuccess: (response: BusinessResponseData) => {
       if (response?.success && direction === "create") {
-        toast.success(response.message);
-        reset();
+        toast.success("Business Account Created");
+        return redirectToPage(`/settings/business/${response?.data?.id}`);
       }
       if (response?.success && direction === "update") {
-        toast.success(response.message);
+        toast.success("Business Account Updated");
         queryClient.invalidateQueries({
-          queryKey: ["business/settings"],
+          queryKey: ["user"],
         });
       }
     },

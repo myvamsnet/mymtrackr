@@ -1,0 +1,41 @@
+"use client";
+import AddNewLayout from "@/app/(protectedRoute)/_components/AddNewLayout";
+import { RecordHeader } from "@/app/(protectedRoute)/_components/common/records/RecordHeader";
+import PageLayout from "@/app/(protectedRoute)/_components/layout/PageLayout";
+import { SettingsIcon } from "@/assets/icons/SettingsIcon";
+import { useGetBusiness } from "@/hooks/businessSettings/useGetBusiness";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import React from "react";
+
+export const TypeLayout = ({ children }: Props) => {
+  const { data } = useGetBusiness();
+  const businessData = data?.data;
+  const { type } = useParams() as {
+    type: string;
+  };
+  return (
+    <PageLayout>
+      <RecordHeader
+        title={`Invoices and Receipts`}
+        leftElement={
+          <Link
+            href={
+              businessData?.id
+                ? `/settings/business/${businessData?.id}`
+                : `/settings/business}`
+            }
+          >
+            <SettingsIcon />
+          </Link>
+        }
+        url="/invoicesandreceipts/invoices"
+      />
+      {children}
+      <AddNewLayout path={`/invoicesandreceipts/create/${type}`} />
+    </PageLayout>
+  );
+};
+interface Props {
+  children: React.ReactNode;
+}

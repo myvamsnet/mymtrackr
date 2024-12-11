@@ -20,6 +20,9 @@ export const DiscountAndDeliveryForm = ({
   placeholder,
   name,
   type,
+  onSave,
+  result,
+  disable,
 }: Props) => {
   const { modal, onConfirm } = useModal();
 
@@ -38,7 +41,7 @@ export const DiscountAndDeliveryForm = ({
           <span className="text-dark-100 text-xs font-medium capitalize flex items-center gap-2">
             <EditIcon2 className="text-primary" /> {btnText}
           </span>
-          <strong>{currencyFormatter(Number(value))}</strong>
+          <strong>{currencyFormatter(Number(result))}</strong>
         </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -46,17 +49,27 @@ export const DiscountAndDeliveryForm = ({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{content}</DialogDescription>
         </DialogHeader>
-        <div className="w-full h-[42px] px-4 py-3 rounded-lg bg-[#F1F5FD] text-dark text-sm flex items-center">
-          <NairaIcon />
-          <input
-            value={value}
-            className="w-full  border-none outline-none bg-transparent  text-dark text-sm"
-            type="number"
-            name={name}
-            id={name}
-            placeholder={placeholder}
-            onChange={handleChange}
-          />
+        <div className="space-y-5">
+          <div className="w-full h-[42px] px-4 py-3 rounded-lg bg-[#F1F5FD] text-dark text-sm flex items-center">
+            <NairaIcon />
+            <input
+              value={value}
+              className="w-full  border-none outline-none bg-transparent  text-dark text-sm"
+              type="number"
+              name={name}
+              id={name}
+              placeholder={placeholder}
+              onChange={handleChange}
+              disabled={disable}
+            />
+          </div>
+          <div
+            className="bg-primary py-2 px-4 rounded-lg text-white h-[45px] text-center justify-center items-center flex cursor-pointer"
+            onClick={onSave}
+            role="button"
+          >
+            Save
+          </div>
         </div>
       </DialogContent>
     </Dialog>
@@ -75,4 +88,7 @@ interface Props {
   name: "discount" | "delivery";
   placeholder: string;
   type: "deliveryFee" | "default";
+  onSave: () => void;
+  result: string;
+  disable: boolean;
 }

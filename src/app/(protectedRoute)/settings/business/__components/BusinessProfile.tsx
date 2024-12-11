@@ -2,17 +2,17 @@
 
 import { CameraIcon } from "@/assets/icons/CameraIcon";
 import CustomAvatar from "@/components/ui/Avatar/index";
-import { useGetBusiness } from "@/hooks/businessSettings/useGetBusiness";
-import { BusinessData } from "@/types/business";
+import { BusinessProfileType } from "@/types/auth";
+import userStore from "@/zustand/userStore";
 
 export const BusinessProfile = ({ previewUrl, handleFileChange }: Props) => {
-  const { data } = useGetBusiness();
-  const businessData = data?.data as BusinessData;
+  const { user } = userStore();
+  const businessData = user?.businessProfile as BusinessProfileType;
   return (
     <section className="py-4 flex justify-center items-center bg-off-white-300">
       <div className=" relative w-[120px]">
         <CustomAvatar
-          name={businessData?.businessName}
+          name={businessData?.businessName ?? user?.fullName}
           size={120}
           imgUrl={previewUrl}
         />

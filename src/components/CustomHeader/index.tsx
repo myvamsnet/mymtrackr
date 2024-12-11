@@ -6,7 +6,6 @@ export const CustomHeader = ({ title, link }: CustomHeaderProps) => {
   const redirect = useRedirect();
   const handleBack = () => {
     if (link) return redirect(link);
-
     redirect();
   };
   return (

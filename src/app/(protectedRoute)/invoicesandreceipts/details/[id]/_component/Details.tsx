@@ -3,16 +3,43 @@ import { currencyFormatter } from "@/lib/helper/currencyFormatter";
 import { Button } from "@/components/ui/button";
 import useModal from "@/hooks/useModal";
 import { PreviewDetailsModal } from "@/app/(protectedRoute)/_components/PreviewDetailsModal";
+import { Data } from "@/types/invoicesandreceipts";
+import {
+  calculateGrandTotal,
+  calculateTotal,
+} from "@/lib/helper/calculateGrandTotal";
+import { dateFormatter } from "@/lib/helper/dateFormatter";
+import { RecordHeader } from "@/app/(protectedRoute)/_components/common/records/RecordHeader";
+import { Dots } from "@/assets/icons/Dots";
 
-export const Details = () => {
+export const Details = ({ data }: Props) => {
   const { onConfirm } = useModal();
   return (
     <>
+      <RecordHeader
+        title={`Details`}
+        leftElement={
+          <Dots
+            className="cursor-pointer"
+            onClick={() =>
+              onConfirm({
+                type: "more",
+                isOpen: true,
+              })
+            }
+          />
+        }
+        url={`/invoicesandreceipts/${data.type}`}
+      />
       <section className="overflow-y-auto overflow-x-hidden relative bg-off-white-500 py-2 px-3 space-y-3 md:pb-2 pb-28">
         <section className="bg-off-white-400 rounded-xl p-4 grid gap-4 text-center">
-          <h4 className="text-sm font-medium text-dark">Ilori Oluwaferanmi</h4>
+          <h4 className="text-sm font-medium text-dark">
+            {data?.customerName}
+          </h4>
           <p className="text-primary font-semibold text-sm">
-            {currencyFormatter(24000)}
+            {currencyFormatter(
+              calculateGrandTotal(data.items, data.discount, data.delivery)
+            )}
           </p>
         </section>
         <section className=" rounded-xl px-4 grid gap-4  bg-off-white-400 pt-4 ">
@@ -20,68 +47,75 @@ export const Details = () => {
             <p className="text-xs font-normal text-dark-100 tracking-[-1%]">
               Issue Date
             </p>
-            <p className="text-xs font-normal text-dark">24 Apr 2024</p>
-          </div>
-          <div className="py-3 border-b border-off-white-200 flex justify-between items-center">
-            <p className="text-xs font-normal text-dark-100 tracking-[-1%]">
-              Due Date
+            <p className="text-xs font-normal text-dark">
+              {dateFormatter(data.issueDate)}
             </p>
-            <p className="text-xs font-normal text-dark">24 Apr 2024</p>
           </div>
+          {data.type === "invoices" && (
+            <div className="py-3 border-b border-off-white-200 flex justify-between items-center">
+              <p className="text-xs font-normal text-dark-100 tracking-[-1%]">
+                Due Date
+              </p>
+              <p className="text-xs font-normal text-dark">
+                {dateFormatter(data.dueDate)}
+              </p>
+            </div>
+          )}
 
           <section className="bg-off-white-500 grid gap-6 rounded-lg p-4">
-            <div>
-              <p>Boxers</p>
-              <div className="flex justify-between items-center">
-                <p>2 x 50</p>
-                <p>{currencyFormatter(100.0)}</p>
+            {data.items?.map((item, index) => (
+              <div key={`${item.description} - ${index}`}>
+                <p>{item.description}</p>
+                <div className="flex justify-between items-center">
+                  <p>
+                    {item.quantity} x {item.price}
+                  </p>
+                  <p>
+                    {currencyFormatter(
+                      Number(item.price) * Number(item.quantity)
+                    )}
+                  </p>
+                </div>
               </div>
-            </div>
-            <div>
-              <p>Boxers</p>
-              <div className="flex justify-between items-center">
-                <p>2 x 50</p>
-                <p>{currencyFormatter(100.0)}</p>
-              </div>
-            </div>
-            <div>
-              <p>Boxers</p>
-              <div className="flex justify-between items-center">
-                <p>2 x 50</p>
-                <p>{currencyFormatter(100.0)}</p>
-              </div>
-            </div>
+            ))}
           </section>
           <div className="py-3 border-b border-off-white-200 flex justify-between items-center">
             <p className="text-xs font-normal text-dark tracking-[-1%]">
               Sub total
             </p>
             <p className="text-xs font-normal text-dark">
-              {currencyFormatter(1000)}
+              {currencyFormatter(calculateTotal(data.items))}
             </p>
           </div>
-          <div className="py-3 border-b border-off-white-200 flex justify-between items-center">
-            <p className="text-xs font-normal text-dark-100 tracking-[-1%]">
-              Discount
-            </p>
-            <p className="text-xs font-normal text-dark">
-              {currencyFormatter(1000)}
-            </p>
-          </div>
-          <div className="py-3 border-b border-off-white-200 flex justify-between items-center">
-            <p className="text-xs font-normal text-dark-100 tracking-[-1%]">
-              Delivery fee
-            </p>
-            <p className="text-xs font-normal text-dark">
-              {currencyFormatter(1400)}
-            </p>
-          </div>
+          {Number(data.discount) > 0 && (
+            <div className="py-3 border-b border-off-white-200 flex justify-between items-center">
+              <p className="text-xs font-normal text-dark-100 tracking-[-1%]">
+                Discount
+              </p>
+              <p className="text-xs font-normal text-dark">
+                {currencyFormatter(Number(data.discount))}
+              </p>
+            </div>
+          )}
+          {Number(data.delivery) > 0 && (
+            <div className="py-3 border-b border-off-white-200 flex justify-between items-center">
+              <p className="text-xs font-normal text-dark-100 tracking-[-1%]">
+                Delivery fee
+              </p>
+              <p className="text-xs font-normal text-dark">
+                {currencyFormatter(Number(data.delivery))}
+              </p>
+            </div>
+          )}
+
           <div className="py-3 border-b border-off-white-200 flex justify-between items-center">
             <p className="text-xs font-semibold text-dark tracking-[-1%]">
               Grand Total
             </p>
             <p className="text-xs font-semibold text-dark">
-              {currencyFormatter(1400)}
+              {currencyFormatter(
+                calculateGrandTotal(data.items, data.discount, data.delivery)
+              )}
             </p>
           </div>
         </section>
@@ -108,3 +142,6 @@ export const Details = () => {
     </>
   );
 };
+interface Props {
+  data: Data;
+}

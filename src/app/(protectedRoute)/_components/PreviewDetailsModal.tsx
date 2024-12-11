@@ -13,14 +13,22 @@ import {
   calculateTotal,
 } from "@/lib/helper/calculateGrandTotal";
 import { Button } from "@/components/ui/button";
+import { dateFormatter } from "@/lib/helper/dateFormatter";
+import CustomAvatar from "@/components/ui/Avatar/index";
+import userStore from "@/zustand/userStore";
 
 export const PreviewDetailsModal = ({
   lists,
   title,
   isOpen,
   onCancel,
+  onSave,
+  loader,
 }: props) => {
+  const { user } = userStore();
   const className = "text-[6.75px]  leading-[8.17px]";
+
+  const businessInfo = user?.businessProfile;
   return (
     <Modal
       title={title}
@@ -29,32 +37,35 @@ export const PreviewDetailsModal = ({
       className="md:w-[50%]"
     >
       <div className="py-4 overflow-y-auto h-[500px]">
-        <section className="bg-off-white-400 box-shadow-medium border-t-4 border-success border-b-4 p-4  space-y-3 ">
+        <section
+          className={`bg-off-white-400 box-shadow-medium border-t-4 border-b-4 p-4 space-y-5`}
+          style={{ borderColor: businessInfo?.brandColor || "#1D9213" }}
+        >
           <div className="grid gap-10 grid-cols-2">
             <div className="space-y-1">
               <div className="flex items-center gap-1">
-                <Image
-                  src="/images/business-logo.svg"
-                  alt="Business"
-                  width={14}
-                  height={14}
+                <CustomAvatar
+                  name={businessInfo?.businessName as string}
+                  imgUrl={businessInfo?.imageUrl}
+                  className="h-6 w-6"
                 />
                 <span className="font-bold text-[8.43px] text-dark leading-[8.17px]">
-                  Prema Cynosure
+                  {businessInfo?.businessName}
                 </span>
               </div>
               <div className=" space-y-1">
                 <p className={` text-dark-300 ${className}`}>
-                  Premacynosure@gmail.com
+                  {businessInfo?.businessEmail}
                 </p>
                 <p className={` text-dark-300 ${className}`}>
-                  08132453673, 09062736726
+                  {businessInfo?.phoneNumber1},{" "}
+                  {businessInfo?.phoneNumber2 ?? ""}
                 </p>
               </div>
             </div>
             <div>
-              <h4 className="font-bold text-base text-success text-end">
-                Invoice
+              <h4 className="font-bold text-base text-success text-end capitalize">
+                {lists.type}
               </h4>
               <div className="flex justify-end items-center">
                 <div className=" space-y-1 w-20">
@@ -63,17 +74,20 @@ export const PreviewDetailsModal = ({
                   >
                     Issue Date:{" "}
                     <span className={`${className} text-dark-300`}>
-                      Nov 11, 2024
+                      {dateFormatter(lists.issueDate)}
                     </span>
                   </p>
-                  <p
-                    className={`${className} text-dark flex justify-between items-center`}
-                  >
-                    Due Date:{" "}
-                    <span className={`${className} text-dark-300`}>
-                      Nov 11, 2024
-                    </span>
-                  </p>
+
+                  {lists.type === "invoice" && (
+                    <p
+                      className={`${className} text-dark flex justify-between items-center`}
+                    >
+                      Due Date:{" "}
+                      <span className={`${className} text-dark-300`}>
+                        {dateFormatter(lists.dueDate)}
+                      </span>
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -208,8 +222,10 @@ export const PreviewDetailsModal = ({
         <Button
           className="py-[14px] px-[10px] w-[183px] h-[45px] transition-all ease-out duration-300  bg-primary"
           role="button"
+          onClick={onSave}
+          disabled={loader}
         >
-          Save
+          {loader ? "Creating..." : "Save"}
         </Button>
       </section>
     </Modal>
@@ -220,4 +236,6 @@ interface props {
   title: string;
   isOpen: boolean;
   onCancel: () => void;
+  onSave: () => void;
+  loader: boolean;
 }

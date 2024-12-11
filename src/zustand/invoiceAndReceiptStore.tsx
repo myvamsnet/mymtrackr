@@ -22,6 +22,9 @@ const initialInvoiceAndReceiptDataState = {
   discount: "0",
   delivery: "0",
   customerName: "",
+  user_id: "",
+  business_id: "",
+  type: "invoice" as InvoiceAndReceiptType,
   items: [
     {
       description: "",
@@ -70,6 +73,9 @@ export interface InvoiceAndReceiptData {
   items: Item[];
   discount: string;
   delivery: string;
+  user_id: string;
+  business_id: string;
+  type: InvoiceAndReceiptType;
 }
 
 export interface Item {
@@ -78,3 +84,4 @@ export interface Item {
   price: string;
   id?: string;
 }
+export type InvoiceAndReceiptType = "invoice" | "invoice";

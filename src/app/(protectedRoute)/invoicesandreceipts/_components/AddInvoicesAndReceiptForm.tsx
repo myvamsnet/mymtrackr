@@ -1,5 +1,4 @@
 "use client";
-
 import { CustomDatePicker } from "@/components/CustomDatePicker";
 import { CustomInput } from "@/components/CustomInput";
 import { Button } from "@/components/ui/button";
@@ -12,6 +11,9 @@ import {
 import { useInvoiceAndReceipt } from "../hooks/useInvoiceAndReceipt";
 import { PreviewDetailsModal } from "../../_components/PreviewDetailsModal";
 import { DiscountAndDeliveryForm } from "./DiscountAndDeliveryForm";
+import { RecordHeader } from "../../_components/common/records/RecordHeader";
+import Link from "next/link";
+import { SettingsIcon } from "@/assets/icons/SettingsIcon";
 import NumberInput from "@/components/NumberInput";
 
 export default function AddInvoicesAndReceiptForm() {
@@ -30,10 +32,32 @@ export default function AddInvoicesAndReceiptForm() {
     onCancel,
     handleChange,
     values,
+    handleSave,
+    isPending,
+    businessData,
+    handleSubmitDiscountAndDeliveryFee,
+    results,
+    checkSubTotalAvailable,
+    subTotal,
+    grandTotal,
   } = useInvoiceAndReceipt();
 
   return (
     <>
+      <RecordHeader
+        title={`Add New ${paramType}`}
+        leftElement={
+          <Link
+            href={
+              businessData?.data?.id
+                ? `/settings/business/${businessData?.data?.id}`
+                : `/settings/business}`
+            }
+          >
+            <SettingsIcon />
+          </Link>
+        }
+      />
       <form
         className="bg-off-white-500  space-y-5 pb-32 md:pb-4"
         onSubmit={handleSubmit(onSubmit)}
@@ -45,7 +69,7 @@ export default function AddInvoicesAndReceiptForm() {
             control={control}
             label="Issue date"
           />
-          {paramType === "invoices" && (
+          {paramType === "invoice" && (
             <CustomDatePicker
               name="dueDate"
               control={control}
@@ -90,8 +114,7 @@ export default function AddInvoicesAndReceiptForm() {
                 name={`items.${index}.quantity`}
                 placeholder="Enter quantity"
               />
-              <CustomInput
-                type={"number"}
+              <NumberInput
                 label={"Price"}
                 control={control}
                 name={`items.${index}.price`}
@@ -131,13 +154,13 @@ export default function AddInvoicesAndReceiptForm() {
             <span className="text-dark-dark text-xs font-medium capitalize">
               Sub Total
             </span>
-            <strong>
-              {currencyFormatter(Number(calculateTotal(watch("items"))))}
-            </strong>
+            <strong>{subTotal}</strong>
           </div>
-
           <DiscountAndDeliveryForm
             handleChange={handleChange}
+            onSave={() =>
+              handleSubmitDiscountAndDeliveryFee({ discount: values.discount })
+            }
             value={values.discount}
             name="discount"
             title="Set Discount"
@@ -145,6 +168,8 @@ export default function AddInvoicesAndReceiptForm() {
             content="Set your discount price"
             placeholder=""
             type="default"
+            result={results.discount as string}
+            disable={checkSubTotalAvailable <= 0}
           />
           <DiscountAndDeliveryForm
             handleChange={handleChange}
@@ -155,19 +180,16 @@ export default function AddInvoicesAndReceiptForm() {
             content="Set your Set Delivery Fee"
             placeholder=""
             type="deliveryFee"
+            onSave={() =>
+              handleSubmitDiscountAndDeliveryFee({ delivery: values.delivery })
+            }
+            result={results.delivery as string}
+            disable={checkSubTotalAvailable <= 0}
           />
 
           <div className="bg-off-white-500 py-6 px-4 flex justify-between items-center">
             <p className="text-sm font-semibold  text-dark">Grand Total</p>
-            <strong>
-              {currencyFormatter(
-                calculateGrandTotal(
-                  watch("items"),
-                  values.discount,
-                  values.delivery
-                )
-              )}
-            </strong>
+            <strong>{grandTotal}</strong>
           </div>
         </section>
 
@@ -187,6 +209,8 @@ export default function AddInvoicesAndReceiptForm() {
             invoiceAndReceiptData !== null
           }
           onCancel={onCancel}
+          onSave={handleSave}
+          loader={isPending}
         />
       )}
     </>

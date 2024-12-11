@@ -12,6 +12,7 @@ import { useGetBusiness } from "@/hooks/businessSettings/useGetBusiness";
 const Settings = () => {
   const { data } = useGetBusiness();
   const businessData = data?.data;
+  console.log(businessData);
   return (
     <main className="container mx-auto md:max-w-[700px] bg-off-white relative h-screen py-2">
       <section className="bg-off-white  font-inter  px-3 gap-4   my-3">

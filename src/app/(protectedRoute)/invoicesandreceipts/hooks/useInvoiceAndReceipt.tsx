@@ -1,19 +1,42 @@
+import { useGetBusiness } from "@/hooks/businessSettings/useGetBusiness";
 import { useChange } from "@/hooks/useChange";
+import { useGetUser } from "@/hooks/useGetUser";
 import useModal from "@/hooks/useModal";
+import { useRedirect } from "@/hooks/useRedirect";
+import axiosInstance from "@/lib/axios";
+import {
+  calculateGrandTotal,
+  calculateTotal,
+} from "@/lib/helper/calculateGrandTotal";
+import { currencyFormatter } from "@/lib/helper/currencyFormatter";
+import { handleError } from "@/lib/helper/handleError";
 import { isValidDate } from "@/lib/helper/isValidDate";
 import {
   invoiceAndReceiptSchema,
   InvoiceAndReceiptSchemaSchemaType,
 } from "@/lib/Schema/invoiceAndReceiptSchema";
-import useInvoiceAndReceiptStore from "@/zustand/invoiceAndReceiptStore";
+import { SingleInvoicesAndReceiptsResponseData } from "@/types/invoicesandreceipts";
+import useInvoiceAndReceiptStore, {
+  InvoiceAndReceiptData,
+  InvoiceAndReceiptType,
+} from "@/zustand/invoiceAndReceiptStore";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { useDebouncedCallback } from "use-debounce";
 
 export const useInvoiceAndReceipt = () => {
+  const redirect = useRedirect();
+  const { data: businessData } = useGetBusiness();
+  const [results, setResults] = useState<DiscountAndDeliveryFeeType>({
+    delivery: "0",
+    discount: "0",
+  });
+  const { user } = useGetUser();
   const { modal, onConfirm, onCancel } = useModal();
   const [values, setValues] = useState({
     discount: "0",
@@ -29,27 +52,26 @@ export const useInvoiceAndReceipt = () => {
       ...prevState,
       [e.target.name]: e.target.value,
     }));
-
-    // Trigger debounced callback with the updated value
-    debounced(e.target.value);
   };
 
-  // Debounce callback
-  const debounced = useDebouncedCallback(
-    // Function to execute after debounce
-    (value: string) => {
-      if (value) {
-        onCancel();
-      }
-    },
-    // Delay in milliseconds
-    1500
-  );
+  const handleSubmitDiscountAndDeliveryFee = (
+    data: DiscountAndDeliveryFeeType
+  ) => {
+    setResults((prevState: ResultsState) => ({
+      ...prevState, // Preserve the previous state
+      ...data, // Merge new data into the state
+    }));
 
-  const { setInvoiceAndReceipt, invoiceAndReceiptData } =
-    useInvoiceAndReceiptStore();
+    onCancel();
+  };
+
+  const {
+    setInvoiceAndReceipt,
+    invoiceAndReceiptData,
+    clearInvoiceAndReceipt,
+  } = useInvoiceAndReceiptStore();
   const params = useParams() as {
-    add: "receipts" | "invoices";
+    add: InvoiceAndReceiptType;
   };
 
   const {
@@ -66,14 +88,14 @@ export const useInvoiceAndReceipt = () => {
       customerName: "",
       items: [{ description: "", quantity: "", price: "" }],
     },
-    mode: "onSubmit",
+    // mode: "onSubmit",
   });
 
   const { fields, append, remove } = useFieldArray({
     control: control,
     name: "items",
   });
-  console.log(errors);
+  console.log(watch("items"));
   useEffect(() => {
     if (invoiceAndReceiptData !== null) {
       setValue(
@@ -103,17 +125,11 @@ export const useInvoiceAndReceipt = () => {
   }, [invoiceAndReceiptData, setValue]);
 
   const getTotalByIndex = (index: number) => {
-    const items = watch("items");
+    const items = watch("items") || [];
+    if (!Array.isArray(items)) return null;
 
-    if (!items || !Array.isArray(items)) {
-      return null; // Ensure items is an array before proceeding
-    }
-
-    const item = items.find((_, i) => i === index);
-
-    if (!item) {
-      return null; // Return null if no matching item is found
-    }
+    const item = items[index];
+    if (!item) return null;
 
     return {
       description: item.description || "",
@@ -122,16 +138,37 @@ export const useInvoiceAndReceipt = () => {
     };
   };
 
-  const { discount, delivery } = values;
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (payload: InvoiceAndReceiptData) => {
+      const { data } = await axiosInstance.post(
+        "/invoicesandreceipts",
+        payload
+      );
+      return data;
+    },
+    onSuccess: (data: SingleInvoicesAndReceiptsResponseData) => {
+      if (data.success) {
+        clearInvoiceAndReceipt();
+        toast.success(data?.message);
+        redirect(`/invoicesandreceipts/${data?.data?.type}`);
+      }
+    },
+    onError: handleError,
+  });
+
   const onSubmit = (values: InvoiceAndReceiptSchemaSchemaType) => {
+    if (!user?.id && !businessData?.data?.id) return;
     const payload = {
       issueDate: dayjs(values?.issueDate).format("dddd, MMMM D, YYYY h:mm A"),
       dueDate: dayjs(values?.dueDate).format("dddd, MMMM D, YYYY h:mm A"),
       customerName: values.customerName,
       items: values.items,
-      discount,
-      delivery,
-    };
+      discount: results.discount,
+      delivery: results.delivery,
+      user_id: user?.id,
+      business_id: businessData?.data.id,
+      type: params?.add as InvoiceAndReceiptType,
+    } as InvoiceAndReceiptData;
 
     setInvoiceAndReceipt(payload);
     onConfirm({
@@ -141,6 +178,22 @@ export const useInvoiceAndReceipt = () => {
     console.log("preview");
   };
 
+  const itemData = watch("items");
+  const handleSave = () => {
+    if (!invoiceAndReceiptData || !user?.id || !businessData?.data?.id) return;
+    mutate(invoiceAndReceiptData);
+  };
+
+  const subTotal = currencyFormatter(Number(calculateTotal(itemData)));
+  const checkSubTotalAvailable = calculateTotal(itemData);
+
+  const grandTotal = currencyFormatter(
+    calculateGrandTotal(
+      watch("items"),
+      results.discount as string,
+      results.delivery as string
+    )
+  );
   return {
     onSubmit,
     watch,
@@ -156,5 +209,21 @@ export const useInvoiceAndReceipt = () => {
     onCancel,
     handleChange,
     values,
+    handleSave,
+    isPending,
+    businessData,
+    handleSubmitDiscountAndDeliveryFee,
+    results,
+    subTotal,
+    grandTotal,
+    checkSubTotalAvailable,
   };
+};
+interface DiscountAndDeliveryFeeType {
+  discount?: string;
+  delivery?: string;
+}
+
+type ResultsState = {
+  [key: string]: any; // Represents the shape of the state, allowing for dynamic keys
 };
