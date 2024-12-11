@@ -59,7 +59,6 @@ const EditRecordForm = ({
             <NumberInput
               key={i}
               name={"amount"}
-              type={input.type}
               label={input.label}
               control={control}
               placeholder={input.placeholder}

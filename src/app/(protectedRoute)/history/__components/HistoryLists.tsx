@@ -5,6 +5,7 @@ import { LoadingRecords } from "@/components/LoadingRecords";
 import React, { useEffect } from "react";
 import useInfiniteItems from "../hook/useInfiniteItems";
 import { useInView } from "react-intersection-observer";
+import { DataNotFound } from "@/components/DataNotFound";
 export const HistoryLists = () => {
   const {
     records,
@@ -25,7 +26,7 @@ export const HistoryLists = () => {
     <section className=" bg-[#FBFCFF] overflow-y-auto overflow-x-hidden ">
       {status === "error" && <p>{error?.name}</p>}
       {records && records?.length === 0 && status === "success" && (
-        <RecordsNotFound />
+        <DataNotFound message="records" />
       )}
       {status === "pending" && <LoadingRecords />}
       {records &&

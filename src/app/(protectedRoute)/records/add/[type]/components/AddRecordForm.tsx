@@ -28,7 +28,6 @@ export const AddRecordForm: FC<CreateRecordsProps> = ({ inputlists }) => {
           <NumberInput
             key={`${input.name}-${i}`}
             name={"amount"}
-            type={input.type}
             label={input.label}
             control={control}
             placeholder={input.placeholder}

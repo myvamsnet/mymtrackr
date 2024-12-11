@@ -4,6 +4,7 @@ import Link from "next/link";
 import { RecordsNotFound } from "../../_components/common/records/RecordsNotFound";
 import { RecordItem } from "../../_components/common/records/RecordItem";
 import toast from "react-hot-toast";
+import { DataNotFound } from "@/components/DataNotFound";
 
 export const RecentRecords = ({
   data,
@@ -32,7 +33,7 @@ export const RecentRecords = ({
       </section>
 
       <section className=" bg-off-white-300">
-        {records && records?.length === 0 && <RecordsNotFound />}
+        {records && records?.length === 0 && <DataNotFound message="records" />}
         {records &&
           records?.length > 0 &&
           records?.map((record, index) => (
