@@ -12,7 +12,7 @@ export async function GET() {
     if (!userInfo.data?.user?.id) return;
     const { data, error } = await supabase
       .from("userProfile") // Replace with your table name
-      .select("*, subscriptions(*)") // Or specify columns like 'id, name, etc.'
+      .select("*, subscriptions(*), businessProfile(*)") // Or specify columns like 'id, name, etc.'
       .eq("user_id", userInfo.data?.user?.id)
       .single();
 
@@ -28,6 +28,7 @@ export async function GET() {
       },
       { status: 200 }
     );
+
     return response;
   } catch (error) {
     if (error instanceof Error) {

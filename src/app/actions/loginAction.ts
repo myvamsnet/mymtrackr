@@ -78,7 +78,7 @@ export const loginAction = async (formData: FormData) => {
       }
     }
   }
-  redirect("/app/home?login=success"); // Redirecting to the home page
+  redirect("/home?login=success"); // Redirecting to the home page
 
   // // Step 4: Fetch the user's referrals and join with referees and their subscriptions
   // const { data: referrals, error: referralsError } = await supabase

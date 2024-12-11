@@ -104,5 +104,5 @@ export const RegisterAction = async (formData: FormData) => {
   }
 
   // Redirect to the home page upon successful registration
-  redirect("/app/home?signup=success"); // Redirecting to the home page
+  redirect("/home?signup=success"); // Redirecting to the home page
 };

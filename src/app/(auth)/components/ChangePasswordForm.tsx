@@ -15,7 +15,7 @@ const ChangePasswordForm = () => {
   const searchParams = useSearchParams();
   const supabase = createClient();
   const access_token = searchParams?.get("code") as string;
-  console.log(access_token);
+
   const { control, handleSubmit } = useForm<ResetPasswordType>({
     defaultValues: {
       newPassword: "",
@@ -44,7 +44,6 @@ const ChangePasswordForm = () => {
       toast.success("Password reset successfully");
     },
     onError(error) {
-      console.log(error);
       if (
         error?.message !== "" &&
         error?.message == null &&

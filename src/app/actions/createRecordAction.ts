@@ -49,7 +49,7 @@ export const createRecordAction = async (formData: FormData) => {
     if (error) {
       return { success: false, message: "Failed to create record" };
     }
-    revalidatePath("/app/home");
+    revalidatePath("/home");
     return { success: true, data };
   } catch (error) {
     return {

@@ -43,5 +43,6 @@ export interface ModalStoreState {
     | "logout"
     | "preview"
     | "more"
-    | "default";
+    | "default"
+    | "deliveryFee";
 }

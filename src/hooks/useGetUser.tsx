@@ -1,9 +1,13 @@
 "use client";
 import axiosInstance from "@/lib/axios";
-import { createClient } from "@/lib/supabse/client";
+import { User } from "@/types/auth";
+
+import userStore from "@/zustand/userStore";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 export const useGetUser = () => {
+  const { user, setUser } = userStore();
   const { data, isLoading, error } = useQuery<UserResponseAPI>({
     queryKey: ["user"],
     queryFn: async () => {
@@ -12,38 +16,19 @@ export const useGetUser = () => {
     },
   });
 
+  useEffect(() => {
+    if (data?.data) {
+      setUser(data?.data as User);
+    }
+  }, [data?.data, setUser]);
+
   return {
-    user: data?.data as IUser,
+    user: data?.data as User,
     isLoading,
     error,
   };
 };
 export interface UserResponseAPI {
   status: string;
-  data: IUser;
-}
-
-export interface IUser {
-  id: string;
-  created_at: string;
-  fullName: string;
-  email: string;
-  imageUrl: string;
-  phoneNumber: string;
-  referralCode: string;
-  role: string;
-  user_id: string;
-  update_at: string;
-  subscriptions: Subscriptions;
-}
-
-export interface Subscriptions {
-  id: string;
-  amount: number;
-  status: string;
-  user_id: string;
-  expiresAt: string;
-  created_at: string;
-  updated_at: string;
-  userProfile_id: string;
+  data: User;
 }

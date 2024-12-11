@@ -47,7 +47,7 @@ export async function updateSession(request: NextRequest) {
   if (user?.id && unprotectedRoutes.includes(request.nextUrl.pathname)) {
     // user is logged in, potentially respond by redirecting the user to the home page
     const url = request.nextUrl.clone();
-    url.pathname = "/app/home";
+    url.pathname = "/home";
     return NextResponse.redirect(url);
   }
 

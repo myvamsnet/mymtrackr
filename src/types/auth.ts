@@ -1,6 +1,6 @@
 export interface InputLists {
   name: string;
-  type: 'text' | 'email' | 'password' | 'ordinary';
+  type: "text" | "email" | "password" | "ordinary";
   label: string;
   placeholder: string;
 }
@@ -17,7 +17,8 @@ export interface User {
   imageUrl: string | null;
   phoneNumber: string | null;
   referralCode: string | null;
-  subscription: Subscription;
+  subscriptions: Subscription;
+  businessProfile: BusinessProfileType;
   referredUsers: any[]; // Assuming an array, define a specific type if needed
   referrals: any[]; // Assuming an array, define a specific type if needed
   createdAt: string; // ISO date string
@@ -27,7 +28,7 @@ export interface User {
 interface Subscription {
   id: string;
   userId: string;
-  status: 'trial' | 'active' | 'expired'; // Assuming these are the possible statuses
+  status: "trial" | "active" | "expired"; // Assuming these are the possible statuses
   expiresAt: string; // ISO date string
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
@@ -42,4 +43,20 @@ export interface UserProfile {
   created_at: string;
   phoneNumber: any;
   update_at: string;
+}
+
+export interface BusinessProfileType {
+  id: string;
+  userId: string;
+  bankName: string;
+  imageUrl: string;
+  brandColor: string;
+  createdAt: string;
+  accountName: string;
+  businessName: string;
+  phoneNumber1: string;
+  phoneNumber2: string;
+  accountNumber: string;
+  businessEmail: string;
+  termsOfService: string;
 }

@@ -55,9 +55,9 @@ export const Modal = ({
         ref={modalRef}
       >
         <section
-          className={`bg-off-white-100 md:w-[40%] w-full mx-auto rounded-md md:p-4 p-2 transform transition-transform duration-300 ${
+          className={`bg-white md:w-[40%] w-full mx-auto rounded-xl p-4  transform transition-transform duration-300 ${
             isOpen ? "scale-100" : "scale-90"
-          } ${className}`}
+          } `}
         >
           <div
             className={`p-2 flex items-center ${

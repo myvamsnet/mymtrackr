@@ -16,7 +16,7 @@ export const LoadingRecords = () => {
             </div>
           </div>
           <div>
-            <Skeleton className="w-20 h-6 rounded-lg" />
+            <Skeleton className="w-10 h-6 rounded-lg" />
           </div>
         </section>
       ))}

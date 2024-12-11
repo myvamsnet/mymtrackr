@@ -18,7 +18,7 @@ export const getRecordsById = async (id: string) => {
         error: "Something went wrong, Try Again",
       };
     }
-    revalidatePath(`/details/${id}`);
+    revalidatePath(`/records/details/${id}`);
     return { data, error };
   } catch (error: unknown) {
     if (error instanceof Error) {
