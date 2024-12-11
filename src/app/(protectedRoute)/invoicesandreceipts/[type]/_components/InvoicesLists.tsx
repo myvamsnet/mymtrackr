@@ -8,7 +8,7 @@ import { DataNotFound } from "@/components/DataNotFound";
 import { Items } from "./Items";
 
 function InvoicesLists() {
-  const { invoicesandreceipts, status, error } = useGetAllInvoicesAndReceipts();
+  const { invoicesandreceipts, status } = useGetAllInvoicesAndReceipts();
   const { type } = useParams() as {
     type: InvoiceAndReceiptType;
   };

@@ -20,7 +20,7 @@ export const useGetUser = () => {
     if (data?.data) {
       setUser(data?.data as User);
     }
-  }, [data?.data]);
+  }, [data?.data, setUser]);
 
   return {
     user: data?.data as User,

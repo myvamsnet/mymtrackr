@@ -1,5 +1,3 @@
-import { useGetBusiness } from "@/hooks/businessSettings/useGetBusiness";
-import { useChange } from "@/hooks/useChange";
 import { useGetUser } from "@/hooks/useGetUser";
 import useModal from "@/hooks/useModal";
 import { useRedirect } from "@/hooks/useRedirect";
@@ -27,16 +25,15 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useDebouncedCallback } from "use-debounce";
 
 export const useInvoiceAndReceipt = () => {
   const redirect = useRedirect();
-  const { data: businessData } = useGetBusiness();
+  const { user } = useGetUser();
+  const businessData = user?.businessProfile;
   const [results, setResults] = useState<DiscountAndDeliveryFeeType>({
     delivery: "0",
     discount: "0",
   });
-  const { user } = useGetUser();
   const { modal, onConfirm, onCancel } = useModal();
   const [values, setValues] = useState({
     discount: "0",
@@ -95,7 +92,7 @@ export const useInvoiceAndReceipt = () => {
     control: control,
     name: "items",
   });
-  console.log(watch("items"));
+
   useEffect(() => {
     if (invoiceAndReceiptData !== null) {
       setValue(
@@ -157,7 +154,7 @@ export const useInvoiceAndReceipt = () => {
   });
 
   const onSubmit = (values: InvoiceAndReceiptSchemaSchemaType) => {
-    if (!user?.id && !businessData?.data?.id) return;
+    if (!user?.id && !businessData?.id) return;
     const payload = {
       issueDate: dayjs(values?.issueDate).format("dddd, MMMM D, YYYY h:mm A"),
       dueDate: dayjs(values?.dueDate).format("dddd, MMMM D, YYYY h:mm A"),
@@ -166,7 +163,7 @@ export const useInvoiceAndReceipt = () => {
       discount: results.discount,
       delivery: results.delivery,
       user_id: user?.id,
-      business_id: businessData?.data.id,
+      business_id: businessData?.id,
       type: params?.add as InvoiceAndReceiptType,
     } as InvoiceAndReceiptData;
 
@@ -175,12 +172,11 @@ export const useInvoiceAndReceipt = () => {
       type: "preview",
       isOpen: true,
     });
-    console.log("preview");
   };
 
   const itemData = watch("items");
   const handleSave = () => {
-    if (!invoiceAndReceiptData || !user?.id || !businessData?.data?.id) return;
+    if (!invoiceAndReceiptData || !user?.id || !businessData?.id) return;
     mutate(invoiceAndReceiptData);
   };
 

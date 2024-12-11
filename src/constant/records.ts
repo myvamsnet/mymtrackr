@@ -46,14 +46,14 @@ export const addRecords = [
   },
   {
     name: "Invoice",
-    path: "/invoicesandreceipts/invoice",
+    path: "/invoicesandreceipts/invoices",
     color: "#010114",
     type: "invoice",
     icon: InvoiceIcon,
   },
   {
     name: "Receipt",
-    path: "/invoicesandreceipts/receipt",
+    path: "/invoicesandreceipts/receipts",
     color: "#010114",
     type: "receipt",
     icon: InvoiceIcon,

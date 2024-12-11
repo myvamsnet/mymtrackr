@@ -30,7 +30,7 @@ export const useBusiness = (direction: "create" | "update") => {
   };
   const { user } = userStore();
   const businessData = user?.businessProfile;
-  console.log(businessData);
+
   // Initialize React Hook Form
   const {
     control,

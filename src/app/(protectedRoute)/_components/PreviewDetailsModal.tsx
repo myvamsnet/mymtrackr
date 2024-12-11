@@ -12,7 +12,6 @@ import {
   calculateGrandTotal,
   calculateTotal,
 } from "@/lib/helper/calculateGrandTotal";
-import { Button } from "@/components/ui/button";
 import { dateFormatter } from "@/lib/helper/dateFormatter";
 import CustomAvatar from "@/components/ui/Avatar/index";
 import userStore from "@/zustand/userStore";
@@ -22,8 +21,7 @@ export const PreviewDetailsModal = ({
   title,
   isOpen,
   onCancel,
-  onSave,
-  loader,
+  children,
 }: props) => {
   const { user } = userStore();
   const className = "text-[6.75px]  leading-[8.17px]";
@@ -78,7 +76,7 @@ export const PreviewDetailsModal = ({
                     </span>
                   </p>
 
-                  {lists.type === "invoice" && (
+                  {lists.type === "invoices" && (
                     <p
                       className={`${className} text-dark flex justify-between items-center`}
                     >
@@ -93,8 +91,12 @@ export const PreviewDetailsModal = ({
             </div>
           </div>
           <div className=" space-y-1 w-20">
-            <p className={` text-dark font-bold ${className}`}>Invoice to::</p>
-            <p className={`${className} text-dark-300`}>{lists.customerName}</p>
+            <p className={` text-dark font-bold ${className}`}>
+              {lists?.type} to:
+            </p>
+            <p className={`${className} text-dark-300`}>
+              {lists?.customerName}
+            </p>
           </div>
           <section>
             <CustomeTable
@@ -109,15 +111,15 @@ export const PreviewDetailsModal = ({
             >
               {lists?.items?.map((list) => (
                 <TableRow
-                  key={list.id}
+                  key={list?.id}
                   className={`${className} text-dark-300 md:text-sm`}
                 >
-                  <TableCell>{list.description}</TableCell>
-                  <TableCell>{list.quantity}</TableCell>
-                  <TableCell>{currencyFormatter(list.price)}</TableCell>
+                  <TableCell>{list?.description}</TableCell>
+                  <TableCell>{list?.quantity}</TableCell>
+                  <TableCell>{currencyFormatter(list?.price)}</TableCell>
                   <TableCell className="text-right">
                     {currencyFormatter(
-                      Number(list.price) * Number(list.quantity)
+                      Number(list?.price) * Number(list?.quantity)
                     )}
                   </TableCell>
                 </TableRow>
@@ -128,18 +130,18 @@ export const PreviewDetailsModal = ({
                 className={`${className} md:text-sm text-dark flex justify-between items-center w-[115px] md:w-[300px]`}
               >
                 Sub Total:{" "}
-                <span>{currencyFormatter(calculateTotal(lists.items))}</span>
+                <span>{currencyFormatter(calculateTotal(lists?.items))}</span>
               </p>
               <p
                 className={`${className} md:text-sm text-dark-100 flex justify-between items-center w-[115px] md:w-[300px]`}
               >
-                Discount: <span>{currencyFormatter(lists.discount || 0)}</span>
+                Discount: <span>{currencyFormatter(lists?.discount || 0)}</span>
               </p>
               <p
                 className={`${className} md:text-sm text-dark-100 flex justify-between items-center w-[115px] md:w-[300px]`}
               >
                 Delivery fee:{" "}
-                <span>{currencyFormatter(lists.delivery || 0)}</span>
+                <span>{currencyFormatter(lists?.delivery || 0)}</span>
               </p>
               <p
                 className={` text-[8.43px] leading-[10.21px] md:text-sm text-success font-bold flex justify-between items-center w-[115px] md:w-[300px]`}
@@ -148,9 +150,9 @@ export const PreviewDetailsModal = ({
                 <span>
                   {currencyFormatter(
                     calculateGrandTotal(
-                      lists.items,
-                      String(lists.discount),
-                      String(lists.delivery)
+                      lists?.items,
+                      String(lists?.discount),
+                      String(lists?.delivery)
                     )
                   )}
                 </span>
@@ -166,28 +168,30 @@ export const PreviewDetailsModal = ({
               </div>
               <div className=" space-y-1">
                 <p className={` text-dark-300 md:text-sm ${className}`}>
-                  Prema Cynosure
+                  {businessInfo?.accountName}
                 </p>
                 <p className={` text-dark-300 md:text-sm ${className}`}>
-                  90656565656
+                  {businessInfo?.accountNumber}
                 </p>
                 <p className={` text-dark-300 md:text-sm ${className}`}>
-                  Opay Bank
+                  {businessInfo?.bankName}
                 </p>
               </div>
             </div>
-            <div className=" space-y-[5.06px]">
-              <p
-                className={`font-bold text-dark md:text-sm ${className} md:text-sm`}
-              >
-                Terms of Service
-              </p>
-              <p
-                className={`${className} text-dark-100 flex justify-between items-center md:w-full w-[121px] md:text-sm`}
-              >
-                Full payment has to be made before delivery of products
-              </p>
-            </div>
+            {businessInfo?.termsOfService && (
+              <div className=" space-y-[5.06px]">
+                <p
+                  className={`font-bold text-dark md:text-sm ${className} md:text-sm`}
+                >
+                  Terms of Service
+                </p>
+                <p
+                  className={`${className} text-dark-100 flex justify-between items-center md:w-full w-[121px] md:text-sm`}
+                >
+                  {businessInfo?.termsOfService}
+                </p>
+              </div>
+            )}
           </div>
           <div className="w-full  flex justify-center items-center flex-col ">
             <div className="flex items-center gap-1">
@@ -210,24 +214,7 @@ export const PreviewDetailsModal = ({
           </div>
         </section>
       </div>
-      <section className="bg-off-white-300 p-4 flex gap-3 justify-between mt-6  w-full">
-        <Button
-          variant={"ghost"}
-          className="py-[14px] px-[10px] w-[93px] h-[45px] transition-all ease-out duration-300 "
-          onClick={onCancel}
-          role="button"
-        >
-          Edit
-        </Button>
-        <Button
-          className="py-[14px] px-[10px] w-[183px] h-[45px] transition-all ease-out duration-300  bg-primary"
-          role="button"
-          onClick={onSave}
-          disabled={loader}
-        >
-          {loader ? "Creating..." : "Save"}
-        </Button>
-      </section>
+      {children}
     </Modal>
   );
 };
@@ -236,6 +223,5 @@ interface props {
   title: string;
   isOpen: boolean;
   onCancel: () => void;
-  onSave: () => void;
-  loader: boolean;
+  children: React.ReactNode;
 }

@@ -1,5 +1,4 @@
 "use client";
-
 import { PenBook } from "@/assets/icons/PenBook";
 import { Delete } from "@/assets/icons/Delete";
 import Link from "next/link";
@@ -7,12 +6,11 @@ import React from "react";
 import { CustomHeader } from "@/components/CustomHeader";
 import ResetPasswordModal from "./__components/ResetPasswordModal";
 import { BusinessIcon } from "@/assets/icons/BusinessIcon";
-import { useGetBusiness } from "@/hooks/businessSettings/useGetBusiness";
+import userStore from "@/zustand/userStore";
 
 const Settings = () => {
-  const { data } = useGetBusiness();
-  const businessData = data?.data;
-  console.log(businessData);
+  const { user } = userStore();
+  const businessData = user?.businessProfile;
   return (
     <main className="container mx-auto md:max-w-[700px] bg-off-white relative h-screen py-2">
       <section className="bg-off-white  font-inter  px-3 gap-4   my-3">

@@ -2,7 +2,6 @@
 import { currencyFormatter } from "@/lib/helper/currencyFormatter";
 import { Button } from "@/components/ui/button";
 import useModal from "@/hooks/useModal";
-import { PreviewDetailsModal } from "@/app/(protectedRoute)/_components/PreviewDetailsModal";
 import { Data } from "@/types/invoicesandreceipts";
 import {
   calculateGrandTotal,
@@ -11,11 +10,12 @@ import {
 import { dateFormatter } from "@/lib/helper/dateFormatter";
 import { RecordHeader } from "@/app/(protectedRoute)/_components/common/records/RecordHeader";
 import { Dots } from "@/assets/icons/Dots";
+import PreviewDetails from "./PreviewDetails";
 
 export const Details = ({ data }: Props) => {
   const { onConfirm } = useModal();
   return (
-    <>
+    <main className="relative">
       <RecordHeader
         title={`Details`}
         leftElement={
@@ -31,7 +31,7 @@ export const Details = ({ data }: Props) => {
         }
         url={`/invoicesandreceipts/${data.type}`}
       />
-      <section className="overflow-y-auto overflow-x-hidden relative bg-off-white-500 py-2 px-3 space-y-3 md:pb-2 pb-28">
+      <section className="overflow-y-auto overflow-x-hidden relative bg-off-white-500 py-2 px-3 space-y-3 md:pb-2 pb-28 ">
         <section className="bg-off-white-400 rounded-xl p-4 grid gap-4 text-center">
           <h4 className="text-sm font-medium text-dark">
             {data?.customerName}
@@ -138,8 +138,8 @@ export const Details = ({ data }: Props) => {
           </Button>
         </section>
       </section>
-      {/* <PreviewDetailsModal /> */}
-    </>
+      <PreviewDetails list={data} />
+    </main>
   );
 };
 interface Props {

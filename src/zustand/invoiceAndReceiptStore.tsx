@@ -84,4 +84,4 @@ export interface Item {
   price: string;
   id?: string;
 }
-export type InvoiceAndReceiptType = "invoice" | "invoice";
+export type InvoiceAndReceiptType = "invoices" | "invoices";

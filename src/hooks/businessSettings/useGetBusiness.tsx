@@ -10,6 +10,6 @@ export const useGetBusiness = () => {
       return data;
     },
   });
-  console.log(query.status);
+
   return query;
 };

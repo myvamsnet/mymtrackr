@@ -24,7 +24,6 @@ export const resetPasswordAction = async (formData: FormData) => {
     password,
   });
   if (error) {
-    console.log(error);
     return {
       success: false,
       message: error!.message,

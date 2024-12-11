@@ -4,10 +4,6 @@ import { CustomInput } from "@/components/CustomInput";
 import { Button } from "@/components/ui/button";
 import { currencyFormatter } from "@/lib/helper/currencyFormatter";
 import { Plus, X } from "lucide-react";
-import {
-  calculateGrandTotal,
-  calculateTotal,
-} from "@/lib/helper/calculateGrandTotal";
 import { useInvoiceAndReceipt } from "../hooks/useInvoiceAndReceipt";
 import { PreviewDetailsModal } from "../../_components/PreviewDetailsModal";
 import { DiscountAndDeliveryForm } from "./DiscountAndDeliveryForm";
@@ -19,7 +15,6 @@ import NumberInput from "@/components/NumberInput";
 export default function AddInvoicesAndReceiptForm() {
   const {
     onSubmit,
-    watch,
     control,
     handleSubmit,
     getTotalByIndex,
@@ -49,8 +44,8 @@ export default function AddInvoicesAndReceiptForm() {
         leftElement={
           <Link
             href={
-              businessData?.data?.id
-                ? `/settings/business/${businessData?.data?.id}`
+              businessData?.id
+                ? `/settings/business/${businessData?.id}`
                 : `/settings/business}`
             }
           >
@@ -69,7 +64,7 @@ export default function AddInvoicesAndReceiptForm() {
             control={control}
             label="Issue date"
           />
-          {paramType === "invoice" && (
+          {paramType === "invoices" && (
             <CustomDatePicker
               name="dueDate"
               control={control}
@@ -209,9 +204,26 @@ export default function AddInvoicesAndReceiptForm() {
             invoiceAndReceiptData !== null
           }
           onCancel={onCancel}
-          onSave={handleSave}
-          loader={isPending}
-        />
+        >
+          <section className="bg-off-white-300 p-4 flex gap-3 justify-between mt-6  w-full">
+            <Button
+              variant={"ghost"}
+              className="py-[14px] px-[10px] w-[93px] h-[45px] transition-all ease-out duration-300 "
+              onClick={onCancel}
+              role="button"
+            >
+              Edit
+            </Button>
+            <Button
+              className="py-[14px] px-[10px] w-[183px] h-[45px] transition-all ease-out duration-300  bg-primary"
+              role="button"
+              onClick={handleSave}
+              disabled={isPending}
+            >
+              {isPending ? "Loading..." : "Save"}
+            </Button>
+          </section>
+        </PreviewDetailsModal>
       )}
     </>
   );
