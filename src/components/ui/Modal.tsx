@@ -46,21 +46,21 @@ export const Modal = ({
 
   return (
     <div
-      className={`fixed inset-0 bg-black/50 flex z-50 overflow-hidden w-full h-screen p-4 transition-opacity duration-300 ${
+      className={`fixed inset-0 bg-black/50 flex z-50 overflow-hidden w-full  p-4 transition-opacity duration-300 ${
         isOpen ? "opacity-100" : "opacity-0"
       }`}
     >
       <div
-        className={`mx-auto flex justify-center items-center w-full overflow-hidden`}
+        className={`mx-auto flex justify-center items-center w-full `}
         ref={modalRef}
       >
         <section
-          className={`bg-white md:w-[40%] w-full mx-auto rounded-xl p-4  transform transition-transform duration-300 ${
+          className={`bg-white md:w-[40%] w-full mx-auto rounded-xl   transform transition-transform duration-300 p-3 ${
             isOpen ? "scale-100" : "scale-90"
           } `}
         >
           <div
-            className={`p-2 flex items-center ${
+            className={`p-2 flex items-center  ${
               title ? "justify-between" : "justify-end"
             }`}
           >

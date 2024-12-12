@@ -34,7 +34,7 @@ export const PreviewDetailsModal = ({
       onClose={onCancel}
       className="md:w-[50%]"
     >
-      <div className="py-4 overflow-y-auto h-[500px]">
+      <div className={`p-4 overflow-y-auto h-[500px] `}>
         <section
           className={`bg-off-white-400 box-shadow-medium border-t-4 border-b-4 p-4 space-y-5`}
           style={{ borderColor: businessInfo?.brandColor || "#1D9213" }}

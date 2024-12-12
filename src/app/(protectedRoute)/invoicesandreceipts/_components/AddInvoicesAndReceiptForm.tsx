@@ -205,10 +205,10 @@ export default function AddInvoicesAndReceiptForm() {
           }
           onCancel={onCancel}
         >
-          <section className="bg-off-white-300 p-4 flex gap-3 justify-between mt-6  w-full">
+          <section className="bg-off-white-300 p-4 flex gap-3 justify-between w-full">
             <Button
-              variant={"ghost"}
-              className="py-[14px] px-[10px] w-[93px] h-[45px] transition-all ease-out duration-300 "
+              variant={"outline"}
+              className="py-[14px] px-[10px] w-[93px] h-[45px] transition-all ease-out duration-300"
               onClick={onCancel}
               role="button"
             >
