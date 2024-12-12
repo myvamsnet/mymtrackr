@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Control, useController } from "react-hook-form";
 import { formatCurrency } from "@/lib/helper/formatCurrency";
 
@@ -9,18 +9,23 @@ export default function NumberInput({
   name,
   ...props
 }: NumberInputProps) {
-  const [displayValue, setDisplayValue] = useState("");
+  const [displayValue, setDisplayValue] = useState(""); // To display formatted value
   const { field, fieldState } = useController({
     name,
     control,
     rules: { required: `${props.label} is required` },
   });
 
+  // Update displayValue whenever field.value changes
+  useEffect(() => {
+    setDisplayValue(formatCurrency(field.value || ""));
+  }, [field.value]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value.replace(/\D/g, "");
-    field.onChange(rawValue); // Store the raw value without commas
-    setDisplayValue(formatCurrency(rawValue)); // Format for display
+    const rawValue = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+    field.onChange(rawValue); // Update raw value in React Hook Form
   };
+
   return (
     <div className="grid gap-2 w-full">
       {props.label && (
@@ -42,7 +47,7 @@ export default function NumberInput({
           }`}
           placeholder="₦0"
           onChange={handleInputChange}
-          value={displayValue}
+          value={displayValue} // Show formatted value
         />
       </div>
       {fieldState.error && (
@@ -53,6 +58,7 @@ export default function NumberInput({
     </div>
   );
 }
+
 interface NumberInputProps {
   name: string;
   control: Control<any>;
