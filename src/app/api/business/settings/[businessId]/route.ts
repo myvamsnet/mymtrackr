@@ -17,10 +17,6 @@ export async function PUT(
     const payload: Partial<BusinessSettingFormData> = await req.json();
     const { businessId } = params;
 
-    const create = {
-      user_id: userId,
-      ...payload,
-    };
     const { error } = await supabaseApi
       .from("businessProfile")
       .update({

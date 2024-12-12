@@ -1,10 +1,15 @@
 import { Icons } from "@/assets/icons";
 import { Modal } from "@/components/ui/Modal";
 import useModal from "@/hooks/useModal";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import React from "react";
 
 const MoreModal = () => {
   const { onCancel, modal } = useModal();
+  const { id } = useParams() as {
+    id: string;
+  };
   return (
     <Modal
       title="More"
@@ -13,12 +18,15 @@ const MoreModal = () => {
       className="p-4 "
       closeOutside={true}
     >
-      <div className="flex items-center gap-1 py-4 border-b border-off-white-200 ">
+      <Link
+        href={`/invoicesandreceipts/edit/${id}`}
+        className="flex items-center gap-1 py-4 border-b border-off-white-200 "
+      >
         <div className="h-8 w-8 bg-off-white flex justify-center items-center">
           <Icons.EditIcon />
         </div>
         <span className="font-normal text-sm text-dark">Edit Invoice</span>
-      </div>
+      </Link>
       <div className="flex items-center gap-1 py-4 border-b border-off-white-200 ">
         <div className="h-8 w-8 bg-off-white flex justify-center items-center">
           <Icons.DownloadIcon />

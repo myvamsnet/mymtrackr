@@ -20,7 +20,7 @@ export interface Data {
   delivery: string;
   business_id: string;
   user_id: string;
-  type: string;
+  type: "invoices" | "receipts";
   updated_at: string;
 }
 

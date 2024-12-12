@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/popover";
 import { Control, useController } from "react-hook-form";
 import dayjs from "dayjs";
+import { useState } from "react";
+import { SelectSingleEventHandler } from "react-day-picker";
 
 export const CustomDatePicker = ({
   name,
@@ -24,13 +26,11 @@ export const CustomDatePicker = ({
     defaultValue,
   });
 
+  const [open, setOpen] = useState(false);
   return (
     <>
-      <Popover>
-        <PopoverTrigger
-          asChild
-          className="bg-white"
-        >
+      <Popover open={open} onOpenChange={(open) => setOpen(open)}>
+        <PopoverTrigger asChild className="bg-white">
           <section>
             {label && (
               <label
@@ -63,14 +63,14 @@ export const CustomDatePicker = ({
             )}
           </section>
         </PopoverTrigger>
-        <PopoverContent
-          className=" p-0"
-          align="start"
-        >
+        <PopoverContent className=" p-0" align="start">
           <Calendar
             mode="single"
             selected={field.value}
-            onSelect={field.onChange}
+            onSelect={(date: Date | undefined) => {
+              field.onChange(date || null); // Handle undefined values gracefully
+              setOpen(false);
+            }}
             initialFocus
             className="w-full bg-white"
           />
