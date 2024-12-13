@@ -134,6 +134,7 @@ export const useEditInvoiceAndReceipt = (data: Data) => {
   };
 
   const itemData = watch("items");
+  const checkSubTotalAvailable = calculateTotal(itemData);
   const subTotal = currencyFormatter(calculateTotal(itemData));
   const grandTotal = currencyFormatter(
     calculateGrandTotal(itemData, results.discount, results.delivery)
@@ -161,6 +162,7 @@ export const useEditInvoiceAndReceipt = (data: Data) => {
     subTotal,
     grandTotal,
     mutate,
+    checkSubTotalAvailable,
   };
 };
 

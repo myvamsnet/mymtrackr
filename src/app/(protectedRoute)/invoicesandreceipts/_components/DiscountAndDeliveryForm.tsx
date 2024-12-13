@@ -77,9 +77,7 @@ export const DiscountAndDeliveryForm = ({
 };
 interface Props {
   handleChange: (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
   value: string;
   title: string;

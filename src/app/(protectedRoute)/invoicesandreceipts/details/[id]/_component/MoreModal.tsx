@@ -41,7 +41,7 @@ const MoreModal = ({ data }: Props) => {
         onClick={() =>
           mutate({
             id: data?.id,
-            type: data?.type === "invoices" ? "receipts" : "invoices",
+            type: data?.type === "invoices" ? "receipts" : ("invoices" as any),
             issueDate:
               dateFormatter(new Date().toDateString()) ?? data?.dueDate,
           })
