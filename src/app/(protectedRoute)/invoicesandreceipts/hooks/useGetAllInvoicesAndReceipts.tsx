@@ -33,7 +33,6 @@ export const useGetAllInvoicesAndReceipts = () => {
       ],
       queryFn: async () => {
         const param = new URLSearchParams(Object(values)).toString();
-
         const { data } = await axiosInstance.get(
           `/invoicesandreceipts/${param ? `?${param}` : ""}`
         );

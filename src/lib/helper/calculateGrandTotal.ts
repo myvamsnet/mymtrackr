@@ -1,7 +1,7 @@
 import { DiscountAndDeliveryFeeType } from "@/zustand/invoiceAndReceiptStore";
 import toast from "react-hot-toast";
 export const calculateTotal = (items: ItemType[]) => {
-  const value = items.reduce((acc, item) => {
+  const value = items?.reduce((acc, item) => {
     const quantity = parseFloat(item?.quantity) || 0;
     const price = parseFloat(item?.price) || 0;
     return acc + quantity * price;

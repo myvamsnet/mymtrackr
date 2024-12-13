@@ -1,3 +1,4 @@
+"use client";
 import { useModalStore } from "@/zustand/modalStore";
 
 const useModal = () => {
