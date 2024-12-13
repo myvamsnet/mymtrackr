@@ -1,15 +1,17 @@
 import { Icons } from "@/assets/icons";
 import { Modal } from "@/components/ui/Modal";
 import useModal from "@/hooks/useModal";
+import { Data } from "@/types/invoicesandreceipts";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import React from "react";
+import { useDeleteInvoiceAndReceipt } from "../../../hooks/useDeleteInvoiceAndReceipt";
+import { useUpdateInvoiceAndReceipt } from "../../hooks/useUpdateInvoiceAndReceipt";
+import { dateFormatter } from "@/lib/helper/dateFormatter";
 
-const MoreModal = () => {
+const MoreModal = ({ data }: Props) => {
   const { onCancel, modal } = useModal();
-  const { id } = useParams() as {
-    id: string;
-  };
+  const { deleteLoader, deleteMutation } = useDeleteInvoiceAndReceipt();
+  const { mutate, isPending } = useUpdateInvoiceAndReceipt();
   return (
     <Modal
       title="More"
@@ -19,7 +21,7 @@ const MoreModal = () => {
       closeOutside={true}
     >
       <Link
-        href={`/invoicesandreceipts/edit/${id}`}
+        href={`/invoicesandreceipts/edit/${data?.id}`}
         className="flex items-center gap-1 py-4 border-b border-off-white-200 "
       >
         <div className="h-8 w-8 bg-off-white flex justify-center items-center">
@@ -33,24 +35,59 @@ const MoreModal = () => {
         </div>
         <span className="font-normal text-sm text-dark">Download Invoice</span>
       </div>
-      <div className="flex items-center gap-1 py-4 border-b border-off-white-200 ">
+      <button
+        className="flex items-center gap-1 py-4 border-b border-off-white-200 "
+        disabled={isPending}
+        onClick={() =>
+          mutate({
+            id: data?.id,
+            type: data?.type === "invoices" ? "receipts" : ("invoices" as any),
+            issueDate:
+              dateFormatter(new Date().toDateString()) ?? data?.dueDate,
+          })
+        }
+      >
         <div className="h-8 w-8 bg-off-white flex justify-center items-center">
           <Icons.ReceiptIcon />
         </div>
-        <span className="font-normal text-sm text-dark">
-          Convert to Receipt
+        <span className="font-normal text-sm text-dark capitalize">
+          {isPending
+            ? "Converting..."
+            : data?.type === "invoices"
+            ? "Convert to receipt"
+            : " Convert to invoice"}
         </span>
-      </div>
-      <div className="flex items-center gap-1 py-4 border-b border-off-white-200 ">
+      </button>
+      <button className="flex items-center gap-1 py-4 border-b border-off-white-200 ">
+        <div className="h-8 w-8 bg-off-white flex justify-center items-center">
+          {data?.type === "invoices" ? (
+            <Icons.ArrowRightIcon />
+          ) : (
+            <Icons.ArrowDownIcon />
+          )}
+        </div>
+        <span className="font-normal text-sm text-dark capitalize">
+          {data?.type === "invoices" ? "Record as debtor" : "Record as Income"}
+        </span>
+      </button>
+      <button
+        className="flex items-center gap-1 py-4 border-b border-off-white-200 "
+        disabled={deleteLoader}
+        onClick={() => deleteMutation(data?.id)}
+      >
         <div className="h-8 w-8 bg-off-white flex justify-center items-center">
           <Icons.Delete color="#C25353" />
         </div>
         <span className="font-normal text-sm text-danger-500">
-          Delete Invoice
+          {deleteLoader ? "Deleting..." : " Delete Invoice"}
         </span>
-      </div>
+      </button>
     </Modal>
   );
 };
+
+interface Props {
+  data: Data;
+}
 
 export default MoreModal;

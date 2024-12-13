@@ -14,6 +14,7 @@ export const Modal = ({
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    // Toggle visibility state for mounting/unmounting the modal
     if (isOpen) {
       setIsVisible(true);
     } else {
@@ -42,38 +43,43 @@ export const Modal = ({
     };
   }, [isOpen, closeOutside, onClose]);
 
-  if (!isVisible) return null;
+  if (!isVisible) return null; // Render only when `isVisible` is true
 
   return (
     <div
-      className={`fixed inset-0 bg-black/50 flex z-50 overflow-hidden w-full  p-4 transition-opacity duration-300 ${
+      className={`fixed inset-0 bg-black/50 flex z-50 overflow-hidden w-full p-4 transition-opacity duration-300 ${
         isOpen ? "opacity-100" : "opacity-0"
       }`}
+      // Add a role for accessibility
+      role="dialog"
+      aria-hidden={!isOpen}
     >
       <div
-        className={`mx-auto flex justify-center items-center w-full `}
+        className="mx-auto flex justify-center items-center w-full"
         ref={modalRef}
       >
         <section
-          className={`bg-white md:w-[40%] w-full mx-auto rounded-xl   transform transition-transform duration-300 p-3 ${
+          className={`bg-white md:w-[40%] w-full mx-auto rounded-xl transform transition-transform duration-300 p-3 ${
             isOpen ? "scale-100" : "scale-90"
-          } `}
+          }`}
         >
           <div
-            className={`p-2 flex items-center  ${
+            className={`p-2 flex items-center ${
               title ? "justify-between" : "justify-end"
             }`}
           >
             {title && (
               <p className="text-base font-medium text-dark">{title}</p>
             )}
-            <div className="bg-primary rounded-full p-1 flex justify-center items-center cursor-pointer">
+            <div
+              className="bg-primary rounded-full p-1 flex justify-center items-center cursor-pointer"
+              onClick={onClose} // Move click handler here
+            >
               <X
                 className="text-white cursor-pointer"
                 fontSize={16}
                 height={16}
                 width={16}
-                onClick={onClose}
               />
             </div>
           </div>

@@ -31,7 +31,7 @@ export async function POST(req: Request) {
 export interface Payload {
   amount: number;
   name: string;
-  note: string;
-  image: string;
+  note?: string;
+  image?: string;
   type: "income" | "expense" | "payable" | "debtor";
 }

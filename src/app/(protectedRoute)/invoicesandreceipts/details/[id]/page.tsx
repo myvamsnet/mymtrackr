@@ -1,14 +1,15 @@
 import { getInvoicesAndReceiptsById } from "@/app/actions/getInvoicesAndReceiptsById";
 import { Details } from "./_component/Details";
-import { Layout } from "./_component/Layout";
 import { notFound } from "next/navigation";
+import PageLayout from "@/app/(protectedRoute)/_components/layout/PageLayout";
 
 const InvoicesandreceiptsDetails = async ({ params }: PageProps) => {
-  const { data, error } = await getInvoicesAndReceiptsById(params?.id);
-  if (error) {
-    return notFound();
-  }
-  return <Layout>{data && <Details data={data} />}</Layout>;
+  return (
+    <PageLayout>
+      {" "}
+      <Details />
+    </PageLayout>
+  );
 };
 
 export default InvoicesandreceiptsDetails;
