@@ -22,6 +22,7 @@ export const PreviewDetailsModal = ({
   isOpen,
   onCancel,
   children,
+  invoiceRef,
 }: props) => {
   const { user } = userStore();
   const className = "text-[6.75px]  leading-[8.17px]";
@@ -38,10 +39,11 @@ export const PreviewDetailsModal = ({
         <section
           className={`bg-off-white-400 box-shadow-medium border-t-4 border-b-4 p-4 space-y-5`}
           style={{ borderColor: businessInfo?.brandColor || "#1D9213" }}
+          ref={invoiceRef}
         >
           <div className="grid gap-10 grid-cols-2">
             <div className="space-y-1">
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-x-1">
                 <CustomAvatar
                   name={businessInfo?.businessName as string}
                   imgUrl={businessInfo?.imageUrl}
@@ -109,9 +111,9 @@ export const PreviewDetailsModal = ({
                 </>
               }
             >
-              {lists?.items?.map((list) => (
+              {lists?.items?.map((list, i) => (
                 <TableRow
-                  key={list?.id}
+                  key={`${list?.id}-${i}`}
                   className={`${className} text-dark-300 md:text-sm`}
                 >
                   <TableCell>{list?.description}</TableCell>
@@ -194,10 +196,10 @@ export const PreviewDetailsModal = ({
             )}
           </div>
           <div className="w-full  flex justify-center items-center flex-col ">
-            <div className="flex items-center gap-1">
-              <span className={`${className} text-dark-300 md:text-sm`}>
-                powered by
-              </span>
+            <div
+              className={`${className} text-dark-300 md:text-sm flex items-center gap-x-1 capitalize`}
+            >
+              powered by
               <Image
                 src={"/images/logo.svg"}
                 alt="MTrackr"
@@ -224,4 +226,5 @@ interface props {
   isOpen: boolean;
   onCancel: () => void;
   children: React.ReactNode;
+  invoiceRef: React.RefObject<HTMLDivElement>;
 }

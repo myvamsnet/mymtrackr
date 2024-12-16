@@ -90,16 +90,20 @@ export async function POST(req: Request) {
   const userInfo = await supabaseApi?.auth?.getUser();
   try {
     const payload: Payload = await req.json();
+
     const create = {
       user_id: userInfo?.data?.user?.id,
       ...payload,
     };
+    console.log(create);
     const { data, error } = await supabaseApi
       .from("records")
       .insert([create])
-      .select();
-
+      .select()
+      .single();
+    console.log(data);
     if (error) {
+      console.log(error);
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
@@ -118,4 +122,5 @@ export interface Payload {
   note?: string;
   image?: string;
   type: "income" | "expense" | "payable" | "debtor";
+  invoicesAndReceiptsId?: string;
 }
