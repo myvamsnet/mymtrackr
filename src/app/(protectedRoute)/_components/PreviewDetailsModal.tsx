@@ -226,5 +226,5 @@ interface props {
   isOpen: boolean;
   onCancel: () => void;
   children: React.ReactNode;
-  invoiceRef: React.RefObject<HTMLDivElement>;
+  invoiceRef?: React.RefObject<HTMLDivElement>;
 }
