@@ -7,7 +7,7 @@ const AddNewLayout = ({ path }: Props) => {
   const redirect = useRedirect();
 
   return (
-    <div className="flex justify-end items-center sticky right-6 bottom-0 z-30">
+    <div className="flex justify-end items-center md:sticky fixed right-6 bottom-0 z-30">
       <button
         className="text-xs font-semibold text-off-white-300 font-inter   p-4 rounded-2xl gap-2 bg-primary  flex justify-center items-center my-4 btn-drop-shadow  cursor-pointer  w-[103px]"
         onClick={() => {

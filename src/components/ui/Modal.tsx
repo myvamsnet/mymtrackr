@@ -47,7 +47,7 @@ export const Modal = ({
 
   return (
     <div
-      className={`fixed inset-0 bg-black/50 flex z-50 overflow-hidden w-full p-4 transition-opacity duration-300 ${
+      className={`fixed inset-0 bg-black/50 h-screen flex z-50 overflow-hidden w-full p-3 transition-opacity duration-300 ${
         isOpen ? "opacity-100" : "opacity-0"
       }`}
       // Add a role for accessibility
@@ -59,7 +59,7 @@ export const Modal = ({
         ref={modalRef}
       >
         <section
-          className={`bg-white md:w-[40%] w-full mx-auto rounded-xl transform transition-transform duration-300 p-3 ${
+          className={`bg-white md:w-[40%] w-full mx-auto rounded-xl transform transition-transform duration-300 p-2 ${
             isOpen ? "scale-100" : "scale-90"
           }`}
         >

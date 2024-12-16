@@ -29,7 +29,7 @@ export const TypeLayout = ({ children }: Props) => {
             <SettingsIcon />
           </Link>
         }
-        url="/invoicesandreceipts/invoices"
+        url="/records"
       />
       {children}
       <AddNewLayout path={`/invoicesandreceipts/create/${type}`} />

@@ -6,7 +6,7 @@ export const useGenerateImage = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const invoiceRef = useRef<HTMLDivElement>(null);
 
-  const handleGenerateAndShare = async () => {
+  const handleGenerateAndDownload = async () => {
     setIsGenerating(true);
     try {
       if (!invoiceRef.current) {
@@ -21,44 +21,34 @@ export const useGenerateImage = () => {
       });
       const imageDataUrl = canvas.toDataURL("image/png");
 
-      // Convert Data URL to a Blob
-      const response = await fetch(imageDataUrl);
-      const blob = await response.blob();
-      const file = new File([blob], "invoice.png", { type: "image/png" });
+      // Create a download link
+      const downloadLink = document.createElement("a");
+      downloadLink.href = imageDataUrl;
+      downloadLink.download = "invoice.png";
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
 
-      // Check if Web Share API is available
-      if (navigator.share && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          title: "Invoice",
-          text: "Check out this invoice!",
-          files: [file],
-        });
-        toast({
-          title: "Success",
-          description: "Invoice image shared successfully!",
-        });
-      } else {
-        throw new Error(
-          "Sharing not supported on this browser. Try downloading instead."
-        );
-      }
+      toast({
+        title: "Success",
+        description: "Invoice image generated and download started!",
+      });
     } catch (error) {
-      console.error("Error sharing invoice image:", error);
+      console.error("Error generating invoice image:", error);
       toast({
         title: "Error",
         description:
           error instanceof Error
             ? error.message
-            : "Failed to share invoice image. Please try again.",
+            : "Failed to generate invoice image. Please try again.",
         variant: "destructive",
       });
     } finally {
       setIsGenerating(false);
     }
   };
-
   return {
-    handleGenerateAndShare,
+    handleGenerateAndDownload,
     isGenerating,
     invoiceRef,
   };

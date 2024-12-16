@@ -4,12 +4,11 @@ import { useGenerateImage } from "@/hooks/useGenerateImage";
 import useModal from "@/hooks/useModal";
 import { Data } from "@/types/invoicesandreceipts";
 import { InvoiceAndReceiptData } from "@/zustand/invoiceAndReceiptStore";
-import { Butcherman } from "next/font/google";
 import React from "react";
 
 const PreviewDetails = ({ list }: Props) => {
   const { modal, onCancel } = useModal();
-  const { handleGenerateAndShare, isGenerating, invoiceRef } =
+  const { handleGenerateAndDownload, isGenerating, invoiceRef } =
     useGenerateImage();
   return (
     <>
@@ -25,10 +24,10 @@ const PreviewDetails = ({ list }: Props) => {
             <Button
               className="py-[14px] px-[10px] w-full h-[45px] transition-all ease-out duration-300  "
               role="button"
-              onClick={handleGenerateAndShare}
+              onClick={handleGenerateAndDownload}
               disabled={isGenerating}
             >
-              {isGenerating ? "Loading" : "Download"}
+              {isGenerating ? "Generating..." : "Download"}
             </Button>
           </section>
         </PreviewDetailsModal>

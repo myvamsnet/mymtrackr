@@ -43,15 +43,15 @@ export const PreviewDetailsModal = ({
         >
           <div className="grid gap-10 grid-cols-2">
             <div className="space-y-1">
-              <div className="flex items-center gap-x-1">
+              <div className="flex items-center gap-x-1 h-6">
                 <CustomAvatar
                   name={businessInfo?.businessName as string}
                   imgUrl={businessInfo?.imageUrl}
-                  className="h-6 w-6"
+                  className="h-full w-6"
                 />
-                <span className="font-bold text-[8.43px] text-dark leading-[8.17px]">
+                <p className="h-full flex items-center  font-bold text-[8.43px] text-dark leading-[8.17px]">
                   {businessInfo?.businessName}
-                </span>
+                </p>
               </div>
               <div className=" space-y-1">
                 <p className={` text-dark-300 ${className}`}>
@@ -197,9 +197,9 @@ export const PreviewDetailsModal = ({
           </div>
           <div className="w-full  flex justify-center items-center flex-col ">
             <div
-              className={`${className} text-dark-300 md:text-sm flex items-center gap-x-1 capitalize`}
+              className={`${className} text-dark-300 md:text-sm grid grid-cols-2 gap-1 items-center capitalize`}
             >
-              powered by
+              <p> powered by</p>
               <Image
                 src={"/images/logo.svg"}
                 alt="MTrackr"

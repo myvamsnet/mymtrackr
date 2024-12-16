@@ -1,6 +1,7 @@
 import { useGetUser } from "@/hooks/useGetUser";
 import useModal from "@/hooks/useModal";
 import { useRedirect } from "@/hooks/useRedirect";
+import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 import axiosInstance from "@/lib/axios";
 import {
   calculateGrandTotal,
@@ -21,20 +22,23 @@ import useInvoiceAndReceiptStore, {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export const useInvoiceAndReceipt = () => {
+  const searchParams = useSearchParams();
+  const confirmInvoiceAndReceipt = searchParams.get("type");
   const redirect = useRedirect();
+  const { updateQueryParams } = useUpdateQuery();
   const { user } = useGetUser();
   const businessData = user?.businessProfile;
   const [results, setResults] = useState<DiscountAndDeliveryFeeType>({
     delivery: "0",
     discount: "0",
   });
-  const { modal, onConfirm, onCancel } = useModal();
+  const { modal, onConfirm } = useModal();
   const [values, setValues] = useState({
     discount: "0",
     delivery: "0",
@@ -155,6 +159,8 @@ export const useInvoiceAndReceipt = () => {
 
   const onSubmit = (values: InvoiceAndReceiptSchemaSchemaType) => {
     if (!user?.id && !businessData?.id) return;
+
+    if (values?.items.length === 0) return toast.error("Items cannot be empty");
     const payload = {
       issueDate: dayjs(values?.issueDate).format("dddd, MMMM D, YYYY h:mm A"),
       dueDate: dayjs(values?.dueDate).format("dddd, MMMM D, YYYY h:mm A"),
@@ -166,11 +172,9 @@ export const useInvoiceAndReceipt = () => {
       business_id: businessData?.id,
       type: params?.add as InvoiceAndReceiptType,
     } as InvoiceAndReceiptData;
-
     setInvoiceAndReceipt(payload);
-    onConfirm({
-      type: "preview",
-      isOpen: true,
+    updateQueryParams({
+      type: "confirm",
     });
   };
 
@@ -190,6 +194,12 @@ export const useInvoiceAndReceipt = () => {
       results.delivery as string
     )
   );
+
+  const onCancel = () => {
+    updateQueryParams({
+      type: "",
+    });
+  };
   return {
     onSubmit,
     watch,
@@ -213,6 +223,7 @@ export const useInvoiceAndReceipt = () => {
     subTotal,
     grandTotal,
     checkSubTotalAvailable,
+    confirmInvoiceAndReceipt,
   };
 };
 interface DiscountAndDeliveryFeeType {

@@ -35,6 +35,7 @@ export default function AddInvoicesAndReceiptForm() {
     checkSubTotalAvailable,
     subTotal,
     grandTotal,
+    confirmInvoiceAndReceipt,
   } = useInvoiceAndReceipt();
 
   return (
@@ -103,7 +104,7 @@ export default function AddInvoicesAndReceiptForm() {
                 placeholder="Enter item name"
               />
               <CustomInput
-                type={"text"}
+                type={"number"}
                 label={"Quantity"}
                 control={control}
                 name={`items.${index}.quantity`}
@@ -194,15 +195,11 @@ export default function AddInvoicesAndReceiptForm() {
           </Button>
         </section>
       </form>
-      {modal.type === "preview" && (
+      {confirmInvoiceAndReceipt === "confirm" && (
         <PreviewDetailsModal
           title="Preview"
           lists={invoiceAndReceiptData}
-          isOpen={
-            modal.isOpen &&
-            modal.type === "preview" &&
-            invoiceAndReceiptData !== null
-          }
+          isOpen={confirmInvoiceAndReceipt === "confirm" ? true : false}
           onCancel={onCancel}
         >
           <section className="bg-off-white-300 p-4 flex gap-3 justify-between w-full">
