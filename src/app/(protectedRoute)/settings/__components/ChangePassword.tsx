@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Modal } from "@/components/ui/Modal";
+import Modal from "@/components/ui/Modal";
 import { useState } from "react";
 import { useModifyResource } from "@/hooks/useModifyResource";
 import { CustomInput } from "@/components/CustomInput";

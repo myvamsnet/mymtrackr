@@ -1,5 +1,5 @@
 import { Icons } from "@/assets/icons";
-import { Modal } from "@/components/ui/Modal";
+import Modal from "@/components/ui/Modal";
 import { Data } from "@/types/invoicesandreceipts";
 import Link from "next/link";
 import React from "react";

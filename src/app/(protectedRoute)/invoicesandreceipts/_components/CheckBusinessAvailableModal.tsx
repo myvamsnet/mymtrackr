@@ -1,4 +1,4 @@
-import { Modal } from "@/components/ui/Modal";
+import Modal from "@/components/ui/Modal";
 import useModal from "@/hooks/useModal";
 import userStore from "@/zustand/userStore";
 import Link from "next/link";

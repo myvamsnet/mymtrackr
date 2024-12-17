@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Modal } from "@/components/ui/Modal";
+import Modal from "@/components/ui/Modal";
 import { useSendOtp } from "../hook/useSendOtp";
 import { useState } from "react";
 import {
@@ -52,7 +52,10 @@ const OtpModal = () => {
           >
             <InputOTPGroup className="w-full grid gap-3 grid-cols-6">
               {Array.from({ length: 6 }).map((_, index) => (
-                <InputOTPSlot index={index} key={index} />
+                <InputOTPSlot
+                  index={index}
+                  key={index}
+                />
               ))}
             </InputOTPGroup>
           </InputOTP>

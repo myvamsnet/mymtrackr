@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Modal } from "@/components/ui/Modal";
+import Modal from "@/components/ui/Modal";
 import { useGetUser } from "@/hooks/useGetUser";
 import { useLogout } from "@/hooks/useLogout";
 import { useSubscription } from "@/hooks/useSubscription";

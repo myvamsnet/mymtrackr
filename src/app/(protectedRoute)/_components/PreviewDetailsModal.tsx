@@ -1,6 +1,5 @@
 "use client";
 
-import useModal from "@/hooks/useModal";
 import Image from "next/image";
 import { CustomeTable } from "./customeTable";
 import { TableCell, TableHead, TableRow } from "@/components/ui/table";
@@ -15,7 +14,7 @@ import {
 import { dateFormatter } from "@/lib/helper/dateFormatter";
 import CustomAvatar from "@/components/ui/Avatar/index";
 import userStore from "@/zustand/userStore";
-import { Modal } from "@/components/ui/Modal";
+import Modal from "@/components/ui/Modal";
 
 export const PreviewDetailsModal = ({
   lists,
@@ -36,7 +35,7 @@ export const PreviewDetailsModal = ({
       onClose={onCancel}
       className="md:w-[50%]"
     >
-      <div className={`p-4 overflow-y-auto h-[500px] `}>
+      <div className={`p-1 overflow-y-auto  `}>
         <section
           className={`bg-off-white-400 box-shadow-medium border-t-4 border-b-4 p-4 space-y-5`}
           style={{ borderColor: businessInfo?.brandColor || "#1D9213" }}
