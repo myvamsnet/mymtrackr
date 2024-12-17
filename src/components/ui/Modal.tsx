@@ -13,8 +13,8 @@ export const Modal = ({
   const modalRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
+  // Synchronize visibility state with isOpen
   useEffect(() => {
-    // Toggle visibility state for mounting/unmounting the modal
     if (isOpen) {
       setIsVisible(true);
     } else {
@@ -43,16 +43,14 @@ export const Modal = ({
     };
   }, [isOpen, closeOutside, onClose]);
 
-  if (!isVisible) return null; // Render only when `isVisible` is true
+  // Render only when `isVisible` is true
+  if (!isVisible) return null;
 
   return (
     <div
       className={`fixed inset-0 bg-black/50 h-screen flex z-50 overflow-hidden w-full p-3 transition-opacity duration-300 ${
         isOpen ? "opacity-100" : "opacity-0"
       }`}
-      // Add a role for accessibility
-      role="dialog"
-      aria-hidden={!isOpen}
     >
       <div
         className="mx-auto flex justify-center items-center w-full"
@@ -73,7 +71,7 @@ export const Modal = ({
             )}
             <div
               className="bg-primary rounded-full p-1 flex justify-center items-center cursor-pointer"
-              onClick={onClose} // Move click handler here
+              onClick={onClose}
             >
               <X
                 className="text-white cursor-pointer"

@@ -1,5 +1,5 @@
 "use client";
-import { Modal } from "@/components/ui/Modal";
+
 import useModal from "@/hooks/useModal";
 import Image from "next/image";
 import { CustomeTable } from "./customeTable";
@@ -15,6 +15,7 @@ import {
 import { dateFormatter } from "@/lib/helper/dateFormatter";
 import CustomAvatar from "@/components/ui/Avatar/index";
 import userStore from "@/zustand/userStore";
+import { Modal } from "@/components/ui/Modal";
 
 export const PreviewDetailsModal = ({
   lists,
@@ -42,8 +43,8 @@ export const PreviewDetailsModal = ({
           ref={invoiceRef}
         >
           <div className="grid gap-10 grid-cols-2">
-            <div className="space-y-1">
-              <div className="flex items-center gap-x-1 h-6">
+            <div className="space-y-3">
+              <div className="flex items-center gap-1 h-6">
                 <CustomAvatar
                   name={businessInfo?.businessName as string}
                   imgUrl={businessInfo?.imageUrl}

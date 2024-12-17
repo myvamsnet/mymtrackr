@@ -11,6 +11,7 @@ import { RecordHeader } from "../../_components/common/records/RecordHeader";
 import Link from "next/link";
 import { SettingsIcon } from "@/assets/icons/SettingsIcon";
 import NumberInput from "@/components/NumberInput";
+import { CheckBusinessAvailableModal } from "./CheckBusinessAvailableModal";
 
 export default function AddInvoicesAndReceiptForm() {
   const {
@@ -35,11 +36,10 @@ export default function AddInvoicesAndReceiptForm() {
     checkSubTotalAvailable,
     subTotal,
     grandTotal,
-    confirmInvoiceAndReceipt,
   } = useInvoiceAndReceipt();
 
   return (
-    <>
+    <section>
       <RecordHeader
         title={`Add New ${paramType}`}
         leftElement={
@@ -195,33 +195,34 @@ export default function AddInvoicesAndReceiptForm() {
           </Button>
         </section>
       </form>
-      {confirmInvoiceAndReceipt === "confirm" && (
-        <PreviewDetailsModal
-          title="Preview"
-          lists={invoiceAndReceiptData}
-          isOpen={confirmInvoiceAndReceipt === "confirm" ? true : false}
-          onCancel={onCancel}
-        >
-          <section className="bg-off-white-300 p-4 flex gap-3 justify-between w-full">
-            <Button
-              variant={"outline"}
-              className="py-[14px] px-[10px] w-[93px] h-[45px] transition-all ease-out duration-300"
-              onClick={onCancel}
-              role="button"
-            >
-              Edit
-            </Button>
-            <Button
-              className="py-[14px] px-[10px] w-[183px] h-[45px] transition-all ease-out duration-300  bg-primary"
-              role="button"
-              onClick={handleSave}
-              disabled={isPending}
-            >
-              {isPending ? "Loading..." : "Save"}
-            </Button>
-          </section>
-        </PreviewDetailsModal>
-      )}
-    </>
+
+      <PreviewDetailsModal
+        title="Preview"
+        lists={invoiceAndReceiptData}
+        isOpen={modal.type === "preview" && modal.isOpen}
+        onCancel={onCancel}
+      >
+        <section className="bg-off-white-300 p-4 flex gap-3 justify-between w-full">
+          <Button
+            variant={"outline"}
+            className="py-[14px] px-[10px] w-[93px] h-[45px] transition-all ease-out duration-300"
+            onClick={onCancel}
+            role="button"
+          >
+            Edit
+          </Button>
+          <Button
+            className="py-[14px] px-[10px] w-[183px] h-[45px] transition-all ease-out duration-300  bg-primary"
+            role="button"
+            onClick={handleSave}
+            disabled={isPending}
+          >
+            {isPending ? "Loading..." : "Save"}
+          </Button>
+        </section>
+      </PreviewDetailsModal>
+
+      <CheckBusinessAvailableModal />
+    </section>
   );
 }

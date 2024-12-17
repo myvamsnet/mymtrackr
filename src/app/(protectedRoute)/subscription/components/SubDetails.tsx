@@ -6,7 +6,7 @@ import { useSubscription } from "@/hooks/useSubscription";
 import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 import axiosInstance from "@/lib/axios";
 import { currencyFormatter } from "@/lib/helper/currencyFormatter";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useSearchParams } from "next/navigation";
 import React, { Fragment, useEffect } from "react";

@@ -28,17 +28,14 @@ import { useFieldArray, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export const useInvoiceAndReceipt = () => {
-  const searchParams = useSearchParams();
-  const confirmInvoiceAndReceipt = searchParams.get("type");
   const redirect = useRedirect();
-  const { updateQueryParams } = useUpdateQuery();
   const { user } = useGetUser();
   const businessData = user?.businessProfile;
   const [results, setResults] = useState<DiscountAndDeliveryFeeType>({
     delivery: "0",
     discount: "0",
   });
-  const { modal, onConfirm } = useModal();
+  const { modal, onConfirm, onCancel } = useModal();
   const [values, setValues] = useState({
     discount: "0",
     delivery: "0",
@@ -151,6 +148,7 @@ export const useInvoiceAndReceipt = () => {
       if (data.success) {
         clearInvoiceAndReceipt();
         toast.success(data?.message);
+        onCancel();
         redirect(`/invoicesandreceipts/${data?.data?.type}`);
       }
     },
@@ -173,8 +171,9 @@ export const useInvoiceAndReceipt = () => {
       type: params?.add as InvoiceAndReceiptType,
     } as InvoiceAndReceiptData;
     setInvoiceAndReceipt(payload);
-    updateQueryParams({
-      type: "confirm",
+    onConfirm({
+      type: "preview",
+      isOpen: true,
     });
   };
 
@@ -195,11 +194,6 @@ export const useInvoiceAndReceipt = () => {
     )
   );
 
-  const onCancel = () => {
-    updateQueryParams({
-      type: "",
-    });
-  };
   return {
     onSubmit,
     watch,
@@ -223,7 +217,6 @@ export const useInvoiceAndReceipt = () => {
     subTotal,
     grandTotal,
     checkSubTotalAvailable,
-    confirmInvoiceAndReceipt,
   };
 };
 interface DiscountAndDeliveryFeeType {

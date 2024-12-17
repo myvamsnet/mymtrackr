@@ -18,14 +18,20 @@ export const useGenerateImage = () => {
         backgroundColor: "#ffffff", // Ensure white background
         logging: false, // Disable logging for cleaner console
         useCORS: true, // Enable CORS for loading images
+        allowTaint: false, // Avoid tainting canvas with cross-origin images
       });
+
       const imageDataUrl = canvas.toDataURL("image/png");
 
       // Create a download link
       const downloadLink = document.createElement("a");
       downloadLink.href = imageDataUrl;
       downloadLink.download = "invoice.png";
+
+      // Append to body to work around mobile browser restrictions
       document.body.appendChild(downloadLink);
+
+      // Trigger the download on both desktop and mobile
       downloadLink.click();
       document.body.removeChild(downloadLink);
 
@@ -47,6 +53,7 @@ export const useGenerateImage = () => {
       setIsGenerating(false);
     }
   };
+
   return {
     handleGenerateAndDownload,
     isGenerating,

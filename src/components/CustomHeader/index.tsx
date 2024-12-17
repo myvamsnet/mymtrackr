@@ -17,7 +17,6 @@ export const CustomHeader = ({ title, link }: CustomHeaderProps) => {
         >
           <ArrowBackIcon />
         </div>
-
         <h2 className="font-semibold text-dark text-base capitalize flex-1 text-center w-full">
           {title}
         </h2>
