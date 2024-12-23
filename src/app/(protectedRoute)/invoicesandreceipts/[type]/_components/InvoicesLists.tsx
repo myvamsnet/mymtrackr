@@ -15,10 +15,10 @@ function InvoicesLists() {
 
   return (
     <>
-      <section className="bg-[#FCFDFE] p-4 rounded-tl-lg rounded-tr-lg grid gap-3">
+      <section className="bg-off-white-400 p-4 rounded-tl-lg rounded-tr-lg grid gap-3">
         {/* <Filters /> */}
       </section>
-      <section className="bg-[#FCFDFE] p-3 rounded-xl">
+      <section className="bg-off-white-400 p-3 rounded-xl">
         <div className="flex justify-between items-center border-b px-[44px]">
           {tabs.map((tab) => (
             <Link

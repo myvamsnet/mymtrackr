@@ -40,7 +40,7 @@ export const CustomInput: FC<CustomInputProps> = ({
 
   const valid = ["text", "number", "email", "password"];
   return (
-    <div className="grid gap-2">
+    <div className="space-y-2">
       <label
         htmlFor={name}
         className={` text-sm font-normal text-dark-300 ${labelClassName}`}

@@ -29,8 +29,14 @@ export const CustomDatePicker = ({
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Popover open={open} onOpenChange={(open) => setOpen(open)}>
-        <PopoverTrigger asChild className="bg-white">
+      <Popover
+        open={open}
+        onOpenChange={(open) => setOpen(open)}
+      >
+        <PopoverTrigger
+          asChild
+          className="bg-white space-y-2"
+        >
           <section>
             {label && (
               <label
@@ -63,7 +69,10 @@ export const CustomDatePicker = ({
             )}
           </section>
         </PopoverTrigger>
-        <PopoverContent className=" p-0" align="start">
+        <PopoverContent
+          className=" p-0"
+          align="start"
+        >
           <Calendar
             mode="single"
             selected={field.value}

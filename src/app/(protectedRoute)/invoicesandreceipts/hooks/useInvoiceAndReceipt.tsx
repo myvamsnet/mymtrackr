@@ -1,7 +1,7 @@
+"use client"
 import { useGetUser } from "@/hooks/useGetUser";
 import useModal from "@/hooks/useModal";
 import { useRedirect } from "@/hooks/useRedirect";
-import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 import axiosInstance from "@/lib/axios";
 import {
   calculateGrandTotal,
@@ -22,7 +22,7 @@ import useInvoiceAndReceiptStore, {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import toast from "react-hot-toast";

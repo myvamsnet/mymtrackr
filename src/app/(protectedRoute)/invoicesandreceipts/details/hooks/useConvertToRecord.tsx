@@ -21,7 +21,6 @@ export const useConvertToRecord = () => {
     },
     onSuccess: (response) => {
       if (response) {
-        console.log(response);
         // toast.success(response.message);
         // // Invalidate and refetch
         // queryClient.invalidateQueries({

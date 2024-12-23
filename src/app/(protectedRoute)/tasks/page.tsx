@@ -1,5 +1,7 @@
+import { redirect } from "next/navigation";
+
 const TaskPage = () => {
-  return <div>TaskPage</div>;
+  return redirect("/tasks/pending");
 };
 
 export default TaskPage;

@@ -95,15 +95,14 @@ export async function POST(req: Request) {
       user_id: userInfo?.data?.user?.id,
       ...payload,
     };
-    console.log(create);
+
     const { data, error } = await supabaseApi
       .from("records")
       .insert([create])
       .select()
       .single();
-    console.log(data);
+
     if (error) {
-      console.log(error);
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
