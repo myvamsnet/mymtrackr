@@ -196,16 +196,16 @@ export const PreviewDetailsModal = ({
             )}
           </div>
           <div className="w-full  flex justify-center items-center flex-col ">
-            <div
-              className={`${className} text-dark-300 md:text-sm grid grid-cols-2 gap-1 items-center capitalize`}
-            >
-              <p> powered by</p>
-              <Image
-                src={"/images/logo.svg"}
-                alt="MTrackr"
-                width={32}
-                height={8}
-              />
+            <div className={` text-dark-300 md:text-sm   capitalize space-y-3`}>
+              <span>powered by</span>
+              <div>
+                <Image
+                  src={"/images/logo.svg"}
+                  alt="MTrackr"
+                  width={32}
+                  height={32}
+                />
+              </div>
             </div>
             <p className={` space-x-1  ${className} md:text-sm`}>
               <span className="text-dark-100">

@@ -32,7 +32,7 @@ export const AddRecords = ({ isOpen, toggle }: Props) => {
         ))}
       </div>
       <Link
-        href={"/app/todo"}
+        href={"/tasks"}
         className={`flex w-full p-4 justify-center text-sm text-center items-center gap-2  rounded-md bg-white cursor-pointer  font-medium border border-[#E3E4E7] `}
       >
         <span className="bg-[#F1F5FD] h-8 w-8 rounded-full flex justify-center items-center">
