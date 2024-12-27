@@ -58,7 +58,12 @@ const PreviewDetailsModal = forwardRef<HTMLDivElement, props>(
                 </div>
               </div>
               <div>
-                <h4 className="font-bold text-base text-success text-end capitalize">
+                <h4
+                  className="font-bold text-base  text-end capitalize"
+                  style={{
+                    color: businessInfo?.brandColor || "#1D9213",
+                  }}
+                >
                   {lists.type}
                 </h4>
                 <div className="flex justify-end items-center">
@@ -87,7 +92,7 @@ const PreviewDetailsModal = forwardRef<HTMLDivElement, props>(
               </div>
             </div>
             <div className=" space-y-1 w-20">
-              <p className={` text-dark font-bold ${className}`}>
+              <p className={` text-dark font-bold ${className} capitalize`}>
                 {lists?.type} to:
               </p>
               <p className={`${className} text-dark-300`}>
@@ -149,7 +154,10 @@ const PreviewDetailsModal = forwardRef<HTMLDivElement, props>(
                   <span>{currencyFormatter(lists?.delivery || 0)}</span>
                 </p>
                 <p
-                  className={` text-[8.43px] leading-[10.21px] md:text-sm text-[${businessInfo?.brandColor}] font-bold flex justify-between items-center w-[115px] md:w-[300px]`}
+                  className={` text-[8.43px] leading-[10.21px] md:text-sm  font-bold flex justify-between items-center w-[115px] md:w-[300px]`}
+                  style={{
+                    color: businessInfo?.brandColor || "#1D9213",
+                  }}
                 >
                   Grand Total:{" "}
                   <span>
