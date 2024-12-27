@@ -97,7 +97,7 @@ export async function DELETE(
   const userId = userInfo?.data?.user?.id;
   try {
     if (!userId)
-      return NextResponse.json({ error: "User Not Found" }, { status: 500 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 500 });
     const { taskId } = params;
     const { error } = await supabaseApi
       .from("tasks")

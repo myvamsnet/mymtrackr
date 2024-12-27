@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
   };
   try {
     if (!userInfo?.data?.user?.id)
-      return NextResponse.json({ error: "User Not Found" }, { status: 500 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 500 });
 
     const { data, error } = await supabaseApi
       .from("invoicesandreceipts")
@@ -62,7 +62,7 @@ export async function GET(req: NextRequest) {
   const searchTerm = searchParams.get("searchTerm");
   try {
     if (!userId)
-      return NextResponse.json({ error: "User Not Found" }, { status: 500 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 500 });
 
     // Build the initial query
     let query = supabaseApi

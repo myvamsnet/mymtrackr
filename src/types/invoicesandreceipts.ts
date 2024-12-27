@@ -22,6 +22,7 @@ export interface Data {
   user_id: string;
   type: "invoices" | "receipts";
   updated_at: string;
+  record_id: string;
 }
 
 export interface Item {

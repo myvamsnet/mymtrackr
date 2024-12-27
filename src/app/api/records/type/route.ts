@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   const user_id = userInfo?.data?.user?.id;
 
   if (!user_id) {
-    return NextResponse.json({ error: "User not found" }, { status: 400 });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 400 });
   }
 
   // Get query parameters

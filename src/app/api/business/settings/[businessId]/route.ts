@@ -12,7 +12,7 @@ export async function PUT(
   const userId = userInfo?.data?.user?.id;
   try {
     if (!userId)
-      return NextResponse.json({ error: "User Not Found" }, { status: 500 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 500 });
 
     const payload: Partial<BusinessSettingFormData> = await req.json();
     const { businessId } = params;

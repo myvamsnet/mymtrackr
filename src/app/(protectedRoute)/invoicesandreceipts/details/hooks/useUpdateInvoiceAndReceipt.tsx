@@ -17,6 +17,7 @@ export const useUpdateInvoiceAndReceipt = () => {
       id: string;
       type: InvoiceAndReceiptType;
       issueDate: string;
+      recordId?: string;
     }) => {
       if (!payload.id) return;
       const response = await axiosInstance.put(
@@ -33,7 +34,7 @@ export const useUpdateInvoiceAndReceipt = () => {
         queryClient.invalidateQueries({
           queryKey: ["invoicesandreceipts", response?.data?.id],
         });
-        redirect(`/invoicesandreceipts/${response.data.type}`);
+        redirect(`/invoicesandreceipts/${response?.data?.type}`);
       }
     },
     onError: handleError,

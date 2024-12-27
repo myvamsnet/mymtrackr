@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     } = await supabase.auth.getUser();
 
     if (!user?.id)
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+      return NextResponse.json({ message: "Unauthorized" }, { status: 404 });
 
     if (status !== "successful" && !tx_ref && !transaction_id) {
       return NextResponse.json(

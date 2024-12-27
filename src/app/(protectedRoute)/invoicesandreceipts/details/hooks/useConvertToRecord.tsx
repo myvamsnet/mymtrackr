@@ -1,18 +1,18 @@
 import { useRedirect } from "@/hooks/useRedirect";
+import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 import axiosInstance from "@/lib/axios";
 import { calculateGrandTotal } from "@/lib/helper/calculateGrandTotal";
 import { handleError } from "@/lib/helper/handleError";
-import {
-  Data,
-  SingleInvoicesAndReceiptsResponseData,
-} from "@/types/invoicesandreceipts";
+import { Data } from "@/types/invoicesandreceipts";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 export const useConvertToRecord = () => {
+  const { updateQueryParams } = useUpdateQuery();
+
+  const redirect = useRedirect();
   // Access the client
   const queryClient = useQueryClient();
-  const redirect = useRedirect();
   const { mutate, isPending } = useMutation({
     mutationFn: async (payload: FormPayload) => {
       if (!payload.invoicesAndReceiptsId) return;
@@ -21,12 +21,14 @@ export const useConvertToRecord = () => {
     },
     onSuccess: (response) => {
       if (response) {
-        // toast.success(response.message);
-        // // Invalidate and refetch
-        // queryClient.invalidateQueries({
-        //   queryKey: ["invoicesandreceipts", response?.data?.id],
-        // });
-        // redirect(`/invoicesandreceipts/${response.data.type}`);
+        toast.success("Converted Successfull");
+        // Invalidate and refetch
+        queryClient.invalidateQueries({
+          queryKey: ["invoicesandreceipts", response?.data?.id],
+        });
+        updateQueryParams({
+          type: "",
+        });
       }
     },
     onError: handleError,
@@ -57,8 +59,6 @@ export const useConvertToRecord = () => {
 export interface FormPayload {
   amount: number;
   name: string;
-  note?: string;
-  image?: string;
-  type: "income" | "expense" | "payable" | "debtor";
+  type: "income" | "debtor";
   invoicesAndReceiptsId?: string;
 }

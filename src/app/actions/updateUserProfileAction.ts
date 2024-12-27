@@ -25,7 +25,7 @@ export const updateProfileAction = async (formData: FormData) => {
   if (!user?.data?.user?.id) {
     return {
       success: false,
-      error: "User not found",
+      error: "Unauthorized",
     };
   }
 

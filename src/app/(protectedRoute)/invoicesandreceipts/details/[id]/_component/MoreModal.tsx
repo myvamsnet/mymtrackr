@@ -7,7 +7,6 @@ import { useDeleteInvoiceAndReceipt } from "../../../hooks/useDeleteInvoiceAndRe
 import { useUpdateInvoiceAndReceipt } from "../../hooks/useUpdateInvoiceAndReceipt";
 import { dateFormatter } from "@/lib/helper/dateFormatter";
 import { useConvertToRecord } from "../../hooks/useConvertToRecord";
-import { useGenerateImage } from "@/hooks/useGenerateImage";
 
 const MoreModal = ({ data, isOpen, onClose }: Props) => {
   const { deleteLoader, deleteMutation } = useDeleteInvoiceAndReceipt();
@@ -39,6 +38,7 @@ const MoreModal = ({ data, isOpen, onClose }: Props) => {
             type: data?.type === "invoices" ? "receipts" : ("invoices" as any),
             issueDate:
               dateFormatter(new Date().toDateString()) ?? data?.dueDate,
+            recordId: data?.record_id ?? "",
           })
         }
       >
@@ -53,28 +53,31 @@ const MoreModal = ({ data, isOpen, onClose }: Props) => {
             : " Convert to invoice"}
         </span>
       </button>
-      <button
-        className="flex items-center gap-1 py-4 border-b border-off-white-200 "
-        onClick={() => {
-          addConvertToRecord(data);
-        }}
-        disabled={loader}
-      >
-        <div className="h-8 w-8 bg-off-white flex justify-center items-center">
-          {data?.type === "invoices" ? (
-            <Icons.ArrowRightIcon />
-          ) : (
-            <Icons.ArrowDownIcon />
-          )}
-        </div>
-        <span className="font-normal text-sm text-dark capitalize">
-          {loader
-            ? "Recording..."
-            : data?.type === "invoices"
-            ? "Record as debtor"
-            : "Record as Income"}
-        </span>
-      </button>
+      {!data?.record_id && (
+        <button
+          className="flex items-center gap-1 py-4 border-b border-off-white-200 "
+          onClick={() => {
+            addConvertToRecord(data);
+          }}
+          disabled={loader}
+        >
+          <div className="h-8 w-8 bg-off-white flex justify-center items-center">
+            {data?.type === "invoices" ? (
+              <Icons.ArrowRightIcon />
+            ) : (
+              <Icons.ArrowDownIcon />
+            )}
+          </div>
+          <span className="font-normal text-sm text-dark capitalize">
+            {loader
+              ? "Recording..."
+              : data?.type === "invoices"
+              ? "Record as debtor"
+              : "Record as Income"}
+          </span>
+        </button>
+      )}
+
       <button
         className="flex items-center gap-1 py-4 border-b border-off-white-200 "
         disabled={deleteLoader}

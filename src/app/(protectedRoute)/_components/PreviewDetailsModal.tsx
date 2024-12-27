@@ -29,7 +29,11 @@ const PreviewDetailsModal = forwardRef<HTMLDivElement, props>(
         onClose={onCancel}
         className="md:w-[50%]"
       >
-        <div className={`p-1 overflow-y-auto  `}>
+        <div
+          className={`p-1 overflow-y-auto ${
+            lists?.items?.length > 6 ? "h-[60svh]" : ""
+          }`}
+        >
           <section
             className={`bg-off-white-400 box-shadow-medium border-t-4 border-b-4 p-4 space-y-5`}
             style={{ borderColor: businessInfo?.brandColor || "#1D9213" }}
@@ -64,7 +68,7 @@ const PreviewDetailsModal = forwardRef<HTMLDivElement, props>(
                     color: businessInfo?.brandColor || "#1D9213",
                   }}
                 >
-                  {lists.type}
+                  {lists.type === "invoices" ? "invoice" : "receipt"}
                 </h4>
                 <div className="flex justify-end items-center">
                   <div className=" space-y-1 w-20">
@@ -93,7 +97,7 @@ const PreviewDetailsModal = forwardRef<HTMLDivElement, props>(
             </div>
             <div className=" space-y-1 w-20">
               <p className={` text-dark font-bold ${className} capitalize`}>
-                {lists?.type} to:
+                {lists.type === "invoices" ? "invoice" : "receipt"} to:
               </p>
               <p className={`${className} text-dark-300`}>
                 {lists?.customerName}

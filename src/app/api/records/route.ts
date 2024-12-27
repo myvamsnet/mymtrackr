@@ -10,8 +10,8 @@ export async function GET(req: NextRequest) {
   const startDate = searchParams.get("startDate");
   const endDate = searchParams.get("endDate");
   const searchTerm = searchParams.get("searchTerm");
-  if (!userInfo?.data?.user?.id) {
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  if (!user_id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 404 });
   }
   try {
     // Build the initial query
@@ -87,27 +87,55 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: Request) {
   const supabaseApi = createClient();
-  const userInfo = await supabaseApi?.auth?.getUser();
+
   try {
+    const userInfo = await supabaseApi.auth.getUser();
+    const userId = userInfo?.data?.user?.id;
+
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const payload: Payload = await req.json();
 
     const create = {
-      user_id: userInfo?.data?.user?.id,
+      user_id: userId,
       ...payload,
     };
 
-    const { data, error } = await supabaseApi
+    const { data: recordData, error: recordError } = await supabaseApi
       .from("records")
       .insert([create])
       .select()
       .single();
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 });
+    if (recordError) {
+      return NextResponse.json({ error: recordError.message }, { status: 400 });
     }
 
-    return NextResponse.json(data, { status: 201 });
+    if (recordData?.invoicesAndReceiptsId) {
+      const { data: invoiceData, error: invoiceError } = await supabaseApi
+        .from("invoicesandreceipts")
+        .update({ record_id: recordData.id })
+        .eq("id", recordData.invoicesAndReceiptsId)
+        .eq("user_id", userId)
+        .select()
+        .single();
+
+      if (invoiceError) {
+        console.error(invoiceError);
+        return NextResponse.json(
+          { error: invoiceError.message },
+          { status: 400 }
+        );
+      }
+
+      console.log(invoiceData);
+    }
+
+    return NextResponse.json(recordData, { status: 201 });
   } catch (error) {
+    console.error("Error creating record:", error);
     return NextResponse.json(
       { error: "Failed to create record" },
       { status: 500 }

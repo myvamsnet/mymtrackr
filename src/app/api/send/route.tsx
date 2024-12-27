@@ -13,7 +13,7 @@ export async function POST() {
   }
 
   if (!userInfo?.data?.user?.id) {
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 404 });
   }
   const email = userInfo?.data?.user?.email;
   const otp = generateOTP();
