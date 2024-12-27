@@ -1,6 +1,6 @@
 import html2canvas from "html2canvas";
 import React, { useRef, useState } from "react";
-import { toast } from "./use-toast";
+import { toPng } from "html-to-image";
 
 export const useGenerateImage = () => {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -8,49 +8,18 @@ export const useGenerateImage = () => {
 
   const handleGenerateAndDownload = async () => {
     setIsGenerating(true);
-    try {
-      if (!invoiceRef.current) {
-        throw new Error("Invoice element not found");
+    if (invoiceRef.current) {
+      try {
+        const dataUrl = await toPng(invoiceRef.current);
+        const link = document.createElement("a");
+        link.href = dataUrl;
+        link.download = "receipt.png";
+        link.click();
+      } catch (error) {
+        console.error("Error generating image:", error);
+      } finally {
+        setIsGenerating(false);
       }
-
-      const canvas = await html2canvas(invoiceRef.current, {
-        scale: 2, // Increase resolution
-        backgroundColor: "#ffffff", // Ensure white background
-        logging: false, // Disable logging for cleaner console
-        useCORS: true, // Enable CORS for loading images
-        allowTaint: false, // Avoid tainting canvas with cross-origin images
-      });
-
-      const imageDataUrl = canvas.toDataURL("image/png");
-
-      // Create a download link
-      const downloadLink = document.createElement("a");
-      downloadLink.href = imageDataUrl;
-      downloadLink.download = "invoice.png";
-
-      // Append to body to work around mobile browser restrictions
-      document.body.appendChild(downloadLink);
-
-      // Trigger the download on both desktop and mobile
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
-
-      toast({
-        title: "Success",
-        description: "Invoice image generated and download started!",
-      });
-    } catch (error) {
-      console.error("Error generating invoice image:", error);
-      toast({
-        title: "Error",
-        description:
-          error instanceof Error
-            ? error.message
-            : "Failed to generate invoice image. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsGenerating(false);
     }
   };
 

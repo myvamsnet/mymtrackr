@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button";
 import { currencyFormatter } from "@/lib/helper/currencyFormatter";
 import { Plus, X } from "lucide-react";
 import { useInvoiceAndReceipt } from "../hooks/useInvoiceAndReceipt";
-import { PreviewDetailsModal } from "../../_components/PreviewDetailsModal";
 import { DiscountAndDeliveryForm } from "./DiscountAndDeliveryForm";
 import { RecordHeader } from "../../_components/common/records/RecordHeader";
 import Link from "next/link";
 import { SettingsIcon } from "@/assets/icons/SettingsIcon";
 import NumberInput from "@/components/NumberInput";
 import { CheckBusinessAvailableModal } from "./CheckBusinessAvailableModal";
+import PreviewDetailsModal from "../../_components/PreviewDetailsModal";
 
 export default function AddInvoicesAndReceiptForm() {
   const {

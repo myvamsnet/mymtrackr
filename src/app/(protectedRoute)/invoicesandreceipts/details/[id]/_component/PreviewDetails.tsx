@@ -1,4 +1,4 @@
-import { PreviewDetailsModal } from "@/app/(protectedRoute)/_components/PreviewDetailsModal";
+import PreviewDetailsModal from "@/app/(protectedRoute)/_components/PreviewDetailsModal";
 import { Button } from "@/components/ui/button";
 import { useGenerateImage } from "@/hooks/useGenerateImage";
 import useModal from "@/hooks/useModal";

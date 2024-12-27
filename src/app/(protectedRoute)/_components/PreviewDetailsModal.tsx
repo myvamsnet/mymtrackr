@@ -5,7 +5,7 @@ import { CustomeTable } from "./customeTable";
 import { TableCell, TableHead, TableRow } from "@/components/ui/table";
 import { currencyFormatter } from "@/lib/helper/currencyFormatter";
 
-import React from "react";
+import React, { forwardRef } from "react";
 import { InvoiceAndReceiptData } from "@/zustand/invoiceAndReceiptStore";
 import {
   calculateGrandTotal,
@@ -16,210 +16,219 @@ import CustomAvatar from "@/components/ui/Avatar/index";
 import userStore from "@/zustand/userStore";
 import Modal from "@/components/ui/Modal";
 
-export const PreviewDetailsModal = ({
-  lists,
-  title,
-  isOpen,
-  onCancel,
-  children,
-  invoiceRef,
-}: props) => {
-  const { user } = userStore();
-  const className = "text-[6.75px]  leading-[8.17px]";
+const PreviewDetailsModal = forwardRef<HTMLDivElement, props>(
+  ({ lists, title, isOpen, onCancel, children, invoiceRef }) => {
+    const { user } = userStore();
+    const className = "text-[6.75px]  leading-[8.17px]";
 
-  const businessInfo = user?.businessProfile;
-  return (
-    <Modal
-      title={title}
-      isOpen={isOpen}
-      onClose={onCancel}
-      className="md:w-[50%]"
-    >
-      <div className={`p-1 overflow-y-auto  `}>
-        <section
-          className={`bg-off-white-400 box-shadow-medium border-t-4 border-b-4 p-4 space-y-5`}
-          style={{ borderColor: businessInfo?.brandColor || "#1D9213" }}
-          ref={invoiceRef}
-        >
-          <div className="grid gap-10 grid-cols-2">
-            <div className="space-y-3">
-              <div className="flex items-center gap-1 h-6">
-                <CustomAvatar
-                  name={businessInfo?.businessName as string}
-                  imgUrl={businessInfo?.imageUrl}
-                  className="h-full w-6"
-                />
-                <p className="h-full flex items-center  font-bold text-[8.43px] text-dark leading-[8.17px]">
-                  {businessInfo?.businessName}
-                </p>
-              </div>
-              <div className=" space-y-1">
-                <p className={` text-dark-300 ${className}`}>
-                  {businessInfo?.businessEmail}
-                </p>
-                <p className={` text-dark-300 ${className}`}>
-                  {businessInfo?.phoneNumber1},{" "}
-                  {businessInfo?.phoneNumber2 ?? ""}
-                </p>
-              </div>
-            </div>
-            <div>
-              <h4 className="font-bold text-base text-success text-end capitalize">
-                {lists.type}
-              </h4>
-              <div className="flex justify-end items-center">
-                <div className=" space-y-1 w-20">
-                  <p
-                    className={`${className} text-dark flex justify-between items-center`}
-                  >
-                    Issue Date:{" "}
-                    <span className={`${className} text-dark-300`}>
-                      {dateFormatter(lists.issueDate)}
-                    </span>
+    const businessInfo = user?.businessProfile;
+    return (
+      <Modal
+        title={title}
+        isOpen={isOpen}
+        onClose={onCancel}
+        className="md:w-[50%]"
+      >
+        <div className={`p-1 overflow-y-auto  `}>
+          <section
+            className={`bg-off-white-400 box-shadow-medium border-t-4 border-b-4 p-4 space-y-5`}
+            style={{ borderColor: businessInfo?.brandColor || "#1D9213" }}
+            ref={invoiceRef}
+          >
+            <div className="grid gap-10 grid-cols-2">
+              <div className="space-y-3">
+                <div className="flex items-center gap-1 h-6">
+                  <CustomAvatar
+                    name={businessInfo?.businessName as string}
+                    imgUrl={businessInfo?.imageUrl}
+                    className="h-full w-6"
+                  />
+                  <p className="h-full flex items-center  font-bold text-[8.43px] text-dark leading-[8.17px]">
+                    {businessInfo?.businessName}
                   </p>
-
-                  {lists.type === "invoices" && (
+                </div>
+                <div className=" space-y-1">
+                  <p className={` text-dark-300 ${className}`}>
+                    {businessInfo?.businessEmail}
+                  </p>
+                  <p className={` text-dark-300 ${className}`}>
+                    {businessInfo?.phoneNumber1},{" "}
+                    {businessInfo?.phoneNumber2 ?? ""}
+                  </p>
+                </div>
+              </div>
+              <div>
+                <h4 className="font-bold text-base text-success text-end capitalize">
+                  {lists.type}
+                </h4>
+                <div className="flex justify-end items-center">
+                  <div className=" space-y-1 w-20">
                     <p
                       className={`${className} text-dark flex justify-between items-center`}
                     >
-                      Due Date:{" "}
+                      Issue Date:{" "}
                       <span className={`${className} text-dark-300`}>
-                        {dateFormatter(lists.dueDate)}
+                        {dateFormatter(lists.issueDate)}
                       </span>
                     </p>
-                  )}
+
+                    {lists.type === "invoices" && (
+                      <p
+                        className={`${className} text-dark flex justify-between items-center`}
+                      >
+                        Due Date:{" "}
+                        <span className={`${className} text-dark-300`}>
+                          {dateFormatter(lists.dueDate)}
+                        </span>
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className=" space-y-1 w-20">
-            <p className={` text-dark font-bold ${className}`}>
-              {lists?.type} to:
-            </p>
-            <p className={`${className} text-dark-300`}>
-              {lists?.customerName}
-            </p>
-          </div>
-          <section>
-            <CustomeTable
-              tableHeader={
-                <>
-                  <TableHead>Item Name</TableHead>
-                  <TableHead>Quantity</TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead className="text-right">Total</TableHead>
-                </>
-              }
-            >
-              {lists?.items?.map((list, i) => (
-                <TableRow
-                  key={`${list?.id}-${i}`}
-                  className={`${className} text-dark-300 md:text-sm`}
+            <div className=" space-y-1 w-20">
+              <p className={` text-dark font-bold ${className}`}>
+                {lists?.type} to:
+              </p>
+              <p className={`${className} text-dark-300`}>
+                {lists?.customerName}
+              </p>
+            </div>
+            <section>
+              <CustomeTable
+                tableHeader={
+                  <>
+                    <TableHead>Item Name</TableHead>
+                    <TableHead>Quantity</TableHead>
+                    <TableHead>Price</TableHead>
+                    <TableHead className="text-right">Total</TableHead>
+                  </>
+                }
+              >
+                {lists?.items?.map((list, i) => (
+                  <TableRow
+                    key={`${list?.id}-${i}`}
+                    className={`${className} text-dark-300 md:text-sm`}
+                  >
+                    <TableCell className={`${className} text-dark md:text-sm`}>
+                      {list?.description}
+                    </TableCell>
+                    <TableCell className={`${className} text-dark md:text-sm`}>
+                      {list?.quantity}
+                    </TableCell>
+                    <TableCell className={`${className} text-dark md:text-sm`}>
+                      {currencyFormatter(list?.price)}
+                    </TableCell>
+                    <TableCell
+                      className={`${className} text-right text-dark md:text-sm`}
+                    >
+                      {currencyFormatter(
+                        Number(list?.price) * Number(list?.quantity)
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </CustomeTable>
+              <div className="bg-off-white rounded-[6.75px]  p-4 flex items-end md:gap-3 gap-2  flex-col">
+                <p
+                  className={`${className} md:text-sm text-dark flex justify-between items-center w-[115px] md:w-[300px]`}
                 >
-                  <TableCell>{list?.description}</TableCell>
-                  <TableCell>{list?.quantity}</TableCell>
-                  <TableCell>{currencyFormatter(list?.price)}</TableCell>
-                  <TableCell className="text-right">
+                  Sub Total:{" "}
+                  <span>{currencyFormatter(calculateTotal(lists?.items))}</span>
+                </p>
+                <p
+                  className={`${className} md:text-sm text-dark-100 flex justify-between items-center w-[115px] md:w-[300px]`}
+                >
+                  Discount:{" "}
+                  <span>{currencyFormatter(lists?.discount || 0)}</span>
+                </p>
+                <p
+                  className={`${className} md:text-sm text-dark-100 flex justify-between items-center w-[115px] md:w-[300px]`}
+                >
+                  Delivery fee:{" "}
+                  <span>{currencyFormatter(lists?.delivery || 0)}</span>
+                </p>
+                <p
+                  className={` text-[8.43px] leading-[10.21px] md:text-sm text-[${businessInfo?.brandColor}] font-bold flex justify-between items-center w-[115px] md:w-[300px]`}
+                >
+                  Grand Total:{" "}
+                  <span>
                     {currencyFormatter(
-                      Number(list?.price) * Number(list?.quantity)
+                      calculateGrandTotal(
+                        lists?.items,
+                        String(lists?.discount),
+                        String(lists?.delivery)
+                      )
                     )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </CustomeTable>
-            <div className="bg-off-white rounded-[6.75px]  p-4 flex items-end md:gap-3 gap-2  flex-col">
-              <p
-                className={`${className} md:text-sm text-dark flex justify-between items-center w-[115px] md:w-[300px]`}
+                  </span>
+                </p>
+              </div>
+            </section>
+            <div className="grid gap-10 grid-cols-2 py-2">
+              <div className="space-y-1">
+                <div className="flex items-center gap-1">
+                  <p className={`font-bold text-dark ${className} md:text-sm`}>
+                    Payment Account:
+                  </p>
+                </div>
+                <div className=" space-y-1">
+                  <p className={` text-dark-300 md:text-sm ${className}`}>
+                    {businessInfo?.accountName}
+                  </p>
+                  <p className={` text-dark-300 md:text-sm ${className}`}>
+                    {businessInfo?.accountNumber}
+                  </p>
+                  <p className={` text-dark-300 md:text-sm ${className}`}>
+                    {businessInfo?.bankName}
+                  </p>
+                </div>
+              </div>
+              {businessInfo?.termsOfService && (
+                <div className=" space-y-[5.06px]">
+                  <p
+                    className={`font-bold text-dark md:text-sm ${className} md:text-sm`}
+                  >
+                    Terms of Service
+                  </p>
+                  <p
+                    className={`${className} text-dark-100 flex justify-between items-center md:w-full w-[121px] md:text-sm`}
+                  >
+                    {businessInfo?.termsOfService}
+                  </p>
+                </div>
+              )}
+            </div>
+            <div className="w-full flex justify-center items-center flex-col gap-[5px] text-center ">
+              <div
+                className={` text-dark-300 md:text-sm   capitalize flex items-center gap-1`}
               >
-                Sub Total:{" "}
-                <span>{currencyFormatter(calculateTotal(lists?.items))}</span>
-              </p>
-              <p
-                className={`${className} md:text-sm text-dark-100 flex justify-between items-center w-[115px] md:w-[300px]`}
-              >
-                Discount: <span>{currencyFormatter(lists?.discount || 0)}</span>
-              </p>
-              <p
-                className={`${className} md:text-sm text-dark-100 flex justify-between items-center w-[115px] md:w-[300px]`}
-              >
-                Delivery fee:{" "}
-                <span>{currencyFormatter(lists?.delivery || 0)}</span>
-              </p>
-              <p
-                className={` text-[8.43px] leading-[10.21px] md:text-sm text-success font-bold flex justify-between items-center w-[115px] md:w-[300px]`}
-              >
-                Grand Total:{" "}
-                <span>
-                  {currencyFormatter(
-                    calculateGrandTotal(
-                      lists?.items,
-                      String(lists?.discount),
-                      String(lists?.delivery)
-                    )
-                  )}
+                <span className="font-normal text-[#3E3E4C]  md:text-xs text-[6.75px]">
+                  powered by
                 </span>
-              </p>
-            </div>
-          </section>
-          <div className="grid gap-10 grid-cols-2 py-2">
-            <div className="space-y-1">
-              <div className="flex items-center gap-1">
-                <p className={`font-bold text-dark ${className} md:text-sm`}>
-                  Payment Account:
-                </p>
-              </div>
-              <div className=" space-y-1">
-                <p className={` text-dark-300 md:text-sm ${className}`}>
-                  {businessInfo?.accountName}
-                </p>
-                <p className={` text-dark-300 md:text-sm ${className}`}>
-                  {businessInfo?.accountNumber}
-                </p>
-                <p className={` text-dark-300 md:text-sm ${className}`}>
-                  {businessInfo?.bankName}
-                </p>
-              </div>
-            </div>
-            {businessInfo?.termsOfService && (
-              <div className=" space-y-[5.06px]">
-                <p
-                  className={`font-bold text-dark md:text-sm ${className} md:text-sm`}
-                >
-                  Terms of Service
-                </p>
-                <p
-                  className={`${className} text-dark-100 flex justify-between items-center md:w-full w-[121px] md:text-sm`}
-                >
-                  {businessInfo?.termsOfService}
-                </p>
-              </div>
-            )}
-          </div>
-          <div className="w-full  flex justify-center items-center flex-col ">
-            <div className={` text-dark-300 md:text-sm   capitalize space-y-3`}>
-              <span>powered by</span>
-              <div>
                 <Image
                   src={"/images/logo.svg"}
                   alt="MTrackr"
-                  width={32}
-                  height={32}
+                  width={27.38}
+                  height={7.69}
                 />
               </div>
+              <p className={` space-x-1  ${className} md:text-sm`}>
+                <span className="text-dark-100">
+                  Manage your business like the Pro!
+                </span>
+                <span className="text-primary">www.mymtrackr.com</span>
+              </p>
             </div>
-            <p className={` space-x-1  ${className} md:text-sm`}>
-              <span className="text-dark-100">
-                Manage your business like the Pro!
-              </span>
-              <span className="text-primary">www.mymtrackr.com</span>
-            </p>
-          </div>
-        </section>
-      </div>
-      {children}
-    </Modal>
-  );
-};
+          </section>
+        </div>
+        {children}
+      </Modal>
+    );
+  }
+);
+
+PreviewDetailsModal.displayName = "PreviewDetailsModal";
+export default PreviewDetailsModal;
 interface props {
   lists: InvoiceAndReceiptData;
   title: string;
