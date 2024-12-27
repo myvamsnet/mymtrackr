@@ -1,16 +1,17 @@
 import React, { useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import useInvoiceAndReceiptStore from "@/zustand/invoiceAndReceiptStore";
+import { generateReferralCode } from "@/lib/helper/generateReferralCode";
 
 export const useGenerateImage = () => {
   const { invoiceAndReceiptData } = useInvoiceAndReceiptStore();
   const [isGenerating, setIsGenerating] = useState(false);
   const invoiceRef = useRef<HTMLDivElement>(null);
-  const invoiceAndReceipt = `${
+  const invoiceAndReceipt =
     invoiceAndReceiptData && invoiceAndReceiptData?.type === "invoices"
-      ? "invoice.png"
-      : "receipt.png"
-  }`;
+      ? `invoice${generateReferralCode()}`
+      : `receipt${generateReferralCode()}`;
+
   const handleGenerateAndDownload = async () => {
     if (invoiceRef.current) {
       setIsGenerating(true);
@@ -24,7 +25,7 @@ export const useGenerateImage = () => {
         // Download the receipt as an image
         const link = document.createElement("a");
         link.href = dataUrl;
-        link.download = invoiceAndReceipt;
+        link.download = `${invoiceAndReceipt}.png`;
         link.click();
 
         // Convert dataUrl to Blob for sharing
@@ -35,17 +36,17 @@ export const useGenerateImage = () => {
         if (
           navigator.canShare &&
           navigator.canShare({
-            files: [new File([blob], invoiceAndReceipt, { type: blob.type })],
+            files: [
+              new File([blob], `${invoiceAndReceipt}.png`, { type: blob.type }),
+            ],
           })
         ) {
-          const file = new File([blob], invoiceAndReceipt, { type: blob.type });
+          const file = new File([blob], `${invoiceAndReceipt}.png`, {
+            type: blob.type,
+          });
           await navigator.share({
             files: [file],
-            title:
-              invoiceAndReceiptData &&
-              invoiceAndReceiptData?.type === "invoices"
-                ? "invoice"
-                : "receipt",
+            title: invoiceAndReceipt,
             text: `Here is your ${
               invoiceAndReceiptData &&
               invoiceAndReceiptData?.type === "invoices"
