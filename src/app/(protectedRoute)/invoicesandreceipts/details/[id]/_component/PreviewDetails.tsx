@@ -3,10 +3,13 @@ import { Button } from "@/components/ui/button";
 import { useGenerateImage } from "@/hooks/useGenerateImage";
 import useModal from "@/hooks/useModal";
 import { Data } from "@/types/invoicesandreceipts";
-import { InvoiceAndReceiptData } from "@/zustand/invoiceAndReceiptStore";
+import useInvoiceAndReceiptStore, {
+  InvoiceAndReceiptData,
+} from "@/zustand/invoiceAndReceiptStore";
 import React from "react";
 
 const PreviewDetails = ({ list }: Props) => {
+  const { clearInvoiceAndReceipt } = useInvoiceAndReceiptStore();
   const { modal, onCancel } = useModal();
   const { handleGenerateAndDownload, isGenerating, invoiceRef } =
     useGenerateImage();
@@ -17,7 +20,10 @@ const PreviewDetails = ({ list }: Props) => {
           title="Preview"
           lists={list as InvoiceAndReceiptData}
           isOpen={modal.isOpen && modal.type === "preview" && list !== null}
-          onCancel={onCancel}
+          onCancel={() => {
+            clearInvoiceAndReceipt();
+            onCancel();
+          }}
           invoiceRef={invoiceRef}
         >
           <section className="bg-off-white-300 p-4 flex gap-3 justify-between mt-6  w-full">

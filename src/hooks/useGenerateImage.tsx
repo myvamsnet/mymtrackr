@@ -1,14 +1,19 @@
-import html2canvas from "html2canvas";
 import React, { useRef, useState } from "react";
 import { toPng } from "html-to-image";
+import useInvoiceAndReceiptStore from "@/zustand/invoiceAndReceiptStore";
 
 export const useGenerateImage = () => {
+  const { invoiceAndReceiptData } = useInvoiceAndReceiptStore();
   const [isGenerating, setIsGenerating] = useState(false);
   const invoiceRef = useRef<HTMLDivElement>(null);
-
+  const invoiceAndReceipt = `${
+    invoiceAndReceiptData && invoiceAndReceiptData?.type === "invoices"
+      ? "invoice.png"
+      : "receipt.png"
+  }`;
   const handleGenerateAndDownload = async () => {
-    setIsGenerating(true);
     if (invoiceRef.current) {
+      setIsGenerating(true);
       try {
         const dataUrl = await toPng(invoiceRef.current, {
           cacheBust: true, // Prevents caching issues
@@ -19,7 +24,7 @@ export const useGenerateImage = () => {
         // Download the receipt as an image
         const link = document.createElement("a");
         link.href = dataUrl;
-        link.download = "receipt.png";
+        link.download = invoiceAndReceipt;
         link.click();
 
         // Convert dataUrl to Blob for sharing
@@ -30,18 +35,34 @@ export const useGenerateImage = () => {
         if (
           navigator.canShare &&
           navigator.canShare({
-            files: [new File([blob], "receipt.png", { type: blob.type })],
+            files: [new File([blob], invoiceAndReceipt, { type: blob.type })],
           })
         ) {
-          const file = new File([blob], "receipt.png", { type: blob.type });
+          const file = new File([blob], invoiceAndReceipt, { type: blob.type });
           await navigator.share({
             files: [file],
-            title: "Receipt",
-            text: "Here is your receipt!",
+            title:
+              invoiceAndReceiptData &&
+              invoiceAndReceiptData?.type === "invoices"
+                ? "invoice"
+                : "receipt",
+            text: `Here is your ${
+              invoiceAndReceiptData &&
+              invoiceAndReceiptData?.type === "invoices"
+                ? "invoice"
+                : "receipt"
+            }!`,
           });
         } else {
           // Fallback to WhatsApp sharing
-          const encodedMessage = encodeURIComponent("Here is your receipt!");
+          const encodedMessage = encodeURIComponent(
+            `Here is your ${
+              invoiceAndReceiptData &&
+              invoiceAndReceiptData?.type === "invoices"
+                ? "invoice"
+                : "receipt"
+            }!`
+          );
           const shareUrl = `https://api.whatsapp.com/send?text=${encodedMessage}`;
           window.open(shareUrl, "_blank");
         }

@@ -19,8 +19,12 @@ import { useFetch } from "@/hooks/useFetch";
 import { useParams, useSearchParams } from "next/navigation";
 import CustomLoader from "@/components/CustomLoader/page";
 import { useUpdateQuery } from "@/hooks/useUpdateQuery";
+import useInvoiceAndReceiptStore, {
+  InvoiceAndReceiptData,
+} from "@/zustand/invoiceAndReceiptStore";
 
 export const Details = () => {
+  const { setInvoiceAndReceipt } = useInvoiceAndReceiptStore();
   const { onConfirm, modal } = useModal();
   const { updateQueryParams } = useUpdateQuery();
   const searchParams = useSearchParams();
@@ -166,12 +170,15 @@ export const Details = () => {
           <Button
             variant={"outline"}
             className="py-[14px] px-[10px] w-[93px] h-[45px] transition-all ease-out duration-300 "
-            onClick={() =>
+            onClick={() => {
               onConfirm({
                 type: "preview",
                 isOpen: true,
-              })
-            }
+              });
+              setInvoiceAndReceipt(
+                invoicesAndReceiptData as InvoiceAndReceiptData
+              );
+            }}
           >
             Preview
           </Button>
