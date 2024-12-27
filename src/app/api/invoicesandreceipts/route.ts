@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabse/server";
-import { BusinessResponseData } from "@/types/business";
 import {
   InvoicesAndReceiptsResponseData,
   SingleInvoicesAndReceiptsResponseData,
@@ -90,17 +89,9 @@ export async function GET(req: NextRequest) {
       searchTerm !== "null" &&
       searchTerm !== "NaN"
     ) {
-      const numericSearchTerm = Number(searchTerm);
-      if (!isNaN(numericSearchTerm)) {
-        // If searchTerm is a valid number, search by amount
-
-        query = query.eq("amount", numericSearchTerm);
-      } else if (typeof searchTerm === "string" && searchTerm.trim() !== "") {
-        // If searchTerm is a string, search by name using ilike
-        const trimmedSearchTerm = searchTerm.trim();
-
-        query = query.ilike("name", `%${trimmedSearchTerm}%`);
-      }
+      // If searchTerm is a string, search by name using ilike
+      const trimmedSearchTerm = searchTerm.trim();
+      query = query.ilike("customerName", `%${trimmedSearchTerm}%`);
     }
 
     // Execute the query and handle response

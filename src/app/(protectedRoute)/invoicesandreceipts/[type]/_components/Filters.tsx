@@ -1,11 +1,12 @@
 "use client";
-import { DateRangeModal } from "@/components/DateRangeFilter/DateRangeModal";
-import { SearchableSelect } from "@/components/SearchableSelect";
-import { selectByDate } from "@/constant/selectOptions";
-import { useDateFilter } from "@/hooks/useDateFilter";
-import React from "react";
 
-export const FilterHistory = () => {
+import { CustomSearch } from "@/components/Search";
+import { selectByDate } from "@/constant/selectOptions";
+import { SearchableSelect } from "@/components/SearchableSelect";
+import { useDateFilter } from "@/hooks/useDateFilter";
+import { DateRangeModal } from "@/components/DateRangeFilter/DateRangeModal";
+
+export const Filters = () => {
   const {
     handleSubmitDate,
     control,
@@ -14,13 +15,17 @@ export const FilterHistory = () => {
     watchFilterDate,
     toggle,
   } = useDateFilter();
+
   return (
-    <section className="p-3">
-      <SearchableSelect
-        name="filterDate"
-        control={control}
-        options={selectByDate}
-      />
+    <>
+      <div className="grid lg:grid-cols-2 gap-4 grid-cols-1">
+        <CustomSearch />
+        <SearchableSelect
+          name="filterDate"
+          control={control}
+          options={selectByDate}
+        />
+      </div>
       {/* Reusable Date Range Modal */}
       <DateRangeModal
         isOpen={show && watchFilterDate === "custom"}
@@ -28,6 +33,6 @@ export const FilterHistory = () => {
         initialDateFilter={initialDateFilter}
         onSubmit={handleSubmitDate}
       />
-    </section>
+    </>
   );
 };

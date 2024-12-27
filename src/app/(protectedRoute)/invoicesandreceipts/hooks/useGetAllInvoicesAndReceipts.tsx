@@ -5,19 +5,19 @@ import axiosInstance from "@/lib/axios";
 import { Records } from "@/types/records";
 import { InvoiceAndReceiptType } from "@/zustand/invoiceAndReceiptStore";
 import { InvoicesAndReceiptsResponseData } from "@/types/invoicesandreceipts";
+import { useFilterStore } from "@/zustand/useFilterStore";
 
 export const useGetAllInvoicesAndReceipts = () => {
+  const { filter } = useFilterStore();
   const searchParam = useSearchParams();
   const searchTerm = searchParam.get("searchTerm");
   const { type } = useParams() as {
     type: InvoiceAndReceiptType;
   };
-  const startDate = searchParam.get("startDate") ?? "";
-  const endDate = searchParam.get("endDate") ?? "";
 
   const values = {
-    startDate,
-    endDate,
+    startDate: filter.startDate,
+    endDate: filter.endDate,
     searchTerm,
     type,
   };
@@ -26,9 +26,9 @@ export const useGetAllInvoicesAndReceipts = () => {
     useQuery<InvoicesAndReceiptsResponseData>({
       queryKey: [
         "invoicesandreceipts",
-        type,
-        startDate ?? "",
-        endDate ?? "",
+        values.type,
+        values.startDate ?? "",
+        values.endDate ?? "",
         searchTerm ?? "",
       ],
       queryFn: async () => {
