@@ -18,8 +18,8 @@ export const ArrowDownIconSimple = ({
         <path
           d="M4 6.5L8 10.5L12 6.5"
           stroke={color}
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </>
