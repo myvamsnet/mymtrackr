@@ -10,7 +10,7 @@ const AdminLayoutRoot = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  return <main>{children}</main>;
+  return <main className="relative">{children}</main>;
 };
 
 export default AdminLayoutRoot;

@@ -6,11 +6,8 @@ import { SidebarMobile } from "./SidebarMobile";
 
 export const Header = () => {
   return (
-    <header className="bg-off-white-300  py-3 px-6 flex xl:justify-end justify-between items-center gap-3 h-[68px]">
-      <Link
-        href={"/admin/dashboard"}
-        className="xl:hidden block"
-      >
+    <header className="bg-off-white-300  py-3 px-6 flex xl:justify-end justify-between items-center gap-3 h-[68px] sticky top-0 z-50">
+      <Link href={"/admin/dashboard"} className="xl:hidden block">
         <Image
           src="/images/logo_black.svg"
           alt="Logo Admin"
