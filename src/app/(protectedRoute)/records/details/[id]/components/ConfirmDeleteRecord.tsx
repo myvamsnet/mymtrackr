@@ -1,26 +1,30 @@
 "use client";
-import { deleteRecord } from "@/app/actions/deleteRecord";
 import { CustomDialog } from "@/components/CustomDialog";
+
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { useRedirect } from "@/hooks/useRedirect";
+import axiosInstance from "@/lib/axios";
+import { handleError } from "@/lib/helper/handleError";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export function ConfirmDeleteRecord({ id }: ConfirmDeleteRecordProps) {
+  const redirect = useRedirect();
   const [isOpen, setIsOpen] = useState(false);
   const { mutate, isPending } = useMutation({
     mutationFn: async (id: string) => {
-      const res = await deleteRecord(id);
-      return res;
+      const { data } = await axiosInstance.delete(`/records/${id}`);
+      return data;
     },
+    onSuccess: (data) => {
+      if (data?.success) {
+        toast.success("Record Deleted Successfully");
+        window.location.href = "/home";
+      }
+    },
+    onError: handleError,
   });
   return (
     <CustomDialog
@@ -41,10 +45,7 @@ export function ConfirmDeleteRecord({ id }: ConfirmDeleteRecordProps) {
             Cancel
           </Button>
         </DialogClose>
-        <Button
-          onClick={() => mutate(id)}
-          disabled={isPending ? true : false}
-        >
+        <Button onClick={() => mutate(id)} disabled={isPending ? true : false}>
           {isPending ? "Deleting..." : "Confirm"}
         </Button>
       </div>

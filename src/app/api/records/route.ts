@@ -129,8 +129,6 @@ export async function POST(req: Request) {
           { status: 400 }
         );
       }
-
-      console.log(invoiceData);
     }
 
     return NextResponse.json(recordData, { status: 201 });
@@ -138,6 +136,113 @@ export async function POST(req: Request) {
     console.error("Error creating record:", error);
     return NextResponse.json(
       { error: "Failed to create record" },
+      { status: 500 }
+    );
+  }
+}
+
+// POST handler to delete a record
+export async function DELETE(req: Request) {
+  const body = await req.json();
+  const { recordId } = body;
+
+  if (!recordId) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: "No record ID provided.",
+      },
+      { status: 400 }
+    );
+  }
+
+  const supabaseApi = createClient();
+  const { data: userData, error: userError } = await supabaseApi.auth.getUser();
+
+  if (userError || !userData?.user?.id) {
+    console.error("User authentication failed.", userError);
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Unauthorized access.",
+      },
+      { status: 401 }
+    );
+  }
+
+  const userId = userData.user.id;
+
+  try {
+    // Fetch the record from `invoicesandreceipts`
+    const { data: invoicesAndReceipts, error: fetchError } = await supabaseApi
+      .from("invoicesandreceipts")
+      .select("id, record_id")
+      .eq("record_id", recordId)
+      .eq("user_id", userId)
+      .single();
+
+    if (fetchError && fetchError.code !== "PGRST116") {
+      // Handle fetch error, excluding "No rows found" (code PGRST116)
+      console.error("Failed to fetch the record.", fetchError);
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Failed to find the record. Please try again.",
+        },
+        { status: 500 }
+      );
+    }
+
+    // If `recordId` exists in `invoicesandreceipts`, update it to null
+    if (invoicesAndReceipts?.record_id && invoicesAndReceipts?.id) {
+      const { error: updateError } = await supabaseApi
+        .from("invoicesandreceipts")
+        .update({ record_id: null })
+        .eq("id", invoicesAndReceipts.id)
+        .eq("user_id", userId);
+
+      if (updateError) {
+        console.error(
+          "Failed to update the invoicesandreceipts record.",
+          updateError
+        );
+        return NextResponse.json(
+          {
+            success: false,
+            error: "Failed to update the record. Please try again.",
+          },
+          { status: 500 }
+        );
+      }
+    }
+
+    // Delete the record from the `records` table
+    const { error: deleteError } = await supabaseApi
+      .from("records")
+      .delete()
+      .eq("user_id", userId)
+      .eq("id", recordId);
+
+    if (deleteError) {
+      console.error("Failed to delete the record.", deleteError);
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Failed to delete the record. Please try again.",
+        },
+        { status: 500 }
+      );
+    }
+
+    // Respond with success
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Unexpected error occurred.", error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: "An unexpected error occurred. Please try again.",
+      },
       { status: 500 }
     );
   }
