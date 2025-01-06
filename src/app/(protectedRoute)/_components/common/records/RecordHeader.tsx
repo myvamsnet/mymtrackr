@@ -17,11 +17,11 @@ export const RecordHeader = ({
     return redirectToPage();
   };
   return (
-    <header
-      className="p-4 flex justify-between items-center sticky top-0 bg-[#F4F8FF]  z-50 cursor-pointer"
-      onClick={() => navigate(url as string)}
-    >
-      <div className="flex items-center gap-4 cursor-pointer">
+    <header className="p-4 flex justify-between items-center sticky top-0 bg-[#F4F8FF]  z-50 cursor-pointer">
+      <div
+        className="flex items-center gap-4 cursor-pointer"
+        onClick={() => navigate(url as string)}
+      >
         <MoveLeft size={24} className="text-primary" />
         <h3 className="text-sm font-semibold  text-dark  capitalize">
           {title}

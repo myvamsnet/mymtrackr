@@ -6,6 +6,7 @@ import { users } from "@/constant/admin/users";
 import { EllipsisVertical } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
+import UserTableDropdownAction from "./UserTableDropdownAction";
 
 export const UsersTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,7 +61,7 @@ export const UsersTable = () => {
               {list?.status}
             </TableCell>
             <TableCell className="text-right flex justify-end items-center">
-              <EllipsisVertical />
+              <UserTableDropdownAction data={list} />
             </TableCell>
           </TableRow>
         ))}
