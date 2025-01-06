@@ -15,7 +15,7 @@ export const UserTabs = ({ children, tabs }: UserTabsProps) => {
     if (!activeStatus) {
       updateQueryParams({ status: "all" });
     }
-  }, [activeStatus]);
+  }, [activeStatus, updateQueryParams]);
 
   return (
     <AdminLayout>
