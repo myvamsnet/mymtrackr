@@ -11,10 +11,12 @@ import { Records, Type } from "@/types/records";
 import { useEffect } from "react";
 import Image from "next/image";
 import { checkImageFormat } from "@/lib/helper/checkImageFormat";
+import Modal from "@/components/ui/Modal";
 const EditRecordForm = ({
-  recordType,
   inputlists,
   record,
+  isOpen,
+  onCancel,
 }: CreateRecordsProps) => {
   const {
     control,
@@ -49,51 +51,53 @@ const EditRecordForm = ({
   };
 
   return (
-    <main className="container mx-auto   font-inter">
+    <Modal isOpen={isOpen} onClose={onCancel} closeOutside={true}>
       <form
         className="bg-off-white-300 p-3 rounded-xl grid gap-5"
         onSubmit={handleSubmit(onSubmit)}
       >
-        {inputlists.map((input, i) => {
-          return input.type === "currency" ? (
-            <NumberInput
-              key={i}
-              name={"amount"}
-              label={input.label}
-              control={control}
-              placeholder={input.placeholder}
-            />
-          ) : (
-            <section>
-              <CustomInput
+        <section className="overflow-x-hidden md:h-auto h-[400px]">
+          {inputlists.map((input, i) => {
+            return input.type === "currency" ? (
+              <NumberInput
                 key={i}
-                name={input.name}
-                type={input.type}
+                name={"amount"}
                 label={input.label}
                 control={control}
                 placeholder={input.placeholder}
-                handleFileChange={handleFileChange}
-                fileError={errorMessage}
               />
-              {input.type === "file" && (
-                <div className="flex justify-end items-center">
-                  {previewUrl && (
-                    <Image
-                      height={40}
-                      width={40}
-                      src={previewUrl}
-                      alt="uploaded"
-                      className="w-10 h-10 mt-2"
-                    />
-                  )}
-                </div>
-              )}
-            </section>
-          );
-        })}
-        <p className="text-red-300">
-          Please confirm the details before submitting
-        </p>
+            ) : (
+              <section>
+                <CustomInput
+                  key={i}
+                  name={input.name}
+                  type={input.type}
+                  label={input.label}
+                  control={control}
+                  placeholder={input.placeholder}
+                  handleFileChange={handleFileChange}
+                  fileError={errorMessage}
+                />
+                {input.type === "file" && (
+                  <div className="flex justify-end items-center">
+                    {previewUrl && (
+                      <Image
+                        height={40}
+                        width={40}
+                        src={previewUrl}
+                        alt="uploaded"
+                        className="w-10 h-10 mt-2"
+                      />
+                    )}
+                  </div>
+                )}
+              </section>
+            );
+          })}
+          <p className="text-red-300">
+            Please confirm the details before submitting
+          </p>
+        </section>
         <div>
           <Button
             className="bg-primary hover:bg-primary/80 w-full py-3 px-2 rounded-lg text-off-white-300 font-semibold h-[45px]"
@@ -103,7 +107,7 @@ const EditRecordForm = ({
           </Button>
         </div>
       </form>
-    </main>
+    </Modal>
   );
 };
 
@@ -114,4 +118,6 @@ interface CreateRecordsProps {
   inputlists: InputType[];
   title: string;
   record: Records;
+  isOpen: boolean;
+  onCancel: () => void;
 }

@@ -33,22 +33,15 @@ export const DeleteAndEditRecord: FC<DeleteAndEditRecordProps> = ({ data }) => {
           </Button>
         </div>
       </section>
-      <Modal
+
+      <EditRecordForm
+        recordType={data?.type as "expense" | "income" | "debtor" | "payable"}
+        inputlists={typeListInput}
+        title={`Edit ${data?.type}`}
+        record={data as Records}
         isOpen={modal?.type === "editRecord" && modal.isOpen}
-        onClose={onCancel}
-        closeOutside={true}
-      >
-        <section className="overflow-x-hidden md:h-auto h-[400px]">
-          <EditRecordForm
-            recordType={
-              data?.type as "expense" | "income" | "debtor" | "payable"
-            }
-            inputlists={typeListInput}
-            title={`Edit ${data?.type}`}
-            record={data as Records}
-          />
-        </section>
-      </Modal>
+        onCancel={onCancel}
+      />
     </>
   );
 };
