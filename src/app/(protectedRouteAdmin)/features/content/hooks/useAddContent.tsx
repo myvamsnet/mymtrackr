@@ -1,4 +1,5 @@
 import axiosInstance from "@/lib/axios";
+import { handleError } from "@/lib/helper/handleError";
 import { contentSchema, ContentSchemaType } from "@/lib/Schema/contentSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -18,16 +19,18 @@ const useAddContent = () => {
 
   const { isPending, mutate } = useMutation({
     mutationFn: async (payload: ContentSchemaType) => {
-      const { data } = await axiosInstance.post("/admin/content", payload);
+      const { data } = await axiosInstance.post("/admin/contents", payload);
       return data;
     },
     onSuccess: (data) => {
-      if (data?.status === "success") {
+      if (data) {
+        console.log(data);
         queryClient.invalidateQueries({ queryKey: ["contents"] });
         reset();
         toast.success(data?.message);
       }
     },
+    onError: handleError,
   });
   const onSubmit = (data: ContentSchemaType) => {
     mutate(data);

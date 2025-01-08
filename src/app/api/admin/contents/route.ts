@@ -20,14 +20,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
-    return NextResponse.json(
-      responsedata({
-        status: "success",
-        message: "Content Added Successfully",
-        data,
-      }),
-      { status: 201 }
-    );
+    return responsedata({
+      success: true,
+      message: "Content Added Successfully",
+      data,
+      statusCode: 201,
+    });
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to create content" },
@@ -43,8 +41,6 @@ export async function GET(req: NextRequest) {
   const userInfo = await supabaseApi?.auth?.getUser();
   const user_id = userInfo?.data?.user?.id;
   const pageParam = parseInt(searchParams.get("pageParam") || "0");
-  const startDate = searchParams.get("startDate");
-  const endDate = searchParams.get("endDate");
   const searchTerm = searchParams.get("searchTerm");
   if (!user_id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 404 });
@@ -52,27 +48,14 @@ export async function GET(req: NextRequest) {
   try {
     // Build the initial query
     let query = supabaseApi
-      .from("records")
+      .from("contents")
       .select("*")
       .eq("user_id", user_id)
-      .order("updated_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .range(0, 9);
 
     if (pageParam) {
       query = query.range(pageParam, pageParam + 10);
-    }
-
-    // Apply date filters if present
-    if (
-      startDate &&
-      startDate !== "Invalid Date" &&
-      startDate !== "" &&
-      startDate !== "null" &&
-      endDate &&
-      endDate !== "Invalid Date" &&
-      endDate !== "" &&
-      endDate !== "null"
-    ) {
-      query = query.gte("created_at", startDate).lte("created_at", endDate);
     }
 
     // Apply search term filters
@@ -98,24 +81,18 @@ export async function GET(req: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error("Query error:", error);
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
-    return NextResponse.json(
-      {
-        success: true,
-        data,
-        message: "Records fetched successfully",
-      },
-      {
-        status: 200,
-      }
-    );
+    return responsedata({
+      success: true,
+      data,
+      message: "Content fetched successfully",
+      statusCode: 201,
+    });
   } catch (error) {
-    console.error("Unexpected error:", error);
     return NextResponse.json(
-      { error: "Failed to get records" },
+      { error: "Failed to get content" },
       { status: 500 }
     );
   }
