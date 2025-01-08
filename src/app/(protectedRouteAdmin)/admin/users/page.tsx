@@ -3,10 +3,12 @@ import { UserTabs } from "../../features/users/UserTabs";
 import { tabs } from "@/constant/admin/tabsList";
 import SearchAndFilterComponent from "../../__components/SearchAndFilterComponent";
 import { UsersTable } from "../../features/users/UsersTable";
+import { getAdminUser, UserProfile } from "@/app/actions/getAdminUser";
 
-const UsersPage = () => {
+const UsersPage = async () => {
+  const data = await getAdminUser();
   return (
-    <UserTabs tabs={tabs}>
+    <UserTabs tabs={tabs} user={data?.data as UserProfile}>
       <SearchAndFilterComponent showFilter={true} showSearch={true} />
       <UsersTable />
     </UserTabs>

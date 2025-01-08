@@ -1,10 +1,11 @@
-import { Menu } from "lucide-react";
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { SidebarMobile } from "./SidebarMobile";
+import { UserProfile } from "@/app/actions/getAdminUser";
 
-export const Header = () => {
+export const Header = ({ user }: Props) => {
   return (
     <header className="bg-off-white-300  py-3 px-6 flex xl:justify-end justify-between items-center gap-3 h-[68px] sticky top-0 z-50">
       <Link href={"/admin/dashboard"} className="xl:hidden block">
@@ -26,8 +27,11 @@ export const Header = () => {
         <div className="xl:hidden block">
           <SidebarMobile />
         </div>
-        <span className="xl:block hidden">Feranmi Prema</span>
+        <span className="xl:block hidden">{user?.fullName}</span>
       </div>
     </header>
   );
 };
+interface Props {
+  user: UserProfile;
+}

@@ -1,14 +1,15 @@
 "use client";
+import { UserProfile } from "@/app/actions/getAdminUser";
 import { Button } from "@/components/ui/button";
 import { Calendar, Download } from "lucide-react";
 import React from "react";
 
-export const Top = () => {
+export const Top = ({ user }: Props) => {
   return (
     <section className="flex justify-between md:items-center md:flex-row flex-col gap-5">
       <div className="space-y-[0.625rem]">
         <h4 className="text-dark font-normal md:text-2xl text-xl">
-          Welcome back, Feranmi
+          Welcome back, {user?.fullName}
         </h4>
         <p className="text-dark-200 font-normal md:text-base text-sm">
           Monitor all activities here.
@@ -29,3 +30,7 @@ export const Top = () => {
     </section>
   );
 };
+
+interface Props {
+  user: UserProfile;
+}

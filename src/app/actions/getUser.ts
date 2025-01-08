@@ -28,7 +28,9 @@ export async function getUser() {
       imageUrl: userProfileData.imageUrl,
       phoneNumber: userProfileData.phoneNumber,
       referralCode: userProfileData.referralCode,
+      role: userProfileData?.role,
     };
+
     revalidatePath("/home");
     return {
       success: true,
@@ -43,6 +45,7 @@ export interface UserProfile {
   imageUrl: string;
   phoneNumber: string;
   referralCode: string;
+  role: "admin" | "user";
 }
 
 export interface Payload {

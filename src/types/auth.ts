@@ -23,6 +23,7 @@ export interface User {
   referrals: any[]; // Assuming an array, define a specific type if needed
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
+  role: "user" | "admin";
 }
 
 interface Subscription {

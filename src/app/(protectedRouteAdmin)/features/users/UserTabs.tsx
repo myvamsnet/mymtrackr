@@ -5,8 +5,9 @@ import { useSearchParams } from "next/navigation";
 import AdminLayout from "../../__components/AdminLayout";
 import { useEffect } from "react";
 import { useUpdateQuery } from "@/hooks/useUpdateQuery";
+import { UserProfile } from "@/app/actions/getAdminUser";
 
-export const UserTabs = ({ children, tabs }: UserTabsProps) => {
+export const UserTabs = ({ children, tabs, user }: UserTabsProps) => {
   const searchParams = useSearchParams();
   const activeStatus = searchParams.get("status");
 
@@ -18,7 +19,7 @@ export const UserTabs = ({ children, tabs }: UserTabsProps) => {
   }, [activeStatus, updateQueryParams]);
 
   return (
-    <AdminLayout>
+    <AdminLayout user={user}>
       <header className="border-b border-[#D9DADB] flex items-center gap-7 py-4 md:h-[51px] h-10 md:justify-start justify-between my-4">
         {tabs?.map((tab, i) => (
           <Link
@@ -47,4 +48,5 @@ interface UserTabsProps {
     number: number;
     type: string;
   }[];
+  user: UserProfile;
 }

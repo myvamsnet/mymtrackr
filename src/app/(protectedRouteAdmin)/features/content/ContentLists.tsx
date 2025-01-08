@@ -38,25 +38,15 @@ export const ContentLists = () => {
   ];
   return (
     <section className="  grid md:grid-cols-3 grid-cols-1 gap-5 w-full">
-      {lists.map((list) => (
-        <div
-          key={list.id}
-          className=" space-y-2"
-        >
-          <ReactPlayer
-            url={list.link}
-            width="100%"
-            height={"218px"}
-          />
+      {lists?.map((list) => (
+        <div key={list.id} className=" space-y-2">
+          <ReactPlayer url={list.link} width="100%" height={"218px"} />
           <div className="flex justify-between items-center">
             <p className="text-dark md:text-base text-sm font-normal">
               {list.title}
             </p>
             <button>
-              <Trash2
-                width={24}
-                height={24}
-              />
+              <Trash2 width={24} height={24} />
             </button>
           </div>
         </div>

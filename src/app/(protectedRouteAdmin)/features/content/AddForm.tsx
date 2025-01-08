@@ -1,20 +1,13 @@
 "use client";
 import { CustomInput } from "@/components/CustomInput";
 import { Button } from "@/components/ui/button";
-import { contentSchema, ContentSchemaType } from "@/lib/Schema/contentSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
-import { useForm } from "react-hook-form";
+import useAddContent from "./hooks/useAddContent";
 
 export const AddForm = () => {
-  const { control, handleSubmit, reset } = useForm<ContentSchemaType>({
-    defaultValues: {
-      title: "",
-    },
-    resolver: zodResolver(contentSchema),
-  });
+  const { control, handleSubmit, onSubmit, isPending } = useAddContent();
   return (
-    <form className="space-y-5 p-6">
+    <form className="space-y-5 p-6" onSubmit={handleSubmit(onSubmit)}>
       <CustomInput
         name={"title"}
         type={"text"}
@@ -29,8 +22,9 @@ export const AddForm = () => {
         control={control}
         placeholder={"Enter Link"}
       />
-
-      <Button className="w-full h-[52px]">Add Video</Button>
+      <Button type="submit" className="w-full h-[52px]" disabled={isPending}>
+        {isPending ? "Loading..." : " Add Video"}
+      </Button>
     </form>
   );
 };
