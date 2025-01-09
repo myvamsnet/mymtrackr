@@ -22,7 +22,7 @@ export const ContentLists = () => {
               <p className="text-dark md:text-base text-sm font-normal">
                 {content?.title}
               </p>
-              <DeleteContent />
+              <DeleteContent content={content} />
             </div>
           </div>
         ))

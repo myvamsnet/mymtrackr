@@ -24,7 +24,6 @@ const useAddContent = () => {
     },
     onSuccess: (data) => {
       if (data) {
-        console.log(data);
         queryClient.invalidateQueries({ queryKey: ["contents"] });
         reset();
         toast.success(data?.message);
