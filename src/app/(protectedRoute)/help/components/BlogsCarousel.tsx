@@ -36,7 +36,7 @@ export const BlogsCarousel: React.FC<Props> = ({ contents }) => {
           contents?.map((blog) => (
             <figure key={blog.title} className="shrink-0">
               <div className="overflow-hidden rounded-md">
-                <ReactPlayer url={blog.link} width={300} height="106px" />
+                <ReactPlayer url={blog?.link} width={300} height={224} />
               </div>
               <figcaption className="text-sm leading-5 font-inter font-normal text-[#3E3E4C]  break-words py-3 flex">
                 {`${
