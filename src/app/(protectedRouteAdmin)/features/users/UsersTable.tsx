@@ -21,11 +21,6 @@ export const UsersTable = () => {
 
   const users = data?.data as User[];
 
-  // Handling error case
-  if (error) {
-    return <div className="error-message">Failed to load data</div>;
-  }
-
   // Memoizing pagination to optimize re-renders
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -45,7 +40,10 @@ export const UsersTable = () => {
     () => Math.ceil(users?.length / itemsPerPage),
     [users]
   );
-
+  // Handling error case
+  if (error) {
+    return <div className="error-message">Failed to load data</div>;
+  }
   return (
     <section className="p-6 bg-off-white-300 w-full">
       <>

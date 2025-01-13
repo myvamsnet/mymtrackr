@@ -1,10 +1,8 @@
 "use server";
-import { cloudinary_url } from "@/constant/path";
+
 import { createClient } from "@/lib/supabse/server";
 import { uploadImageToCloudinary } from "@/lib/uploadImageToCloudinary";
-import axios from "axios";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export const updateProfileAction = async (formData: FormData) => {
   const email = formData.get("email") as string;

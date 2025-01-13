@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser();
     const { newPassword } = await req.json();
-    console.log(user, newPassword);
+   
     if (userError) {
       throw new Error(userError.message);
     }
@@ -20,9 +20,9 @@ export async function POST(req: NextRequest) {
         email: user?.email,
       });
 
-      console.log(data);
+ 
       if (error) {
-        console.log(error, "update fail");
+
         throw new Error(error?.message);
       }
 
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
       });
     }
   } catch (error: any) {
-    console.log(error, "something");
+   
     return NextResponse.json(
       {
         status: "failed",
