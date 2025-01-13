@@ -6,7 +6,7 @@ export const userReferrals = async (userId: string) => {
     .from("referrals")
     .select(
       `
-      referee:userProfile!referrals_refereeId_fkey (subscriptions(*), fullName, email, id)
+      referee:userprofile!referrals_refereeId_fkey (subscriptions(*), fullName, email, id)
     `
     )
     .eq("referrerId", userId)

@@ -10,6 +10,47 @@ const ERROR_MESSAGES = {
   GENERAL_ERROR: "Something went wrong, please try again later",
 } as const;
 
+async function updateLastActive(
+  supabase: any,
+  userId: string,
+  lastActive: string
+) {
+  const { error } = await supabase
+    .from("userprofile")
+    .update({ last_active: lastActive })
+    .eq("id", userId);
+
+  return error;
+}
+
+async function checkAndUpdateSubscription(supabase: any, user: any) {
+  if (!user.subscriptions) return null;
+
+  const now = dayjs();
+  const subscriptionExpiryDate = dayjs(user.subscriptions.expiresAt);
+
+  if (subscriptionExpiryDate.isBefore(now)) {
+    const { error } = await supabase
+      .from("subscriptions")
+      .update({ status: "expired" })
+      .eq("user_id", user.id);
+
+    return error;
+  }
+
+  return null;
+}
+
+async function getUserProfile(supabase: any, userId: string) {
+  const { data, error } = await supabase
+    .from("userprofile")
+    .select(`*, subscriptions(expiresAt)`)
+    .eq("id", userId)
+    .single();
+
+  return { data, error };
+}
+
 export async function loginAction(formData: FormData) {
   const supabase = createClient();
   const email = formData.get("email") as string;
@@ -37,7 +78,7 @@ export async function loginAction(formData: FormData) {
     };
   }
 
-  // Check if user exists
+  // Fetch user profile and check for errors
   if (!user) {
     return {
       success: false,
@@ -45,12 +86,10 @@ export async function loginAction(formData: FormData) {
     };
   }
 
-  // Fetch user profile
-  const { data: userDetails, error: userDetailsError } = await supabase
-    .from("userprofile")
-    .select(`*, subscriptions(*)`)
-    .eq("id", user.id)
-    .single();
+  const { data: userDetails, error: userDetailsError } = await getUserProfile(
+    supabase,
+    user.id
+  );
 
   if (userDetailsError) {
     console.error("User profile error:", userDetailsError);
@@ -60,45 +99,21 @@ export async function loginAction(formData: FormData) {
     };
   }
 
-  // Update user profile using RPC
-  const updateLastActiveError = await supabase.rpc("update_user_last_active", {
-    update_user_id: user.id,
-    last_sign_in_at: user.last_sign_in_at,
-  });
+  // Execute profile and subscription updates in parallel
+  const [profileUpdateError, subscriptionError] = await Promise.all([
+    updateLastActive(
+      supabase,
+      user.id as string,
+      user.last_sign_in_at as string
+    ),
+    checkAndUpdateSubscription(supabase, user),
+  ]);
 
-  if (updateLastActiveError.error) {
-    console.error("Update last active error:", updateLastActiveError.error);
-    await supabase.auth.signOut();
+  if (profileUpdateError || subscriptionError) {
     return {
       success: false,
       message: ERROR_MESSAGES.GENERAL_ERROR,
     };
-  }
-  
-  // Update subscription status using RPC
-  const now = dayjs();
-  const subscriptionExpiryDate = dayjs(userDetails.subscriptions.expiresAt);
-
-  if (subscriptionExpiryDate.isBefore(now)) {
-    const updateSubscriptionError = await supabase.rpc(
-      "update_subscription_status",
-      {
-        updated_user_id: user.id,
-        subscription_status: "expired",
-      }
-    );
-
-    if (updateSubscriptionError.error) {
-      await supabase.auth.signOut();
-      console.error(
-        "Update subscription error:",
-        updateSubscriptionError.error
-      );
-      return {
-        success: false,
-        message: ERROR_MESSAGES.GENERAL_ERROR,
-      };
-    }
   }
 
   // Redirect based on user role

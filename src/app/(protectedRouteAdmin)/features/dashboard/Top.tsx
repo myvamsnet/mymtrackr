@@ -1,5 +1,5 @@
 "use client";
-import { UserProfile } from "@/app/actions/getAdminUser";
+import { userprofile } from "@/app/actions/getAdminUser";
 import { Button } from "@/components/ui/button";
 import { Calendar, Download } from "lucide-react";
 import React from "react";
@@ -32,5 +32,5 @@ export const Top = ({ user }: Props) => {
 };
 
 interface Props {
-  user: UserProfile;
+  user: userprofile;
 }

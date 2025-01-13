@@ -3,12 +3,12 @@ import AdminLayout from "../../__components/AdminLayout";
 import { ContentLists } from "../../features/content/ContentLists";
 import { AddContentForm } from "../../features/content/AddContentForm";
 import { AddFormMobile } from "../../features/content/AddFormMobile";
-import { getAdminUser, UserProfile } from "@/app/actions/getAdminUser";
+import { getAdminUser, userprofile } from "@/app/actions/getAdminUser";
 
 const ContentPage = async () => {
   const data = await getAdminUser();
   return (
-    <AdminLayout user={data?.data as UserProfile}>
+    <AdminLayout user={data?.data as userprofile}>
       <AddFormMobile />
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_358px]">
         <ContentLists />

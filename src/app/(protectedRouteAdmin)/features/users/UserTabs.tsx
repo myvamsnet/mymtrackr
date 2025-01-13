@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import AdminLayout from "../../__components/AdminLayout";
 import { useEffect } from "react";
 import { useUpdateQuery } from "@/hooks/useUpdateQuery";
-import { UserProfile } from "@/app/actions/getAdminUser";
+import { userprofile } from "@/app/actions/getAdminUser";
 
 export const UserTabs = ({ children, tabs, user }: UserTabsProps) => {
   const searchParams = useSearchParams();
@@ -48,5 +48,5 @@ interface UserTabsProps {
     number: number;
     type: string;
   }[];
-  user: UserProfile;
+  user: userprofile;
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { MoreHeader } from "./__components/MoreHeader";
 import { MoreLists } from "./__components/MoreLists";
 import ProtectedLayout from "../_components/layout/ProtectedLayout";
-import { getUser, UserProfile } from "@/app/actions/getUser";
+import { getUser, userprofile } from "@/app/actions/getUser";
 import {
   getSubscription,
   SubscriptionType,
@@ -15,7 +15,7 @@ const More = async () => {
     <ProtectedLayout className="bg-[#F4F8FF]  pb-10">
       <section className=" sticky top-0 z-50">
         <MoreHeader
-          data={user?.data as UserProfile}
+          data={user?.data as userprofile}
           subscription={subscription?.data as SubscriptionType}
         />
       </section>

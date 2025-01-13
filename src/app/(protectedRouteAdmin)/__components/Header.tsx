@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { SidebarMobile } from "./SidebarMobile";
-import { UserProfile } from "@/app/actions/getAdminUser";
+import { userprofile } from "@/app/actions/getAdminUser";
 
 export const Header = ({ user }: Props) => {
   return (
@@ -33,5 +33,5 @@ export const Header = ({ user }: Props) => {
   );
 };
 interface Props {
-  user: UserProfile;
+  user: userprofile;
 }

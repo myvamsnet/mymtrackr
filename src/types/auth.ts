@@ -24,6 +24,8 @@ export interface User {
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
   role: "user" | "admin";
+  last_active: string;
+  created_at: string;
 }
 
 interface Subscription {
@@ -35,7 +37,7 @@ interface Subscription {
   updatedAt: string; // ISO date string
   amount: string;
 }
-export interface UserProfile {
+export interface userprofile {
   id: number;
   fullName: string;
   imageUrl: any;

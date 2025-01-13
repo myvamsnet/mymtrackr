@@ -2,7 +2,7 @@
 import React from "react";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
-import { UserProfile } from "@/app/actions/getAdminUser";
+import { userprofile } from "@/app/actions/getAdminUser";
 
 const AdminLayout = ({ children, user }: AdminLayoutProps) => {
   return (
@@ -23,5 +23,5 @@ const AdminLayout = ({ children, user }: AdminLayoutProps) => {
 export default AdminLayout;
 interface AdminLayoutProps {
   children: React.ReactNode;
-  user: UserProfile;
+  user: userprofile;
 }

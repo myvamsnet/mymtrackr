@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabse/server";
 import { redirect } from "next/navigation";
 
-export interface UserProfile {
+export interface userprofile {
   id: string;
   email: string;
   fullName: string;
@@ -14,7 +14,7 @@ export interface UserProfile {
 export interface Payload {
   success: boolean;
   message?: string;
-  data?: UserProfile;
+  data?: userprofile;
 }
 
 export async function getAdminUser(): Promise<Payload> {
@@ -33,13 +33,13 @@ export async function getAdminUser(): Promise<Payload> {
   }
 
   // Fetch the user's profile
-  const { data: userProfileData, error: userProfileError } = await supabase
-    .from("userProfile")
+  const { data: userprofileData, error: userprofileError } = await supabase
+    .from("userprofile")
     .select("*")
     .eq("id", user.id)
     .single();
 
-  if (userProfileError) {
+  if (userprofileError) {
     return {
       success: false,
       message: "Failed to fetch user profile",
@@ -47,7 +47,7 @@ export async function getAdminUser(): Promise<Payload> {
   }
 
   // Check if the user has the 'admin' role
-  if (userProfileData?.role !== "admin") {
+  if (userprofileData?.role !== "admin") {
     const { error: signOutError } = await supabase.auth.signOut();
 
     if (signOutError) {
@@ -65,14 +65,14 @@ export async function getAdminUser(): Promise<Payload> {
   }
 
   // Return the user profile as admin
-  const data: UserProfile = {
-    id: userProfileData.id,
-    email: userProfileData.email,
-    fullName: userProfileData.fullName,
-    imageUrl: userProfileData.imageUrl,
-    phoneNumber: userProfileData.phoneNumber,
-    referralCode: userProfileData.referralCode,
-    role: userProfileData.role,
+  const data: userprofile = {
+    id: userprofileData.id,
+    email: userprofileData.email,
+    fullName: userprofileData.fullName,
+    imageUrl: userprofileData.imageUrl,
+    phoneNumber: userprofileData.phoneNumber,
+    referralCode: userprofileData.referralCode,
+    role: userprofileData.role,
   };
 
   return {

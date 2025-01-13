@@ -1,6 +1,6 @@
 "use client";
 import { SubscriptionType } from "@/app/actions/getSubscription";
-import { UserProfile } from "@/app/actions/getUser";
+import { userprofile } from "@/app/actions/getUser";
 import { Button } from "@/components/ui/button";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useUpdateQuery } from "@/hooks/useUpdateQuery";
@@ -113,7 +113,7 @@ export const SubDetails = ({ subscription, user }: Props) => {
 };
 
 interface Props {
-  user: UserProfile;
+  user: userprofile;
   subscription: SubscriptionType;
 }
 interface SubscriptionPayload {

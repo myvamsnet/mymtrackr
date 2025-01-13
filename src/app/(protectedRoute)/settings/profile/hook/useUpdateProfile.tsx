@@ -1,5 +1,5 @@
 "use client";
-import { updateProfileAction } from "@/app/actions/updateUserProfileAction";
+import { updateProfileAction } from "@/app/actions/updateuserprofileAction";
 import { cloudinary_preset } from "@/constant/path";
 import { useUploadImage } from "@/hooks/useUploadImage";
 import { profileSchema, ProfileSchemaType } from "@/lib/Schema/profileSchema";

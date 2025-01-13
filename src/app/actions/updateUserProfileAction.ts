@@ -47,7 +47,7 @@ export const updateProfileAction = async (formData: FormData) => {
     }
 
     const { data, error } = await supabaseApi
-      .from("userProfile")
+      .from("userprofile")
       .update(updateData)
       .eq("email", email)
       .eq("id", user.data.user.id)

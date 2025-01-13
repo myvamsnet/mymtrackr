@@ -8,27 +8,27 @@ export async function getUser() {
   } = await supabase.auth.getUser();
 
   if (user?.id) {
-    const { data: userProfileData, error: userProfileError } = await supabase
-      .from("userProfile")
+    const { data: userprofileData, error: userprofileError } = await supabase
+      .from("userprofile")
       .select("*")
       .eq("id", user.id)
       .single();
 
-    if (userProfileError) {
+    if (userprofileError) {
       return {
         success: false,
         message: "User Profile Fetch Failed",
       };
     }
 
-    const data: UserProfile = {
-      id: userProfileData.id,
-      email: userProfileData.email,
-      fullName: userProfileData.fullName,
-      imageUrl: userProfileData.imageUrl,
-      phoneNumber: userProfileData.phoneNumber,
-      referralCode: userProfileData.referralCode,
-      role: userProfileData?.role,
+    const data: userprofile = {
+      id: userprofileData.id,
+      email: userprofileData.email,
+      fullName: userprofileData.fullName,
+      imageUrl: userprofileData.imageUrl,
+      phoneNumber: userprofileData.phoneNumber,
+      referralCode: userprofileData.referralCode,
+      role: userprofileData?.role,
     };
 
     revalidatePath("/home");
@@ -38,7 +38,7 @@ export async function getUser() {
     } as Payload;
   }
 }
-export interface UserProfile {
+export interface userprofile {
   id: string;
   email: string;
   fullName: string;
@@ -51,5 +51,5 @@ export interface UserProfile {
 export interface Payload {
   success: boolean;
   message?: string;
-  data?: UserProfile;
+  data?: userprofile;
 }

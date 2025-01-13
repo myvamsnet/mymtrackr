@@ -40,7 +40,7 @@ export async function GET(request: Request) {
 
       // Step 2: Fetch the user with referrals and subscriptions
       const { data: userData, error: userError } = await supabase
-        .from("userProfile")
+        .from("userprofile")
         .select(
           `
       user_id,

@@ -1,5 +1,6 @@
 "use client";
 import { adminRoutes } from "@/constant/admin/routes";
+import { useLogout } from "@/hooks/useLogout";
 import { LogOut } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +8,7 @@ import { usePathname } from "next/navigation";
 import React from "react";
 
 export const Sidebar = () => {
+  const { handleLogout, isPending } = useLogout();
   const active = usePathname();
 
   return (
@@ -42,11 +44,12 @@ export const Sidebar = () => {
         </menu>
       </section>
       <section className="py-4 px-8">
-        <button className="text-dark-100 font-semibold text-base flex justify-center items-center gap-3">
-          <LogOut
-            width={18}
-            height={18}
-          />
+        <button
+          className="text-dark-100 font-semibold text-base flex justify-center items-center gap-3"
+          disabled={isPending}
+          onClick={handleLogout}
+        >
+          <LogOut width={18} height={18} />
           <span>Log Out</span>
         </button>
       </section>

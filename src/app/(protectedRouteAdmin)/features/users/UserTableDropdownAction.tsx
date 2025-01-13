@@ -6,6 +6,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { User } from "@/types/auth";
 import { EllipsisVertical } from "lucide-react";
 import Link from "next/link";
 
@@ -28,15 +29,5 @@ const UserTableDropdownAction = ({ data }: Props) => {
 
 export default UserTableDropdownAction;
 interface Props {
-  data: {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    referee: string;
-    dateJoined: string;
-    lastActive: string;
-    status: string;
-    avatar: string;
-  };
+  data: User;
 }
