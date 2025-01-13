@@ -7,15 +7,9 @@ import { resetPassword, ResetPasswordType } from "@/lib/Schema/resetPassword";
 import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import AuthLayout from "./AuthLayout";
-import { resetPasswordAction } from "@/app/actions/resetPasswordAction";
-import { useSearchParams } from "next/navigation";
-import { createClient } from "@/lib/supabse/client";
+import axiosInstance from "@/lib/axios";
 
 const ChangePasswordForm = () => {
-  const searchParams = useSearchParams();
-  const supabase = createClient();
-  const access_token = searchParams?.get("code") as string;
-
   const { control, handleSubmit } = useForm<ResetPasswordType>({
     defaultValues: {
       newPassword: "",
@@ -24,24 +18,18 @@ const ChangePasswordForm = () => {
     resolver: zodResolver(resetPassword),
   });
   const { mutate, isPending } = useMutation({
-    mutationFn: async (data: ResetPasswordType) => {
-      if (!access_token) return;
-      const user = await supabase?.auth?.setSession({
-        access_token,
-        refresh_token: "",
-      });
-      const formData = new FormData();
-      formData.append("password", data.newPassword);
-      formData.append("access_token", access_token);
-      const res = await resetPasswordAction(formData);
-      if (!res.success) {
-        throw new Error(res.message);
-      }
-
-      return res;
+    mutationFn: async (payload: ResetPasswordType) => {
+      const { data } = await axiosInstance.post(
+        "/auth/change-password",
+        payload
+      );
+      return data;
     },
-    onSuccess: () => {
-      toast.success("Password reset successfully");
+    onSuccess: (data) => {
+      if (data?.success) {
+        toast.success(data?.message);
+        window.location.href = "/home";
+      }
     },
     onError(error) {
       if (

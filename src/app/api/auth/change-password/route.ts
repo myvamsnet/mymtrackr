@@ -1,3 +1,4 @@
+import { responsedata } from "@/lib/helper/responseData";
 import { createClient } from "@/lib/supabse/server";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,27 +9,31 @@ export async function POST(req: NextRequest) {
       error: userError,
       data: { user },
     } = await supabase.auth.getUser();
-    const { newPassword, confirmPassword } = await req.json();
-
-    if (!newPassword && !confirmPassword) {
-      throw new Error("Email is required");
+    const { newPassword } = await req.json();
+    console.log(user, newPassword);
+    if (userError) {
+      throw new Error(userError.message);
     }
-
     if (user?.id) {
-      const { data, error } = await supabase?.auth?.updateUser({
+      const { error, data } = await supabase?.auth?.updateUser({
         password: newPassword,
         email: user?.email,
       });
+
+      console.log(data);
       if (error) {
+        console.log(error, "update fail");
         throw new Error(error?.message);
       }
 
-      return NextResponse.json({
-        status: "success",
+      return responsedata({
+        success: true,
         message: "Password updated successfully",
+        statusCode: 200,
       });
     }
   } catch (error: any) {
+    console.log(error, "something");
     return NextResponse.json(
       {
         status: "failed",

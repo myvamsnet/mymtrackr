@@ -12,7 +12,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
     };
   }
 
-  const { error } = await supabase.auth.resetPasswordForEmail(email);
+  const { error, data } = await supabase.auth.resetPasswordForEmail(email);
   if (error) {
     return {
       success: false,

@@ -7,6 +7,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST() {
   const supabaseApi = createClient();
   const userInfo = await supabaseApi?.auth?.getUser();
+  await supabaseApi?.auth.signInWithOtp
   function generateOTP(): string {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     return otp;
