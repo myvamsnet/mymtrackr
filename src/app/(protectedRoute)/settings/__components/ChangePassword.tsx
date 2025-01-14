@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
-import { useState } from "react";
 import { useModifyResource } from "@/hooks/useModifyResource";
 import { CustomInput } from "@/components/CustomInput";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,7 +24,7 @@ const ChangePassword = () => {
 
   const onSubmit = async (data: ResetPasswordType) => {
     const res = await mutateAsync(data);
-    if (res?.status === "success") {
+    if (res?.success) {
       toast.success(res?.message);
       onCancel();
       reset();

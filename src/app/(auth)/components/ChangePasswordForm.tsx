@@ -1,50 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { CustomInput } from "@/components/CustomInput";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { resetPassword, ResetPasswordType } from "@/lib/Schema/resetPassword";
-import toast from "react-hot-toast";
-import { useMutation } from "@tanstack/react-query";
 import AuthLayout from "./AuthLayout";
-import axiosInstance from "@/lib/axios";
+import useResetPassword from "../hook/useResetPassword";
 
 const ChangePasswordForm = () => {
-  const { control, handleSubmit } = useForm<ResetPasswordType>({
-    defaultValues: {
-      newPassword: "",
-      confirmPassword: "",
-    },
-    resolver: zodResolver(resetPassword),
-  });
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (payload: ResetPasswordType) => {
-      const { data } = await axiosInstance.post(
-        "/auth/change-password",
-        payload
-      );
-      return data;
-    },
-    onSuccess: (data) => {
-      if (data?.success) {
-        toast.success(data?.message);
-        window.location.href = "/home";
-      }
-    },
-    onError(error) {
-      if (
-        error?.message !== "" &&
-        error?.message == null &&
-        error.message !== undefined
-      ) {
-        return toast.error(error.message);
-      }
-    },
-  });
-  const onSubmit = (data: ResetPasswordType) => {
-    mutate(data);
-  };
-
+  const { control, handleSubmit, isPending, onSubmit } = useResetPassword();
   return (
     <AuthLayout
       title="Reset Password"
@@ -110,4 +71,5 @@ interface InputProps {
 interface Payload {
   newPassword: string;
   confirmPassword: string;
+  access_token: string;
 }
