@@ -8,7 +8,7 @@ import { createClient } from "@/lib/supabse/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 
 export const useForgotPassword = () => {
   const { control, handleSubmit, reset } = useForm<ForgotPasswordSchemaType>({
@@ -28,12 +28,8 @@ export const useForgotPassword = () => {
     onSuccess: (data) => {
       if (data?.success) {
         reset();
-        return toast("Reset Password Link sent", {
-          description: data.message,
-          position: "top-right",
-        });
+        return toast.success(data.message);
       }
-
       return toast.error(data?.message);
     },
     onError: (error) => {
