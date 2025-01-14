@@ -57,7 +57,16 @@ const useResetPassword = () => {
         redirect("/home");
       }
     },
-    onError: handleError,
+    onError: (error) => {
+      if (
+        error?.message !== undefined &&
+        error?.message !== null &&
+        error?.message !== ""
+      ) {
+        toast.error(error?.message);
+      }
+      return;
+    },
   });
 
   // Form submission handler
