@@ -11,7 +11,7 @@ export const adminRoutes = [
   },
   {
     name: "Users",
-    path: "/admin/users",
+    path: "/admin/users?status=all",
     id: 2,
     icon: UsersIcon,
   },

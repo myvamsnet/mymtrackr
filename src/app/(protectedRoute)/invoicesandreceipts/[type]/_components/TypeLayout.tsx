@@ -21,9 +21,7 @@ export const TypeLayout = ({ children }: Props) => {
         leftElement={
           <Link
             href={
-              businessData?.id
-                ? `/settings/business/${businessData?.id}`
-                : `/settings/business}`
+              businessData?.id ? `/settings/business/${businessData?.id}` : ``
             }
           >
             <SettingsIcon />

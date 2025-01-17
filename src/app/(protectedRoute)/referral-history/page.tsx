@@ -32,10 +32,7 @@ const Page: FC = async () => {
 
     return (
       <main className="container mx-auto md:max-w-[700px] bg-[#F1F5FD] overflow-y-auto overflow-x-hidden h-screen relative">
-        <CustomHeader
-          title="Refer & Earn"
-          link="/more"
-        />
+        <CustomHeader title="Refer & Earn" link="" />
         <ReferralCodeUi
           referralCode={user?.data?.referralCode || ""}
           userReferrals={getUserReferrals.data as RefereeEntry[]}

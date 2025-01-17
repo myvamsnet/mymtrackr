@@ -1,4 +1,9 @@
 "use client";
-import { ThemeProvider, Button, Checkbox } from "@material-tailwind/react";
+import {
+  ThemeProvider,
+  Button,
+  Checkbox,
+  IconButton,
+} from "@material-tailwind/react";
 
-export { ThemeProvider, Button, Checkbox };
+export { ThemeProvider, Button, Checkbox, IconButton };

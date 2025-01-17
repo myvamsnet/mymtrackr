@@ -3,6 +3,11 @@ import { User } from "../auth";
 export interface UserAdminApiresponse {
   success: boolean;
   message: string;
-  data: User[];
+  data: Data;
 }
 
+export interface Data {
+  users: User[];
+  totalPages: number;
+  page: number;
+}

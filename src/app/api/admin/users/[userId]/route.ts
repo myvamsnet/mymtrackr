@@ -3,7 +3,10 @@ import { createClient } from "@/lib/supabse/server";
 import { NextRequest, NextResponse } from "next/server";
 
 // Get All Content
-export async function GET(req: NextRequest) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { userId: string } }
+) {
   const supabaseApi = createClient();
   const { searchParams } = new URL(req.url);
   const userInfo = await supabaseApi?.auth?.getUser();
@@ -14,45 +17,43 @@ export async function GET(req: NextRequest) {
 
   const pageSize = 10; // The number of records per page
 
-  if (!user_id) {
+  if (!user_id || !params.userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 404 });
   }
 
   try {
-    // Build the initial query with filters
-    let query = supabaseApi
-      .from("userprofile")
+    // Build the base query
+    let baseQuery = supabaseApi
+      .from("referrals")
       .select(
-        "*, subscriptions!inner(*), referrals!referrals_referrerId_fkey(id)",
-        {
-          count: "exact", // Ensure total count is returned
-        }
+        `
+        referee:userprofile!referrals_refereeId_fkey (subscriptions(status), fullName, email, id, phoneNumber, last_active, created_at, imageUrl)
+      `,
+        { count: "exact" }
       )
-      .order("created_at", { ascending: false })
-      .eq("role", "user");
+      .eq("referrerId", params?.userId);
 
+    // Apply filters if provided
     if (status) {
-      // If status is related to subscriptions, filter on the "subscriptions" table
-      query = query.eq("subscriptions.status", status);
+      baseQuery = baseQuery.contains("referee.subscriptions", [{ status }]);
     }
     if (searchTerm) {
-      // Apply search term filters if valid
       const trimmedSearchTerm = searchTerm.trim();
-      query = query.ilike("fullName", `%${trimmedSearchTerm}%`);
+      baseQuery = baseQuery.ilike("referee.fullName", `%${trimmedSearchTerm}%`);
     }
 
-    // Get total count of filtered results for pagination
-    const { count: filteredCount, error: countError } = await query;
-
+    // Get filtered count and total data
+    const { count: filteredCount, error: countError } = await baseQuery;
     if (countError) {
+      console.error("Error fetching filtered count:", countError.message);
       return NextResponse.json({ error: countError.message }, { status: 400 });
     }
 
-    // Calculate total pages based on the filtered count
+    // Calculate total pages
     const totalPages = filteredCount ? Math.ceil(filteredCount / pageSize) : 0;
 
-    // Ensure page is within bounds
-    if (pageParam > totalPages) {
+    // Ensure the requested page is within bounds
+    if (pageParam > totalPages || pageParam < 1) {
       return responsedata({
         success: true,
         data: { users: [], totalPages, page: pageParam },
@@ -61,18 +62,19 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    // Apply pagination to the query
-    query = query.range((pageParam - 1) * pageSize, pageParam * pageSize - 1);
-
-    // Execute the query
-    const { data, error } = await query;
+    // Apply pagination
+    const { data, error } = await baseQuery.range(
+      (pageParam - 1) * pageSize,
+      pageParam * pageSize - 1
+    );
 
     if (error) {
+      console.error("Error fetching data:", error.message);
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
     const userData = {
-      users: data,
+      users: data || [],
       totalPages,
       page: pageParam, // Return the current page as 1-indexed
     };

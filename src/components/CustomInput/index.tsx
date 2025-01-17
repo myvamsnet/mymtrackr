@@ -54,6 +54,7 @@ export const CustomInput: FC<CustomInputProps> = ({
           }`}
         >
           <input
+            autoComplete="off"
             id={name}
             type={showPassword ? "text" : type}
             {...field}
@@ -112,10 +113,7 @@ export const CustomInput: FC<CustomInputProps> = ({
           </SelectTrigger>
           <SelectContent>
             {options?.map((option) => (
-              <SelectItem
-                key={option.value}
-                value={option.value}
-              >
+              <SelectItem key={option.value} value={option.value}>
                 {option.label}
               </SelectItem>
             ))}

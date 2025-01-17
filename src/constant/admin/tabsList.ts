@@ -7,15 +7,14 @@ export const tabs = [
   },
   {
     name: "Subscribed",
-    path: "/admin/users?status=subscribed",
+    path: "/admin/users?status=active",
     number: 500,
-    type: "subscribed",
+    type: "active",
   },
   {
     name: "Unsubscribed",
-    path: "/admin/users?status=unsubscribed",
+    path: "/admin/users?status=trial",
     number: 90,
-
-    type: "unsubscribed",
+    type: "trial",
   },
 ];

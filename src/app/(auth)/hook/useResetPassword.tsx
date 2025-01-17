@@ -1,6 +1,5 @@
 import { useRedirect } from "@/hooks/useRedirect";
 import axiosInstance from "@/lib/axios";
-import { handleError } from "@/lib/helper/handleError";
 import { resetPassword, ResetPasswordType } from "@/lib/Schema/resetPassword";
 import { createClient } from "@/lib/supabse/client";
 import { zodResolver } from "@hookform/resolvers/zod";

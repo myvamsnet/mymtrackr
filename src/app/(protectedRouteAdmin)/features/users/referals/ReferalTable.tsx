@@ -3,28 +3,33 @@ import { CustomeTable } from "@/app/(protectedRoute)/_components/customeTable";
 import { TableCell, TableHead, TableRow } from "@/components/ui/table";
 import Image from "next/image";
 import React from "react";
-import UserTableDropdownAction from "./UserTableDropdownAction";
-import { UserAdminApiresponse } from "@/types/admin/users";
 import { dateFormatter } from "@/lib/helper/dateFormatter";
 import ListShimmer from "@/components/ListShimmer";
-import { Pagination } from "../../__components/pagination";
 import { checkDataStatus } from "@/lib/helper/checkDataStatus";
 import { ITableBody } from "@/types/newTable.types";
 import AppTabEmptyState from "@/app/(protectedRoute)/_components/customeTable/EmptyTableState";
-import useAdminUser from "../../admin/users/hooks/useAdminUser";
+import UserTableDropdownAction from "../UserTableDropdownAction";
+import { Pagination } from "@/app/(protectedRouteAdmin)/__components/pagination";
+import { ReferalResponseData, RefereeUser } from "@/types/admin/referals";
+import useAdminUser from "@/app/(protectedRouteAdmin)/admin/users/hooks/useAdminUser";
+import { useParams } from "next/navigation";
 
-export const UsersTable = () => {
+export const ReferalTable = () => {
+  const params = useParams() as {
+    id: string;
+  };
   const { data, isLoading, error, status, isError } =
-    useAdminUser<UserAdminApiresponse>("");
+    useAdminUser<ReferalResponseData>(params?.id as string);
 
-  const users = data?.data.users;
+  const users = data?.data?.users;
   const { checkEmptyData, dataNotEmpty } = checkDataStatus({
     isLoading,
     isError,
     results: users as ITableBody[],
   });
+
   // Handling error case
-  if (error) {
+  if (isError) {
     return <div className="error-message">Failed to load data</div>;
   }
   return (
@@ -36,7 +41,6 @@ export const UsersTable = () => {
               <TableHead className="tabeHeadClass">Name</TableHead>
               <TableHead className="tabeHeadClass">Email</TableHead>
               <TableHead className="tabeHeadClass">Phone No</TableHead>
-              <TableHead className="tabeHeadClass">Referee</TableHead>
               <TableHead className="tabeHeadClass">Date joined</TableHead>
               <TableHead className="tabeHeadClass">Last Active</TableHead>
               <TableHead className="tabeHeadClass">Status</TableHead>
@@ -53,50 +57,51 @@ export const UsersTable = () => {
               </TableCell>
             </TableRow>
           )}
-          {status === "success" &&
-            users &&
+          {users &&
             users?.length > 0 &&
             users?.map((list, i) => (
-              <TableRow key={`${list?.id}-${i}`} className="p-4">
+              <TableRow key={`${list?.referee?.id}-${i}`} className="p-4">
                 <TableCell className="flex items-center gap-3">
-                  {list?.imageUrl && (
+                  {list?.referee?.imageUrl && (
                     <Image
-                      src={list?.imageUrl}
-                      alt={list?.fullName}
+                      src={list?.referee?.imageUrl}
+                      alt={list?.referee?.fullName}
                       width={40}
                       height={40}
                       className="rounded-full h-10 w-10 object-center"
                     />
                   )}
 
-                  <span className="tabeCellClass">{list?.fullName}</span>
-                </TableCell>
-                <TableCell className="tabeCellClass">{list?.email}</TableCell>
-                <TableCell className="tabeCellClass">
-                  {list?.phoneNumber || "--"}
+                  <span className="tabeCellClass">
+                    {list?.referee?.fullName}
+                  </span>
                 </TableCell>
                 <TableCell className="tabeCellClass">
-                  {list.referrals?.length}
+                  {list?.referee?.email}
                 </TableCell>
                 <TableCell className="tabeCellClass">
-                  {dateFormatter(list?.created_at, "long")}
+                  {list?.referee?.phoneNumber || "--"}
+                </TableCell>
+
+                <TableCell className="tabeCellClass">
+                  {dateFormatter(list?.referee?.created_at, "long")}
                 </TableCell>
                 <TableCell className="tabeCellClass">
-                  {dateFormatter(list?.last_active, "long") || "--"}
+                  {dateFormatter(list?.referee?.last_active, "long") || "--"}
                 </TableCell>
                 <TableCell
                   className={`tabeCellClass capitalize ${
-                    list?.subscriptions?.status === "active"
+                    list?.referee?.subscriptions?.status === "active"
                       ? "!text-[#1D9213]"
-                      : list?.subscriptions?.status === "trial"
+                      : list?.referee?.subscriptions?.status === "trial"
                       ? "!text-[#FF6E01]"
                       : "!text-danger"
                   }`}
                 >
-                  {list?.subscriptions?.status}
+                  {list?.referee?.subscriptions?.status}
                 </TableCell>
                 <TableCell className="text-right flex justify-end items-center">
-                  <UserTableDropdownAction data={list?.id} />
+                  <UserTableDropdownAction data={list?.referee?.id} />
                 </TableCell>
               </TableRow>
             ))}

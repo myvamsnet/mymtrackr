@@ -7,10 +7,7 @@ import { BusinessForm } from "./BusinessForm";
 export const Details = () => {
   return (
     <PageLayout className="pt-0">
-      <CustomHeader
-        title="Business Settings"
-        link="/settings"
-      />
+      <CustomHeader title="Business Settings" />
       <BusinessForm direction="update" />
     </PageLayout>
   );

@@ -29,13 +29,17 @@ export const Sidebar = () => {
               <Link
                 href={route.path}
                 className={`flex items-center gap-3 py-4 px-8 font-semibold text-base  ${
-                  active === route.path
+                  active.includes(route.name.toLowerCase())
                     ? "text-primary bg-off-white-500 rounded-lg border-l-2 border-primary"
                     : "text-dark-200"
                 }`}
               >
                 <route.icon
-                  color={active === route.path ? "#246BFD" : "#808387"}
+                  color={
+                    active.includes(route.name.toLowerCase())
+                      ? "#246BFD"
+                      : "#808387"
+                  }
                 />
                 <span>{route.name}</span>
               </Link>

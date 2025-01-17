@@ -2,11 +2,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User } from "@/types/auth";
 import { EllipsisVertical } from "lucide-react";
 import Link from "next/link";
 
@@ -20,7 +17,7 @@ const UserTableDropdownAction = ({ data }: Props) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-white z-50">
         <DropdownMenuItem>
-          <Link href={`/admin/users/referees/${data.id}`}>View Referees</Link>
+          <Link href={`/admin/users/${data}`}>View Referees</Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -29,5 +26,5 @@ const UserTableDropdownAction = ({ data }: Props) => {
 
 export default UserTableDropdownAction;
 interface Props {
-  data: User;
+  data: string;
 }

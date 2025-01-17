@@ -6,8 +6,32 @@ import AdminLayout from "../../__components/AdminLayout";
 import { useEffect } from "react";
 import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 import { userprofile } from "@/app/actions/getAdminUser";
+import SearchAndFilterComponent from "../../__components/SearchAndFilterComponent";
+import { UsersTable } from "./UsersTable";
+import { TabHeader } from "./TabHeader";
 
-export const UserTabs = ({ children, tabs, user }: UserTabsProps) => {
+export const UserTabs = () => {
+  const tabs = [
+    {
+      name: "All Users",
+      path: "/admin/users?status=all",
+      number: 590,
+      type: "all",
+    },
+    {
+      name: "Subscribed",
+      path: "/admin/users?status=active",
+      number: 500,
+      type: "active",
+    },
+    {
+      name: "Unsubscribed",
+      path: "/admin/users?status=trial",
+      number: 90,
+      type: "trial",
+    },
+  ];
+
   const searchParams = useSearchParams();
   const activeStatus = searchParams.get("status");
 
@@ -19,34 +43,14 @@ export const UserTabs = ({ children, tabs, user }: UserTabsProps) => {
   }, [activeStatus, updateQueryParams]);
 
   return (
-    <AdminLayout user={user}>
-      <header className="border-b border-[#D9DADB] flex items-center gap-7 py-4 md:h-[51px] h-10 md:justify-start justify-between my-4">
-        {tabs?.map((tab, i) => (
-          <Link
-            key={`tab-${tab.type}-${i}`}
-            href={tab.path}
-            className={` md:h-[51px] h-10 block md:text-base text-xs leading-[19.36px] font-normal ${
-              activeStatus === tab.type
-                ? "border-b border-primary  text-primary font-semibold"
-                : " text-dark-300"
-            }`}
-          >
-            {tab.name} ({tab.number})
-          </Link>
-        ))}
-      </header>
-      {children}
+    <AdminLayout>
+      <TabHeader tabs={tabs} activeStatus={activeStatus as string} />
+      <SearchAndFilterComponent showFilter={true} showSearch={true} />
+      <UsersTable />
     </AdminLayout>
   );
 };
 
 interface UserTabsProps {
-  children: React.ReactNode;
-  tabs: {
-    name: string;
-    path: string;
-    number: number;
-    type: string;
-  }[];
   user: userprofile;
 }

@@ -1,16 +1,23 @@
 "use client";
-import { userprofile } from "@/app/actions/getAdminUser";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useGetUser } from "@/hooks/useGetUser";
 import { Calendar, Download } from "lucide-react";
 import React from "react";
 
-export const Top = ({ user }: Props) => {
+export const Top = () => {
+  const { user, isLoading } = useGetUser();
   return (
     <section className="flex justify-between md:items-center md:flex-row flex-col gap-5">
       <div className="space-y-[0.625rem]">
-        <h4 className="text-dark font-normal md:text-2xl text-xl">
-          Welcome back, {user?.fullName}
-        </h4>
+        Welcome back,{" "}
+        {isLoading && !user ? (
+          <Skeleton className="bg-gray-300 h-10 w-40" />
+        ) : (
+          <h4 className="text-dark font-normal md:text-2xl text-xl">
+            user?.fullName
+          </h4>
+        )}
         <p className="text-dark-200 font-normal md:text-base text-sm">
           Monitor all activities here.
         </p>
@@ -30,7 +37,3 @@ export const Top = ({ user }: Props) => {
     </section>
   );
 };
-
-interface Props {
-  user: userprofile;
-}
