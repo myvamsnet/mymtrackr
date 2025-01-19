@@ -1,25 +1,25 @@
 "use client";
-import { ReferralIcon } from "@/assets/icons/ReferralIcon";
 import { Files } from "lucide-react";
 import React from "react";
-import { ChevronRight } from "lucide-react";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import toast from "react-hot-toast";
 import { SubscriptionType } from "@/app/actions/getSubscription";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import dayjs from "dayjs";
-import { ShareSocial } from "react-share-social";
 import { ReferralModal } from "./ReferralModal";
 import { currencyFormatter } from "@/lib/helper/currencyFormatter";
-const ReferralCodeUi = ({ referralCode, userReferrals }: Props) => {
+import { AddAcountDetails } from "./AddAcountDetails";
+import { User } from "@/types/auth";
+import { ViewBankDetails } from "./ViewBankDetails";
+
+const ReferralCodeUi = ({ user, userReferrals }: Props) => {
   const [doCopy] = useCopyToClipboard();
   const pathname = useSearchParams().get("status");
   const handleCopy = (refId: string, text: string) => {
     doCopy(refId);
     toast.success(text);
   };
-  const appUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   const lists = [
     {
@@ -39,6 +39,10 @@ const ReferralCodeUi = ({ referralCode, userReferrals }: Props) => {
   const userReferralsLists = userReferrals?.filter(
     (referral) => referral.referee.subscriptions?.status === pathname
   );
+
+  const checkAccountDetails = Boolean(
+    user?.accountName && user?.bankName && user?.accountNumber
+  );
   return (
     <main className=" space-y-4  p-4">
       <section className="p-4 gap-4 rounded-xl bg-white grid">
@@ -47,22 +51,31 @@ const ReferralCodeUi = ({ referralCode, userReferrals }: Props) => {
             Your referral code
           </h4>
           <div className="flex justify-between items-center border-[#E3E4E7] border px-4 py-3 rounded-lg">
-            <p className="font-medium text-sm text-dark">{referralCode}</p>
+            <p className="font-medium text-sm text-dark">
+              {user?.referralCode}
+            </p>
             <p
               className="flex items-center gap-2 font-normal text-sm text-dark hover:text-primary cursor-pointer transition-all ease-in-out"
-              onClick={() => handleCopy(referralCode, "Referral code copied")}
+              onClick={() =>
+                handleCopy(user?.referralCode as string, "Referral code copied")
+              }
             >
               Copy <Files fontSize={18} />
             </p>
           </div>
         </div>
-        <ReferralModal referralCode={referralCode} />
+        <ReferralModal referralCode={user?.referralCode as string} />
       </section>
       <section className="bg-off-white-300 rounded-xl">
-        <div className=" rounded-xl p-4">
+        <div className=" rounded-xl p-4 flex justify-between">
           <h4 className="text-sm font-medium text-dark-100 capitalize">
             Referral History
           </h4>
+          {checkAccountDetails ? (
+            <ViewBankDetails {...user} />
+          ) : (
+            <AddAcountDetails />
+          )}
         </div>
         <section>
           <div className="flex justify-between border-b border-[#E3E4E7] items-center  mt-4  px-[44px]">
@@ -124,7 +137,7 @@ const ReferralCodeUi = ({ referralCode, userReferrals }: Props) => {
 
 export default ReferralCodeUi;
 interface Props {
-  referralCode: string;
+  user: User;
   userReferrals: RefereeEntry[];
 }
 export interface Referee {

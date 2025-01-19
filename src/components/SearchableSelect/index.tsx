@@ -54,7 +54,7 @@ export function SearchableSelect({
   }, []);
 
   const filteredOptions = useMemo(() => {
-    return options.filter((option) =>
+    return options?.filter((option) =>
       option.label.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [options, searchTerm]);
@@ -70,10 +70,7 @@ export function SearchableSelect({
         </label>
       )}
 
-      <div
-        className="relative w-full"
-        ref={wrapperRef}
-      >
+      <div className="relative w-full" ref={wrapperRef}>
         <button
           id={`${name}-select`}
           type="button"
@@ -92,7 +89,7 @@ export function SearchableSelect({
           <ChevronDownIcon className="w-5 h-5 text-gray-400" />
         </button>
         {isOpen && (
-          <div className="absolute z-40 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+          <div className="absolute z-40 w-full h-[50vh] overflow-auto mt-1 bg-white border border-gray-300 rounded-md shadow-lg ">
             {searchable && (
               <div className="p-2">
                 <div className="relative">
@@ -109,14 +106,14 @@ export function SearchableSelect({
             )}
 
             <ul
-              className="max-h-70 overflow-auto relative z-40"
+              className=" relative  z-40 h-[50vh] overflow-y-auto"
               role="listbox"
               id={`${name}-listbox`}
               aria-labelledby={`${name}-select`}
             >
-              {filteredOptions.map((option) => (
+              {filteredOptions.map((option, i) => (
                 <li
-                  key={option.value}
+                  key={`${option.value}-${i}`}
                   id={`${name}-option-${option.value}`}
                   className={`px-4 py-2 hover:bg-gray-100 cursor-pointer text-dark/90 ${
                     value === option.value ? "bg-gray-200" : ""

@@ -59,6 +59,23 @@ export const forgotPasswordSchema = zod.object({
     .toLowerCase()
     .trim(),
 });
+export const acountDetailSchema = zod.object({
+  accountNumber: zod
+    .string()
+    .max(10, {
+      message: "Account Number must be at least 10 characters",
+    })
+    .toLowerCase()
+    .trim(),
+  bankName: zod
+    .string()
+    .min(1, {
+      message: "Bank Name must be at least 1 characters",
+    })
+    .toLowerCase()
+    .trim(),
+});
 export type SignUpSchemaType = zod.infer<typeof signUpSchema>;
 export type SignInSchemaType = zod.infer<typeof signInSchema>;
 export type ForgotPasswordSchemaType = zod.infer<typeof forgotPasswordSchema>;
+export type AcountDetailSchemaType = zod.infer<typeof acountDetailSchema>;

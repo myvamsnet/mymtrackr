@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabse/server";
+import { User } from "@/types/auth";
 import { revalidatePath } from "next/cache";
 
 export async function getUser() {
@@ -21,15 +22,9 @@ export async function getUser() {
       };
     }
 
-    const data: userprofile = {
-      id: userprofileData.id,
-      email: userprofileData.email,
-      fullName: userprofileData.fullName,
-      imageUrl: userprofileData.imageUrl,
-      phoneNumber: userprofileData.phoneNumber,
-      referralCode: userprofileData.referralCode,
-      role: userprofileData?.role,
-    };
+    const data = {
+      ...userprofileData,
+    } as User;
 
     revalidatePath("/home");
     return {

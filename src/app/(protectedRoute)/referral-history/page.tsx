@@ -1,6 +1,6 @@
 import { getUser } from "@/app/actions/getUser";
 import { CustomHeader } from "@/components/CustomHeader";
-import { UserResponse } from "@/types/auth";
+import { User, UserResponse } from "@/types/auth";
 import ReferralCodeUi from "./components/ReferralCodeUi";
 import { userReferrals } from "@/app/actions/userReferrals";
 import { SubscriptionType } from "@/app/actions/getSubscription";
@@ -34,7 +34,7 @@ const Page: FC = async () => {
       <main className="container mx-auto md:max-w-[700px] bg-[#F1F5FD] overflow-y-auto overflow-x-hidden h-screen relative">
         <CustomHeader title="Refer & Earn" link="" />
         <ReferralCodeUi
-          referralCode={user?.data?.referralCode || ""}
+          user={user?.data as User}
           userReferrals={getUserReferrals.data as RefereeEntry[]}
         />
       </main>

@@ -26,6 +26,9 @@ export interface User {
   role: "user" | "admin";
   last_active: string;
   created_at: string;
+  bankName: string;
+  accountNumber: string;
+  accountName: string;
 }
 
 interface Subscription {

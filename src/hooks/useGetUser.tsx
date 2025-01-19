@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 export const useGetUser = () => {
-  const { user, setUser } = userStore();
+  const { setUser } = userStore();
   const { data, isLoading, error } = useQuery<UserResponseAPI>({
     queryKey: ["user"],
     queryFn: async () => {
