@@ -15,7 +15,7 @@ export const Top = () => {
           <Skeleton className="bg-gray-300 h-10 w-40" />
         ) : (
           <h4 className="text-dark font-normal md:text-2xl text-xl">
-            user?.fullName
+            {user?.fullName}
           </h4>
         )}
         <p className="text-dark-200 font-normal md:text-base text-sm">

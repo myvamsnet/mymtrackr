@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
 import { createClient } from "@/lib/supabse/server";
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const status = searchParams.get("status");
@@ -22,6 +23,7 @@ export async function GET(request: Request) {
         { status: 400 }
       );
     }
+
     const flutterwaveUrl = process.env.NEXT_PUBLIC_FLUTTERWAVE_URL;
     // Verify payment with Flutterwave API
     const response = await axios.get(
@@ -37,58 +39,33 @@ export async function GET(request: Request) {
 
     if (paymentStatus === "successful") {
       const userEmail = customer.email;
-
-      // Step 2: Fetch the user with referrals and subscriptions
-      const { data: userData, error: userError } = await supabase
-        .from("userprofile")
-        .select(
-          `
-      user_id,
-      subscriptions(expiresAt, user_id)
-    `
-        )
-        .eq("email", userEmail)
-        .single();
-
-      if (userError) {
-        console.error(userError);
-        return NextResponse.json(
-          { message: "Failed to fetch user data" },
-          { status: 404 }
-        );
-      }
-
-      const { user_id, subscriptions } = userData as any;
-      const currentExpiry = subscriptions?.expiresAt
-        ? new Date(subscriptions?.expiresAt)
-        : new Date();
-
+      const subscriptionAmount = process.env.NEXT_PUBLIC_SUBSCRIPTION_AMOUNT;
+      const currentExpiry = new Date();
       // Extend expiry by 1 year
       const newExpiryDate = new Date(
         currentExpiry.setFullYear(currentExpiry.getFullYear() + 1)
       );
-      const subscriptionAmount = process.env.NEXT_PUBLIC_SUBSCRIPTION_AMOUNT;
-      // Update subscription status and expiry date
-      const { error: updateError } = await supabase
-        .from("subscriptions")
-        .update({
-          status: "active",
-          expiresAt: newExpiryDate.toISOString(),
-          amount: Number(subscriptionAmount),
-        })
-        .eq("user_id", user_id);
+      // Call the Supabase RPC
+      const { data, error } = await supabase.rpc(
+        "process_subscription_update",
+        {
+          p_email: userEmail,
+          p_expiry_date: newExpiryDate.toISOString(),
+          p_subscription_amount: Number(subscriptionAmount),
+        }
+      );
 
-      if (updateError) {
-        console.error("Failed to update subscription:", updateError);
+      if (error) {
+        console.error("RPC call failed:", error);
         return NextResponse.json(
-          { message: "Failed to update subscription" },
+          { message: "Failed to process subscription" },
           { status: 500 }
         );
       }
 
-      // Redirect to success page
+      // Success response
       return NextResponse.json(
-        { message: "Subscription successful" },
+        { message: "Subscription successful", data },
         { status: 200 }
       );
     }

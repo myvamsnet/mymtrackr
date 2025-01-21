@@ -60,7 +60,7 @@ const EditRecordForm = ({
           {inputlists.map((input, i) => {
             return input.type === "currency" ? (
               <NumberInput
-                key={i}
+                key={`${input.name}-${i}`}
                 name={"amount"}
                 label={input.label}
                 control={control}
@@ -69,7 +69,7 @@ const EditRecordForm = ({
             ) : (
               <section>
                 <CustomInput
-                  key={i}
+                  key={`${input.name}-${i}`}
                   name={input.name}
                   type={input.type}
                   label={input.label}

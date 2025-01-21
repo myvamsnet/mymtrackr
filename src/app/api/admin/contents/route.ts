@@ -35,14 +35,13 @@ export async function POST(req: Request) {
 }
 
 // Get All Content
-export async function GET(req: NextRequest) {
+export async function GET() {
   const supabaseApi = createClient();
-  const { searchParams } = new URL(req.url);
-  const userInfo = await supabaseApi?.auth?.getUser();
-  const user_id = userInfo?.data?.user?.id;
-  const pageParam = parseInt(searchParams.get("pageParam") || "0");
-  const searchTerm = searchParams.get("searchTerm");
-  if (!user_id) {
+  const {
+    data: { user },
+  } = await supabaseApi?.auth?.getUser();
+
+  if (!user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 404 });
   }
   try {
@@ -50,40 +49,13 @@ export async function GET(req: NextRequest) {
     let query = supabaseApi
       .from("contents")
       .select("*")
-      .eq("user_id", user_id)
       .order("created_at", { ascending: false })
       .range(0, 9);
-
-    if (pageParam) {
-      query = query.range(pageParam, pageParam + 10);
-    }
-
-    // Apply search term filters
-    if (
-      searchTerm &&
-      searchTerm !== "" &&
-      searchTerm !== "undefined" &&
-      searchTerm !== "null" &&
-      searchTerm !== "NaN"
-    ) {
-      const numericSearchTerm = Number(searchTerm);
-      if (!isNaN(numericSearchTerm)) {
-        // If searchTerm is a valid number, search by amount
-        query = query.eq("amount", numericSearchTerm);
-      } else if (typeof searchTerm === "string" && searchTerm.trim() !== "") {
-        // If searchTerm is a string, search by name using ilike
-        const trimmedSearchTerm = searchTerm.trim();
-        query = query.ilike("name", `%${trimmedSearchTerm}%`);
-      }
-    }
-
-    // Execute the query and handle response
     const { data, error } = await query;
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
-
     return responsedata({
       success: true,
       data,

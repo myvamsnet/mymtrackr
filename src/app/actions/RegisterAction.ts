@@ -71,11 +71,12 @@ export const RegisterAction = async (formData: FormData) => {
       const { error: referralCreateError } = await supabase
         .from("referrals")
         .insert({
-          referrerId: referrer.id,
-          refereeId: userId, // Set the newly created user as the referee
+          referrer_id: referrer.id,
+          referee_id: userId, // Set the newly created user as the referee
         });
 
       if (referralCreateError) {
+        console.log(referralCreateError.message);
         return {
           success: false,
           message: "Failed to create referral",
@@ -93,7 +94,7 @@ export const RegisterAction = async (formData: FormData) => {
     .insert({
       user_id: userId,
       status: "trial",
-      expiresAt: trialExpiration.toISOString(),
+      expired_at: trialExpiration.toISOString(),
       amount: 0, // Set the amount for the subscription, can be adjusted based on your pricing model
     })
     .select("*");

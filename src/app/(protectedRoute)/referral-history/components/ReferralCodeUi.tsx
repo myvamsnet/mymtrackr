@@ -12,8 +12,12 @@ import { currencyFormatter } from "@/lib/helper/currencyFormatter";
 import { AddAcountDetails } from "./AddAcountDetails";
 import { User } from "@/types/auth";
 import { ViewBankDetails } from "./ViewBankDetails";
+import useGetAllReferrals from "../hook/useGetAllRerrals";
+import { dateFormatter } from "@/lib/helper/dateFormatter";
+import ReferralLists from "./ReferralLists";
 
-const ReferralCodeUi = ({ user, userReferrals }: Props) => {
+const ReferralCodeUi = ({ user }: Props) => {
+  const { isFetchingNextPage, isLoading, referrals } = useGetAllReferrals();
   const [doCopy] = useCopyToClipboard();
   const pathname = useSearchParams().get("status");
   const handleCopy = (refId: string, text: string) => {
@@ -25,8 +29,8 @@ const ReferralCodeUi = ({ user, userReferrals }: Props) => {
     {
       name: "pending",
       id: "1",
-      link: "/referral-history?status=trial",
-      pathname: "trial",
+      link: "/referral-history?status=pending",
+      pathname: "pending",
     },
     {
       name: "Earned",
@@ -35,10 +39,6 @@ const ReferralCodeUi = ({ user, userReferrals }: Props) => {
       pathname: "active",
     },
   ];
-
-  const userReferralsLists = userReferrals?.filter(
-    (referral) => referral.referee.subscriptions?.status === pathname
-  );
 
   const checkAccountDetails = Boolean(
     user?.accountName && user?.bankName && user?.accountNumber
@@ -77,59 +77,7 @@ const ReferralCodeUi = ({ user, userReferrals }: Props) => {
             <AddAcountDetails />
           )}
         </div>
-        <section>
-          <div className="flex justify-between border-b border-[#E3E4E7] items-center  mt-4  px-[44px]">
-            {lists?.map((list) => (
-              <Link
-                href={list.link}
-                key={list.id}
-                className={`font-medium text-sm cursor-pointer capitalize   py-3  h-auto ${
-                  pathname === list.pathname
-                    ? "text-primary  border-primary border-b-2  "
-                    : "text-dark-300"
-                }`}
-              >
-                {list.name}
-              </Link>
-            ))}
-          </div>
-          <div className="py-2 px-4">
-            {userReferralsLists?.length > 0 ? (
-              userReferralsLists?.map((referral) => (
-                <div
-                  key={referral.referee.id}
-                  className="flex justify-between items-center px-4 py-4 border-b border-[#E3E4E7]"
-                >
-                  <div className="grid gap-2">
-                    <p className="text-sm font-medium text-dark">
-                      {referral.referee.fullName}
-                    </p>
-                    <p className="text-xs text-dark-200">
-                      {dayjs(referral?.referee.subscriptions?.expiresAt).format(
-                        "DD/MM/YYYY"
-                      )}
-                    </p>
-                  </div>
-                  <p
-                    className={`text-sm font-medium capitalize ${
-                      referral.referee.subscriptions?.status === "trial"
-                        ? "text-[#880606]"
-                        : "text-success"
-                    }`}
-                  >
-                    {currencyFormatter(2000)}
-                  </p>
-                </div>
-              ))
-            ) : (
-              <div className="flex justify-center items-center h-[200px] capitalize">
-                <p className="text-sm text-dark-300">
-                  No <span>{pathname}</span> referrals yet
-                </p>
-              </div>
-            )}
-          </div>
-        </section>
+        <ReferralLists />
       </section>
     </main>
   );
@@ -138,7 +86,6 @@ const ReferralCodeUi = ({ user, userReferrals }: Props) => {
 export default ReferralCodeUi;
 interface Props {
   user: User;
-  userReferrals: RefereeEntry[];
 }
 export interface Referee {
   id: string;

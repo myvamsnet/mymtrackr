@@ -29,7 +29,6 @@ export const AddAcountDetails = () => {
       title="Add Account Details"
       subTitle="Please confirm Bank Details before submitting"
       btnText={"Add Account"}
-      className="py-2 px-3 text-xs"
       content=""
     >
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
