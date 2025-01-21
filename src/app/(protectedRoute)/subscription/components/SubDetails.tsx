@@ -14,28 +14,26 @@ import toast from "react-hot-toast";
 
 export const SubDetails = ({ subscription, user }: Props) => {
   const searchParams = useSearchParams();
-  const paymentStatus = searchParams.get("status");
+  const reference = searchParams.get("reference");
   const tx_ref = searchParams.get("tx_ref");
   const transaction_id = searchParams.get("transaction_id");
   const { updateQueryParams } = useUpdateQuery();
 
   const { handleClickPayment, isPending } = useSubscription();
   const { data } = useQuery({
-    queryKey: ["subscription", paymentStatus, tx_ref],
+    queryKey: ["subscription", reference ?? ""],
     queryFn: () => {
-      if (!paymentStatus || !tx_ref || !transaction_id) return;
+      if (!reference) return;
       return axiosInstance
-        .get(
-          `/payment/verify?status=${paymentStatus}&tx_ref=${tx_ref}&transaction_id=${transaction_id}`
-        )
+        .get(`/payment/verify?reference=${reference}`)
         .then((res) => res.data);
     },
   });
 
   useEffect(() => {
     if (data?.message === "Subscription successful") {
-      updateQueryParams({ status: "", tx_ref: "", transaction_id: "" });
-      toast.success("Subscription successful");
+      updateQueryParams({ reference: "", trxref: "" });
+      toast.success(data?.message);
     }
   }, [data, updateQueryParams]);
 
@@ -44,7 +42,7 @@ export const SubDetails = ({ subscription, user }: Props) => {
       <section className="bg-off-white-300 py-6 px-4 rounded-xl flex justify-center items-center text-center my-4">
         <div className="grid gap-6 w-[288px]">
           <h3 className="text-2xl font-semibold text-dark">
-            {currencyFormatter(3000)}
+            {currencyFormatter(subscription?.amount)}
             <span className="text-dark-100 text-base">/Year</span>
           </h3>
           <p className="text-sm font-normal text-dark-300">

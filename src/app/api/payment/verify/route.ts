@@ -1,44 +1,26 @@
 import { NextResponse } from "next/server";
-import axios from "axios";
 import { createClient } from "@/lib/supabse/server";
+import { Paystack } from "paystack-sdk";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const status = searchParams.get("status");
-  const tx_ref = searchParams.get("tx_ref");
-  const transaction_id = searchParams.get("transaction_id");
+  const reference = searchParams.get("reference");
   const supabase = createClient();
-
   try {
+    const paystack = new Paystack(
+      process.env.NEXT_PUBLIC_PAYSTACK_SECRET_KEY as string
+    );
     const {
       data: { user },
     } = await supabase.auth.getUser();
 
-    if (!user?.id)
+    if (!user?.id || !reference) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 404 });
-
-    if (status !== "successful" && !tx_ref && !transaction_id) {
-      return NextResponse.json(
-        { message: "Invalid payment status" },
-        { status: 400 }
-      );
     }
+    const verification = await paystack.transaction.verify(reference);
 
-    const flutterwaveUrl = process.env.NEXT_PUBLIC_FLUTTERWAVE_URL;
-    // Verify payment with Flutterwave API
-    const response = await axios.get(
-      `${flutterwaveUrl}/transactions/${transaction_id}/verify`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_FLUTTERWAVE_SECRET_KEY}`,
-        },
-      }
-    );
-
-    const { customer, status: paymentStatus } = response?.data?.data;
-
-    if (paymentStatus === "successful") {
-      const userEmail = customer.email;
+    if (verification?.status && verification?.data?.customer?.email) {
+      const userEmail = verification?.data?.customer?.email;
       const subscriptionAmount = process.env.NEXT_PUBLIC_SUBSCRIPTION_AMOUNT;
       const currentExpiry = new Date();
       // Extend expiry by 1 year

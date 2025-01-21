@@ -26,7 +26,7 @@ const Page: FC = async () => {
 
     return (
       <main className="container mx-auto md:max-w-[700px] bg-[#F1F5FD] overflow-y-auto overflow-x-hidden h-screen relative">
-        <CustomHeader title="Refer & Earn" link="" />
+        <CustomHeader title="Refer & Earn" link="/home" />
         <ReferralCodeUi user={user?.data as User} />
       </main>
     );

@@ -1,5 +1,9 @@
-import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
+import { Paystack } from "paystack-sdk";
+
+const paystack = new Paystack(
+  process.env.NEXT_PUBLIC_PAYSTACK_SECRET_KEY as string
+);
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,56 +20,20 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const flutterwaveUrl = process.env.NEXT_PUBLIC_FLUTTERWAVE_URL as string;
-    const subscriptionAmount = process.env
-      .NEXT_PUBLIC_SUBSCRIPTION_AMOUNT as string;
-    const paymentPlanId = process.env
-      .NEXT_PUBLIC_SUBSCRIPTION_PLAN_ID as string;
-    const secretKey = process.env.NEXT_PUBLIC_FLUTTERWAVE_SECRET_KEY as string;
-
-    if (
-      !flutterwaveUrl ||
-      !subscriptionAmount ||
-      !paymentPlanId ||
-      !secretKey
-    ) {
-      return NextResponse.json(
-        { error: "Missing required configuration" },
-        { status: 500 }
-      );
+    // Initialize transaction for subscription
+    const response = await paystack.transaction.initialize({
+      email,
+      amount: process.env.NEXT_PUBLIC_SUBSCRIPTION_AMOUNT as string, // 3000 Naira
+      plan: process.env.NEXT_PUBLIC_SUBSCRIPTION_PLAN_ID,
+      callback_url: redirect_url,
+    });
+    if (!response.status) {
+      return NextResponse.json({ error: response.message }, { status: 400 });
     }
-
-    const response = await axios.post(
-      `${flutterwaveUrl}/payments`,
-      {
-        tx_ref: Date.now(),
-        amount: subscriptionAmount,
-        currency: "NGN",
-        payment_plan: paymentPlanId,
-        payment_type: "card",
-        redirect_url, // Modify to your production URL
-        customer: { email, name: fullName },
-        customizations: {
-          title: "Subscription Service",
-          description: "Payment for subscription",
-        },
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${secretKey}`,
-        },
-      }
+    return NextResponse.json(
+      { checkoutUrl: response?.data?.authorization_url },
+      { status: 200 }
     );
-
-    const checkoutUrl = response?.data?.data?.link;
-    if (!checkoutUrl) {
-      return NextResponse.json(
-        { error: "Failed to get payment link" },
-        { status: 500 }
-      );
-    }
-
-    return NextResponse.json({ checkoutUrl }, { status: 200 });
   } catch (error: any) {
     console.error(
       "Payment initiation error:",
