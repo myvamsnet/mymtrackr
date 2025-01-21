@@ -41,7 +41,7 @@ export interface SubscriptionType {
   status: "trial" | "active";
   amount: number;
   userprofile_id: string;
-  expiresAt: string;
+  expired_at: string;
   created_at: string;
   updated_at: string;
 }

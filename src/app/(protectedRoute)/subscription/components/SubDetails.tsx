@@ -39,22 +39,6 @@ export const SubDetails = ({ subscription, user }: Props) => {
     }
   }, [data, updateQueryParams]);
 
-  const subscriptionInfo = [
-    {
-      label: "Free Tier",
-      value: dayjs(subscription?.created_at).format("ddd, MMM D, YYYY h:mm A"),
-      show: subscription?.status === "trial" ? true : false,
-    },
-    {
-      label: "Last Sub Date",
-      value: dayjs(subscription?.updated_at).format("ddd, MMM D, YYYY h:mm A"),
-    },
-    {
-      label: "Next Due Date",
-      value: dayjs(subscription?.expiresAt).format("ddd, MMM D, YYYY h:mm A"),
-    },
-    { label: "Status", value: subscription?.status, status: true },
-  ];
   return (
     <Fragment>
       <section className="bg-off-white-300 py-6 px-4 rounded-xl flex justify-center items-center text-center my-4">
@@ -84,7 +68,9 @@ export const SubDetails = ({ subscription, user }: Props) => {
           <div className="border-b border-[#F4F5F7] py-3 flex justify-between items-center">
             <p className="text-xs text-dark-100">Free Tier</p>
             <p className={`text-xs text-dark`}>
-              {dayjs(subscription?.expiresAt).format("ddd, MMM D, YYYY h:mm A")}
+              {dayjs(subscription?.expired_at).format(
+                "ddd, MMM D, YYYY h:mm A"
+              )}
             </p>
           </div>
         )}
@@ -98,7 +84,7 @@ export const SubDetails = ({ subscription, user }: Props) => {
         <div className="border-b border-[#F4F5F7] py-3 flex justify-between items-center">
           <p className="text-xs text-dark-100">Next Due Date</p>
           <p className={`text-xs text-dark`}>
-            {dayjs(subscription?.expiresAt).format("ddd, MMM D, YYYY h:mm A")}
+            {dayjs(subscription?.expired_at).format("ddd, MMM D, YYYY h:mm A")}
           </p>
         </div>
         <div className="border-b border-[#F4F5F7] py-3 flex justify-between items-center">
