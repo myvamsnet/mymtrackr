@@ -8,7 +8,6 @@ import ListShimmer from "@/components/ListShimmer";
 import { checkDataStatus } from "@/lib/helper/checkDataStatus";
 import { ITableBody } from "@/types/newTable.types";
 import AppTabEmptyState from "@/app/(protectedRoute)/_components/customeTable/EmptyTableState";
-import UserTableDropdownAction from "../UserTableDropdownAction";
 import { Pagination } from "@/app/(protectedRouteAdmin)/__components/pagination";
 import useAdminUser from "@/app/(protectedRouteAdmin)/admin/users/hooks/useAdminUser";
 
@@ -37,9 +36,6 @@ export const ReferalTable = () => {
               <TableHead className="tabeHeadClass">Date joined</TableHead>
               <TableHead className="tabeHeadClass">Last Active</TableHead>
               <TableHead className="tabeHeadClass">Status</TableHead>
-              <TableHead className="tabeHeadClass text-right min-w-[100px]">
-                Action
-              </TableHead>
             </>
           }
         >
@@ -92,9 +88,6 @@ export const ReferalTable = () => {
                   }`}
                 >
                   {list?.status}
-                </TableCell>
-                <TableCell className="text-right flex justify-end items-center">
-                  <UserTableDropdownAction data={list?.referee?.id} />
                 </TableCell>
               </TableRow>
             ))}
