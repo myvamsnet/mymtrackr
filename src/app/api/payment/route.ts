@@ -24,9 +24,11 @@ export async function POST(req: NextRequest) {
     const response = await paystack.transaction.initialize({
       email,
       amount: process.env.NEXT_PUBLIC_SUBSCRIPTION_AMOUNT as string, // 3000 Naira
-      plan: process.env.NEXT_PUBLIC_SUBSCRIPTION_PLAN_ID,
+      plan: process.env.NEXT_PUBLIC_SUBSCRIPTION_PLAN_ID as string,
       callback_url: redirect_url,
     });
+
+    console.log(response, process.env.NEXT_PUBLIC_SUBSCRIPTION_PLAN_ID);
     if (!response.status) {
       return NextResponse.json({ error: response.message }, { status: 400 });
     }

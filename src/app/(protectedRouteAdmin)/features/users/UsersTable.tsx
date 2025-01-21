@@ -57,47 +57,47 @@ export const UsersTable = () => {
           {status === "success" &&
             users &&
             users?.length > 0 &&
-            users?.map((list, i) => (
-              <TableRow key={`${list?.id}-${i}`} className="p-4">
+            users?.map((user, i) => (
+              <TableRow key={`${user?.id}-${i}`} className="p-4">
                 <TableCell className="flex items-center gap-3">
-                  {list?.imageUrl && (
+                  {user?.imageUrl && (
                     <Image
-                      src={list?.imageUrl}
-                      alt={list?.fullName}
+                      src={user?.imageUrl}
+                      alt={user?.fullName}
                       width={40}
                       height={40}
                       className="rounded-full h-10 w-10 object-center"
                     />
                   )}
 
-                  <span className="tabeCellClass">{list?.fullName}</span>
+                  <span className="tabeCellClass">{user?.fullName}</span>
                 </TableCell>
-                <TableCell className="tabeCellClass">{list?.email}</TableCell>
+                <TableCell className="tabeCellClass">{user?.email}</TableCell>
                 <TableCell className="tabeCellClass">
-                  {list?.phoneNumber || "--"}
-                </TableCell>
-                <TableCell className="tabeCellClass">
-                  {list.referrals?.length}
+                  {user?.phoneNumber || "--"}
                 </TableCell>
                 <TableCell className="tabeCellClass">
-                  {dateFormatter(list?.created_at, "long")}
+                  {user.referrals?.length}
                 </TableCell>
                 <TableCell className="tabeCellClass">
-                  {dateFormatter(list?.last_active, "long") || "--"}
+                  {dateFormatter(user?.created_at, "long")}
+                </TableCell>
+                <TableCell className="tabeCellClass">
+                  {dateFormatter(user?.last_active, "long") || "--"}
                 </TableCell>
                 <TableCell
                   className={`tabeCellClass capitalize ${
-                    list?.subscriptions?.status === "active"
+                    user?.subscriptions?.status === "active"
                       ? "!text-[#1D9213]"
-                      : list?.subscriptions?.status === "trial"
+                      : user?.subscriptions?.status === "trial"
                       ? "!text-[#FF6E01]"
                       : "!text-danger"
                   }`}
                 >
-                  {list?.subscriptions?.status}
+                  {user?.subscriptions?.status}
                 </TableCell>
                 <TableCell className="text-right flex justify-end items-center">
-                  <UserTableDropdownAction data={list?.id} />
+                  <UserTableDropdownAction user={user} />
                 </TableCell>
               </TableRow>
             ))}
