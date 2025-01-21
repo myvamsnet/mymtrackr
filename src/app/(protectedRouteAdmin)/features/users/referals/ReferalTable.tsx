@@ -12,7 +12,7 @@ import { Pagination } from "@/app/(protectedRouteAdmin)/__components/pagination"
 import useAdminUser from "@/app/(protectedRouteAdmin)/admin/users/hooks/useAdminUser";
 
 export const ReferalTable = () => {
-  const { data, isLoading, error, status, isError } = useAdminUser();
+  const { data, isLoading, status, isError } = useAdminUser();
   const users = data?.data.users;
   const { checkEmptyData, dataNotEmpty } = checkDataStatus({
     isLoading,

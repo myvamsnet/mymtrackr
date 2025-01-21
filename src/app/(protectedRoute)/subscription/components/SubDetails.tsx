@@ -42,7 +42,7 @@ export const SubDetails = ({ subscription, user }: Props) => {
       <section className="bg-off-white-300 py-6 px-4 rounded-xl flex justify-center items-center text-center my-4">
         <div className="grid gap-6 w-[288px]">
           <h3 className="text-2xl font-semibold text-dark">
-            {currencyFormatter(subscription?.amount)}
+            {currencyFormatter(subscription?.amount || 3000)}
             <span className="text-dark-100 text-base">/Year</span>
           </h3>
           <p className="text-sm font-normal text-dark-300">
