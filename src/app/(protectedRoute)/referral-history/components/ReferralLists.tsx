@@ -10,7 +10,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 const ReferralLists = () => {
   const { isFetchingNextPage, isLoading, referrals, queryStatus } =
     useGetAllReferrals();
-  console.log(queryStatus, referrals);
   const pathname = useSearchParams().get("status");
 
   const lists = [
@@ -69,7 +68,7 @@ const ReferralLists = () => {
             referral?.status === "pending" ? "text-[#880606]" : "text-success"
           }`}
         >
-          {currencyFormatter(referral?.amount)}
+          {currencyFormatter((referral?.amount as number) || 0)}
         </p>
       </div>
     ));

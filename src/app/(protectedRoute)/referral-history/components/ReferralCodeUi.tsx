@@ -4,22 +4,14 @@ import React from "react";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import toast from "react-hot-toast";
 import { SubscriptionType } from "@/app/actions/getSubscription";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import dayjs from "dayjs";
 import { ReferralModal } from "./ReferralModal";
-import { currencyFormatter } from "@/lib/helper/currencyFormatter";
 import { AddAcountDetails } from "./AddAcountDetails";
 import { User } from "@/types/auth";
 import { ViewBankDetails } from "./ViewBankDetails";
-import useGetAllReferrals from "../hook/useGetAllRerrals";
-import { dateFormatter } from "@/lib/helper/dateFormatter";
 import ReferralLists from "./ReferralLists";
 
 const ReferralCodeUi = ({ user }: Props) => {
-  const { isFetchingNextPage, isLoading, referrals } = useGetAllReferrals();
   const [doCopy] = useCopyToClipboard();
-  const pathname = useSearchParams().get("status");
   const handleCopy = (refId: string, text: string) => {
     doCopy(refId);
     toast.success(text);
@@ -45,6 +37,14 @@ const ReferralCodeUi = ({ user }: Props) => {
   );
   return (
     <main className=" space-y-4  p-4">
+      <div className="flex justify-end items-center">
+        {checkAccountDetails ? (
+          <ViewBankDetails {...user} />
+        ) : (
+          <AddAcountDetails />
+        )}
+      </div>
+
       <section className="p-4 gap-4 rounded-xl bg-white grid">
         <div className=" space-y-2">
           <h4 className="font-medium text-xs text-dark-300">
@@ -67,15 +67,10 @@ const ReferralCodeUi = ({ user }: Props) => {
         <ReferralModal referralCode={user?.referralCode as string} />
       </section>
       <section className="bg-off-white-300 rounded-xl">
-        <div className=" rounded-xl p-4 flex justify-between">
+        <div className=" rounded-xl p-4 ">
           <h4 className="text-sm font-medium text-dark-100 capitalize">
             Referral History
           </h4>
-          {checkAccountDetails ? (
-            <ViewBankDetails {...user} />
-          ) : (
-            <AddAcountDetails />
-          )}
         </div>
         <ReferralLists />
       </section>

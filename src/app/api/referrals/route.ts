@@ -70,7 +70,6 @@ export async function GET(req: NextRequest) {
       totalPages,
       page: pageParam, // Return the current page as 1-indexed
     };
-    console.log(referralsData);
     return responsedata({
       success: true,
       data: referralsData,
