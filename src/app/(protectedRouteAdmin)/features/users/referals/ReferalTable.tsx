@@ -10,18 +10,11 @@ import { ITableBody } from "@/types/newTable.types";
 import AppTabEmptyState from "@/app/(protectedRoute)/_components/customeTable/EmptyTableState";
 import UserTableDropdownAction from "../UserTableDropdownAction";
 import { Pagination } from "@/app/(protectedRouteAdmin)/__components/pagination";
-import { ReferalResponseData, RefereeUser } from "@/types/admin/referals";
 import useAdminUser from "@/app/(protectedRouteAdmin)/admin/users/hooks/useAdminUser";
-import { useParams } from "next/navigation";
 
 export const ReferalTable = () => {
-  const params = useParams() as {
-    id: string;
-  };
-  const { data, isLoading, error, status, isError } =
-    useAdminUser<ReferalResponseData>(params?.id as string);
-
-  const users = data?.data?.users;
+  const { data, isLoading, error, status, isError } = useAdminUser();
+  const users = data?.data.users;
   const { checkEmptyData, dataNotEmpty } = checkDataStatus({
     isLoading,
     isError,
@@ -91,14 +84,14 @@ export const ReferalTable = () => {
                 </TableCell>
                 <TableCell
                   className={`tabeCellClass capitalize ${
-                    list?.referee?.subscriptions?.status === "active"
+                    list?.status === "active"
                       ? "!text-[#1D9213]"
-                      : list?.referee?.subscriptions?.status === "trial"
+                      : list?.status === "pending"
                       ? "!text-[#FF6E01]"
                       : "!text-danger"
                   }`}
                 >
-                  {list?.referee?.subscriptions?.status}
+                  {list?.status}
                 </TableCell>
                 <TableCell className="text-right flex justify-end items-center">
                   <UserTableDropdownAction data={list?.referee?.id} />

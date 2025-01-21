@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
     let query = supabaseApi
       .from("userprofile")
       .select(
-        "*, subscriptions!inner(*), referrals!referrals_referrerId_fkey(id)",
+        "*, subscriptions!inner(*), referrals!referrals_referrer_id_fkey(id)",
         {
           count: "exact", // Ensure total count is returned
         }

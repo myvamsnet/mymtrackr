@@ -26,16 +26,15 @@ export async function GET(
     let baseQuery = supabaseApi
       .from("referrals")
       .select(
-        `
-        referee:userprofile!referrals_refereeId_fkey (subscriptions(status), fullName, email, id, phoneNumber, last_active, created_at, imageUrl)
+        `status, referee:userprofile!referrals_referee_id_fkey (subscriptions(status), fullName, email, id, phoneNumber, last_active, created_at, imageUrl)
       `,
         { count: "exact" }
       )
-      .eq("referrerId", params?.userId);
+      .eq("referrer_id", params?.userId);
 
     // Apply filters if provided
     if (status) {
-      baseQuery = baseQuery.contains("referee.subscriptions", [{ status }]);
+      baseQuery = baseQuery.eq("status", status);
     }
     if (searchTerm) {
       const trimmedSearchTerm = searchTerm.trim();

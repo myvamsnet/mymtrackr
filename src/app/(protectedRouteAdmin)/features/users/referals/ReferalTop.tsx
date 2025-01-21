@@ -3,10 +3,11 @@ import { CustomSelect } from "@/components/CustomSelect";
 import { Button } from "@/components/ui/button";
 import { useRedirect } from "@/hooks/useRedirect";
 import { useYearFilter } from "@/hooks/useYearFilter";
+import { User } from "@/types/auth";
 import { ArrowLeft } from "lucide-react";
 import React from "react";
 
-export const ReferalTop = () => {
+export const ReferalTop = ({ user }: Props) => {
   const { filter, onChangeYear, yearOptions, monthOptions } = useYearFilter();
   const redirect = useRedirect();
   return (
@@ -21,7 +22,9 @@ export const ReferalTop = () => {
         </Button>
       </div>
       <header className="bg-white py-4 px-6 border-b border-dark-500 rounded-md flex justify-between items-center">
-        <h4 className="text-xl font-semibold text-dark">Dianne Russell</h4>
+        <h4 className="text-xl font-semibold text-dark">
+          {user?.fullName}&apos;s Referrals
+        </h4>
         <div className="grid lg:grid-cols-2 gap-4 grid-cols-1 w-[392px]">
           <CustomSelect
             dateFilter={filter.year}
@@ -40,3 +43,6 @@ export const ReferalTop = () => {
     </>
   );
 };
+interface Props {
+  user: User;
+}

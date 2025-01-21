@@ -5,8 +5,9 @@ import { TabHeader } from "../TabHeader";
 import { useParams, useSearchParams } from "next/navigation";
 import { ReferalTable } from "./ReferalTable";
 import { useUpdateQuery } from "@/hooks/useUpdateQuery";
+import { User } from "@/types/auth";
 
-const ReferalPage = () => {
+const ReferalPage = ({ user }: ReferalPageProps) => {
   const params = useParams() as {
     id: string;
   };
@@ -34,15 +35,15 @@ const ReferalPage = () => {
     },
     {
       name: "Unsubscribed",
-      path: `/admin/users/${params?.id}?status=trial`,
+      path: `/admin/users/${params?.id}?status=pending`,
       number: 90,
-      type: "trial",
+      type: "pending",
     },
   ];
 
   return (
     <section className="space-y-10">
-      <ReferalTop />
+      <ReferalTop user={user} />
       <TabHeader tabs={tabs} activeStatus={activeStatus as string} />
       <ReferalTable />
     </section>
@@ -50,3 +51,6 @@ const ReferalPage = () => {
 };
 
 export default ReferalPage;
+interface ReferalPageProps {
+  user: User;
+}

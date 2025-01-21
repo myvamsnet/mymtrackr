@@ -12,10 +12,11 @@ import { checkDataStatus } from "@/lib/helper/checkDataStatus";
 import { ITableBody } from "@/types/newTable.types";
 import AppTabEmptyState from "@/app/(protectedRoute)/_components/customeTable/EmptyTableState";
 import useAdminUser from "../../admin/users/hooks/useAdminUser";
+import { useFetch } from "@/hooks/useFetch";
 
 export const UsersTable = () => {
   const { data, isLoading, error, status, isError } =
-    useAdminUser<UserAdminApiresponse>("");
+    useFetch<UserAdminApiresponse>("admin/users", "", "admin-users");
 
   const users = data?.data.users;
   const { checkEmptyData, dataNotEmpty } = checkDataStatus({
