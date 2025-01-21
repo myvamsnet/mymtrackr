@@ -31,8 +31,8 @@ export const useUpdateBankAccount = () => {
   });
 
   // Debounce account number and bank name to reduce API calls
-  const [accountNumber] = useDebounce(watch("accountNumber"), 2000);
-  const [bankName] = useDebounce(watch("bankName"), 2000);
+  const [accountNumber] = useDebounce(watch("accountNumber"), 1500);
+  const [bankName] = useDebounce(watch("bankName"), 1500);
 
   // Fetch bank validation details
   const {

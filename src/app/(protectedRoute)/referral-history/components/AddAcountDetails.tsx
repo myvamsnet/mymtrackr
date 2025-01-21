@@ -30,13 +30,13 @@ export const AddAcountDetails = () => {
         }
         className="py-2 px-4"
       >
-        Add Account Details
+        Add Account
       </Button>
 
       <Modal
         isOpen={modal.isOpen && modal?.type === "default"}
         onClose={onCancel}
-        title="Add Account Details"
+        title="Add Account"
       >
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <p className="font-medium text-sm text-dark-300">

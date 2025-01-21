@@ -37,14 +37,6 @@ const ReferralCodeUi = ({ user }: Props) => {
   );
   return (
     <main className=" space-y-4  p-4">
-      <div className="flex justify-end items-center">
-        {checkAccountDetails ? (
-          <ViewBankDetails {...user} />
-        ) : (
-          <AddAcountDetails />
-        )}
-      </div>
-
       <section className="p-4 gap-4 rounded-xl bg-white grid">
         <div className=" space-y-2">
           <h4 className="font-medium text-xs text-dark-300">
@@ -67,10 +59,17 @@ const ReferralCodeUi = ({ user }: Props) => {
         <ReferralModal referralCode={user?.referralCode as string} />
       </section>
       <section className="bg-off-white-300 rounded-xl">
-        <div className=" rounded-xl p-4 ">
+        <div className=" rounded-xl p-4 flex justify-between items-center">
           <h4 className="text-sm font-medium text-dark-100 capitalize">
             Referral History
           </h4>
+          <div className="">
+            {checkAccountDetails ? (
+              <ViewBankDetails {...user} />
+            ) : (
+              <AddAcountDetails />
+            )}
+          </div>
         </div>
         <ReferralLists />
       </section>

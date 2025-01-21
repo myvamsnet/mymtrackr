@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
     if (pageParam > totalPages) {
       return responsedata({
         success: true,
-        data: { users: [], totalPages, page: pageParam },
+        data: { referrals: [], totalPages, page: pageParam },
         message: "No referrals found on this page",
         statusCode: 200,
       });

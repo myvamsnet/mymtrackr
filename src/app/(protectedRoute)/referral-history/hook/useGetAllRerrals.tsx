@@ -43,7 +43,7 @@ const useGetAllReferrals = () => {
 
   // Flatten pages to a single referrals array
   const referrals = data?.pages.flatMap((page) => page.data.referrals) ?? [];
-
+  console.log(data?.pages);
   return {
     referrals,
     isLoading,
