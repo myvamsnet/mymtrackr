@@ -38,17 +38,18 @@ export const loginAction = async (formData: FormData) => {
 
   // Step 2: Fetch the user with referrals and subscriptions
   const { data: user, error: userError } = await supabase
-    .from("userProfile")
+    .from("userprofile")
     .select(
       `
       *,
-      subscriptions(expiresAt)
+      subscriptions(expired_at)
     `
     )
     .eq("id", userId)
     .single();
 
   if (userError || !user) {
+    console.log(userError);
     await supabase.auth.signOut();
     return {
       success: false,
@@ -61,7 +62,7 @@ export const loginAction = async (formData: FormData) => {
     const now = dayjs();
 
     // Check if the subscription has expired
-    const subscriptionExpiryDate = dayjs(user.subscriptions.expiresAt);
+    const subscriptionExpiryDate = dayjs(user.subscriptions.expired_at);
     if (subscriptionExpiryDate.isBefore(now)) {
       // If the subscription has expired, update its status to "expired"
       const { error: updateError } = await supabase
@@ -79,57 +80,6 @@ export const loginAction = async (formData: FormData) => {
     }
   }
   redirect("/home?login=success"); // Redirecting to the home page
-
-  // // Step 4: Fetch the user's referrals and join with referees and their subscriptions
-  // const { data: referrals, error: referralsError } = await supabase
-  //   .from("referrals")
-  //   .select(
-  //     `
-  //     refereeId,
-  //     referee:userProfile!referrals_refereeId_fkey (subscriptions(status))
-  //   `
-  //   )
-  //   .eq("referrerId", user.id);
-
-  // if (referralsError) {
-  //   await supabase.auth.signOut();
-  //   return {
-  //     success: false,
-  //     message: generalErrorMessage,
-  //   };
-  // }
-
-  // const referralsData = referrals as unknown as ReferralsType[];
-
-  // // Step 6: Count referees with active or trial subscriptions
-  // const activeCount = referralsData?.map((ref) => {
-  //   // Since subscriptions is an object, directly access the status
-  //   return ref?.referee?.subscriptions?.status;
-  // });
-
-  // if (
-  //   activeCount.every((status) => status === "active") &&
-  //   activeCount.length >= 3 &&
-  //   user.subscriptions?.status === "active"
-  // ) {
-  //   // Step 5: If the user has referred 3 or more users and all referees have active subscriptions, extend the user's subscription
-  //   const newExpiryDate = dayjs(user.subscriptions.expiresAt)
-  //     .add(1, "year")
-  //     .toDate();
-
-  //   const { error: subscriptionUpdateError } = await supabase
-  //     .from("subscriptions")
-  //     .update({ expiresAt: newExpiryDate })
-  //     .eq("user_id", user.id);
-
-  //   if (subscriptionUpdateError) {
-  //     await supabase.auth.signOut();
-  //     return {
-  //       success: false,
-  //       message: generalErrorMessage,
-  //     };
-  //   }
-  // }
 };
 interface ReferralsType {
   refereeId: string;

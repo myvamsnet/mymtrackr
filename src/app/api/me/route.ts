@@ -6,12 +6,14 @@ export async function GET() {
   const userInfo = await supabase?.auth?.getUser();
   try {
     if (userInfo?.error) {
+      console.log(userInfo.data);
       throw new Error(userInfo?.error?.message);
     }
 
     if (!userInfo.data?.user?.id) return;
+
     const { data, error } = await supabase
-      .from("userProfile") // Replace with your table name
+      .from("userprofile") // Replace with your table name
       .select("*, subscriptions(*), businessProfile(*)") // Or specify columns like 'id, name, etc.'
       .eq("user_id", userInfo.data?.user?.id)
       .single();

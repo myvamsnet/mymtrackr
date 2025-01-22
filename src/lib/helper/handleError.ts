@@ -5,7 +5,7 @@ export const handleError = (error: unknown) => {
   if (error instanceof AxiosError) {
     // Safely access AxiosError properties
     const errorMessage =
-      error.response?.data?.error || "Something went wrong, Try Again";
+      error.response?.data?.message || "Something went wrong, Try Again";
     toast.error(errorMessage);
   } else if (error instanceof Error) {
     // For non-Axios errors

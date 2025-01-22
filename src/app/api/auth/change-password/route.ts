@@ -5,7 +5,6 @@ export async function POST(req: NextRequest) {
   try {
     const supabase = createClient();
     const {
-      error: userError,
       data: { user },
     } = await supabase.auth.getUser();
     const { newPassword, confirmPassword } = await req.json();
@@ -15,7 +14,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (user?.id) {
-      const { data, error } = await supabase?.auth?.updateUser({
+      const { error } = await supabase?.auth?.updateUser({
         password: newPassword,
         email: user?.email,
       });
@@ -24,14 +23,14 @@ export async function POST(req: NextRequest) {
       }
 
       return NextResponse.json({
-        status: "success",
+        status: true,
         message: "Password updated successfully",
       });
     }
   } catch (error: any) {
     return NextResponse.json(
       {
-        status: "failed",
+        status: false,
         message: error?.mesaage,
       },
       {
