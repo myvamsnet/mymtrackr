@@ -6,7 +6,7 @@ import { CustomInput } from "@/components/CustomInput";
 import { Button } from "@/components/ui/button";
 import { accountDetailsFields, inputFields } from "@/constant/profile";
 import { ArrowDownIconSimple } from "@/assets/icons/ArrowDownIconSimple";
-import { Modal } from "@/components/ui/Modal";
+import Modal from "@/components/ui/Modal";
 import { ColorPicker } from "react-color-palette";
 import useModal from "@/hooks/useModal";
 import { BusinessProfile } from "./BusinessProfile";

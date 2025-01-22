@@ -38,8 +38,8 @@ export const RegisterAction = async (formData: FormData) => {
   const userReferralCode = generateReferralCode();
 
   if (signUpData?.user?.id) {
-    const { error: userProfileError } = await supabase
-      .from("userProfile")
+    const { error: userprofileError } = await supabase
+      .from("userprofile")
       .insert([
         {
           id: userId as string,
@@ -51,7 +51,7 @@ export const RegisterAction = async (formData: FormData) => {
       ])
       .select("id");
 
-    if (userProfileError) {
+    if (userprofileError) {
       return {
         success: false,
         message: "User Profile Creation Failed",
@@ -61,7 +61,7 @@ export const RegisterAction = async (formData: FormData) => {
   if (referralCode) {
     // Find the referrer by referral code
     const { data: referrer, error: referrerError } = await supabase
-      .from("userProfile")
+      .from("userprofile")
       .select("id")
       .eq("referralCode", referralCode)
       .single();
@@ -71,8 +71,8 @@ export const RegisterAction = async (formData: FormData) => {
       const { error: referralCreateError } = await supabase
         .from("referrals")
         .insert({
-          referrerId: referrer.id,
-          refereeId: userId, // Set the newly created user as the referee
+          referrer_id: referrer.id,
+          referee_id: userId, // Set the newly created user as the referee
         });
 
       if (referralCreateError) {
@@ -92,13 +92,11 @@ export const RegisterAction = async (formData: FormData) => {
     .from("subscriptions")
     .insert({
       user_id: userId,
-      userProfile_id: userId,
       status: "trial",
-      expiresAt: trialExpiration.toISOString(),
+      expired_at: trialExpiration.toISOString(),
       amount: 0, // Set the amount for the subscription, can be adjusted based on your pricing model
     })
-    .select("id");
-
+    .select("*");
   if (subscriptionCreateError) {
     return { message: "Failed to create subscription.", success: false };
   }

@@ -1,3 +1,4 @@
+"use client";
 import { EditIcon2 } from "@/assets/icons/EditIcon2";
 import { NairaIcon } from "@/assets/icons/NairaIcon";
 import {

@@ -2,7 +2,7 @@
 import { menuItems } from "@/constant/products";
 import Link from "next/link";
 import React from "react";
-import { UserProfile } from "@/app/actions/getUser";
+import { userprofile } from "@/app/actions/getUser";
 import { LogoutModal } from "./LogoutModal";
 import useModal from "@/hooks/useModal";
 
@@ -59,5 +59,5 @@ export const MoreLists = () => {
   );
 };
 interface props {
-  data: UserProfile;
+  data: userprofile;
 }

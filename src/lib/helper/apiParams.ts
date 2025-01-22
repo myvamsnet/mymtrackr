@@ -1,45 +1,46 @@
-export const apiParams = (values: ValuesProps) => {
+export const apiParams = (values: IApiParams) => {
   let url = ``;
   if (
     values.searchTerm !== null &&
     values.searchTerm !== "" &&
     values.searchTerm !== undefined
   ) {
-    url += `searchTerm=${values.searchTerm}`;
+    url += `&searchTerm=${values.searchTerm}`;
   }
+
   if (
     values.startDate !== null &&
     values.startDate !== "" &&
-    values.startDate !== undefined &&
-    values.startDate !== "Invalid Date"
+    values.startDate !== undefined
   ) {
-    url += `startDate=${values.startDate}`;
+    url += `&startDate=${values.startDate}`;
   }
   if (
     values.endDate !== null &&
     values.endDate !== "" &&
-    values.endDate !== undefined &&
-    values.endDate !== "Invalid Date"
+    values.endDate !== undefined
   ) {
-    url += `endDate=${values.endDate}`;
+    url += `&endDate=${values.endDate}`;
   }
   if (
-    values.yearlyRange !== null &&
-    values.yearlyRange !== "" &&
-    values.yearlyRange !== undefined
+    values.status !== null &&
+    values.status !== "" &&
+    values.status !== undefined &&
+    values.status !== "all"
   ) {
-    url += `year=${values.yearlyRange}`;
+    url += `&status=${values.status}`;
   }
-  if (values.type !== null && values.type !== undefined) {
-    url += `&type=${values.type}`;
+  if (values.page !== null && values.page !== undefined) {
+    url += `&page=${values.page}`;
   }
 
-  return url;
+  return { url };
 };
-export interface ValuesProps {
+
+interface IApiParams {
+  searchTerm?: string;
   startDate?: string;
   endDate?: string;
-  searchTerm?: string;
-  yearlyRange?: string;
-  type: "income" | "expense" | "payable" | "debtor";
+  status?: string;
+  page?: string;
 }

@@ -1,3 +1,4 @@
+import { responsedata } from "@/lib/helper/responseData";
 import { createClient } from "@/lib/supabse/server";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -19,7 +20,11 @@ export async function POST(req: NextRequest) {
         email: user?.email,
       });
       if (error) {
-        throw new Error(error?.message);
+        return responsedata({
+          success: false,
+          message: error?.message,
+          statusCode: 400,
+        });
       }
 
       return NextResponse.json({
@@ -28,6 +33,7 @@ export async function POST(req: NextRequest) {
       });
     }
   } catch (error: any) {
+    console.log(error.message);
     return NextResponse.json(
       {
         status: false,

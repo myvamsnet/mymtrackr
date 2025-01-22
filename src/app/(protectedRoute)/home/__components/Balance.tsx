@@ -2,8 +2,6 @@
 import { useState } from "react";
 import { currencyFormatter } from "@/lib/helper/currencyFormatter";
 import { SelectWorth } from "./SelectWorth";
-import { calculateWorth } from "@/lib/helper/calculateWorth";
-import { Records } from "@/types/records";
 import useRecordStore from "@/zustand/recordStore";
 import { Icons } from "@/assets/icons";
 import { User } from "@/types/auth";
@@ -22,7 +20,7 @@ const Balance = ({ user, data }: Props) => {
       <div className="flex justify-between px-2">
         <SelectWorth />
         <Link
-          href={"/referral-history?status=trial"}
+          href={"/referral-history?status=pending"}
           className="text-sm leading-[10px] text-primary font-medium bg-off-white rounded-lg px-3 py-px flex justify-center items-center"
         >
           Refer & Earn

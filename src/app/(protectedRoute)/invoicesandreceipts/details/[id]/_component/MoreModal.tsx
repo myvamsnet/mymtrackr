@@ -1,22 +1,22 @@
 import { Icons } from "@/assets/icons";
-import { Modal } from "@/components/ui/Modal";
-import useModal from "@/hooks/useModal";
+import Modal from "@/components/ui/Modal";
 import { Data } from "@/types/invoicesandreceipts";
 import Link from "next/link";
 import React from "react";
 import { useDeleteInvoiceAndReceipt } from "../../../hooks/useDeleteInvoiceAndReceipt";
 import { useUpdateInvoiceAndReceipt } from "../../hooks/useUpdateInvoiceAndReceipt";
 import { dateFormatter } from "@/lib/helper/dateFormatter";
+import { useConvertToRecord } from "../../hooks/useConvertToRecord";
 
-const MoreModal = ({ data }: Props) => {
-  const { onCancel, modal } = useModal();
+const MoreModal = ({ data, isOpen, onClose }: Props) => {
   const { deleteLoader, deleteMutation } = useDeleteInvoiceAndReceipt();
   const { mutate, isPending } = useUpdateInvoiceAndReceipt();
+  const { addConvertToRecord, isPending: loader } = useConvertToRecord();
   return (
     <Modal
       title="More"
-      isOpen={modal.isOpen && modal.type === "more"}
-      onClose={onCancel}
+      isOpen={isOpen}
+      onClose={onClose}
       className="p-4 "
       closeOutside={true}
     >
@@ -29,12 +29,6 @@ const MoreModal = ({ data }: Props) => {
         </div>
         <span className="font-normal text-sm text-dark">Edit Invoice</span>
       </Link>
-      <div className="flex items-center gap-1 py-4 border-b border-off-white-200 ">
-        <div className="h-8 w-8 bg-off-white flex justify-center items-center">
-          <Icons.DownloadIcon />
-        </div>
-        <span className="font-normal text-sm text-dark">Download Invoice</span>
-      </div>
       <button
         className="flex items-center gap-1 py-4 border-b border-off-white-200 "
         disabled={isPending}
@@ -44,6 +38,7 @@ const MoreModal = ({ data }: Props) => {
             type: data?.type === "invoices" ? "receipts" : ("invoices" as any),
             issueDate:
               dateFormatter(new Date().toDateString()) ?? data?.dueDate,
+            recordId: data?.record_id ?? "",
           })
         }
       >
@@ -58,18 +53,31 @@ const MoreModal = ({ data }: Props) => {
             : " Convert to invoice"}
         </span>
       </button>
-      <button className="flex items-center gap-1 py-4 border-b border-off-white-200 ">
-        <div className="h-8 w-8 bg-off-white flex justify-center items-center">
-          {data?.type === "invoices" ? (
-            <Icons.ArrowRightIcon />
-          ) : (
-            <Icons.ArrowDownIcon />
-          )}
-        </div>
-        <span className="font-normal text-sm text-dark capitalize">
-          {data?.type === "invoices" ? "Record as debtor" : "Record as Income"}
-        </span>
-      </button>
+      {!data?.record_id && (
+        <button
+          className="flex items-center gap-1 py-4 border-b border-off-white-200 "
+          onClick={() => {
+            addConvertToRecord(data);
+          }}
+          disabled={loader}
+        >
+          <div className="h-8 w-8 bg-off-white flex justify-center items-center">
+            {data?.type === "invoices" ? (
+              <Icons.ArrowRightIcon />
+            ) : (
+              <Icons.ArrowDownIcon />
+            )}
+          </div>
+          <span className="font-normal text-sm text-dark capitalize">
+            {loader
+              ? "Recording..."
+              : data?.type === "invoices"
+              ? "Record as debtor"
+              : "Record as Income"}
+          </span>
+        </button>
+      )}
+
       <button
         className="flex items-center gap-1 py-4 border-b border-off-white-200 "
         disabled={deleteLoader}
@@ -88,6 +96,8 @@ const MoreModal = ({ data }: Props) => {
 
 interface Props {
   data: Data;
+  onClose: () => void;
+  isOpen: boolean;
 }
 
 export default MoreModal;

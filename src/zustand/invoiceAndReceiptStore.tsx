@@ -76,6 +76,7 @@ export interface InvoiceAndReceiptData {
   user_id: string;
   business_id: string;
   type: InvoiceAndReceiptType;
+  recordId?: string;
 }
 
 export interface Item {

@@ -34,4 +34,5 @@ export interface Payload {
   note?: string;
   image?: string;
   type: "income" | "expense" | "payable" | "debtor";
+  invoicesAndReceiptsId?: string;
 }

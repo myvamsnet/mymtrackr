@@ -1,6 +1,7 @@
 import axiosInstance from "@/lib/axios";
 import { sortArray } from "@/lib/helper/sortData";
 import { Records, RecordsResponse } from "@/types/records";
+import { useFilterStore } from "@/zustand/useFilterStore";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useSearchParams } from "next/navigation";
@@ -11,12 +12,9 @@ interface RecordsPage {
 }
 
 const useInfiniteItems = () => {
-  const today = dayjs().add(1, "day");
-  const currentDate = dayjs().format("YYYY-MM-DD");
+  const { filter } = useFilterStore();
   const searchParam = useSearchParams();
-  const startDate = searchParam.get("startDate") ?? "";
-  const endDate = searchParam.get("endDate") ?? "";
-
+  const { startDate, endDate } = filter;
   const {
     data,
     error,
@@ -26,7 +24,7 @@ const useInfiniteItems = () => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery<RecordsPage>({
-    queryKey: ["records-infinite", startDate, endDate],
+    queryKey: ["records-infinite", startDate ?? "", endDate ?? ""],
     queryFn: async ({ pageParam = 0 }) => {
       const values = {
         startDate,

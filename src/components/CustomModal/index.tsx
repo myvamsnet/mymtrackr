@@ -20,6 +20,7 @@ export const CustomModal = ({
   content,
   children,
   onOpenChange,
+  logo = false,
   className = "hidden md:block font-inter text-base font-medium text-off-white-400 bg-primary rounded-full py-3 px-6",
 }: Props) => {
   return (
@@ -33,15 +34,18 @@ export const CustomModal = ({
         <Button className={className}>{btnText}</Button>
       </DialogTrigger>
       <DialogContent className="bg-white">
-        <div className="w-full justify-center items-center flex py-4">
-          <Image
-            src={"/images/logo.svg"}
-            alt="logo"
-            className="w-28"
-            width={112}
-            height={0}
-          />
-        </div>
+        {logo && (
+          <div className="w-full justify-center items-center flex py-4">
+            <Image
+              src={"/images/logo.svg"}
+              alt="logo"
+              className="w-28"
+              width={112}
+              height={0}
+            />
+          </div>
+        )}
+
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>
@@ -70,4 +74,5 @@ interface Props {
   content: string;
   btnText: React.ReactNode;
   className?: string;
+  logo?: boolean;
 }

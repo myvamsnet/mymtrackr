@@ -19,7 +19,7 @@ export const createRecordAction = async (formData: FormData) => {
 
   const userId = userData?.user?.id;
   if (!userId) {
-    return { success: false, message: "User not found" };
+    return { success: false, message: "Unauthorized" };
   }
 
   const payload = {

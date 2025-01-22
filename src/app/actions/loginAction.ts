@@ -1,91 +1,110 @@
 "use server";
 
-import { supabaseError } from "@/constant/systemError";
 import { createClient } from "@/lib/supabse/server";
-import dayjs from "dayjs";
 import { redirect } from "next/navigation";
+import dayjs from "dayjs";
 
-export const loginAction = async (formData: FormData) => {
+const ERROR_MESSAGES = {
+  MISSING_FIELDS: "Please provide all required fields",
+  INVALID_CREDENTIALS: "Invalid login credentials",
+  GENERAL_ERROR: "Something went wrong, please try again later",
+} as const;
+
+export async function loginAction(formData: FormData) {
   const supabase = createClient();
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
-  const validateUserError = "Invalid login credentials";
-  const generalErrorMessage = "Something went wrong, please try again later";
+
+  // Validate input
   if (!email || !password) {
-    return {
-      success: false,
-      message: "Please provide all required fields",
-    };
+    return { success: false, message: ERROR_MESSAGES.MISSING_FIELDS };
   }
 
-  let { data: loginData, error: loginError } =
-    await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+  // Attempt login
+  const {
+    data: { user },
+    error: loginError,
+  } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
   if (loginError) {
-    const errorMessage = supabaseError.includes(loginError?.code as string)
-      ? loginError.message
-      : "Something went wrong. Please try again.";
+    console.error("Login error:", loginError);
     return {
       success: false,
-      message: errorMessage,
+      message: loginError.message || ERROR_MESSAGES.GENERAL_ERROR,
     };
   }
 
-  const userId = loginData.user?.id;
+  // Check if user exists
+  if (!user) {
+    return {
+      success: false,
+      message: ERROR_MESSAGES.INVALID_CREDENTIALS,
+    };
+  }
 
-  // Step 2: Fetch the user with referrals and subscriptions
-  const { data: user, error: userError } = await supabase
+  // Fetch user profile
+  const { data: userDetails, error: userDetailsError } = await supabase
     .from("userprofile")
-    .select(
-      `
-      *,
-      subscriptions(expired_at)
-    `
-    )
-    .eq("id", userId)
+    .select(`*, subscriptions(*)`)
+    .eq("id", user.id)
     .single();
 
-  if (userError || !user) {
-    console.log(userError);
+  if (userDetailsError) {
+    console.error("User profile error:", userDetailsError);
+    return {
+      success: false,
+      message: ERROR_MESSAGES.GENERAL_ERROR,
+    };
+  }
+
+  // Update user profile using RPC
+  const updateLastActiveError = await supabase.rpc("update_user_last_active", {
+    update_user_id: user.id,
+    last_sign_in_at: user.last_sign_in_at,
+  });
+
+  if (updateLastActiveError.error) {
+    console.error("Update last active error:", updateLastActiveError.error);
     await supabase.auth.signOut();
     return {
       success: false,
-      message: validateUserError,
+      message: ERROR_MESSAGES.GENERAL_ERROR,
     };
   }
+  
+  // Update subscription status using RPC
+  const now = dayjs();
+  const subscriptionExpiryDate = dayjs(userDetails.subscriptions.expiresAt);
 
-  // Step 3: Check if the subscription exists and whether it has expired
-  if (user.subscriptions) {
-    const now = dayjs();
-
-    // Check if the subscription has expired
-    const subscriptionExpiryDate = dayjs(user.subscriptions.expired_at);
-    if (subscriptionExpiryDate.isBefore(now)) {
-      // If the subscription has expired, update its status to "expired"
-      const { error: updateError } = await supabase
-        .from("subscriptions")
-        .update({ status: "expired" })
-        .eq("user_id", user.id);
-
-      if (updateError) {
-        await supabase.auth.signOut();
-        return {
-          success: false,
-          message: generalErrorMessage,
-        };
+  if (subscriptionExpiryDate.isBefore(now)) {
+    const updateSubscriptionError = await supabase.rpc(
+      "update_subscription_status",
+      {
+        updated_user_id: user.id,
+        subscription_status: "expired",
       }
+    );
+
+    if (updateSubscriptionError.error) {
+      await supabase.auth.signOut();
+      console.error(
+        "Update subscription error:",
+        updateSubscriptionError.error
+      );
+      return {
+        success: false,
+        message: ERROR_MESSAGES.GENERAL_ERROR,
+      };
     }
   }
-  redirect("/home?login=success"); // Redirecting to the home page
-};
-interface ReferralsType {
-  refereeId: string;
-  referee: {
-    subscriptions: {
-      status: string;
-    };
-  };
+
+  // Redirect based on user role
+  if (userDetails.role === "admin") {
+    redirect("/admin/dashboard");
+  }
+
+  redirect("/home?login=success");
 }

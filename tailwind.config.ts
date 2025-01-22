@@ -1,13 +1,20 @@
 import type { Config } from "tailwindcss";
-
+const withMT = require("@material-tailwind/react/utils/withMT");
 const config: Config = {
   darkMode: ["class"],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}",
+    "./@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    colors: {
+      blue: {
+        "500": "#246BFD",
+      },
+    },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -30,6 +37,7 @@ const config: Config = {
           "200": "#808387",
           "300": "#3E3E4C",
           "400": "#1A1A1E",
+          "500": "#EFF2F7",
 
           DEFAULT: "#010114",
         },
@@ -73,4 +81,4 @@ const config: Config = {
   },
   plugins: [require("tailwindcss-animate")],
 };
-export default config;
+module.exports = withMT(config);

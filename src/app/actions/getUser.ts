@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabse/server";
+import { User } from "@/types/auth";
 import { revalidatePath } from "next/cache";
 
 export async function getUser() {
@@ -8,27 +9,23 @@ export async function getUser() {
   } = await supabase.auth.getUser();
 
   if (user?.id) {
-    const { data: userProfileData, error: userProfileError } = await supabase
-      .from("userProfile")
+    const { data: userprofileData, error: userprofileError } = await supabase
+      .from("userprofile")
       .select("*")
       .eq("id", user.id)
       .single();
 
-    if (userProfileError) {
+    if (userprofileError) {
       return {
         success: false,
         message: "User Profile Fetch Failed",
       };
     }
 
-    const data: UserProfile = {
-      id: userProfileData.id,
-      email: userProfileData.email,
-      fullName: userProfileData.fullName,
-      imageUrl: userProfileData.imageUrl,
-      phoneNumber: userProfileData.phoneNumber,
-      referralCode: userProfileData.referralCode,
-    };
+    const data = {
+      ...userprofileData,
+    } as User;
+
     revalidatePath("/home");
     return {
       success: true,
@@ -36,17 +33,18 @@ export async function getUser() {
     } as Payload;
   }
 }
-export interface UserProfile {
+export interface userprofile {
   id: string;
   email: string;
   fullName: string;
   imageUrl: string;
   phoneNumber: string;
   referralCode: string;
+  role: "admin" | "user";
 }
 
 export interface Payload {
   success: boolean;
   message?: string;
-  data?: UserProfile;
+  data?: userprofile;
 }

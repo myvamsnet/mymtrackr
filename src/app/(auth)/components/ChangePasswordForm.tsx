@@ -1,62 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { CustomInput } from "@/components/CustomInput";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { resetPassword, ResetPasswordType } from "@/lib/Schema/resetPassword";
-import toast from "react-hot-toast";
-import { useMutation } from "@tanstack/react-query";
 import AuthLayout from "./AuthLayout";
-import { resetPasswordAction } from "@/app/actions/resetPasswordAction";
-import { useSearchParams } from "next/navigation";
-import { createClient } from "@/lib/supabse/client";
+import useResetPassword from "../hook/useResetPassword";
 
 const ChangePasswordForm = () => {
-  const searchParams = useSearchParams();
-  const supabase = createClient();
-  const access_token = searchParams?.get("code") as string;
-
-  const { control, handleSubmit } = useForm<ResetPasswordType>({
-    defaultValues: {
-      newPassword: "",
-      confirmPassword: "",
-    },
-    resolver: zodResolver(resetPassword),
-  });
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (data: ResetPasswordType) => {
-      if (!access_token) return;
-      const user = await supabase?.auth?.setSession({
-        access_token,
-        refresh_token: "",
-      });
-      const formData = new FormData();
-      formData.append("password", data.newPassword);
-      formData.append("access_token", access_token);
-      const res = await resetPasswordAction(formData);
-      if (!res.success) {
-        throw new Error(res.message);
-      }
-
-      return res;
-    },
-    onSuccess: () => {
-      toast.success("Password reset successfully");
-    },
-    onError(error) {
-      if (
-        error?.message !== "" &&
-        error?.message == null &&
-        error.message !== undefined
-      ) {
-        return toast.error(error.message);
-      }
-    },
-  });
-  const onSubmit = (data: ResetPasswordType) => {
-    mutate(data);
-  };
-
+  const { control, handleSubmit, isPending, onSubmit } = useResetPassword();
   return (
     <AuthLayout
       title="Reset Password"
@@ -122,4 +71,5 @@ interface InputProps {
 interface Payload {
   newPassword: string;
   confirmPassword: string;
+  access_token: string;
 }

@@ -23,6 +23,12 @@ export interface User {
   referrals: any[]; // Assuming an array, define a specific type if needed
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
+  role: "user" | "admin";
+  last_active: string;
+  created_at: string;
+  bankName: string;
+  accountNumber: string;
+  accountName: string;
 }
 
 interface Subscription {
@@ -34,7 +40,7 @@ interface Subscription {
   updatedAt: string; // ISO date string
   amount: string;
 }
-export interface UserProfile {
+export interface userprofile {
   id: number;
   fullName: string;
   imageUrl: any;

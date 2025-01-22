@@ -1,12 +1,12 @@
 "use client";
 import { SubscriptionType } from "@/app/actions/getSubscription";
-import { UserProfile } from "@/app/actions/getUser";
+import { userprofile } from "@/app/actions/getUser";
 import { Button } from "@/components/ui/button";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 import axiosInstance from "@/lib/axios";
 import { currencyFormatter } from "@/lib/helper/currencyFormatter";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useSearchParams } from "next/navigation";
 import React, { Fragment, useEffect } from "react";
@@ -14,53 +14,35 @@ import toast from "react-hot-toast";
 
 export const SubDetails = ({ subscription, user }: Props) => {
   const searchParams = useSearchParams();
-  const paymentStatus = searchParams.get("status");
+  const reference = searchParams.get("reference");
   const tx_ref = searchParams.get("tx_ref");
   const transaction_id = searchParams.get("transaction_id");
   const { updateQueryParams } = useUpdateQuery();
 
   const { handleClickPayment, isPending } = useSubscription();
   const { data } = useQuery({
-    queryKey: ["subscription", paymentStatus, tx_ref],
+    queryKey: ["subscription", reference ?? ""],
     queryFn: () => {
-      if (!paymentStatus || !tx_ref || !transaction_id) return;
+      if (!reference) return;
       return axiosInstance
-        .get(
-          `/payment/verify?status=${paymentStatus}&tx_ref=${tx_ref}&transaction_id=${transaction_id}`
-        )
+        .get(`/payment/verify?reference=${reference}`)
         .then((res) => res.data);
     },
   });
 
   useEffect(() => {
     if (data?.message === "Subscription successful") {
-      updateQueryParams({ status: "", tx_ref: "", transaction_id: "" });
-      toast.success("Subscription successful");
+      updateQueryParams({ reference: "", trxref: "" });
+      toast.success(data?.message);
     }
   }, [data, updateQueryParams]);
 
-  const subscriptionInfo = [
-    {
-      label: "Free Tier",
-      value: dayjs(subscription?.created_at).format("ddd, MMM D, YYYY h:mm A"),
-      show: subscription?.status === "trial" ? true : false,
-    },
-    {
-      label: "Last Sub Date",
-      value: dayjs(subscription?.updated_at).format("ddd, MMM D, YYYY h:mm A"),
-    },
-    {
-      label: "Next Due Date",
-      value: dayjs(subscription?.expiresAt).format("ddd, MMM D, YYYY h:mm A"),
-    },
-    { label: "Status", value: subscription?.status, status: true },
-  ];
   return (
     <Fragment>
       <section className="bg-off-white-300 py-6 px-4 rounded-xl flex justify-center items-center text-center my-4">
         <div className="grid gap-6 w-[288px]">
           <h3 className="text-2xl font-semibold text-dark">
-            {currencyFormatter(3000)}
+            {currencyFormatter(subscription?.amount || 3000)}
             <span className="text-dark-100 text-base">/Year</span>
           </h3>
           <p className="text-sm font-normal text-dark-300">
@@ -84,7 +66,9 @@ export const SubDetails = ({ subscription, user }: Props) => {
           <div className="border-b border-[#F4F5F7] py-3 flex justify-between items-center">
             <p className="text-xs text-dark-100">Free Tier</p>
             <p className={`text-xs text-dark`}>
-              {dayjs(subscription?.expiresAt).format("ddd, MMM D, YYYY h:mm A")}
+              {dayjs(subscription?.expired_at).format(
+                "ddd, MMM D, YYYY h:mm A"
+              )}
             </p>
           </div>
         )}
@@ -98,7 +82,7 @@ export const SubDetails = ({ subscription, user }: Props) => {
         <div className="border-b border-[#F4F5F7] py-3 flex justify-between items-center">
           <p className="text-xs text-dark-100">Next Due Date</p>
           <p className={`text-xs text-dark`}>
-            {dayjs(subscription?.expiresAt).format("ddd, MMM D, YYYY h:mm A")}
+            {dayjs(subscription?.expired_at).format("ddd, MMM D, YYYY h:mm A")}
           </p>
         </div>
         <div className="border-b border-[#F4F5F7] py-3 flex justify-between items-center">
@@ -113,7 +97,7 @@ export const SubDetails = ({ subscription, user }: Props) => {
 };
 
 interface Props {
-  user: UserProfile;
+  user: userprofile;
   subscription: SubscriptionType;
 }
 interface SubscriptionPayload {

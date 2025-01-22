@@ -15,7 +15,6 @@ const DateRangeFilter = ({
   endDate,
   isMobile,
 }: IDateRangeFilterProps) => {
-  const [cookies] = useCookies(["i18next"]);
   const handleOnChange = (ranges: any) => {
     const { selection } = ranges;
     onChange(selection);
@@ -24,7 +23,6 @@ const DateRangeFilter = ({
     <DateRangePicker
       onChange={handleOnChange}
       showMonthAndYearPickers={true}
-      locale={cookies.i18next === "en" ? enUS : ja}
       months={1}
       rangeColors={["#246BFD"]}
       ranges={[
@@ -37,6 +35,7 @@ const DateRangeFilter = ({
       staticRanges={[]}
       inputRanges={[]}
       direction={isMobile ? "vertical" : "horizontal"}
+      className="!w-full flex justify-center items-center flex-col"
     />
   );
 };

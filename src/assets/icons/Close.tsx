@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export const Close = ({ ...res }) => {
   return (
@@ -20,9 +20,9 @@ export const Close = ({ ...res }) => {
         <path
           d="M21 11L11 21M11 11L21 21"
           stroke="#010114"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </>

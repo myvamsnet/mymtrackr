@@ -14,10 +14,7 @@ const AuthLayout = ({
   return (
     <main className="bg-white overflow-x-hidden w-full  pt-5">
       <section className="p-4 overflow-hidden  md:w-1/2 mx-auto w-full">
-        <Link
-          href={"/"}
-          className="w-full justify-center items-center flex"
-        >
+        <Link href={"/"} className="w-full justify-center items-center flex">
           <Image
             src={"/images/logo.svg"}
             alt="logo"
@@ -36,10 +33,7 @@ const AuthLayout = ({
           {path && authContent && (
             <p className="text-sm text-dark-200 my-6">
               {authContent}{" "}
-              <Link
-                href={path}
-                className="text-primary cursor-pointer"
-              >
+              <Link href={path} className="text-primary cursor-pointer">
                 {content}
               </Link>
             </p>

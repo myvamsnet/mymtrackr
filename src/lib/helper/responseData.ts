@@ -1,12 +1,25 @@
-export const responsedata = ({ status, message, data }: ResponseDataProps) => {
-  return {
-    status,
-    message,
-    data: data || null,
-  };
+import { NextResponse } from "next/server";
+
+export const responsedata = ({
+  success,
+  message,
+  data,
+  statusCode,
+}: ResponseDataProps) => {
+  return NextResponse.json(
+    {
+      success,
+      message,
+      data: data || null,
+    },
+    {
+      status: statusCode || 200,
+    }
+  );
 };
 interface ResponseDataProps {
-  status: string | number;
+  success: boolean;
   message: string;
   data?: any | null;
+  statusCode: number;
 }

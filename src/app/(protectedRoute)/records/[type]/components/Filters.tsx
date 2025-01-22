@@ -1,35 +1,40 @@
-'use client';
+"use client";
 
-import { CustomSearch } from '@/components/Search';
-import { selectByDate } from '@/constant/selectOptions';
-import { useDateFilter } from '@/hooks/useDateFilter';
-import { useForm } from 'react-hook-form';
-import { SearchableSelect } from '@/components/SearchableSelect';
-import { useEffect } from 'react';
+import { CustomSearch } from "@/components/Search";
+import { selectByDate } from "@/constant/selectOptions";
+import { SearchableSelect } from "@/components/SearchableSelect";
+import { DateRangeModal } from "@/components/DateRangeFilter/DateRangeModal";
+import { useDateFilter } from "@/hooks/useDateFilter";
+
+// Main Filters Component
 export const Filters = () => {
-  const { onChangeDate } = useDateFilter();
-  const { control, watch, setValue } = useForm({
-    defaultValues: {
-      filterDate: 'today',
-    },
-  });
-  const watchFramework = watch('filterDate');
-  useEffect(() => {
-    if (watchFramework) {
-      onChangeDate(watchFramework);
-    }
-    if (!watchFramework) {
-      setValue('filterDate', 'today');
-    }
-  }, [watchFramework, onChangeDate, setValue]);
+  const {
+    handleSubmitDate,
+    control,
+    initialDateFilter,
+    show,
+    watchFilterDate,
+    toggle,
+  } = useDateFilter();
+
   return (
-    <div className="grid lg:grid-cols-2 gap-4 grid-cols-1">
-      <CustomSearch />
-      <SearchableSelect
-        name="filterDate"
-        control={control}
-        options={selectByDate}
+    <>
+      <div className="grid lg:grid-cols-2 gap-4 grid-cols-1">
+        <CustomSearch />
+        <SearchableSelect
+          name="filterDate"
+          control={control}
+          options={selectByDate}
+        />
+      </div>
+
+      {/* Reusable Date Range Modal */}
+      <DateRangeModal
+        isOpen={show && watchFilterDate === "custom"}
+        onClose={toggle}
+        initialDateFilter={initialDateFilter}
+        onSubmit={handleSubmitDate}
       />
-    </div>
+    </>
   );
 };

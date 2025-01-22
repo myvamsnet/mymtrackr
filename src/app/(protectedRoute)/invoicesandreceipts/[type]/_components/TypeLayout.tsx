@@ -21,15 +21,13 @@ export const TypeLayout = ({ children }: Props) => {
         leftElement={
           <Link
             href={
-              businessData?.id
-                ? `/settings/business/${businessData?.id}`
-                : `/settings/business}`
+              businessData?.id ? `/settings/business/${businessData?.id}` : ``
             }
           >
             <SettingsIcon />
           </Link>
         }
-        url="/invoicesandreceipts/invoices"
+        url="/records"
       />
       {children}
       <AddNewLayout path={`/invoicesandreceipts/create/${type}`} />

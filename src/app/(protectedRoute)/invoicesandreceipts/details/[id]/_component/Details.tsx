@@ -16,10 +16,25 @@ import { Dots } from "@/assets/icons/Dots";
 import PreviewDetails from "./PreviewDetails";
 import MoreModal from "./MoreModal";
 import { useFetch } from "@/hooks/useFetch";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import CustomLoader from "@/components/CustomLoader/page";
+import { useUpdateQuery } from "@/hooks/useUpdateQuery";
+import useInvoiceAndReceiptStore, {
+  InvoiceAndReceiptData,
+} from "@/zustand/invoiceAndReceiptStore";
 
 export const Details = () => {
+  const { setInvoiceAndReceipt } = useInvoiceAndReceiptStore();
+  const { onConfirm, modal } = useModal();
+  const { updateQueryParams } = useUpdateQuery();
+  const searchParams = useSearchParams();
+
+  const type = searchParams.get("type");
+  const handleClose = () => {
+    updateQueryParams({
+      type: "",
+    });
+  };
   const { id } = useParams() as {
     id: string;
   };
@@ -28,8 +43,6 @@ export const Details = () => {
     id,
     "invoicesandreceipts"
   );
-
-  const { onConfirm, modal } = useModal();
 
   const invoicesAndReceiptData = data?.data as Data;
   if (status === "pending" && !invoicesAndReceiptData) {
@@ -46,12 +59,11 @@ export const Details = () => {
         leftElement={
           <Dots
             className="cursor-pointer"
-            onClick={() =>
-              onConfirm({
-                type: "more",
-                isOpen: true,
-              })
-            }
+            onClick={() => {
+              updateQueryParams({
+                type: "open",
+              });
+            }}
           />
         }
         url={`/invoicesandreceipts/${invoicesAndReceiptData?.type}`}
@@ -154,27 +166,31 @@ export const Details = () => {
           </div>
         </section>
 
-        <section className="bg-off-white-300 p-4 flex gap-3 justify-between mt-6 md:sticky fixed bottom-0 left-0 w-full">
+        <section className="bg-off-white-300 p-4 flex gap-3 justify-end mt-6 md:sticky fixed bottom-0 left-0 w-full">
           <Button
             variant={"outline"}
             className="py-[14px] px-[10px] w-[93px] h-[45px] transition-all ease-out duration-300 "
-            onClick={() =>
+            onClick={() => {
               onConfirm({
                 type: "preview",
                 isOpen: true,
-              })
-            }
+              });
+              setInvoiceAndReceipt(
+                invoicesAndReceiptData as InvoiceAndReceiptData
+              );
+            }}
           >
             Preview
-          </Button>
-          <Button className="py-[14px] px-[10px] w-[183px] h-[45px] transition-all ease-out duration-300 ">
-            Share
           </Button>
         </section>
       </section>
       <PreviewDetails list={invoicesAndReceiptData} />
-      {modal?.isOpen === true && modal.type === "more" && (
-        <MoreModal data={invoicesAndReceiptData} />
+      {invoicesAndReceiptData && type === "open" && (
+        <MoreModal
+          data={invoicesAndReceiptData}
+          isOpen={Boolean(type === "open")}
+          onClose={handleClose}
+        />
       )}
     </main>
   );

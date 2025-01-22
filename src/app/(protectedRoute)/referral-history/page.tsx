@@ -1,8 +1,7 @@
 import { getUser } from "@/app/actions/getUser";
 import { CustomHeader } from "@/components/CustomHeader";
-import { UserResponse } from "@/types/auth";
+import { User, UserResponse } from "@/types/auth";
 import ReferralCodeUi from "./components/ReferralCodeUi";
-import { userReferrals } from "@/app/actions/userReferrals";
 import { SubscriptionType } from "@/app/actions/getSubscription";
 import { FC } from "react";
 import { Button } from "@/components/ui/button";
@@ -25,21 +24,10 @@ const Page: FC = async () => {
     // Fetch user data
     const user = (await getUser()) as UserResponse;
 
-    // Fetch user referrals if user data exists
-    const getUserReferrals = user?.data?.id
-      ? await userReferrals(user.data.id)
-      : { data: [] };
-
     return (
       <main className="container mx-auto md:max-w-[700px] bg-[#F1F5FD] overflow-y-auto overflow-x-hidden h-screen relative">
-        <CustomHeader
-          title="Refer & Earn"
-          link="/more"
-        />
-        <ReferralCodeUi
-          referralCode={user?.data?.referralCode || ""}
-          userReferrals={getUserReferrals.data as RefereeEntry[]}
-        />
+        <CustomHeader title="Refer & Earn" link="/home" />
+        <ReferralCodeUi user={user?.data as User} />
       </main>
     );
   } catch (error) {

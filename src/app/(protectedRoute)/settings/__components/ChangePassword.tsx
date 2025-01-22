@@ -7,6 +7,8 @@ import { resetPassword, ResetPasswordType } from "@/lib/Schema/resetPassword";
 import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "@/lib/axios";
 import { handleError } from "@/lib/helper/handleError";
+import toast from "react-hot-toast";
+
 const ChangePassword = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: async (payload: ResetPasswordType) => {
@@ -14,7 +16,11 @@ const ChangePassword = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      console.log(data);
+      
+      if (data.status) {
+        toast.success(data.message);
+        reset();
+      }
     },
     onError: handleError,
   });

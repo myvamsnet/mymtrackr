@@ -1,6 +1,6 @@
 import axiosInstance from "@/lib/axios";
+import { apiParams } from "@/lib/helper/apiParams";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
-
 import { AxiosResponse } from "axios";
 import { useSearchParams } from "next/navigation";
 
@@ -13,18 +13,24 @@ export const useFetch = <T = AxiosResponse,>(
   const searchParams = useSearchParams();
 
   const values = {
-    status: searchParams.get("view") as string,
+    status: searchParams.get("status") as string,
     searchTerm: searchParams.get("searchTerm") as string,
     page: searchParams.get("page") as string,
     startDate: searchParams.get("startDate") as string,
     endDate: searchParams.get("endDate") as string,
-    category: searchParams.get("category") as string,
-    userType: searchParams.get("userType") as string,
   };
   const controller = new AbortController();
   const fetchData = async () => {
     if (param) {
       const { data } = await axiosInstance.get(`${endpoint}/${param}`, {
+        signal: controller.signal,
+      });
+      return data;
+    }
+
+    if (queryParam) {
+      const { url } = apiParams(values);
+      const { data } = await axiosInstance.get(`${endpoint}?${url}`, {
         signal: controller.signal,
       });
       return data;
@@ -43,7 +49,6 @@ export const useFetch = <T = AxiosResponse,>(
       values.searchTerm ?? "",
       values?.startDate ?? "",
       values?.endDate ?? "",
-      values?.category ?? "",
     ],
     queryFn: fetchData,
   });

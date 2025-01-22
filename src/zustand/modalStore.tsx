@@ -32,19 +32,20 @@ interface ModalStore {
 
 export interface ModalStoreState {
   isOpen: boolean;
-  type:
-    | "signUp"
-    | "signIn"
-    | "forgotPassword"
-    | "editRecord"
-    | "reset-password"
-    | "conform-otp"
-    | "change-password"
-    | "setNewPassword"
-    | "confirmEmail"
-    | "logout"
-    | "preview"
-    | "more"
-    | "default"
-    | "deliveryFee";
+  type: ModalType;
 }
+export type ModalType =
+  | "signUp"
+  | "signIn"
+  | "forgotPassword"
+  | "editRecord"
+  | "reset-password"
+  | "conform-otp"
+  | "change-password"
+  | "setNewPassword"
+  | "confirmEmail"
+  | "logout"
+  | "preview"
+  | "more"
+  | "default"
+  | "deliveryFee";

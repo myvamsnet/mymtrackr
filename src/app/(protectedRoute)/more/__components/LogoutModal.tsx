@@ -1,5 +1,6 @@
 "use client";
-import { Modal } from "@/components/ui/Modal";
+
+import Modal from "@/components/ui/Modal";
 import { useLogout } from "@/hooks/useLogout";
 import useModal from "@/hooks/useModal";
 

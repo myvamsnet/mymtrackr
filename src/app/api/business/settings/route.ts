@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
   const userInfo = await supabaseApi?.auth?.getUser();
   try {
     if (!userInfo?.data?.user?.id)
-      return NextResponse.json({ error: "User Not Found" }, { status: 500 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 500 });
 
     const payload: BusinessSettingFormData = await req.json();
 
@@ -50,7 +50,7 @@ export async function GET() {
   const userInfo = await supabaseApi?.auth?.getUser();
   try {
     if (!userInfo?.data?.user?.id)
-      return NextResponse.json({ error: "User Not Found" }, { status: 500 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 500 });
     const { data, error } = await supabaseApi
       .from("businessProfile")
       .select("*")

@@ -1,7 +1,6 @@
 "use client";
 import axiosInstance from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
-
 import { useGetUser } from "./useGetUser";
 import toast from "react-hot-toast";
 
@@ -23,7 +22,7 @@ export const useSubscription = () => {
     const { checkoutUrl } = await mutateAsync({
       email: user.email,
       fullName: user.fullName,
-      redirect_url: `${redirect_url}/app/subscription`,
+      redirect_url: `${redirect_url}/subscription`,
     });
     window.location.href = checkoutUrl;
   };

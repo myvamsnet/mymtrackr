@@ -1,3 +1,4 @@
+"use client"
 import { useGetUser } from "@/hooks/useGetUser";
 import useModal from "@/hooks/useModal";
 import { useRedirect } from "@/hooks/useRedirect";
@@ -147,6 +148,7 @@ export const useInvoiceAndReceipt = () => {
       if (data.success) {
         clearInvoiceAndReceipt();
         toast.success(data?.message);
+        onCancel();
         redirect(`/invoicesandreceipts/${data?.data?.type}`);
       }
     },
@@ -155,6 +157,8 @@ export const useInvoiceAndReceipt = () => {
 
   const onSubmit = (values: InvoiceAndReceiptSchemaSchemaType) => {
     if (!user?.id && !businessData?.id) return;
+
+    if (values?.items.length === 0) return toast.error("Items cannot be empty");
     const payload = {
       issueDate: dayjs(values?.issueDate).format("dddd, MMMM D, YYYY h:mm A"),
       dueDate: dayjs(values?.dueDate).format("dddd, MMMM D, YYYY h:mm A"),
@@ -166,7 +170,6 @@ export const useInvoiceAndReceipt = () => {
       business_id: businessData?.id,
       type: params?.add as InvoiceAndReceiptType,
     } as InvoiceAndReceiptData;
-
     setInvoiceAndReceipt(payload);
     onConfirm({
       type: "preview",
@@ -190,6 +193,7 @@ export const useInvoiceAndReceipt = () => {
       results.delivery as string
     )
   );
+
   return {
     onSubmit,
     watch,

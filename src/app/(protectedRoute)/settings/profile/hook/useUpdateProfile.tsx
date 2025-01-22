@@ -1,4 +1,5 @@
 "use client";
+
 import { updateProfileAction } from "@/app/actions/updateUserProfileAction";
 import { cloudinary_preset } from "@/constant/path";
 import { useUploadImage } from "@/hooks/useUploadImage";

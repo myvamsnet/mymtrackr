@@ -12,7 +12,6 @@ export const DataNotFound = ({ message = "Records" }: Props) => {
           alt="RecordsNotFound"
           height={171}
           width={247}
-          layout="responsive"
         />
         <h4 className="font-semibold text-sm text-[#34343F] pt-2 h-auto w-auto capitalize">
           No {message} Yet!

@@ -4,14 +4,14 @@ import { sortArray } from "@/lib/helper/sortData";
 import { useParams, useSearchParams } from "next/navigation";
 import axiosInstance from "@/lib/axios";
 import { Records } from "@/types/records";
+import { useFilterStore } from "@/zustand/useFilterStore";
 
 export const useGetRecordByType = () => {
   const searchParam = useSearchParams();
   const searchTerm = searchParam.get("searchTerm");
   const { type } = useParams();
-  const startDate = searchParam.get("startDate") ?? "";
-  const endDate = searchParam.get("endDate") ?? "";
-
+  const { filter } = useFilterStore();
+  const { startDate, endDate } = filter;
   const values = {
     startDate,
     endDate,

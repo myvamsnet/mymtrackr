@@ -1,16 +1,16 @@
-'use client';
-import { useEffect, useState, useMemo } from 'react';
-import { useUpdateQuery } from './useUpdateQuery';
-import { useSearchParams } from 'next/navigation';
+"use client";
+import { useEffect, useState, useMemo } from "react";
+import { useUpdateQuery } from "./useUpdateQuery";
+import { useSearchParams } from "next/navigation";
 
 export const useYearFilter = () => {
   const searchParams = useSearchParams();
-  const year = searchParams.get('year') || '';
-  const month = searchParams.get('month') || '';
+  const year = searchParams.get("year") || "";
+  const month = searchParams.get("month") || "";
 
   const currentDate = new Date();
   const currentYear = String(currentDate.getFullYear());
-  const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const currentMonth = String(currentDate.getMonth() + 1).padStart(2, "0");
 
   const [filter, setFilter] = useState({ year, month });
   const { updateQueryParams } = useUpdateQuery();
@@ -31,12 +31,15 @@ export const useYearFilter = () => {
     }
   }, [currentYear, currentMonth, year, month, updateQueryParams]);
 
-  const yearOptions = [{ value: '2024', label: '2024' }];
+  const yearOptions = [
+    { value: "2024", label: "2024" },
+    { value: "2025", label: "2025" },
+  ];
   const monthOptions = [
-    { value: 'all', label: 'All' },
+    { value: "all", label: "All" },
     ...Array.from({ length: 12 }, (_, i) => ({
-      value: String(i + 1).padStart(2, '0'),
-      label: new Date(0, i).toLocaleString('default', { month: 'long' }),
+      value: String(i + 1).padStart(2, "0"),
+      label: new Date(0, i).toLocaleString("default", { month: "long" }),
     })),
   ];
 

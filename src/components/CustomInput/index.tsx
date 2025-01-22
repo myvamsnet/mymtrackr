@@ -40,7 +40,7 @@ export const CustomInput: FC<CustomInputProps> = ({
 
   const valid = ["text", "number", "email", "password"];
   return (
-    <div className="grid gap-2">
+    <div className="space-y-2">
       <label
         htmlFor={name}
         className={` text-sm font-normal text-dark-300 ${labelClassName}`}
@@ -54,6 +54,7 @@ export const CustomInput: FC<CustomInputProps> = ({
           }`}
         >
           <input
+            autoComplete="off"
             id={name}
             type={showPassword ? "text" : type}
             {...field}
@@ -112,10 +113,7 @@ export const CustomInput: FC<CustomInputProps> = ({
           </SelectTrigger>
           <SelectContent>
             {options?.map((option) => (
-              <SelectItem
-                key={option.value}
-                value={option.value}
-              >
+              <SelectItem key={option.value} value={option.value}>
                 {option.label}
               </SelectItem>
             ))}

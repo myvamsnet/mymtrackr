@@ -4,6 +4,8 @@ import Image from "next/image";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { blogs } from "@/constant/help";
+import { ContentProps } from "../page";
+import ReactPlayer from "react-player";
 
 export interface Artwork {
   artist: string;
@@ -25,35 +27,31 @@ export const works: Artwork[] = [
   },
 ];
 
-export function BlogsCarousel() {
+export const BlogsCarousel: React.FC<Props> = ({ contents }) => {
   return (
     <ScrollArea className="w-full whitespace-nowrap">
       <div className="flex w-max space-x-4 p-4">
-        {blogs.map((blog) => (
-          <figure
-            key={blog.title}
-            className="shrink-0"
-          >
-            <div className="overflow-hidden rounded-md">
-              <Image
-                src={"/images/welcome-mtrackr.svg"}
-                alt={`Photo by ${blog.title}`}
-                className=" h-[106px] w-fit object-cover"
-                width={300}
-                height={400}
-              />
-            </div>
-            <figcaption className="text-sm leading-5 font-inter font-normal text-[#3E3E4C]  break-words py-3 flex">
-              {`${
-                blog.title.length > 30
-                  ? blog.title.slice(0, 30) + "..."
-                  : blog.title
-              }`}
-            </figcaption>
-          </figure>
-        ))}
+        {contents &&
+          contents?.length > 0 &&
+          contents?.map((blog) => (
+            <figure key={blog.title} className="shrink-0">
+              <div className="overflow-hidden rounded-md">
+                <ReactPlayer url={blog?.link} width={300} height={224} />
+              </div>
+              <figcaption className="text-sm leading-5 font-inter font-normal text-[#3E3E4C]  break-words py-3 flex">
+                {`${
+                  blog.title.length > 30
+                    ? blog.title.slice(0, 30) + "..."
+                    : blog.title
+                }`}
+              </figcaption>
+            </figure>
+          ))}
       </div>
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
   );
+};
+interface Props {
+  contents: ContentProps[];
 }

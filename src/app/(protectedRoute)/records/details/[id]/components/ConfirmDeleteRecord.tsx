@@ -1,57 +1,55 @@
 "use client";
-import { deleteRecord } from "@/app/actions/deleteRecord";
+import { CustomDialog } from "@/components/CustomDialog";
+
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { useRedirect } from "@/hooks/useRedirect";
+import axiosInstance from "@/lib/axios";
+import { handleError } from "@/lib/helper/handleError";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 export function ConfirmDeleteRecord({ id }: ConfirmDeleteRecordProps) {
+  const redirect = useRedirect();
+  const [isOpen, setIsOpen] = useState(false);
   const { mutate, isPending } = useMutation({
     mutationFn: async (id: string) => {
-      const res = await deleteRecord(id);
-      return res;
+      const { data } = await axiosInstance.delete(`/records/${id}`);
+      return data;
     },
+    onSuccess: (data) => {
+      if (data?.success) {
+        toast.success("Record Deleted Successfully");
+        window.location.href = "/home";
+      }
+    },
+    onError: handleError,
   });
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button className="bg-red-500 hover:bg-red-400 text-white">
-          Delete Record
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="w-[90%] lg:w-full">
-        <DialogHeader>
-          <DialogTitle>Confirm Record Deletion</DialogTitle>
-          <DialogDescription className="text-red-500 text-xs my-3">
-            Are you sure you want to delete this record? This action cannot be
-            undone.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4 grid-cols-2">
-          <DialogClose className="w-full">
-            <Button
-              variant="outline"
-              className="bg-white border w-full border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-            >
-              Cancel
-            </Button>
-          </DialogClose>
+    <CustomDialog
+      isOpen={isOpen}
+      toggle={(open) => setIsOpen(open)}
+      buttonText=" Delete Record"
+      title="Confirm Record Deletion"
+      subTitle=" Are you sure you want to delete this record? This action cannot be  undone."
+      btnClassName="bg-red-500 hover:bg-red-400 text-white outline-none"
+      subTitleClassName="text-red-500 text-xs my-3"
+    >
+      <div className="grid gap-4 py-4 grid-cols-2">
+        <DialogClose className="w-full">
           <Button
-            onClick={() => mutate(id)}
-            disabled={isPending ? true : false}
+            variant="outline"
+            className="bg-white border w-full border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
           >
-            {isPending ? "Deleting..." : "Confirm"}
+            Cancel
           </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+        </DialogClose>
+        <Button onClick={() => mutate(id)} disabled={isPending ? true : false}>
+          {isPending ? "Deleting..." : "Confirm"}
+        </Button>
+      </div>
+    </CustomDialog>
   );
 }
 interface ConfirmDeleteRecordProps {
