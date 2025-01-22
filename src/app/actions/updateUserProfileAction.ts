@@ -1,10 +1,8 @@
 "use server";
-import { cloudinary_url } from "@/constant/path";
+
 import { createClient } from "@/lib/supabse/server";
 import { uploadImageToCloudinary } from "@/lib/uploadImageToCloudinary";
-import axios from "axios";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export const updateProfileAction = async (formData: FormData) => {
   const email = formData.get("email") as string;
@@ -25,7 +23,7 @@ export const updateProfileAction = async (formData: FormData) => {
   if (!user?.data?.user?.id) {
     return {
       success: false,
-      error: "User not found",
+      error: "Unauthorized",
     };
   }
 
@@ -47,7 +45,7 @@ export const updateProfileAction = async (formData: FormData) => {
     }
 
     const { data, error } = await supabaseApi
-      .from("userProfile")
+      .from("userprofile")
       .update(updateData)
       .eq("email", email)
       .eq("id", user.data.user.id)
@@ -58,7 +56,7 @@ export const updateProfileAction = async (formData: FormData) => {
       return { success: false, error: "Failed to update profile" };
     }
 
-    revalidatePath("/app/home");
+    revalidatePath("/home");
     return { success: true, data };
   } catch (error) {
     return {

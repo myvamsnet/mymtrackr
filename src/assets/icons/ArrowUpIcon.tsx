@@ -1,24 +1,22 @@
 export const ArrowUpIcon = ({
-  fill = "#F1F5FD",
-  stroke = "#3E3E4C",
-  width = "18",
-  height = "19",
+  color = "#880606",
+  width = "14",
+  height = "14",
   ...props
 }) => {
   return (
     <>
       <svg
-        width="18"
-        height="19"
-        viewBox="0 0 18 19"
+        width={width}
+        height={height}
+        viewBox="0 0 13 13"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         {...props}
       >
-        <rect width="18" height="18" transform="translate(0 0.5)" fill={fill} />
         <path
-          d="M9 14.75V4.25M9 4.25L3.75 9.5M9 4.25L14.25 9.5"
-          stroke={stroke}
+          d="M6.5 11.75V1.25M6.5 1.25L1.25 6.5M6.5 1.25L11.75 6.5"
+          stroke={color}
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"

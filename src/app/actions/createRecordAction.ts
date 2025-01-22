@@ -19,7 +19,7 @@ export const createRecordAction = async (formData: FormData) => {
 
   const userId = userData?.user?.id;
   if (!userId) {
-    return { success: false, message: "User not found" };
+    return { success: false, message: "Unauthorized" };
   }
 
   const payload = {
@@ -49,7 +49,7 @@ export const createRecordAction = async (formData: FormData) => {
     if (error) {
       return { success: false, message: "Failed to create record" };
     }
-    revalidatePath("/app/home");
+    revalidatePath("/home");
     return { success: true, data };
   } catch (error) {
     return {

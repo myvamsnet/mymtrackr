@@ -1,60 +1,60 @@
-import { Icons } from '@/assets/icons';
+import { Icons } from "@/assets/icons";
 
 export const routes = [
   {
-    name: 'Home',
-    path: '/home',
+    name: "Home",
+    path: "/home",
     icon: Icons.HomeIcon,
   },
   {
-    name: 'Records',
-    path: '/records',
+    name: "Records",
+    path: "/records",
     icon: Icons.RecordIcon,
   },
   {
-    name: 'Add Record',
-    path: '#',
+    name: "Add Record",
+    path: "#",
     icon: Icons.PlusIcon,
-    type: 'button',
+    type: "button",
   },
   {
-    name: 'Help',
-    path: '/help',
+    name: "Help",
+    path: "/help",
     icon: Icons.HelpIcon,
   },
   {
-    name: 'More',
-    path: '/more',
+    name: "More",
+    path: "/more",
     icon: Icons.MoreIcon,
   },
 ];
 
 export const sidebarRoutes = [
   {
-    name: 'Home',
-    path: '/app/home',
+    name: "Home",
+    path: "/home",
     icon: Icons.HomeIcon,
   },
   {
-    name: 'Records',
-    path: '/app/records',
+    name: "Records",
+    path: "/records",
     icon: Icons.RecordIcon,
   },
 
   {
-    name: 'Help',
-    path: '/app/help',
+    name: "Help",
+    path: "/help",
     icon: Icons.HelpIcon,
   },
   {
-    name: 'More',
-    path: '/app/more',
+    name: "More",
+    path: "/more",
     icon: Icons.MoreIcon,
   },
   {
-    name: 'Add Record',
-    path: '#',
+    name: "Add Record",
+    path: "#",
     icon: Icons.PlusIcon,
-    type: 'button',
+    type: "button",
   },
 ];

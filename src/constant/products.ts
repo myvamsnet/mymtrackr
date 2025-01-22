@@ -4,6 +4,7 @@ import { ArrowLeftIcon } from "@/assets/icons/ArrowLeftIcon";
 import { ArrowRightIcon } from "@/assets/icons/ArrowRightIcon";
 import { ArrowUpIcon } from "@/assets/icons/ArrowUpIcon";
 import { DiamondIcon } from "@/assets/icons/DiamondIcon";
+import { LogoutIcon } from "@/assets/icons/LogoutIcon";
 
 import { NoteIcon } from "@/assets/icons/NoteIcon";
 import { ReferalIcon } from "@/assets/icons/ReferalIcon";
@@ -76,7 +77,7 @@ export const menuItems = [
     icon: DiamondIcon,
     text: "Subscription",
     textColor: "text-dark",
-    link: "/app/subscription",
+    link: "/subscription",
   },
   {
     icon: WhatsAppIcon,
@@ -89,20 +90,25 @@ export const menuItems = [
     icon: AnalyticsIcon,
     text: "Business Analytics",
     textColor: "text-dark",
-    link: "/app/analytics",
+    link: "/analytics",
   },
   {
     icon: ReferalIcon,
     text: "Earn with Referal",
     textColor: "text-dark",
-    link: "/app/referral-history",
+    link: "/referral-history?status=trial",
   },
 
   {
     icon: SettingsIcon,
     text: "Settings",
     textColor: "text-dark",
-    link: "/app/settings",
+    link: "/settings",
+  },
+  {
+    icon: LogoutIcon,
+    text: "logout",
+    textColor: "text-danger",
   },
 ];
 

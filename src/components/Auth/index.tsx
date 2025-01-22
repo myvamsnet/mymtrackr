@@ -1,4 +1,4 @@
-import { Modal } from "@/components/ui/Modal";
+import Modal from "@/components/ui/Modal";
 
 import Image from "next/image";
 const AuthWrapper = ({
@@ -11,7 +11,11 @@ const AuthWrapper = ({
   children,
 }: AuthWrapperProps) => {
   return (
-    <Modal isOpen={isOpen} onClose={onCancel} closeOutside={true}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onCancel}
+      closeOutside={true}
+    >
       <section className="p-4 overflow-hidden">
         <div className="w-full justify-center items-center flex">
           <Image
@@ -26,7 +30,10 @@ const AuthWrapper = ({
           <h1 className="text-2xl font-bold text-dark">{title}</h1>
           <p className="text-sm text-dark-200">
             {subTitle}{" "}
-            <button className="text-primary cursor-pointer" onClick={onConfirm}>
+            <button
+              className="text-primary cursor-pointer"
+              onClick={onConfirm}
+            >
               {content}
             </button>
           </p>

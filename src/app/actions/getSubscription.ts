@@ -40,8 +40,8 @@ export interface SubscriptionType {
   plan_id: string;
   status: "trial" | "active";
   amount: number;
-  userProfile_id: string;
-  expiresAt: string;
+  userprofile_id: string;
+  expired_at: string;
   created_at: string;
   updated_at: string;
 }

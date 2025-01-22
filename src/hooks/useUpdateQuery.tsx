@@ -10,7 +10,7 @@ export const useUpdateQuery = () => {
       const currentParams = new URLSearchParams(window.location.search);
 
       for (const [key, value] of Object.entries(newParams)) {
-        if (value === "" || value == "all" || value === "Filter Products By") {
+        if (value === "" || value === "Filter Products By") {
           delete newParams[key]; // Use delete to remove the key from newParams
           currentParams.delete(key); // Delete the parameter if the value is empty
         } else {

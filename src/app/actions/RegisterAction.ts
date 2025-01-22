@@ -1,5 +1,6 @@
 "use server";
 
+import { supabaseError } from "@/constant/systemError";
 import { generateReferralCode } from "@/lib/helper/generateReferralCode";
 import { createClient } from "@/lib/supabse/server";
 import { redirect } from "next/navigation";
@@ -17,25 +18,28 @@ export const RegisterAction = async (formData: FormData) => {
       message: "Please provide all required fields",
     };
   }
-  let { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+  const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
     email,
     password,
   });
-
   if (signUpError) {
+    const errorMessage = supabaseError.includes(signUpError?.code as string)
+      ? signUpError.message
+      : "Something went wrong. Please try again.";
     return {
       success: false,
-      message: "Something wrent wrong , Try Again later",
+      message: errorMessage,
     };
   }
-  // // Get the newly created user ID
+
+  // Get the newly created user ID
   const userId = signUpData.user?.id;
   // Generate a referral code for the new user
   const userReferralCode = generateReferralCode();
 
   if (signUpData?.user?.id) {
-    const { error: userProfileError } = await supabase
-      .from("userProfile")
+    const { error: userprofileError } = await supabase
+      .from("userprofile")
       .insert([
         {
           id: userId as string,
@@ -45,10 +49,9 @@ export const RegisterAction = async (formData: FormData) => {
           referralCode: userReferralCode, // Store the referral code in the User table
         },
       ])
-      .select("*")
-      .single();
+      .select("id");
 
-    if (userProfileError) {
+    if (userprofileError) {
       return {
         success: false,
         message: "User Profile Creation Failed",
@@ -58,8 +61,8 @@ export const RegisterAction = async (formData: FormData) => {
   if (referralCode) {
     // Find the referrer by referral code
     const { data: referrer, error: referrerError } = await supabase
-      .from("userProfile")
-      .select("*")
+      .from("userprofile")
+      .select("id")
       .eq("referralCode", referralCode)
       .single();
 
@@ -68,8 +71,8 @@ export const RegisterAction = async (formData: FormData) => {
       const { error: referralCreateError } = await supabase
         .from("referrals")
         .insert({
-          referrerId: referrer.id,
-          refereeId: userId, // Set the newly created user as the referee
+          referrer_id: referrer.id,
+          referee_id: userId, // Set the newly created user as the referee
         });
 
       if (referralCreateError) {
@@ -85,23 +88,19 @@ export const RegisterAction = async (formData: FormData) => {
   const trialExpiration = new Date();
   trialExpiration.setDate(trialExpiration.getDate() + 14);
 
-  const { error: subscriptionCreateError, data: subscriptionsData } =
-    await supabase
-      .from("subscriptions")
-      .insert({
-        user_id: userId,
-        userProfile_id: userId,
-        status: "trial",
-        expiresAt: trialExpiration.toISOString(),
-        amount: 0, // Set the amount for the subscription, can be adjusted based on your pricing model
-      })
-      .select("*")
-      .single();
-
+  const { error: subscriptionCreateError } = await supabase
+    .from("subscriptions")
+    .insert({
+      user_id: userId,
+      status: "trial",
+      expired_at: trialExpiration.toISOString(),
+      amount: 0, // Set the amount for the subscription, can be adjusted based on your pricing model
+    })
+    .select("*");
   if (subscriptionCreateError) {
     return { message: "Failed to create subscription.", success: false };
   }
 
   // Redirect to the home page upon successful registration
-  redirect("/app/home"); // Redirecting to the home page
+  redirect("/home?signup=success"); // Redirecting to the home page
 };

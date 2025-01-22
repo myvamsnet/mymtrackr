@@ -12,5 +12,5 @@ export const logoutAction = async () => {
       message: "Somethings went wrong, please try again later",
     };
   }
-  redirect("/");
+  redirect("/login");
 };

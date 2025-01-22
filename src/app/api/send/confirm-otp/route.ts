@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
 
   const user = await supabase.auth.getUser();
   if (!user?.data?.user?.id) {
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 404 });
   }
 
   const cookieStore = cookies();

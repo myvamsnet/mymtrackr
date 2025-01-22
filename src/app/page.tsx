@@ -1,4 +1,3 @@
-import { Header } from "@/components/landingPage/Header";
 import React from "react";
 import { Showcase } from "@/components/landingPage/components/Showcase";
 import { HeroSection } from "@/components/landingPage/components/HeroSection";
@@ -11,7 +10,6 @@ import CookiesPolicy from "@/components/landingPage/components/CookiesPolicy";
 const LandingPage = async () => {
   return (
     <main className=" relative">
-      <Header />
       <Showcase />
       <HeroSection />
       <FeatureSection />

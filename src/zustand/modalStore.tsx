@@ -1,41 +1,51 @@
+"use client";
+
 import { create } from "zustand";
-const initialState: ModalStoreStete = {
+import { immer } from "zustand/middleware/immer";
+
+const initialState: ModalStoreState = {
   isOpen: false,
-  type: "signUp",
+  type: "default",
 };
-export const useModalStore = create<ModalStore>((set) => ({
-  modal: initialState,
-  onConfirm: (modal: ModalStoreStete) => {
-    set({
-      modal: {
-        ...modal,
-        isOpen: modal.isOpen,
-        type: modal.type,
-      },
-    });
-  },
-  onCancel: () => {
-    set({
-      modal: initialState,
-    });
-  },
-}));
+
+export const useModalStore = create<ModalStore>()(
+  immer((set) => ({
+    modal: initialState,
+    onConfirm: (modal: ModalStoreState) => {
+      set((state) => {
+        state.modal = modal; // Update modal directly
+      });
+    },
+    onCancel: () => {
+      set((state) => {
+        state.modal = initialState; // Reset modal to the initial state
+      });
+    },
+  }))
+);
 
 interface ModalStore {
-  modal: ModalStoreStete;
-  onConfirm: (modal: ModalStoreStete) => void;
+  modal: ModalStoreState;
+  onConfirm: (modal: ModalStoreState) => void;
   onCancel: () => void;
 }
-export interface ModalStoreStete {
+
+export interface ModalStoreState {
   isOpen: boolean;
-  type:
-    | "signUp"
-    | "signIn"
-    | "forgotPassword"
-    | "editRecord"
-    | "reset-password"
-    | "conform-otp"
-    | "change-password"
-    | "setNewPassword"
-    | "confirmEmail";
+  type: ModalType;
 }
+export type ModalType =
+  | "signUp"
+  | "signIn"
+  | "forgotPassword"
+  | "editRecord"
+  | "reset-password"
+  | "conform-otp"
+  | "change-password"
+  | "setNewPassword"
+  | "confirmEmail"
+  | "logout"
+  | "preview"
+  | "more"
+  | "default"
+  | "deliveryFee";

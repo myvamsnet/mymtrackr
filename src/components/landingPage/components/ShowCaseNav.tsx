@@ -3,15 +3,15 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { landingPageNav } from "@/constant/landingPageNav";
-import useModal from "@/hooks/useModal";
 import ScrollIntoView from "react-scroll-into-view";
+import { Button } from "@/components/ui/button";
+import { unprotectedRoute } from "@/constant/app";
 export const ShowCaseNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
-  const { onConfirm } = useModal();
 
   return (
     <header className={`relative z-20 w-full `}>
@@ -29,22 +29,20 @@ export const ShowCaseNav = () => {
           <ul className="hidden md:flex items-center justify-center  gap-8 font-inter text-base font-normal">
             {landingPageNav?.map((item, index) => {
               return item.path ? (
-                <li>
+                <li key={`${item.name}-${index}`}>
                   <Link
                     className="text-white capitalize cursor-pointer"
                     href={item.path}
                     target="_blank"
-                    key={`${item.name}-${index}`}
                   >
                     {item.name}
                   </Link>
                 </li>
               ) : (
-                <li key={index}>
+                <li key={`${item.name}-${index}`}>
                   <ScrollIntoView
                     selector={`#${item.name}`}
                     className="text-white capitalize cursor-pointer"
-                    key={`${item.name}-${index}`}
                     scrollOptions={{
                       behavior: "smooth",
                       block: "start",
@@ -58,17 +56,12 @@ export const ShowCaseNav = () => {
             })}
           </ul>
 
-          <button
-            className="hidden md:block font-inter text-base font-medium text-off-white-400 bg-primary rounded-full py-3 px-6"
-            onClick={() => {
-              onConfirm({
-                isOpen: true,
-                type: "signIn",
-              });
-            }}
+          <Link
+            href={unprotectedRoute.Login}
+            className="md:block hidden text-white bg-primary w-[110px] h-[46px] py-3 px-6 rounded-3xl text-center"
           >
             Login
-          </button>
+          </Link>
           {isMenuOpen ? (
             <button className="md:hidden ">
               {isMenuOpen ? (
@@ -127,22 +120,20 @@ export const ShowCaseNav = () => {
             <ul className=" text-off-white-500 font-inter text-base font-normal grid gap-10">
               {landingPageNav?.map((item, index) => {
                 return item.path ? (
-                  <li>
+                  <li key={`${item.name}-${index}`}>
                     <Link
                       className="text-white capitalize cursor-pointer"
                       href={item.path}
                       target="_blank"
-                      key={`${item.name}-${index}`}
                     >
                       {item.name}
                     </Link>
                   </li>
                 ) : (
-                  <li key={index}>
+                  <li key={`${item.name}-${index}`}>
                     <ScrollIntoView
                       selector={`#${item.name}`}
                       className="text-white capitalize cursor-pointer"
-                      key={`${item.name}-${index}`}
                       scrollOptions={{
                         behavior: "smooth",
                         block: "start",
@@ -156,17 +147,12 @@ export const ShowCaseNav = () => {
                 );
               })}
             </ul>
-            <button
+            <Link
+              href={unprotectedRoute.Login}
               className="font-inter text-base font-medium text-off-white-400 bg-primary rounded-full h-[41px] w-[100px] text-center py-3 px-6 flex items-center justify-center "
-              onClick={() => {
-                onConfirm({
-                  isOpen: true,
-                  type: "signIn",
-                });
-              }}
             >
               Login
-            </button>
+            </Link>
           </div>
         </section>
       )}
