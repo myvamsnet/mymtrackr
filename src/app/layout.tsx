@@ -64,6 +64,15 @@ export default function RootLayout({
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
         />
+        {/* iOS-specific meta tags */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
+        <meta name="apple-mobile-web-app-title" content="My PWA" />
+        <link rel="apple-touch-icon" href="/ios/192.png" />
+        <link rel="apple-touch-startup-image" href="/splash.png" />
       </head>
       <body className={inter.className}>
         <main>

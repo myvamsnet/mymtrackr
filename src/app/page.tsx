@@ -16,7 +16,7 @@ const LandingPage = async () => {
       <BenefitSection />
       <ServiceSection />
       <FooterSection />
-      <CookiesPolicy />
+      {/* <CookiesPolicy /> */}
     </main>
   );
 };

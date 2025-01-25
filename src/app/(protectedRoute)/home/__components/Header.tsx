@@ -41,7 +41,9 @@ export const Header = ({ user }: headerProps) => {
         <Link href="/analytics">
           <Icons.AnalyticsIcon />
         </Link>
-        <Icons.NotificationIcon />
+        <Link href="/notifications">
+          <Icons.NotificationIcon />
+        </Link>
       </div>
     </section>
   );
