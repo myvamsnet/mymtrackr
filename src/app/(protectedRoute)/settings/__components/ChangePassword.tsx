@@ -1,42 +1,43 @@
+"use client";
 import { Button } from "@/components/ui/button";
-import Modal from "@/components/ui/Modal";
-import { useModifyResource } from "@/hooks/useModifyResource";
 import { CustomInput } from "@/components/CustomInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { resetPassword, ResetPasswordType } from "@/lib/Schema/resetPassword";
-import useModal from "@/hooks/useModal";
+import { useMutation } from "@tanstack/react-query";
+import axiosInstance from "@/lib/axios";
+import { handleError } from "@/lib/helper/handleError";
 import toast from "react-hot-toast";
-const ChangePassword = () => {
-  const { onCancel, modal } = useModal();
-  const { mutateAsync, isPending } = useModifyResource<any, Payload>({
-    endpoint: "/auth/change-password",
-    method: "POST",
-  });
 
+const ChangePassword = () => {
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (payload: ResetPasswordType) => {
+      const res = await axiosInstance.post("/auth/change-password", payload);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      
+      if (data.status) {
+        toast.success(data.message);
+        reset();
+      }
+    },
+    onError: handleError,
+  });
   const { control, handleSubmit, reset } = useForm<ResetPasswordType>({
     defaultValues: {
       newPassword: "",
       confirmPassword: "",
+      currentPassword: "",
     },
     resolver: zodResolver(resetPassword),
   });
 
   const onSubmit = async (data: ResetPasswordType) => {
-    const res = await mutateAsync(data);
-    if (res?.success) {
-      toast.success(res?.message);
-      onCancel();
-      reset();
-    }
+    mutate(data);
   };
   return (
-    <Modal
-      isOpen={modal?.isOpen && modal?.type === "change-password"}
-      onClose={onCancel}
-      title="Reset Password"
-      className="max-w-[452px]"
-    >
+    <section>
       <div className="py-4 grid gap-4">
         <h4 className="text-2xl text-primary font-semibold text-center">
           Set New Password
@@ -68,13 +69,19 @@ const ChangePassword = () => {
           </div>
         </form>
       </div>
-    </Modal>
+    </section>
   );
 };
 
 export default ChangePassword;
 
 const inputFields: InputProps[] = [
+  {
+    name: "currentPassword",
+    type: "password",
+    label: "Current password",
+    placeholder: "Enter current password",
+  },
   {
     name: "newPassword",
     type: "password",

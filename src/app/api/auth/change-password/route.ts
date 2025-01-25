@@ -1,35 +1,47 @@
 import { responsedata } from "@/lib/helper/responseData";
 import { createClient } from "@/lib/supabse/server";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
     const supabase = createClient();
-    const { newPassword } = await req.json();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    const { newPassword, confirmPassword } = await req.json();
 
-    // Update the user's password
-    const { error: updateError } = await supabase.auth.updateUser({
-      password: newPassword,
-    });
-
-    if (updateError) {
-      return responsedata({
-        success: false,
-        message: updateError.message || "Failed to update password",
-        statusCode: 401,
-      });
+    if (!newPassword && !confirmPassword) {
+      throw new Error("Email is required");
     }
 
-    return responsedata({
-      success: true,
-      message: "Password updated successfully",
-      statusCode: 200,
-    });
-  } catch (error) {
-    return responsedata({
-      success: true,
-      message: (error as any)?.message || "An unexpected error occurred",
-      statusCode: 500,
-    });
+    if (user?.id) {
+      const { error } = await supabase?.auth?.updateUser({
+        password: newPassword,
+        email: user?.email,
+      });
+      if (error) {
+        return responsedata({
+          success: false,
+          message: error?.message,
+          statusCode: 400,
+        });
+      }
+
+      return NextResponse.json({
+        status: true,
+        message: "Password updated successfully",
+      });
+    }
+  } catch (error: any) {
+    console.log(error.message);
+    return NextResponse.json(
+      {
+        status: false,
+        message: error?.mesaage,
+      },
+      {
+        status: 500,
+      }
+    );
   }
 }
