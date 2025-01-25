@@ -5,7 +5,8 @@ export const getContents = async () => {
   const supabaseApi = createClient();
   let { data: contents, error } = await supabaseApi
     .from("contents")
-    .select("*");
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (error) {
     return { data: null, message: "Failed to fetch contents", success: false };
