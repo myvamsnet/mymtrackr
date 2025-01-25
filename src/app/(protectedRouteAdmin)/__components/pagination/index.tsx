@@ -16,7 +16,6 @@ export const Pagination: FC<IPagination> = ({ totalPages }) => {
 
   const getItemProps = (index: number): any => ({
     variant: active === index ? "filled" : "text",
-
     color: "blue",
     onClick: () => {
       updateQueryParams({ page: index.toString() });

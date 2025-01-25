@@ -2,6 +2,7 @@
 import { ShowCaseImg } from "./ShowCaseImg";
 import { ShowCaseNav } from "./ShowCaseNav";
 import { ShowCaseTitle } from "./ShowCaseTitle";
+import PWAInstallPrompt from "./PWAInstallPrompt";
 
 export const Showcase = () => {
   return (
@@ -9,6 +10,7 @@ export const Showcase = () => {
       <ShowCaseNav />
       <ShowCaseTitle />
       <ShowCaseImg />
+      <PWAInstallPrompt />
     </main>
   );
 };
