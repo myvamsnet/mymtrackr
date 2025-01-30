@@ -1,8 +1,8 @@
 "use client";
 import { Icons } from "@/assets/icons";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import React, { useEffect } from "react";
 import CustomLoader from "@/components/CustomLoader/page";
 import { DataNotFound } from "@/components/DataNotFound";
 import { dateFormatter } from "@/lib/helper/dateFormatter";
@@ -10,15 +10,23 @@ import useUpdateStatus from "../hooks/useUpdateStatus";
 import useGetAllTasks from "../hooks/useGetAllTasks";
 import { TasksData } from "@/types/tasks";
 import useDeleteTask from "../hooks/useDeleteTask";
-import { Circle } from "lucide-react";
-import { button } from "@material-tailwind/react";
+import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 const TaskLists = () => {
   const { tasks, status } = useGetAllTasks();
+  const { updateQueryParams } = useUpdateQuery();
   const { handleDelete, isPending: deleteLoader } = useDeleteTask();
   const { handleChangedStatus } = useUpdateStatus();
 
-  const pathname = usePathname();
-
+  const searchParams = useSearchParams();
+  const active = searchParams.get("status");
+  useEffect(() => {
+    if (!active) {
+      updateQueryParams({
+        status: "pending",
+      });
+    }
+  }, [active, updateQueryParams]);
+  console.log(active);
   if (status === "pending") {
     return <CustomLoader />;
   }
@@ -38,7 +46,7 @@ const TaskLists = () => {
           <Link
             href={tab.value}
             className={`w-[100px] h-[36px] font-medium text-sm flex justify-center items-center ${
-              pathname === tab.value
+              active === tab.path
                 ? "border-b-2 border-primary p-3 text-primary"
                 : "text-dark-100"
             } capitalize cursor-pointer`}
@@ -112,46 +120,17 @@ const TaskLists = () => {
 
 const tabs = [
   {
-    value: "/tasks/pending",
+    value: "/tasks?status=pending",
     label: "My Tasks",
     id: 1,
+    path: "pending",
   },
   {
-    value: "/tasks/completed",
+    value: "/tasks?status=completed",
     label: "Completed",
     id: 2,
+    path: "completed",
   },
 ];
 
 export default TaskLists;
-
-const tasks = [
-  {
-    id: 1,
-    title: "Learn React js for 1 hour",
-    description: "Description 1",
-    status: "pending",
-    date: "05 April 2024",
-  },
-  {
-    id: 2,
-    title: "Task 2",
-    description: "Description 2",
-    status: "completed",
-    date: "05 April 2024",
-  },
-  {
-    id: 3,
-    title: "Task 3",
-    description: "Description 3",
-    status: "pending",
-    date: "05 April 2024",
-  },
-  {
-    id: 4,
-    title: "Task 4",
-    description: "Description 4",
-    status: "completed",
-    date: "05 April 2024",
-  },
-];

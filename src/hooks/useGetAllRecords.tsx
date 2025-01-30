@@ -11,15 +11,22 @@ export const useGetAllRecords = () => {
   const yearlyRange = searchParams.get("year");
   const monthlyRange = searchParams.get("month");
   const searchTerm = searchParams.get("searchTerm");
-
+  const thisYear = dayjs(yearlyRange).startOf("year");
+  const endYear = dayjs(yearlyRange).endOf("year");
+  // const allFilter =
   const startDate =
-    dayjs(monthlyRange).year(Number(yearlyRange)).format("YYYY-MM-DD") ?? "";
+    monthlyRange === "all"
+      ? dayjs(thisYear).format("YYYY-MM-DD")
+      : dayjs(monthlyRange).year(Number(yearlyRange)).format("YYYY-MM-DD");
 
   const endDate =
-    dayjs(yearlyRange)
-      .month(Number(monthlyRange))
-      .add(1, "day")
-      .format("YYYY-MM-DD") ?? "";
+    monthlyRange === "all"
+      ? dayjs(endYear).format("YYYY-MM-DD")
+      : dayjs(yearlyRange)
+          .month(Number(monthlyRange))
+          .add(1, "day")
+          .format("YYYY-MM-DD") ?? "";
+
   const values = {
     startDate,
     endDate,

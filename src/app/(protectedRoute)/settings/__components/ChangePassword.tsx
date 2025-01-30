@@ -16,7 +16,6 @@ const ChangePassword = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      
       if (data.status) {
         toast.success(data.message);
         reset();
@@ -37,39 +36,34 @@ const ChangePassword = () => {
     mutate(data);
   };
   return (
-    <section>
-      <div className="py-4 grid gap-4">
-        <h4 className="text-2xl text-primary font-semibold text-center">
-          Set New Password
-        </h4>
-        <form
-          action=""
-          className=" bg-off-white-300 p-4 rounded-xl my-3 grid gap-4"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          {inputFields.map((field, index) => (
-            <CustomInput
-              key={index}
-              name={field.name}
-              type={field.type}
-              label={field.label}
-              control={control}
-              placeholder={field.placeholder}
-            />
-          ))}
+    <div className="py-4 grid gap-4">
+      <form
+        action=""
+        className=" bg-off-white-300 p-4 rounded-xl my-3 grid gap-4"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        {inputFields.map((field, index) => (
+          <CustomInput
+            key={index}
+            name={field.name}
+            type={field.type}
+            label={field.label}
+            control={control}
+            placeholder={field.placeholder}
+          />
+        ))}
 
-          <div className="flex md:justify-end">
-            <Button
-              className="w-full"
-              disabled={isPending ? true : false}
-              type="submit"
-            >
-              {isPending ? "Loading..." : "Save Changes"}
-            </Button>
-          </div>
-        </form>
-      </div>
-    </section>
+        <div className="flex md:justify-end">
+          <Button
+            className="w-full"
+            disabled={isPending ? true : false}
+            type="submit"
+          >
+            {isPending ? "Loading..." : "Save Changes"}
+          </Button>
+        </div>
+      </form>
+    </div>
   );
 };
 

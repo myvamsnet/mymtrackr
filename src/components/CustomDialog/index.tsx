@@ -32,7 +32,7 @@ export const CustomDialog = ({
             variant="outline"
             className={`${btnClassName} outline-none border-none`}
           >
-            {title}
+            {buttonText}
           </Button>
         </DialogTrigger>
       )}

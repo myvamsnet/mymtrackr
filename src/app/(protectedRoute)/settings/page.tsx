@@ -37,6 +37,8 @@ const Settings = () => {
                     color={
                       list.name === "Delete Account" ? "#C25353" : "#010114"
                     }
+                    height={18}
+                    width={18}
                   />
                 </div>
               )}
