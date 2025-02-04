@@ -1,14 +1,12 @@
 import axiosInstance from "@/lib/axios";
 import { TaskResponseData } from "@/types/tasks";
 import { useQuery } from "@tanstack/react-query";
-import { useParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const useGetAllTasks = () => {
   const searchParam = useSearchParams();
   const searchTerm = searchParam.get("searchTerm");
-  const { status: queryStatus } = useParams() as {
-    status: Status;
-  };
+  const queryStatus = searchParam.get("status");
 
   const values = {
     status: queryStatus === "completed" ? "true" : "false",

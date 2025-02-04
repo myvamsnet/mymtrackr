@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import useGetAllReferrals from "../hook/useGetAllRerrals";
-
 import { useSearchParams } from "next/navigation";
 import { dateFormatter } from "@/lib/helper/dateFormatter";
 import { currencyFormatter } from "@/lib/helper/currencyFormatter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUpdateQuery } from "@/hooks/useUpdateQuery";
+import { CustomTab } from "@/components/CsutomTab";
 
 const ReferralLists = () => {
   const { updateQueryParams } = useUpdateQuery();
@@ -18,21 +18,6 @@ const ReferralLists = () => {
       });
     }
   }, [pathname, updateQueryParams]);
-
-  const lists = [
-    {
-      name: "pending",
-      id: "1",
-      link: "/referral-history?status=pending",
-      pathname: "pending",
-    },
-    {
-      name: "Earned",
-      id: "2",
-      link: "/referral-history?status=active",
-      pathname: "active",
-    },
-  ];
 
   let content;
   if (queryStatus === "pending" && referrals.length === 0) {
@@ -97,25 +82,8 @@ const ReferralLists = () => {
   }
   return (
     <section>
-      <ul className="flex justify-between border-b border-[#E3E4E7] items-center  mt-4  px-[44px]">
-        {lists?.map((list) => (
-          <li
-            className={`font-medium text-sm cursor-pointer capitalize   py-3  h-auto ${
-              pathname === list.pathname
-                ? "text-primary  border-primary border-b-2  "
-                : "text-dark-300"
-            }`}
-            onClick={() =>
-              updateQueryParams({
-                status: list.pathname,
-              })
-            }
-            key={list.id}
-          >
-            {list.name}
-          </li>
-        ))}
-      </ul>
+      <CustomTab queryName="status" tabs={lists} />
+
       <div className="py-2 px-4">{content}</div>
 
       {isFetchingNextPage && <p>Loading more...</p>}
@@ -124,3 +92,13 @@ const ReferralLists = () => {
 };
 
 export default ReferralLists;
+const lists = [
+  {
+    name: "pending",
+    id: 1,
+  },
+  {
+    name: "Earned",
+    id: 2,
+  },
+];

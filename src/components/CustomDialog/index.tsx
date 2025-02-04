@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { ReactNode } from "react";
 
 export const CustomDialog = ({
   isOpen,
@@ -26,16 +27,7 @@ export const CustomDialog = ({
         toggle(open);
       }}
     >
-      {buttonText && (
-        <DialogTrigger asChild>
-          <Button
-            variant="outline"
-            className={`${btnClassName} outline-none border-none`}
-          >
-            {title}
-          </Button>
-        </DialogTrigger>
-      )}
+      {buttonText && <DialogTrigger asChild>{buttonText}</DialogTrigger>}
 
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -60,7 +52,7 @@ interface ModalProps {
   title?: string;
   subTitle: string;
   toggle: (open: boolean) => void;
-  buttonText?: string;
+  buttonText?: ReactNode;
   titleClassName?: string;
   subTitleClassName?: string;
   btnClassName?: string;

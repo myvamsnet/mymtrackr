@@ -30,10 +30,17 @@ export function ConfirmDeleteRecord({ id }: ConfirmDeleteRecordProps) {
     <CustomDialog
       isOpen={isOpen}
       toggle={(open) => setIsOpen(open)}
-      buttonText=" Delete Record"
+      buttonText={
+        <Button
+          variant="outline"
+          className={`bg-red-500 hover:bg-red-400 text-white  outline-none border-none`}
+        >
+          Delete Record
+        </Button>
+      }
       title="Confirm Record Deletion"
       subTitle=" Are you sure you want to delete this record? This action cannot be  undone."
-      btnClassName="bg-red-500 hover:bg-red-400 text-white outline-none"
+      btnClassName=""
       subTitleClassName="text-red-500 text-xs my-3"
     >
       <div className="grid gap-4 py-4 grid-cols-2">

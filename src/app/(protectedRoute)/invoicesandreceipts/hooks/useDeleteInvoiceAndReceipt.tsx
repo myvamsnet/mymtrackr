@@ -3,9 +3,11 @@ import axiosInstance from "@/lib/axios";
 import { handleError } from "@/lib/helper/handleError";
 import { useMutation } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 export const useDeleteInvoiceAndReceipt = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const { id } = useParams() as {
     id: string;
   };
@@ -25,5 +27,7 @@ export const useDeleteInvoiceAndReceipt = () => {
   return {
     deleteMutation: mutate,
     deleteLoader: isPending,
+    isOpen,
+    setIsOpen,
   };
 };

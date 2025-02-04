@@ -1,13 +1,13 @@
 "use client";
 import { PenBook } from "@/assets/icons/PenBook";
-import { Delete } from "@/assets/icons/Delete";
+
 import Link from "next/link";
 import React from "react";
 import { CustomHeader } from "@/components/CustomHeader";
-import ResetPasswordModal from "./__components/ResetPasswordModal";
 import { BusinessIcon } from "@/assets/icons/BusinessIcon";
 import userStore from "@/zustand/userStore";
-import { Lock, SquareAsterisk } from "lucide-react";
+import { Lock } from "lucide-react";
+import { ConfirmAccountDelete } from "./__components/ConfirmAccountDelete";
 
 const Settings = () => {
   const { user } = userStore();
@@ -37,12 +37,14 @@ const Settings = () => {
                     color={
                       list.name === "Delete Account" ? "#C25353" : "#010114"
                     }
+                    className="h-4 w-4"
                   />
                 </div>
               )}
               {list.name}
             </Link>
           ))}
+          <ConfirmAccountDelete />
         </div>
       </section>
     </main>
@@ -65,10 +67,5 @@ const lists = [
     name: "Reset Password",
     path: "/settings/reset-password",
     icon: Lock,
-  },
-  {
-    name: "Delete Account",
-    icon: Delete,
-    path: "#",
   },
 ];

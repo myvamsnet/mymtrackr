@@ -3,13 +3,12 @@ import Modal from "@/components/ui/Modal";
 import { Data } from "@/types/invoicesandreceipts";
 import Link from "next/link";
 import React from "react";
-import { useDeleteInvoiceAndReceipt } from "../../../hooks/useDeleteInvoiceAndReceipt";
 import { useUpdateInvoiceAndReceipt } from "../../hooks/useUpdateInvoiceAndReceipt";
 import { dateFormatter } from "@/lib/helper/dateFormatter";
 import { useConvertToRecord } from "../../hooks/useConvertToRecord";
+import { ConfirmDeleteInvoiceAndRecipt } from "./ConfirmDeleteInvoiceAndRecipt";
 
 const MoreModal = ({ data, isOpen, onClose }: Props) => {
-  const { deleteLoader, deleteMutation } = useDeleteInvoiceAndReceipt();
   const { mutate, isPending } = useUpdateInvoiceAndReceipt();
   const { addConvertToRecord, isPending: loader } = useConvertToRecord();
   return (
@@ -77,19 +76,7 @@ const MoreModal = ({ data, isOpen, onClose }: Props) => {
           </span>
         </button>
       )}
-
-      <button
-        className="flex items-center gap-1 py-4 border-b border-off-white-200 "
-        disabled={deleteLoader}
-        onClick={() => deleteMutation(data?.id)}
-      >
-        <div className="h-8 w-8 bg-off-white flex justify-center items-center">
-          <Icons.Delete color="#C25353" />
-        </div>
-        <span className="font-normal text-sm text-danger-500">
-          {deleteLoader ? "Deleting..." : " Delete Invoice"}
-        </span>
-      </button>
+      <ConfirmDeleteInvoiceAndRecipt type={data?.type} id={data?.id} />
     </Modal>
   );
 };
