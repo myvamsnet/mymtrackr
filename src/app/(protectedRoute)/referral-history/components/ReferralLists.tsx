@@ -1,16 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useGetAllReferrals from "../hook/useGetAllRerrals";
 
 import { useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { dateFormatter } from "@/lib/helper/dateFormatter";
 import { currencyFormatter } from "@/lib/helper/currencyFormatter";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 
 const ReferralLists = () => {
-  const { isFetchingNextPage, isLoading, referrals, queryStatus } =
-    useGetAllReferrals();
+  const { updateQueryParams } = useUpdateQuery();
+  const { isFetchingNextPage, referrals, queryStatus } = useGetAllReferrals();
   const pathname = useSearchParams().get("status");
+  useEffect(() => {
+    if (!pathname) {
+      updateQueryParams({
+        status: "pending",
+      });
+    }
+  }, [pathname, updateQueryParams]);
 
   const lists = [
     {
@@ -90,21 +97,25 @@ const ReferralLists = () => {
   }
   return (
     <section>
-      <div className="flex justify-between border-b border-[#E3E4E7] items-center  mt-4  px-[44px]">
+      <ul className="flex justify-between border-b border-[#E3E4E7] items-center  mt-4  px-[44px]">
         {lists?.map((list) => (
-          <Link
-            href={list.link}
-            key={list.id}
+          <li
             className={`font-medium text-sm cursor-pointer capitalize   py-3  h-auto ${
               pathname === list.pathname
                 ? "text-primary  border-primary border-b-2  "
                 : "text-dark-300"
             }`}
+            onClick={() =>
+              updateQueryParams({
+                status: list.pathname,
+              })
+            }
+            key={list.id}
           >
             {list.name}
-          </Link>
+          </li>
         ))}
-      </div>
+      </ul>
       <div className="py-2 px-4">{content}</div>
 
       {isFetchingNextPage && <p>Loading more...</p>}

@@ -12,5 +12,5 @@ export default function AuthRootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <main className="">{children}</main>;
+  return <main>{children}</main>;
 }

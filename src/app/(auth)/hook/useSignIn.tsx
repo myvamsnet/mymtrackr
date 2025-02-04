@@ -38,6 +38,7 @@ export const useSignIn = () => {
   });
   const onSubmit = async (data: SignInSchemaType) => {
     mutate(data);
+    console.log(data);
   };
 
   return {
