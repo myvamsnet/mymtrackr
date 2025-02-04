@@ -1,5 +1,5 @@
 import axiosInstance from "@/lib/axios";
-import { TaskResponseData } from "@/types/tasks";
+import { TaskResponseData, TasksData } from "@/types/tasks";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 
@@ -25,7 +25,7 @@ const useGetAllTasks = () => {
   });
 
   return {
-    tasks: data?.data,
+    tasks: data?.data as TasksData[],
     status,
     error,
   };

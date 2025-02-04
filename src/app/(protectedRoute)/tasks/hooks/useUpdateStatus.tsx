@@ -3,10 +3,10 @@ import React from "react";
 import axiosInstance from "@/lib/axios";
 import toast from "react-hot-toast";
 import { handleError } from "@/lib/helper/handleError";
-import { useRedirect } from "@/hooks/useRedirect";
+import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 
 const useUpdateStatus = () => {
-  const redirect = useRedirect();
+  const { updateQueryParams } = useUpdateQuery();
   // Access the client
   const queryClient = useQueryClient();
   // Update Tasks status
@@ -23,9 +23,9 @@ const useUpdateStatus = () => {
           queryKey: [`tasks-${data?.data?.status ? "completed" : "pending"}`],
         });
         toast.success(data?.message);
-        return redirect(
-          `/tasks/${data?.data?.status ? "completed" : "pending"}`
-        );
+        updateQueryParams({
+          status: `${data?.data?.status ? "completed" : "pending"}`,
+        });
       }
     },
     onError: handleError,
@@ -46,6 +46,7 @@ const useUpdateStatus = () => {
   };
   return {
     handleChangedStatus,
+    mutate,
   };
 };
 
@@ -53,4 +54,5 @@ export default useUpdateStatus;
 interface TaskStatusPayload {
   status: boolean;
   id: string;
+  title?: string;
 }

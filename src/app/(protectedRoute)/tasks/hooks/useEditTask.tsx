@@ -1,7 +1,7 @@
 "use client";
 
 import { useFetch } from "@/hooks/useFetch";
-import { useRedirect } from "@/hooks/useRedirect";
+import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 import axiosInstance from "@/lib/axios";
 import { handleError } from "@/lib/helper/handleError";
 import { isValidDate } from "@/lib/helper/isValidDate";
@@ -13,13 +13,12 @@ import dayjs from "dayjs";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 
 export const useEditTask = () => {
   const { id } = useParams() as {
     id: string;
   };
-  const redirect = useRedirect();
+  const { updateQueryParams } = useUpdateQuery();
   const { data, status } = useFetch<SingleTaskResponseData>(
     "/tasks",
     id,
@@ -59,10 +58,11 @@ export const useEditTask = () => {
       if (data?.success) {
         // Invalidate and refetch
         queryClient.invalidateQueries({
-          queryKey: [`tasks-pending`],
+          queryKey: [`tasks-${data?.data?.status ? "completed" : "pending"}`],
         });
-        toast.success(data?.message);
-        return redirect(`/tasks/pending`);
+        updateQueryParams({
+          status: `${data?.data?.status ? "completed" : "pending"}`,
+        });
       }
     },
     onError: handleError,

@@ -2,10 +2,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "@/lib/axios";
 import toast from "react-hot-toast";
 import { handleError } from "@/lib/helper/handleError";
-import { useRedirect } from "@/hooks/useRedirect";
+import { useUpdateQuery } from "@/hooks/useUpdateQuery";
+import { useSearchParams } from "next/navigation";
 
 const useDeleteTask = () => {
-  const redirect = useRedirect();
+  const searchParam = useSearchParams();
+  const queryStatus = searchParam.get("status");
+  const { updateQueryParams } = useUpdateQuery();
   // Access the client
   const queryClient = useQueryClient();
   // Update Tasks status
@@ -19,12 +22,14 @@ const useDeleteTask = () => {
       if (data?.success) {
         // Invalidate and refetch
         queryClient.invalidateQueries({
-          queryKey: [`tasks-pending`],
+          queryKey: [`tasks-${queryStatus as string}`],
         });
         toast.success(data?.message, {
           id: "delete-task",
         });
-        return redirect(`/tasks/pending`);
+        updateQueryParams({
+          status: queryStatus as string,
+        });
       }
     },
     onError: handleError,
