@@ -1,47 +1,76 @@
 "use client";
-import React from "react";
-import { useDragAndDrop } from "@formkit/drag-and-drop/react";
-import { Move } from "lucide-react";
 
-export function TaskEntry() {
-  const todoItems = [
-    "Schedule perm",
-    "Rewind VHS tapes",
-    "Make change for the arcade",
-    "Get disposable camera developed",
-    "Learn C++",
-    "Return Nintendo Power Glove",
-  ];
-  const doneItems = ["Pickup new mix-tape from Beth", "Implement drag handles"];
+import { useState } from "react";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  type DropResult,
+} from "react-beautiful-dnd";
 
-  const [todoList, todos] = useDragAndDrop<HTMLUListElement, string>(
-    todoItems,
-    {
-      group: "todoList",
+interface Item {
+  id: string;
+  content: string;
+}
 
-      dragHandle: ".kanban-handle",
-    }
-  );
-  const [doneList, dones] = useDragAndDrop<HTMLUListElement, string>(
-    doneItems,
-    {
-      group: "todoList",
+const initialItems: Item[] = [
+  { id: "item-1", content: "Item 1" },
+  { id: "item-2", content: "Item 2" },
+  { id: "item-3", content: "Item 3" },
+  { id: "item-4", content: "Item 4" },
+  { id: "item-5", content: "Item 5" },
+];
 
-      dragHandle: ".kanban-handle",
-    }
-  );
+export default function DragDropList() {
+  const [items, setItems] = useState<Item[]>(initialItems);
+
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) return;
+
+    const reorderedItems = [...items];
+    const [movedItem] = reorderedItems.splice(result.source.index, 1);
+    reorderedItems.splice(result.destination.index, 0, movedItem);
+
+    setItems(reorderedItems);
+  };
+
   return (
-    <div className="kanban-board">
-      <ul ref={todoList} className="kanban-column grid gap-4">
-        {todos.map((todo) => (
-          <li className="kanban-item" key={todo}>
-            <div className="kanban-handle h-20 w-full ">
-              <Move className="text-gray-100" />
-              {todo}
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="list">
+        {(provided) => (
+          <ul
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            className="bg-white rounded-lg shadow-md p-4 w-full max-w-md mx-auto"
+          >
+            {items.map((item, index) => (
+              <Draggable key={item.id} draggableId={item.id} index={index}>
+                {(provided, snapshot) => (
+                  <li
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    className={`
+                      bg-gray-100 p-4 mb-2 rounded-md
+                      ${
+                        snapshot.isDragging
+                          ? "bg-blue-200 shadow-lg scale-105"
+                          : ""
+                      }
+                      transition-all text-lg font-medium
+                      flex items-center justify-between
+                    `}
+                  >
+                    {item.content}
+                    <span className="text-gray-400 ml-2">☰</span>
+                  </li>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </ul>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 }
