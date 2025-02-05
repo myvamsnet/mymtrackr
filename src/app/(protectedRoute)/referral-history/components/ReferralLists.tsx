@@ -41,8 +41,6 @@ const ReferralLists = () => {
     ));
   }
 
-  console.log(referrals);
-
   if (queryStatus === "success" && referrals && referrals?.length > 0) {
     content = referrals.map((referral) => (
       <div

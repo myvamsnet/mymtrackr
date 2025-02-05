@@ -6,7 +6,6 @@ export async function GET() {
   const userInfo = await supabase?.auth?.getUser();
   try {
     if (userInfo?.error) {
-      console.log(userInfo.data);
       throw new Error(userInfo?.error?.message);
     }
 

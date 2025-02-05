@@ -19,7 +19,6 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 export const UsersTable = () => {
   const { modal, onCancel, handleView, selected } = useSelected();
-  console.log(selected);
 
   const accountDetails = [
     { label: "Bank Name", value: selected?.bankName },

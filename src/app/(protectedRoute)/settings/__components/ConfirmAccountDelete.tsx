@@ -19,7 +19,6 @@ export function ConfirmAccountDelete() {
       return res;
     },
     onSuccess(data) {
-      console.log(data);
       if ("success" in data && data.success) {
         window.location.href = "/login";
       }
