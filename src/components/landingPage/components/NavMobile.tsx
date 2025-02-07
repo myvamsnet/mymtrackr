@@ -5,7 +5,7 @@ import React from "react";
 import ScrollIntoView from "react-scroll-into-view";
 export const NavMobile = ({ toggleMenu }: Props) => {
   return (
-    <section className="md:hidden absolute top-[100%] bg-red-500 h-[461px] z-40 w-full flex justify-center items-center">
+    <section className="md:hidden absolute top-[100%] bg-primary h-[461px] z-40 w-full flex justify-center items-center">
       <div className="bg-[#010114] py-10 px-[30px] h-full rounded-[100px] w-full flex flex-col items-center gap-10">
         <ul className=" text-off-white-500 font-inter text-base font-normal grid gap-10">
           {landingPageNav?.map((item, index) => {
