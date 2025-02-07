@@ -7,7 +7,7 @@ import { Fade } from "react-awesome-reveal";
 
 export const ShowCaseTitle = () => {
   return (
-    <div className="grid md:gap-[52px] gap-6 relative z-10 w-full md:max-w-[832px] mx-auto py-3">
+    <div className="grid md:gap-[52px] gap-6 relative z-10 w-full md:max-w-[832px] mx-auto py-3 px-2">
       <Fade>
         <h2 className="font-inter font-semibold text-center lg:text-[56px] lg:leading-[75px]  text-off-white-400 text-[32px] leading-[42px]  w-full">
           Manage Your Business Money with Confidence and Ease.
