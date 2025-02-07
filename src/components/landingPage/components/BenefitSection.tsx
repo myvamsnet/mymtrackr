@@ -1,6 +1,7 @@
 import { benefits } from "@/constant/benefits";
 import Image from "next/image";
 import Link from "next/link";
+import { Fade, Slide, Zoom } from "react-awesome-reveal";
 
 export const BenefitSection = () => {
   return (
@@ -10,28 +11,31 @@ export const BenefitSection = () => {
     >
       {benefits.map((benefit) => {
         return benefit.position === "left" ? (
-          <div
-            className="benefitSection__card"
-            key={benefit.id}
-          >
+          <div className="benefitSection__card" key={benefit.id}>
             <div className="rounded-2xl bg-off-white w-full flex justify-center items-center">
-              <Image
-                src={benefit.image}
-                alt="business-die"
-                className="h-full mt-3"
-                height={0}
-                width={274.63}
-              />
+              <Slide direction="left">
+                <Image
+                  src={benefit.image}
+                  alt="business-die"
+                  className="h-full mt-3"
+                  height={0}
+                  width={274.63}
+                />
+              </Slide>
             </div>
             <div className="w-full md:w-[538px] h-auto md:h-[349px] gap-6 space-y-6">
-              <h2 className="font-inter font-semibold text-[28px] md:text-[44px] leading-[40px] md:leading-[65px] text-dark">
-                {benefit.title}
-                <span className="text-primary mx-1">{benefit.subtitle}</span>
-              </h2>
-              <p className="font-inter font-normal text-base md:text-xl md:leading-[30px] text-dark-300">
-                {benefit.content}
-              </p>
-              <div>
+              <Fade direction="up">
+                <h2 className="font-inter font-semibold text-[28px] md:text-[44px] leading-[40px] md:leading-[65px] text-dark">
+                  {benefit.title}
+                  <span className="text-primary mx-1">{benefit.subtitle}</span>
+                </h2>
+              </Fade>
+              <Zoom>
+                <p className="font-inter font-normal text-base md:text-xl md:leading-[30px] text-dark-300">
+                  {benefit.content}
+                </p>
+              </Zoom>
+              <Zoom direction="down">
                 <Link
                   href={"https://wa.me/+2348057384590"}
                   className="rounded-2xl border  py-3 px-8 gap-[10px] font-inter font-medium text-base md:text-[18px] text-center border-dark"
@@ -39,23 +43,24 @@ export const BenefitSection = () => {
                 >
                   Learn more
                 </Link>
-              </div>
+              </Zoom>
             </div>
           </div>
         ) : (
-          <div
-            className="benefitSection__card"
-            key={benefit.id}
-          >
+          <div className="benefitSection__card" key={benefit.id}>
             <div className="w-full md:w-[538px] h-auto md:h-[349px] gap-6 space-y-6">
-              <h2 className="font-inter font-semibold text-[28px] md:text-[44px] leading-[40px] md:leading-[65px] text-dark">
-                {benefit.title}
-                <span className="text-primary mx-1">{benefit.subtitle}</span>
-              </h2>
-              <p className="font-inter font-normal text-base md:text-xl leading-[24px] md:leading-[30px] text-dark-300 ">
-                {benefit.content}
-              </p>
-              <div>
+              <Fade direction="left">
+                <h2 className="font-inter font-semibold text-[28px] md:text-[44px] leading-[40px] md:leading-[65px] text-dark">
+                  {benefit.title}
+                  <span className="text-primary mx-1">{benefit.subtitle}</span>
+                </h2>
+              </Fade>
+              <Zoom>
+                <p className="font-inter font-normal text-base md:text-xl leading-[24px] md:leading-[30px] text-dark-300 ">
+                  {benefit.content}
+                </p>
+              </Zoom>
+              <Zoom direction="up">
                 <Link
                   href={"https://wa.me/+2348057384590"}
                   className="rounded-2xl border  py-3 px-8 gap-[10px] font-inter font-medium text-base md:text-[18px] text-center border-dark"
@@ -63,16 +68,18 @@ export const BenefitSection = () => {
                 >
                   Learn more
                 </Link>
-              </div>
+              </Zoom>
             </div>
             <div className="rounded-2xl bg-off-white w-full md:order-last order-first flex justify-center items-center">
-              <Image
-                src={benefit.image}
-                alt="business-stress"
-                className="h-full mt-3"
-                height={0}
-                width={274.63}
-              />
+              <Fade direction="right">
+                <Image
+                  src={benefit.image}
+                  alt="business-stress"
+                  className="h-full mt-3"
+                  height={0}
+                  width={274.63}
+                />
+              </Fade>
             </div>
           </div>
         );

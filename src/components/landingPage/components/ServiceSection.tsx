@@ -15,12 +15,12 @@ export const ServiceSection = () => {
           <Image
             src={"/images/groupsphones.png"}
             alt="business-die"
-            className="w-full"
+            className="w-full  animate-bounce-less"
             width={610.35}
             height={602.23}
           />
-          <div>
-            <div className="grid gap-4">
+          <div className="space-y-4">
+            <div className="space-y-4">
               <h2 className="font-inter font-semibold text-[28px] md:text-[44px] leading-[40px] md:leading-[65px] text-dark">
                 With Only{" "}
                 <span className="line-through text-[#7A7A84]">#10,000</span>
