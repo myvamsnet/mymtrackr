@@ -318,7 +318,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <main>
+        <main className="!overflow-x-hidden">
           <Provider>{children}</Provider>
         </main>
         <Toaster position="top-right" />

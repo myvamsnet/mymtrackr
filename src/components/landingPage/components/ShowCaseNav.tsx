@@ -1,22 +1,76 @@
 "use client";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { landingPageNav } from "@/constant/landingPageNav";
 import ScrollIntoView from "react-scroll-into-view";
-import { Button } from "@/components/ui/button";
 import { unprotectedRoute } from "@/constant/app";
+import clsx from "clsx";
+import { NavMobile } from "./NavMobile";
 export const ShowCaseNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  const controlNavbar = useCallback(() => {
+    if (typeof window !== "undefined") {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY < lastScrollY) {
+        // Scrolling up
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY) {
+        // Scrolling down
+        setIsVisible(false);
+      }
+
+      // Update the last scroll position
+      setLastScrollY(currentScrollY);
+    }
+  }, [lastScrollY]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      let ticking = false;
+
+      const handleScroll = () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            controlNavbar();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      };
+
+      window.addEventListener("scroll", handleScroll);
+
+      // Cleanup function
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, [controlNavbar]);
 
   return (
     <header className={`relative z-20 w-full `}>
-      <section className="pt-3 px-4">
-        <nav className="wrapper bg-dark flex items-center justify-between rounded-full py-3 px-4">
+      <section
+        className={clsx(
+          `pt-3 px-4  fixed md:top-6 w-full transition-transform duration-300 ease-in-out flex justify-center items-center`,
+          isVisible
+            ? "translate-y-0 opacity-100"
+            : "-translate-y-full sticky top-0 opacity-0"
+        )}
+      >
+        <nav
+          className={clsx(
+            `wrapper bg-dark flex items-center  justify-between rounded-full py-3 px-4 `
+          )}
+        >
           <Link href="/">
             <Image
               src={"/images/logo_white.svg"}
@@ -113,49 +167,8 @@ export const ShowCaseNav = () => {
             </button>
           )}
         </nav>
+        {isMenuOpen && <NavMobile toggleMenu={toggleMenu} />}
       </section>
-      {isMenuOpen && (
-        <section className="md:hidden absolute top-[100%] bg-primary h-[461px] z-40 w-full">
-          <div className="bg-[#010114] py-10 px-[30px] h-full rounded-[100px] w-full flex flex-col items-center gap-10">
-            <ul className=" text-off-white-500 font-inter text-base font-normal grid gap-10">
-              {landingPageNav?.map((item, index) => {
-                return item.path ? (
-                  <li key={`${item.name}-${index}`}>
-                    <Link
-                      className="text-white capitalize cursor-pointer"
-                      href={item.path}
-                      target="_blank"
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ) : (
-                  <li key={`${item.name}-${index}`}>
-                    <ScrollIntoView
-                      selector={`#${item.name}`}
-                      className="text-white capitalize cursor-pointer"
-                      scrollOptions={{
-                        behavior: "smooth",
-                        block: "start",
-                        inline: "nearest",
-                      }}
-                      onClick={toggleMenu}
-                    >
-                      {item.name}
-                    </ScrollIntoView>
-                  </li>
-                );
-              })}
-            </ul>
-            <Link
-              href={unprotectedRoute.Login}
-              className="font-inter text-base font-medium text-off-white-400 bg-primary rounded-full h-[41px] w-[100px] text-center py-3 px-6 flex items-center justify-center "
-            >
-              Login
-            </Link>
-          </div>
-        </section>
-      )}
     </header>
   );
 };
