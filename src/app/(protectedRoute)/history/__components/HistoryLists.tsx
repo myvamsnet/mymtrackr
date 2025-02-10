@@ -1,6 +1,5 @@
 "use client";
 import { RecordItem } from "@/app/(protectedRoute)/_components/common/records/RecordItem";
-import { RecordsNotFound } from "@/app/(protectedRoute)/_components/common/records/RecordsNotFound";
 import { LoadingRecords } from "@/components/LoadingRecords";
 import React, { useEffect } from "react";
 import useInfiniteItems from "../hook/useInfiniteItems";
@@ -33,10 +32,7 @@ export const HistoryLists = () => {
         records?.length > 0 &&
         status === "success" &&
         records?.map((record, index) => (
-          <RecordItem
-            key={`${record?.id}-${index}`}
-            record={record}
-          />
+          <RecordItem key={`${record?.id}-${index}`} record={record} />
         ))}
 
       {status === "success" && records?.length > 0 && (

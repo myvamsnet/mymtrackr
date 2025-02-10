@@ -1,31 +1,7 @@
 "use client";
-import * as React from "react";
-import Image from "next/image";
-
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { blogs } from "@/constant/help";
 import { ContentProps } from "../page";
 import ReactPlayer from "react-player";
-
-export interface Artwork {
-  artist: string;
-  art: string;
-}
-
-export const works: Artwork[] = [
-  {
-    artist: "Ornella Binni",
-    art: "/images/images/welcome-mtrackr.svg",
-  },
-  {
-    artist: "Tom Byrom",
-    art: "/images/images/welcome-mtrackr.svg",
-  },
-  {
-    artist: "Vladimir Malyavko",
-    art: "/images/images/welcome-mtrackr.svg",
-  },
-];
 
 export const BlogsCarousel: React.FC<Props> = ({ contents }) => {
   return (
