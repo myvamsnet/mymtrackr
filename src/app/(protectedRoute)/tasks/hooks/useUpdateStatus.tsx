@@ -4,9 +4,11 @@ import axiosInstance from "@/lib/axios";
 import toast from "react-hot-toast";
 import { handleError } from "@/lib/helper/handleError";
 import { useUpdateQuery } from "@/hooks/useUpdateQuery";
+import useTaskStore from "@/zustand/taskStore";
 
 const useUpdateStatus = () => {
   const { updateQueryParams } = useUpdateQuery();
+  const { updateTask } = useTaskStore();
   // Access the client
   const queryClient = useQueryClient();
   // Update Tasks status
@@ -21,8 +23,9 @@ const useUpdateStatus = () => {
       if (data?.success) {
         // Invalidate and refetch
         queryClient.invalidateQueries({
-          queryKey: [`tasks-${data?.data?.status ? "completed" : "pending"}`],
+          queryKey: [`tasks`, data?.data?.status ? "completed" : "pending"],
         });
+        updateTask(data?.data);
         toast.success(data?.message);
         updateQueryParams({
           status: `${data?.data?.status ? "completed" : "pending"}`,
@@ -43,6 +46,7 @@ const useUpdateStatus = () => {
       ...task,
       status: e.target.checked,
     };
+
     console.log(e.target.checked);
     mutate(updatedTask);
   };

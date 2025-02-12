@@ -14,7 +14,7 @@ export const useCreateTask = () => {
   const redirect = useRedirect();
   // Access the client
   const queryClient = useQueryClient();
-  const { control, handleSubmit } = useForm<TaskSchemaType>({
+  const { control, handleSubmit, reset } = useForm<TaskSchemaType>({
     resolver: zodResolver(taskSchema),
     defaultValues: {
       taskDate: new Date(),
@@ -35,6 +35,7 @@ export const useCreateTask = () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       toast.success("Task created successfully");
+      reset();
       return redirect("/tasks");
     },
     onError: handleError,

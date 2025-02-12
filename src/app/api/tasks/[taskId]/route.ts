@@ -112,6 +112,9 @@ export async function DELETE(
     return NextResponse.json(
       {
         success: true,
+        data: {
+          id: taskId,
+        },
         message: `Deleted Successfully`,
       },
       { status: 201 }

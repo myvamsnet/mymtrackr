@@ -1,41 +1,39 @@
 "use client";
 
-import { useFetch } from "@/hooks/useFetch";
 import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 import axiosInstance from "@/lib/axios";
 import { handleError } from "@/lib/helper/handleError";
 import { isValidDate } from "@/lib/helper/isValidDate";
 import { taskSchema, TaskSchemaType } from "@/lib/Schema/taskSchema";
-import { SingleTaskResponseData } from "@/types/tasks";
+import useTaskStore from "@/zustand/taskStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { useParams } from "next/navigation";
-import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useCallback } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export const useEditTask = () => {
-  const { id } = useParams() as {
-    id: string;
-  };
+  const { updateTask, tasks } = useTaskStore();
+  const searchParam = useSearchParams();
+  const taskId = searchParam.get("taskId") || "";
   const { updateQueryParams } = useUpdateQuery();
-  const { data, status } = useFetch<SingleTaskResponseData>(
-    "/tasks",
-    id,
-    "tasks"
-  );
-  const singleTask = data?.data;
-  // Access the client
   const queryClient = useQueryClient();
+
+  // Memoize the task lookup
+  const singleTask = useMemo(
+    () => tasks.find((task) => task.id === taskId),
+    [tasks, taskId]
+  );
+
   const { control, handleSubmit, setValue } = useForm<TaskSchemaType>({
     resolver: zodResolver(taskSchema),
-    defaultValues: {
-      taskDate: new Date(),
-      title: "",
-    },
+    defaultValues: { taskDate: new Date(), title: "" },
     mode: "onSubmit",
   });
 
+  // Set default values when singleTask changes
   useEffect(() => {
     if (singleTask) {
       setValue(
@@ -50,40 +48,43 @@ export const useEditTask = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (payload: Payload) => {
-      if (!id) return;
-      const { data } = await axiosInstance.put(`/tasks/${id}`, payload);
+      if (!taskId) return;
+      const { data } = await axiosInstance.put(`/tasks/${taskId}`, payload);
       return data;
     },
     onSuccess: (data) => {
       if (data?.success) {
-        // Invalidate and refetch
         queryClient.invalidateQueries({
-          queryKey: [`tasks-${data?.data?.status ? "completed" : "pending"}`],
+          queryKey: [`tasks`, data.data.status ? "completed" : "pending"],
         });
+
+        toast.success(data.message, { id: "update-task" });
+
+        updateTask(data.data);
         updateQueryParams({
-          status: `${data?.data?.status ? "completed" : "pending"}`,
+          status: data.data.status ? "completed" : "pending",
+          editTask: "",
         });
       }
     },
     onError: handleError,
   });
 
-  const onSubmit = (data: TaskSchemaType) => {
-    const payload = {
-      ...data,
-      taskDate: dayjs(data.taskDate).format("dddd, MMMM D, YYYY h:mm"),
-    } as Payload;
-    mutate(payload);
-  };
-  return {
-    control,
-    handleSubmit,
-    onSubmit,
-    isPending,
-    status,
-    id,
-  };
+  const onSubmit = useCallback(
+    (data: TaskSchemaType) => {
+      if (!taskId) return;
+      const payload: Payload = {
+        ...data,
+        taskDate: dayjs(data.taskDate).format("dddd, MMMM D, YYYY h:mm"),
+      };
+      mutate(payload);
+    },
+    [mutate, taskId]
+  );
+
+  return { control, handleSubmit, onSubmit, isPending, id: taskId };
 };
+
 interface Payload {
   taskDate: string;
   title: string;

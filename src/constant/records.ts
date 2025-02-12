@@ -58,6 +58,13 @@ export const addRecords = [
     type: "receipt",
     icon: InvoiceIcon,
   },
+  {
+    name: "Tasks",
+    path: "/tasks?createTask=true",
+    color: "#010134",
+    type: "tasks",
+    icon: InvoiceIcon,
+  },
 ];
 
 export const products = [

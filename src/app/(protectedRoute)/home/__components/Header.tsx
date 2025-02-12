@@ -28,7 +28,7 @@ export const Header = ({ user }: headerProps) => {
       <div className="">
         <Link
           href={"/settings/profile"}
-          className=" cursor-pointer flex items-center gap-1"
+          className=" cursor-pointer flex items-center gap-2"
         >
           <CustomAvatar
             name={user?.fullName || "M Tracker"}

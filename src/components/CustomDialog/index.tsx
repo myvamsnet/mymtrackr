@@ -18,7 +18,6 @@ export const CustomDialog = ({
   buttonText,
   titleClassName,
   subTitleClassName,
-  btnClassName,
 }: ModalProps) => {
   return (
     <Dialog

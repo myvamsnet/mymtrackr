@@ -12,12 +12,12 @@ import {
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 
-import { Column } from "./Column/Column";
 import useGetAllTasks from "../hooks/useGetAllTasks";
 import useUpdateStatus from "../hooks/useUpdateStatus";
 import CustomLoader from "@/components/CustomLoader/page";
 import { DataNotFound } from "@/components/DataNotFound";
 import { CustomTab } from "@/components/CsutomTab";
+import { Column } from "./Column";
 
 export default function TaskEntry() {
   const { tasks = [], status, setTasks } = useGetAllTasks();
@@ -48,7 +48,6 @@ export default function TaskEntry() {
 
     const originalPos = getTaskPos(active.id as string);
     const newPos = getTaskPos(over.id as string);
-    console.log(over);
     if (originalPos === -1 || newPos === -1) return;
 
     const updatedTasks = arrayMove(tasks, originalPos, newPos);
@@ -72,7 +71,11 @@ export default function TaskEntry() {
         onDragEnd={handleDragEnd}
       >
         {isEmpty && <DataNotFound message="task" />}
-        <Column id="toDo" tasks={tasks} />
+        <Column
+          id="toDo"
+          tasks={tasks}
+          handleChangedStatus={handleChangedStatus}
+        />
       </DndContext>
     </div>
   );

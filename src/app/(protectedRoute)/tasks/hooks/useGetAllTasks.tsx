@@ -1,13 +1,14 @@
 import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 import axiosInstance from "@/lib/axios";
-import { TaskResponseData, TasksData } from "@/types/tasks";
+import { TaskResponseData } from "@/types/tasks";
+import useTaskStore from "@/zustand/taskStore";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 
 const useGetAllTasks = () => {
+  const { setTasks, tasks } = useTaskStore();
   const { updateQueryParams } = useUpdateQuery();
-  const [tasks, setTasks] = useState<TasksData[]>([]);
   const searchParam = useSearchParams();
   const searchTerm = searchParam.get("searchTerm") || "";
   const queryStatus = searchParam.get("status");
@@ -26,16 +27,15 @@ const useGetAllTasks = () => {
   }, [statusValue, searchTerm]);
 
   const { data, status, error } = useQuery<TaskResponseData>({
-    queryKey: ["tasks", queryStatus, searchTerm],
+    queryKey: ["tasks", queryStatus ?? "", searchTerm ?? ""],
     queryFn: fetchTasks,
-    select: (response) => response,
   });
 
   useEffect(() => {
     if (status === "success") {
       setTasks(data?.data ?? []);
     }
-  }, [data?.data, status]);
+  }, [data?.data, status, setTasks]);
 
   useEffect(() => {
     if (
