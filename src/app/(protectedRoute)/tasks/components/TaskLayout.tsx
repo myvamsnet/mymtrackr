@@ -22,7 +22,7 @@ export const TaskLayout = ({
         </div>
       </main>
       {type === "show" && (
-        <section className="flex justify-end items-center sticky bottom-0 right-0 z-10">
+        <section className="flex justify-end items-center sticky bottom-5 right-0 z-10">
           <TaskCreateForm />
         </section>
       )}
