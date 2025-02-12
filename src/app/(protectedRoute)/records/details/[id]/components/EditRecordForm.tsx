@@ -17,6 +17,7 @@ const EditRecordForm = ({
   record,
   isOpen,
   onCancel,
+  title,
 }: CreateRecordsProps) => {
   const {
     control,
@@ -51,12 +52,12 @@ const EditRecordForm = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onCancel} closeOutside={true}>
+    <Modal isOpen={isOpen} onClose={onCancel} closeOutside={true} title={title}>
       <form
-        className="bg-off-white-300 p-3 rounded-xl grid gap-5"
+        className="bg-off-white-300 x rounded-xl "
         onSubmit={handleSubmit(onSubmit)}
       >
-        <section className="overflow-x-hidden md:h-auto h-[400px]">
+        <section className="overflow-x-hidden md:h-auto h-[400px] grid gap-5">
           {inputlists.map((input, i) => {
             return input.type === "currency" ? (
               <NumberInput

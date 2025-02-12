@@ -94,9 +94,11 @@ const lists = [
   {
     name: "pending",
     id: 1,
+    path: "pending",
   },
   {
     name: "Earned",
     id: 2,
+    path: "earned",
   },
 ];

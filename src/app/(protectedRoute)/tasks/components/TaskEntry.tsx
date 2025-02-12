@@ -17,6 +17,7 @@ import useGetAllTasks from "../hooks/useGetAllTasks";
 import useUpdateStatus from "../hooks/useUpdateStatus";
 import CustomLoader from "@/components/CustomLoader/page";
 import { DataNotFound } from "@/components/DataNotFound";
+import { CustomTab } from "@/components/CsutomTab";
 
 export default function TaskEntry() {
   const { tasks = [], status, setTasks } = useGetAllTasks();
@@ -61,18 +62,30 @@ export default function TaskEntry() {
     return <CustomLoader />;
   }
 
-  if (status === "success" && tasks.length === 0) {
-    return <DataNotFound message="tasks" />;
-  }
+  const isEmpty = Boolean(status === "success" && tasks.length === 0);
   return (
     <div className="App">
+      <CustomTab tabs={tabs} queryName="status" />
       <DndContext
         sensors={sensors}
         collisionDetection={closestCorners}
         onDragEnd={handleDragEnd}
       >
+        {isEmpty && <DataNotFound message="task" />}
         <Column id="toDo" tasks={tasks} />
       </DndContext>
     </div>
   );
 }
+const tabs = [
+  {
+    name: "My Tasks",
+    id: 1,
+    path: "pending",
+  },
+  {
+    name: "Completed",
+    id: 2,
+    path: "completed",
+  },
+];

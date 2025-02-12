@@ -43,6 +43,7 @@ const useUpdateStatus = () => {
       ...task,
       status: e.target.checked,
     };
+    console.log(e.target.checked);
     mutate(updatedTask);
   };
   return {

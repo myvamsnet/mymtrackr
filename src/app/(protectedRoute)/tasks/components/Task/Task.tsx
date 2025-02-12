@@ -1,10 +1,12 @@
 import { TasksData } from "@/types/tasks";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { EditIcon } from "lucide-react";
+import { Delete, EditIcon } from "lucide-react";
 import Link from "next/link";
+import useUpdateStatus from "../../hooks/useUpdateStatus";
 
-export const Task = ({ id, title }: TasksData) => {
+export const Task = ({ id, title, status }: TasksData) => {
+  const { handleChangedStatus } = useUpdateStatus();
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
 
@@ -22,15 +24,30 @@ export const Task = ({ id, title }: TasksData) => {
       className="py-4 draggable-item touch-none flex items-center justify-between gap-3 border-b border-[#F4F5F7]"
     >
       <div className="flex items-center gap-2">
-        <input type="checkbox" className="checkbox" />
+        <input
+          type="checkbox"
+          className="size-6 rounded-lg"
+          onChange={(event) =>
+            handleChangedStatus(event, {
+              id,
+              status,
+            })
+          }
+        />
         {title}
       </div>
-      <Link
-        href={`/tasks/edit/${id}`}
-        className="size-8 bg-[#F4F8FF] rounded-full flex justify-center items-center"
-      >
-        <EditIcon />
-      </Link>
+      {status ? (
+        <div className="size-8 bg-[#F4F8FF] rounded-full flex justify-center items-center">
+          <Delete height={16} width={16} />
+        </div>
+      ) : (
+        <Link
+          href={`/tasks/edit/${id}`}
+          className="size-8 bg-[#F4F8FF] rounded-full flex justify-center items-center"
+        >
+          <EditIcon />
+        </Link>
+      )}
     </div>
   );
 };

@@ -65,7 +65,7 @@ const Modal: React.FC<ModalProps> = ({
         tabIndex={-1}
       >
         <div className="flex items-center justify-between mb-4">
-          {title && <h2 className="text-xl font-semibold">{title}</h2>}
+          <h2 className="text-xl font-semibold">{title || ""}</h2>
           <button
             onClick={onClose}
             className="bg-primary rounded-full p-1 flex justify-center items-center cursor-pointer"

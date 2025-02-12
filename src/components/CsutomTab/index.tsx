@@ -12,14 +12,14 @@ export const CustomTab = ({ tabs, queryName }: Props) => {
         <button
           tabIndex={tab.id}
           className={`w-[100px] h-[36px] font-medium text-sm flex justify-center items-center capitalize ${
-            active === tab.name?.toLowerCase()
+            active === tab.path?.toLowerCase()
               ? "border-b-2 border-primary p-3 text-primary"
               : "text-dark-100"
           } capitalize cursor-pointer`}
           key={tab.id}
           onClick={() =>
             updateQueryParams({
-              [queryName]: tab.name?.toLowerCase(),
+              [queryName]: tab.path?.toLowerCase(),
             })
           }
         >
@@ -34,6 +34,7 @@ interface Props {
   tabs: {
     name: string;
     id: number;
+    path: string;
   }[];
   queryName: string;
 }

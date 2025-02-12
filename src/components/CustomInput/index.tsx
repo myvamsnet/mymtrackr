@@ -124,7 +124,7 @@ export const CustomInput: FC<CustomInputProps> = ({
       {type === "file" && (
         <label
           htmlFor={name}
-          className={`bg-[#F1F5FD] py-3 px-4  text-base font-normal text-dark rounded-lg relative w-full outline-none ${
+          className={`bg-[#F1F5FD] py-3 px-4 block  text-base font-normal text-dark rounded-lg relative w-full outline-none ${
             fieldState.error ? "border-red-500 border" : ""
           }`}
         >

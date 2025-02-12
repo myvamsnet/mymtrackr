@@ -25,7 +25,10 @@ export const useCreateTask = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (payload: Payload) => {
-      const { data } = await axiosInstance.post("/tasks", payload);
+      const controller = new AbortController();
+      const { data } = await axiosInstance.post("/tasks", payload, {
+        signal: controller.signal,
+      });
       return data;
     },
     onSuccess: () => {
