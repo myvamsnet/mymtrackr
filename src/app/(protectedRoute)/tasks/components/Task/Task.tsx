@@ -19,7 +19,7 @@ export const Task = ({ id, title }: TasksData) => {
       style={style}
       {...attributes}
       {...listeners}
-      className="py-4 flex items-center justify-between gap-3 border-b border-[#F4F5F7]"
+      className="py-4 draggable-item touch-none flex items-center justify-between gap-3 border-b border-[#F4F5F7]"
     >
       <div className="flex items-center gap-2">
         <input type="checkbox" className="checkbox" />

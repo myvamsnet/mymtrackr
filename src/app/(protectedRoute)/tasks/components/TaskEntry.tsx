@@ -24,7 +24,11 @@ export default function TaskEntry() {
 
   const sensors = useSensors(
     useSensor(PointerSensor), // Keeps pointer support
-    useSensor(TouchSensor), // Adds touch support
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        distance: 10, // Adjust this value if needed
+      },
+    }), // Adds touch support
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
