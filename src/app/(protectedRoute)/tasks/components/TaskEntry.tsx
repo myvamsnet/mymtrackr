@@ -7,6 +7,7 @@ import {
   useSensor,
   useSensors,
   closestCorners,
+  TouchSensor,
   DragEndEvent,
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
@@ -22,7 +23,8 @@ export default function TaskEntry() {
   const { handleChangedStatus, mutate } = useUpdateStatus();
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor), // Keeps pointer support
+    useSensor(TouchSensor), // Adds touch support
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
