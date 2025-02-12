@@ -49,11 +49,6 @@ export default function TaskEntry() {
       id: over?.id as string,
     });
     setTasks(updatedTasks);
-    console.log(over, "hello");
-
-    // handleChangedStatus()
-    // // If you need to update the tasks in the backend or state, do it here
-    // // For example: updateTasks(updatedTasks);
   };
 
   if (status === "pending") {
