@@ -69,11 +69,7 @@ export const Task = ({ task, handleChangedStatus }: Props) => {
       )}
       {/* Drag Icon (Only this is draggable) */}
       {!task.status && (
-        <div
-          {...attributes}
-          {...listeners}
-          className="cursor-grab active:cursor-grabbing p-2"
-        >
+        <div {...attributes} {...listeners} className="touch-none p-2">
           <GripVertical size={18} />
         </div>
       )}
