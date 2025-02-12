@@ -2,32 +2,46 @@ import axiosInstance from "@/lib/axios";
 import { TaskResponseData, TasksData } from "@/types/tasks";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const useGetAllTasks = () => {
+  const [tasks, setTasks] = useState<TasksData[] | []>([]);
   const searchParam = useSearchParams();
-  const searchTerm = searchParam.get("searchTerm");
+  const searchTerm = searchParam.get("searchTerm") || "";
   const queryStatus = searchParam.get("status");
-
-  const values = {
-    status: queryStatus === "completed" ? "true" : "false",
-    searchTerm,
-  };
+  const statusValue = queryStatus === "completed" ? "true" : "false";
 
   const { data, status, error } = useQuery<TaskResponseData>({
-    queryKey: [`tasks-${queryStatus}`, searchTerm ?? ""],
+    queryKey: ["tasks", queryStatus, searchTerm],
     queryFn: async () => {
-      const param = new URLSearchParams(Object(values)).toString();
-      const { data } = await axiosInstance.get(
-        `/tasks${param ? `?${param}` : ""}`
+      const params = new URLSearchParams({
+        status: statusValue,
+        searchTerm,
+      }).toString();
+      const response = await axiosInstance.get(
+        `/tasks${params ? `?${params}` : ""}`
       );
-      return data;
+      return response.data;
+    },
+    select: (response) => {
+      return response;
     },
   });
 
+  useEffect(() => {
+    const getTasksData = () => {
+      if (data?.data && data?.data?.length > 0 && status === "success") {
+        setTasks(data?.data);
+      }
+    };
+    getTasksData();
+  }, [data?.data, status]);
+
   return {
-    tasks: (data?.data as TasksData[]) ?? [],
+    tasks,
     status,
     error,
+    setTasks,
   };
 };
 

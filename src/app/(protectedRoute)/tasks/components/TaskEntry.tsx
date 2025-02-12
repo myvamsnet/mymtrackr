@@ -1,76 +1,77 @@
 "use client";
-
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  type DropResult,
-} from "react-beautiful-dnd";
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  closestCorners,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 
-interface Item {
-  id: string;
-  content: string;
-}
+import { Column } from "./Column/Column";
+import useGetAllTasks from "../hooks/useGetAllTasks";
+import useUpdateStatus from "../hooks/useUpdateStatus";
+import CustomLoader from "@/components/CustomLoader/page";
+import { DataNotFound } from "@/components/DataNotFound";
 
-const initialItems: Item[] = [
-  { id: "item-1", content: "Item 1" },
-  { id: "item-2", content: "Item 2" },
-  { id: "item-3", content: "Item 3" },
-  { id: "item-4", content: "Item 4" },
-  { id: "item-5", content: "Item 5" },
-];
+export default function TaskEntry() {
+  const { tasks = [], status, setTasks } = useGetAllTasks();
+  const { handleChangedStatus, mutate } = useUpdateStatus();
 
-export default function DragDropList() {
-  const [items, setItems] = useState<Item[]>(initialItems);
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
-  const onDragEnd = (result: DropResult) => {
-    if (!result.destination) return;
+  // Memoize the task position finder function
+  const getTaskPos = useMemo(
+    () => (id: string) => tasks.findIndex((task) => task.id === id),
+    [tasks]
+  );
 
-    const reorderedItems = [...items];
-    const [movedItem] = reorderedItems.splice(result.source.index, 1);
-    reorderedItems.splice(result.destination.index, 0, movedItem);
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
 
-    setItems(reorderedItems);
+    if (!over || active.id === over.id) return;
+
+    const originalPos = getTaskPos(active.id as string);
+    const newPos = getTaskPos(over.id as string);
+    console.log(over);
+    if (originalPos === -1 || newPos === -1) return;
+
+    const updatedTasks = arrayMove(tasks, originalPos, newPos);
+    mutate({
+      id: over?.id as string,
+    });
+    setTasks(updatedTasks);
+    console.log(over, "hello");
+
+    // handleChangedStatus()
+    // // If you need to update the tasks in the backend or state, do it here
+    // // For example: updateTasks(updatedTasks);
   };
 
+  if (status === "pending") {
+    return <CustomLoader />;
+  }
+
+  if (status === "success" && tasks.length === 0) {
+    return <DataNotFound message="tasks" />;
+  }
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="list">
-        {(provided) => (
-          <ul
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            className="bg-white rounded-lg shadow-md p-4 w-full max-w-md mx-auto"
-          >
-            {items.map((item, index) => (
-              <Draggable key={item.id} draggableId={item.id} index={index}>
-                {(provided, snapshot) => (
-                  <li
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    className={`
-                      bg-gray-100 p-4 mb-2 rounded-md
-                      ${
-                        snapshot.isDragging
-                          ? "bg-blue-200 shadow-lg scale-105"
-                          : ""
-                      }
-                      transition-all text-lg font-medium
-                      flex items-center justify-between
-                    `}
-                  >
-                    {item.content}
-                    <span className="text-gray-400 ml-2">☰</span>
-                  </li>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </ul>
-        )}
-      </Droppable>
-    </DragDropContext>
+    <div className="App">
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCorners}
+        onDragEnd={handleDragEnd}
+      >
+        <Column id="toDo" tasks={tasks} />
+      </DndContext>
+    </div>
   );
 }
