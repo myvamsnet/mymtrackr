@@ -1,5 +1,6 @@
 "use server";
 
+import { checkAppMode } from "@/config";
 import { createClient } from "@/lib/supabse/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -35,7 +36,10 @@ export const deleteRecord = async (recordId: string) => {
   if (deleteError) {
     return {
       success: false,
-      error: "Something went wrong, Try Again",
+      error:
+        checkAppMode === "development"
+          ? deleteError.message
+          : "Something went wrong, Try Again",
     };
   }
 
