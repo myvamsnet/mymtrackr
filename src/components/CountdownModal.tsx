@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Modal from "./ui/Modal";
+import Link from "next/link";
 
 function getNextFebruary24(): Date {
   const now = new Date();
@@ -96,9 +97,14 @@ export function CountdownModal({ onComplete, isOpen }: CountdownModalProps) {
             )}
           </div>
         </div>
-        <p className="mt-4 text-sm text-muted-foreground">
-          Target Date: February 24, {LAUNCH_DATE.getFullYear()}
-        </p>
+        <div className=" text-center grid gap-2">
+          <p className="mt-4 text-sm text-muted-foreground">
+            Target Date: February 24, {LAUNCH_DATE.getFullYear()}
+          </p>
+          <Link href={"/"} className="text-primary font-bold text-xl">
+            Home Page
+          </Link>
+        </div>
       </div>
     </Modal>
   );
