@@ -114,7 +114,7 @@ export function CountdownModal({
                 </>
               ) : (
                 <div className="text-2xl font-bold text-primary">
-                  It's February 24th!
+                  It&apos;s February 24th!
                 </div>
               )}
             </div>
