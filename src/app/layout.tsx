@@ -4,9 +4,9 @@ import "./globals.css";
 import Provider from "@/provider";
 import { Toaster } from "@/components/ui/sonner";
 import "react-color-palette/css";
-
+import { Analytics } from "@vercel/analytics/react";
 const inter = Inter({ subsets: ["latin"] });
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
 const APP_NAME = "MTrackr";
 const APP_DEFAULT_TITLE = "Simplify Your Financial Management with Mtrackr";
 const APP_TITLE_TEMPLATE = "%s";
@@ -322,6 +322,8 @@ export default function RootLayout({
           <Provider>{children}</Provider>
         </main>
         <Toaster position="top-right" />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
