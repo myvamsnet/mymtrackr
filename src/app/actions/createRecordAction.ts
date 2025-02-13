@@ -43,10 +43,12 @@ export const createRecordAction = async (formData: FormData) => {
     const { data, error } = await supabaseApi
       .from("records")
       .insert([payload])
+      .eq("user_id", userId)
       .single();
 
     if (error) {
-      return { success: false, message: "Failed to create record" };
+      console.log(error);
+      return { success: false, message: error.message };
     }
     revalidatePath("/home");
     return { success: true, data };
