@@ -77,7 +77,7 @@ export async function loginAction(formData: FormData) {
 
   // Update subscription status using RPC
   const now = dayjs();
-  const subscriptionExpiryDate = dayjs(userDetails.subscriptions.expiresAt);
+  const subscriptionExpiryDate = dayjs(userDetails.subscriptions.expired_at);
 
   if (subscriptionExpiryDate.isBefore(now)) {
     const updateSubscriptionError = await supabase.rpc(
