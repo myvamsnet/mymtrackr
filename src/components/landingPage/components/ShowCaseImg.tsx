@@ -4,7 +4,7 @@ export const ShowCaseImg = () => {
   return (
     <>
       <div className="hidden md:block">
-        <Fade>
+        <Fade direction="up">
           <Image
             src={"/images/welcome-banner.svg"}
             alt="groups-phones"
@@ -15,7 +15,7 @@ export const ShowCaseImg = () => {
         </Fade>
       </div>
       <div className="block md:hidden h-full overflow-hidden">
-        <Fade>
+        <Fade direction="up">
           <Image
             src={"/images/mobileimg.png"}
             alt="mobileimg"

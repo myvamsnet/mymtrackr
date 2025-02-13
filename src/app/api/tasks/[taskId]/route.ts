@@ -22,6 +22,7 @@ export async function PUT(
         title: payload.title,
         taskDate: payload.taskDate,
         status: payload.status,
+        updated_at: new Date().toISOString(),
       })
       .eq("id", taskId)
       .eq("user_id", userId)
@@ -111,6 +112,9 @@ export async function DELETE(
     return NextResponse.json(
       {
         success: true,
+        data: {
+          id: taskId,
+        },
         message: `Deleted Successfully`,
       },
       { status: 201 }

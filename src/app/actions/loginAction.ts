@@ -74,10 +74,10 @@ export async function loginAction(formData: FormData) {
       message: ERROR_MESSAGES.GENERAL_ERROR,
     };
   }
-  
+
   // Update subscription status using RPC
   const now = dayjs();
-  const subscriptionExpiryDate = dayjs(userDetails.subscriptions.expiresAt);
+  const subscriptionExpiryDate = dayjs(userDetails.subscriptions.expired_at);
 
   if (subscriptionExpiryDate.isBefore(now)) {
     const updateSubscriptionError = await supabase.rpc(
@@ -106,5 +106,13 @@ export async function loginAction(formData: FormData) {
     redirect("/admin/dashboard");
   }
 
+  if (userDetails.role === "user" && !userDetails.isActive) {
+    await supabase.auth.signOut();
+    return {
+      success: false,
+      message:
+        "The account has been deactivated. Please contact our support team for assistance.",
+    };
+  }
   redirect("/home?login=success");
 }

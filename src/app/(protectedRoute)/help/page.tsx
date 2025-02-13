@@ -1,10 +1,10 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { HelpHeader } from "./components/Header";
 import { Faq } from "./components/Faq";
 import { BlogsCarousel } from "./components/BlogsCarousel";
 import ProtectedLayout from "../_components/layout/ProtectedLayout";
 import { getContents } from "@/app/actions/getContents";
-import { step } from "@material-tailwind/react/types/components/slider";
+import CustomLoader from "@/components/CustomLoader/page";
 
 const Help = async () => {
   const contentsData = (await getContents()) as {
@@ -14,7 +14,9 @@ const Help = async () => {
   return (
     <ProtectedLayout className=" pb-40">
       <HelpHeader />
-      <BlogsCarousel contents={contentsData?.contents as ContentProps[]} />
+      <Suspense fallback={<CustomLoader />}>
+        <BlogsCarousel contents={contentsData?.contents as ContentProps[]} />
+      </Suspense>
       <Faq />
     </ProtectedLayout>
   );

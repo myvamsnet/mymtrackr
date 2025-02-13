@@ -1,35 +1,59 @@
+import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 import axiosInstance from "@/lib/axios";
 import { TaskResponseData } from "@/types/tasks";
+import useTaskStore from "@/zustand/taskStore";
 import { useQuery } from "@tanstack/react-query";
-import { useParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useCallback } from "react";
 
 const useGetAllTasks = () => {
+  const { setTasks, tasks } = useTaskStore();
+  const { updateQueryParams } = useUpdateQuery();
   const searchParam = useSearchParams();
-  const searchTerm = searchParam.get("searchTerm");
-  const { status: queryStatus } = useParams() as {
-    status: Status;
-  };
+  const searchTerm = searchParam.get("searchTerm") || "";
+  const queryStatus = searchParam.get("status");
+  const statusValue = queryStatus === "completed" ? "true" : "false";
 
-  const values = {
-    status: queryStatus === "completed" ? "true" : "false",
-    searchTerm,
-  };
+  const fetchTasks = useCallback(async () => {
+    const params = new URLSearchParams({
+      status: statusValue,
+      searchTerm,
+    }).toString();
+
+    const response = await axiosInstance.get(
+      `/tasks${params ? `?${params}` : ""}`
+    );
+    return response.data;
+  }, [statusValue, searchTerm]);
 
   const { data, status, error } = useQuery<TaskResponseData>({
-    queryKey: [`tasks-${queryStatus}`, searchTerm ?? ""],
-    queryFn: async () => {
-      const param = new URLSearchParams(Object(values)).toString();
-      const { data } = await axiosInstance.get(
-        `/tasks${param ? `?${param}` : ""}`
-      );
-      return data;
-    },
+    queryKey: ["tasks", queryStatus ?? "", searchTerm ?? ""],
+    queryFn: fetchTasks,
   });
 
+  useEffect(() => {
+    if (status === "success") {
+      setTasks(data?.data ?? []);
+    }
+  }, [data?.data, status, setTasks]);
+
+  useEffect(() => {
+    if (
+      queryStatus === "" ||
+      queryStatus === undefined ||
+      queryStatus === null
+    ) {
+      updateQueryParams({
+        status: "pending",
+      });
+    }
+  }, [queryStatus, updateQueryParams]);
+
   return {
-    tasks: data?.data,
+    tasks,
     status,
     error,
+    setTasks,
   };
 };
 

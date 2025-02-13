@@ -7,7 +7,7 @@ import { Icons } from "@/assets/icons";
 import { User } from "@/types/auth";
 import Link from "next/link";
 
-const Balance = ({ user, data }: Props) => {
+const Balance = ({ data }: Props) => {
   const [showBalance, setShowBalance] = useState(true);
   const balanceType = useRecordStore((state) => state.balanceType);
 

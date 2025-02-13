@@ -1,7 +1,6 @@
 "use client";
 import { Records } from "@/types/records";
 import Link from "next/link";
-import { RecordsNotFound } from "../../_components/common/records/RecordsNotFound";
 import { RecordItem } from "../../_components/common/records/RecordItem";
 import toast from "react-hot-toast";
 import { DataNotFound } from "@/components/DataNotFound";
@@ -37,10 +36,7 @@ export const RecentRecords = ({
         {records &&
           records?.length > 0 &&
           records?.map((record, index) => (
-            <RecordItem
-              key={`${record?.id}-${index}`}
-              record={record}
-            />
+            <RecordItem key={`${record?.id}-${index}`} record={record} />
           ))}
       </section>
     </div>

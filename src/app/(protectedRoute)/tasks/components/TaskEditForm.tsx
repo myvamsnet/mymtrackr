@@ -4,51 +4,58 @@ import { CustomInput } from "@/components/CustomInput";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { useEditTask } from "../hooks/useEditTask";
+import { useSearchParams } from "next/navigation";
+import { CustomModal } from "@/components/CustomModal";
+import { useUpdateQuery } from "@/hooks/useUpdateQuery";
+import { EditIcon } from "@/assets/icons/EditIcon";
 import CustomLoader from "@/components/CustomLoader/page";
-import useDeleteTask from "../hooks/useDeleteTask";
-import { useParams } from "next/navigation";
 
-const TaskEditForm = () => {
-  const { id } = useParams() as {
-    id: string;
-  };
-  const { control, handleSubmit, onSubmit, isPending, status } = useEditTask();
-  const { handleDelete, isPending: deleteLoader } = useDeleteTask();
+const TaskEditForm = ({ id }: Props) => {
+  const { updateQueryParams } = useUpdateQuery();
+  const searchParam = useSearchParams();
+  const editTask = searchParam.get("editTask");
 
-  if (status === "pending") {
-    return <CustomLoader />;
-  }
+  const { control, handleSubmit, onSubmit, isPending } = useEditTask();
+
   return (
-    <form
-      className="space-y-5"
-      onSubmit={handleSubmit(onSubmit)}
+    <CustomModal
+      isOpen={editTask === "true"}
+      onOpenChange={(open) => {
+        updateQueryParams({
+          editTask: open ? "true" : "",
+          taskId: open ? id : "",
+        });
+      }}
+      subTitle=""
+      content=""
+      title="Edit Task"
+      btnText={
+        <span>
+          <EditIcon />
+        </span>
+      }
+      className="size-4 !bg-[#F4F8FF] rounded-full flex justify-center items-center text-pretty"
     >
-      <CustomDatePicker
-        name="taskDate"
-        control={control}
-        label="Task Date"
-      />
-      <CustomInput
-        name={"title"}
-        type={"text"}
-        label={"Title"}
-        control={control}
-        placeholder={"Enter task title"}
-      />
-      <div className="w-full flex items-center gap-6">
-        <div
-          className="w-[100px] flex justify-center items-center text-danger-500 text-sm cursor-pointer"
-          role="button"
-          onClick={() => handleDelete(id)}
-        >
-          {deleteLoader && id ? "Deleting..." : "Delete"}
+      <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+        <CustomDatePicker name="taskDate" control={control} label="Task Date" />
+        <CustomInput
+          name={"title"}
+          type={"text"}
+          label={"Title"}
+          control={control}
+          placeholder={"Enter task title"}
+        />
+        <div className="w-full flex items-center gap-6">
+          <Button className="w-full py-2 px-4 h-[45px] flex-1">
+            {isPending ? "Updating..." : "Updating Task"}
+          </Button>
         </div>
-        <Button className="w-full py-2 px-4 h-[45px] flex-1">
-          {isPending ? "Updating..." : "Updating Task"}
-        </Button>
-      </div>
-    </form>
+      </form>
+    </CustomModal>
   );
 };
 
 export default TaskEditForm;
+interface Props {
+  id: string;
+}

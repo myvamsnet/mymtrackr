@@ -16,7 +16,7 @@ const TypeLayout = ({ children, route }: Props) => {
     <main className="container mx-auto md:max-w-[700px]  overflow-y-auto overflow-x-hidden h-screen relative">
       <div className=" h-[90vh] overflow-y-auto p-4 px-3 bg-[#F1F5FD]">
         <RecordHeader title={`${recordType?.title}`} />
-        <section className="bg-[#FCFDFE] p-4 rounded-tl-lg rounded-tr-lg grid gap-3">
+        <section className="bg-[#FCFDFE] p-4 rounded-tl-lg rounded-tr-lg space-y-3">
           <Filters />
           <RecordsBalance />
           {children}

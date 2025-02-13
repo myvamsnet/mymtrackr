@@ -1,31 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useGetAllReferrals from "../hook/useGetAllRerrals";
-
 import { useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { dateFormatter } from "@/lib/helper/dateFormatter";
 import { currencyFormatter } from "@/lib/helper/currencyFormatter";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useUpdateQuery } from "@/hooks/useUpdateQuery";
+import { CustomTab } from "@/components/CsutomTab";
 
 const ReferralLists = () => {
-  const { isFetchingNextPage, isLoading, referrals, queryStatus } =
-    useGetAllReferrals();
+  const { updateQueryParams } = useUpdateQuery();
+  const { isFetchingNextPage, referrals, queryStatus } = useGetAllReferrals();
   const pathname = useSearchParams().get("status");
-
-  const lists = [
-    {
-      name: "pending",
-      id: "1",
-      link: "/referral-history?status=pending",
-      pathname: "pending",
-    },
-    {
-      name: "Earned",
-      id: "2",
-      link: "/referral-history?status=active",
-      pathname: "active",
-    },
-  ];
+  useEffect(() => {
+    if (!pathname) {
+      updateQueryParams({
+        status: "pending",
+      });
+    }
+  }, [pathname, updateQueryParams]);
 
   let content;
   if (queryStatus === "pending" && referrals.length === 0) {
@@ -48,8 +40,6 @@ const ReferralLists = () => {
       </div>
     ));
   }
-
-  console.log(referrals);
 
   if (queryStatus === "success" && referrals && referrals?.length > 0) {
     content = referrals.map((referral) => (
@@ -90,21 +80,8 @@ const ReferralLists = () => {
   }
   return (
     <section>
-      <div className="flex justify-between border-b border-[#E3E4E7] items-center  mt-4  px-[44px]">
-        {lists?.map((list) => (
-          <Link
-            href={list.link}
-            key={list.id}
-            className={`font-medium text-sm cursor-pointer capitalize   py-3  h-auto ${
-              pathname === list.pathname
-                ? "text-primary  border-primary border-b-2  "
-                : "text-dark-300"
-            }`}
-          >
-            {list.name}
-          </Link>
-        ))}
-      </div>
+      <CustomTab queryName="status" tabs={lists} />
+
       <div className="py-2 px-4">{content}</div>
 
       {isFetchingNextPage && <p>Loading more...</p>}
@@ -113,3 +90,15 @@ const ReferralLists = () => {
 };
 
 export default ReferralLists;
+const lists = [
+  {
+    name: "pending",
+    id: 1,
+    path: "pending",
+  },
+  {
+    name: "Earned",
+    id: 2,
+    path: "earned",
+  },
+];

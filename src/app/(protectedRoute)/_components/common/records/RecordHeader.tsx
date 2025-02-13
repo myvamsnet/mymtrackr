@@ -1,5 +1,6 @@
 "use client";
 import { AnalyticsIcon } from "@/assets/icons/AnalyticsIcon";
+import { ArrowBackIcon } from "@/assets/icons/ArrowBackIcon";
 import { useRedirect } from "@/hooks/useRedirect";
 import { MoveLeft } from "lucide-react";
 import Link from "next/link";
@@ -22,7 +23,7 @@ export const RecordHeader = ({
         className="flex items-center gap-4 cursor-pointer"
         onClick={() => navigate(url as string)}
       >
-        <MoveLeft size={24} className="text-primary" />
+        <ArrowBackIcon size={24} className="text-primary" />
         <h3 className="text-sm font-semibold  text-dark  capitalize">
           {title}
         </h3>

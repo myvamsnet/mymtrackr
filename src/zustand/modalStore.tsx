@@ -48,4 +48,8 @@ export type ModalType =
   | "preview"
   | "more"
   | "default"
-  | "deliveryFee";
+  | "deliveryFee"
+  | "create"
+  | "read"
+  | "update"
+  | "delete";

@@ -20,15 +20,9 @@ const ProtectedLayout = ({ children, className }: MainLayoutProps) => {
       <section className={`flex-1 w-full  ${className}`}>
         {children}
 
-        <AddRecords
-          isOpen={isOpen}
-          toggle={(open) => setIsOpen(open)}
-        />
+        <AddRecords isOpen={isOpen} toggle={(open) => setIsOpen(open)} />
       </section>
-      <MobileTab
-        toggle={toggle}
-        isOpen={isOpen}
-      />
+      <MobileTab toggle={toggle} isOpen={isOpen} />
       <SubscriptionExpiredModal />
     </section>
   );

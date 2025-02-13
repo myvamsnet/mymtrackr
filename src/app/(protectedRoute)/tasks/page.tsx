@@ -1,7 +1,12 @@
-import { redirect } from "next/navigation";
+import TaskEntry from "./components/TaskEntry";
+import { TaskLayout } from "./components/TaskLayout";
 
 const TaskPage = () => {
-  return redirect("/tasks/pending");
+  return (
+    <TaskLayout type="show" url="/records">
+      <TaskEntry />
+    </TaskLayout>
+  );
 };
 
 export default TaskPage;

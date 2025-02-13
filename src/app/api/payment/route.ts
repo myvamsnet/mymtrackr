@@ -28,7 +28,6 @@ export async function POST(req: NextRequest) {
       callback_url: redirect_url,
     });
 
-    console.log(response, process.env.NEXT_PUBLIC_SUBSCRIPTION_PLAN_ID);
     if (!response.status) {
       return NextResponse.json({ error: response.message }, { status: 400 });
     }

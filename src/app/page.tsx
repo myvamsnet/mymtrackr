@@ -5,7 +5,6 @@ import { FeatureSection } from "@/components/landingPage/components/FeatureSecti
 import { BenefitSection } from "@/components/landingPage/components/BenefitSection";
 import { ServiceSection } from "@/components/landingPage/components/ServiceSection";
 import { FooterSection } from "@/components/landingPage/components/FooterSection";
-import CookiesPolicy from "@/components/landingPage/components/CookiesPolicy";
 
 const LandingPage = async () => {
   return (
@@ -16,7 +15,6 @@ const LandingPage = async () => {
       <BenefitSection />
       <ServiceSection />
       <FooterSection />
-      {/* <CookiesPolicy /> */}
     </main>
   );
 };

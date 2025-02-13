@@ -3,10 +3,12 @@ import React from "react";
 import axiosInstance from "@/lib/axios";
 import toast from "react-hot-toast";
 import { handleError } from "@/lib/helper/handleError";
-import { useRedirect } from "@/hooks/useRedirect";
+import { useUpdateQuery } from "@/hooks/useUpdateQuery";
+import useTaskStore from "@/zustand/taskStore";
 
 const useUpdateStatus = () => {
-  const redirect = useRedirect();
+  const { updateQueryParams } = useUpdateQuery();
+  const { updateTask } = useTaskStore();
   // Access the client
   const queryClient = useQueryClient();
   // Update Tasks status
@@ -17,15 +19,17 @@ const useUpdateStatus = () => {
       return data;
     },
     onSuccess: (data) => {
+      console.log(data);
       if (data?.success) {
         // Invalidate and refetch
         queryClient.invalidateQueries({
-          queryKey: [`tasks-${data?.data?.status ? "completed" : "pending"}`],
+          queryKey: [`tasks`, data?.data?.status ? "completed" : "pending"],
         });
+        updateTask(data?.data);
         toast.success(data?.message);
-        return redirect(
-          `/tasks/${data?.data?.status ? "completed" : "pending"}`
-        );
+        updateQueryParams({
+          status: `${data?.data?.status ? "completed" : "pending"}`,
+        });
       }
     },
     onError: handleError,
@@ -42,10 +46,13 @@ const useUpdateStatus = () => {
       ...task,
       status: e.target.checked,
     };
+
+    console.log(e.target.checked);
     mutate(updatedTask);
   };
   return {
     handleChangedStatus,
+    mutate,
   };
 };
 
@@ -53,4 +60,5 @@ export default useUpdateStatus;
 interface TaskStatusPayload {
   status: boolean;
   id: string;
+  title?: string;
 }

@@ -106,13 +106,15 @@ export const Details = () => {
 
           <section className="bg-off-white-500 grid gap-6 rounded-lg p-4">
             {invoicesAndReceiptData?.items?.map((item, index) => (
-              <div key={`${item.description} - ${index}`}>
-                <p>{item.description}</p>
+              <div key={`${item.description} - ${index}`} className="space-y-2">
+                <p className="text-xs font-normal text-dark">
+                  {item.description}
+                </p>
                 <div className="flex justify-between items-center">
-                  <p>
+                  <p className="text-xs font-normal text-dark-100">
                     {item.quantity} x {item.price}
                   </p>
-                  <p>
+                  <p className="text-xs font-normal text-dark-300">
                     {currencyFormatter(
                       Number(item.price) * Number(item.quantity)
                     )}

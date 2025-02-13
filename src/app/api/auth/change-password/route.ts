@@ -33,7 +33,6 @@ export async function POST(req: NextRequest) {
       });
     }
   } catch (error: any) {
-    console.log(error.message);
     return NextResponse.json(
       {
         status: false,

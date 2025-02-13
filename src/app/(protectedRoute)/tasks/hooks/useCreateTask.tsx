@@ -14,7 +14,7 @@ export const useCreateTask = () => {
   const redirect = useRedirect();
   // Access the client
   const queryClient = useQueryClient();
-  const { control, handleSubmit } = useForm<TaskSchemaType>({
+  const { control, handleSubmit, reset } = useForm<TaskSchemaType>({
     resolver: zodResolver(taskSchema),
     defaultValues: {
       taskDate: new Date(),
@@ -25,13 +25,17 @@ export const useCreateTask = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (payload: Payload) => {
-      const { data } = await axiosInstance.post("/tasks", payload);
+      const controller = new AbortController();
+      const { data } = await axiosInstance.post("/tasks", payload, {
+        signal: controller.signal,
+      });
       return data;
     },
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       toast.success("Task created successfully");
+      reset();
       return redirect("/tasks");
     },
     onError: handleError,

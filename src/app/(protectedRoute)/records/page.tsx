@@ -32,10 +32,7 @@ const Records = () => {
                 key={`${product?.id}-${i}`}
               >
                 <span className=" bg-[#F1F5FD] h-8 w-8 rounded-full flex justify-center items-center p-t">
-                  <Icon
-                    height={"10.5"}
-                    width="10.5"
-                  />
+                  <Icon height={"10.5"} width="10.5" />
                 </span>
                 <div className="space-y-1">
                   <h2 className="text-sm font-medium font-inter text-dark ">

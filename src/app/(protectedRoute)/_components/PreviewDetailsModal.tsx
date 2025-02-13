@@ -119,17 +119,23 @@ const PreviewDetailsModal = forwardRef<HTMLDivElement, props>(
                     key={`${list?.id}-${i}`}
                     className={`${className} text-dark-300 md:text-sm`}
                   >
-                    <TableCell className={`${className} text-dark md:text-sm`}>
+                    <TableCell
+                      className={`${className} text-dark md:text-sm py-3`}
+                    >
                       {list?.description}
                     </TableCell>
-                    <TableCell className={`${className} text-dark md:text-sm`}>
+                    <TableCell
+                      className={`${className} text-dark md:text-sm py-3`}
+                    >
                       {list?.quantity}
                     </TableCell>
-                    <TableCell className={`${className} text-dark md:text-sm`}>
+                    <TableCell
+                      className={`${className} text-dark md:text-sm py-3`}
+                    >
                       {currencyFormatter(list?.price)}
                     </TableCell>
                     <TableCell
-                      className={`${className} text-right text-dark md:text-sm`}
+                      className={`${className} text-right text-dark md:text-sm py-3`}
                     >
                       {currencyFormatter(
                         Number(list?.price) * Number(list?.quantity)
@@ -140,25 +146,25 @@ const PreviewDetailsModal = forwardRef<HTMLDivElement, props>(
               </CustomeTable>
               <div className="bg-off-white rounded-[6.75px]  p-4 flex items-end md:gap-3 gap-2  flex-col">
                 <p
-                  className={`${className} md:text-sm text-dark flex justify-between items-center w-[115px] md:w-[300px]`}
+                  className={`${className} md:text-sm text-dark flex justify-between items-center w-[150px] md:w-[300px]`}
                 >
                   Sub Total:{" "}
                   <span>{currencyFormatter(calculateTotal(lists?.items))}</span>
                 </p>
                 <p
-                  className={`${className} md:text-sm text-dark-100 flex justify-between items-center w-[115px] md:w-[300px]`}
+                  className={`${className} md:text-sm text-dark-100 flex justify-between items-center w-[150px] md:w-[300px]`}
                 >
                   Discount:{" "}
                   <span>{currencyFormatter(lists?.discount || 0)}</span>
                 </p>
                 <p
-                  className={`${className} md:text-sm text-dark-100 flex justify-between items-center w-[115px] md:w-[300px]`}
+                  className={`${className} md:text-sm text-dark-100 flex justify-between items-center w-[150px] md:w-[300px]`}
                 >
                   Delivery fee:{" "}
                   <span>{currencyFormatter(lists?.delivery || 0)}</span>
                 </p>
                 <p
-                  className={` text-[8.43px] leading-[10.21px] md:text-sm  font-bold flex justify-between items-center w-[115px] md:w-[300px]`}
+                  className={` text-[8.43px] leading-[10.21px] md:text-sm  font-bold flex justify-between items-center w-[150px] md:w-[300px]`}
                   style={{
                     color: businessInfo?.brandColor || "#1D9213",
                   }}

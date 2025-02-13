@@ -1,3 +1,4 @@
+"use client";
 import { Icons } from "@/assets/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
