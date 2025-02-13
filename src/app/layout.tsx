@@ -4,7 +4,7 @@ import "./globals.css";
 import Provider from "@/provider";
 import { Toaster } from "@/components/ui/sonner";
 import "react-color-palette/css";
-
+import { Analytics } from "@vercel/analytics/react";
 const inter = Inter({ subsets: ["latin"] });
 
 const APP_NAME = "MTrackr";
@@ -322,6 +322,7 @@ export default function RootLayout({
           <Provider>{children}</Provider>
         </main>
         <Toaster position="top-right" />
+        <Analytics />
       </body>
     </html>
   );
