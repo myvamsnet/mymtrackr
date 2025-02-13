@@ -43,7 +43,6 @@ export const createRecordAction = async (formData: FormData) => {
     const { data, error } = await supabaseApi
       .from("records")
       .insert([payload])
-      .eq("user_id", userId)
       .single();
 
     if (error) {
