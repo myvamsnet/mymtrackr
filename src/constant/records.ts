@@ -60,7 +60,7 @@ export const addRecords = [
   },
   {
     name: "Tasks",
-    path: "/tasks?createTask=true",
+    path: "/tasks",
     color: "#010134",
     type: "tasks",
     icon: InvoiceIcon,
