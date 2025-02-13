@@ -95,6 +95,7 @@ export const RegisterAction = async (formData: FormData) => {
       status: "trial",
       expired_at: trialExpiration.toISOString(),
       amount: 0, // Set the amount for the subscription, can be adjusted based on your pricing model
+      userProfile_id: userId,
     })
     .select("*");
   if (subscriptionCreateError) {
