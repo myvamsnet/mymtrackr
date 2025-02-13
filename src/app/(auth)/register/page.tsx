@@ -2,6 +2,7 @@ import React from "react";
 import AuthLayout from "../components/AuthLayout";
 import { RegisterForm } from "../components/RegisterForm";
 import { unprotectedRoute } from "@/constant/app";
+import { CountdownModal } from "@/components/CountdownModal";
 export async function generateMetadata({
   searchParams,
 }: GenerateMetadataProps) {
@@ -17,6 +18,7 @@ export async function generateMetadata({
 }
 
 const Register = () => {
+  const live = process.env.NEXT_PUBLIC_LUNCH_APP as "not-live" | "live";
   return (
     <AuthLayout
       title="Register"
@@ -26,6 +28,7 @@ const Register = () => {
       path={unprotectedRoute.Login}
     >
       <RegisterForm />
+      <CountdownModal isOpen={live !== "live" ? true : false} />
     </AuthLayout>
   );
 };
