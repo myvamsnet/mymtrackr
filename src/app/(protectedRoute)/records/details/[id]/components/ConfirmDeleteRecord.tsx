@@ -11,7 +11,6 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 
 export function ConfirmDeleteRecord({ id }: ConfirmDeleteRecordProps) {
-  const redirect = useRedirect();
   const [isOpen, setIsOpen] = useState(false);
   const { mutate, isPending } = useMutation({
     mutationFn: async (id: string) => {

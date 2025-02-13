@@ -1,5 +1,6 @@
 "use client";
 import { RegisterAction } from "@/app/actions/RegisterAction";
+import { useChange } from "@/hooks/useChange";
 import { signUpSchema, SignUpSchemaType } from "@/lib/Schema/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -9,6 +10,8 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export const useSignUp = () => {
+  const live = process.env.NEXT_PUBLIC_LUNCH_APP as "not-live" | "live";
+  const [isOpen, toggle] = useChange(true);
   const searchParam = useSearchParams();
   const referralCode = searchParam.get("referralCode") as string;
 
@@ -51,6 +54,10 @@ export const useSignUp = () => {
   });
 
   const onSubmit = async (data: SignUpSchemaType) => {
+    console.log(live);
+    if (live !== "live") {
+      return toggle(true);
+    }
     mutate(data);
   };
 
@@ -60,5 +67,8 @@ export const useSignUp = () => {
     onSubmit,
     isPending,
     referralCode,
+    isOpen,
+    toggle,
+    live,
   };
 };

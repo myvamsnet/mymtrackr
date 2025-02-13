@@ -1,3 +1,4 @@
+import { checkAppMode } from "@/config";
 import { errorResponse } from "@/lib/helper/errorResponse";
 import { createClient } from "@/lib/supabse/server";
 import { NextResponse } from "next/server";
@@ -31,7 +32,12 @@ export async function DELETE(
 
     if (fetchError && fetchError.code !== "PGRST116") {
       console.error("Failed to fetch the record.", fetchError);
-      return errorResponse("Failed to find the record. Please try again.", 500);
+      return errorResponse(
+        checkAppMode === "development"
+          ? fetchError?.message
+          : "Failed to find the record. Please try again.",
+        500
+      );
     }
 
     // Use a transaction for the update and delete operations
@@ -47,7 +53,10 @@ export async function DELETE(
     if (transactionError) {
       console.error("Transaction failed.", transactionError);
       return errorResponse(
-        "Failed to delete the record. Please try again.",
+        checkAppMode === "development"
+          ? transactionError?.message
+          : "Failed to delete the record. Please try again.",
+
         500
       );
     }
@@ -59,7 +68,9 @@ export async function DELETE(
   } catch (error) {
     console.error("Unexpected error occurred.", error);
     return errorResponse(
-      "An unexpected error occurred. Please try again.",
+      checkAppMode === "development"
+        ? (error as Error).message
+        : "An unexpected error occurred. Please try again.",
       500
     );
   }
