@@ -7,8 +7,7 @@ import Link from "next/link";
 import React from "react";
 import { CountdownModal } from "@/components/CountdownModal";
 export const RegisterForm = () => {
-  const { control, handleSubmit, onSubmit, isPending, isOpen, toggle, live } =
-    useSignUp();
+  const { control, handleSubmit, onSubmit, isPending } = useSignUp();
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 py-2">
@@ -32,23 +31,15 @@ export const RegisterForm = () => {
             Terms of Service
           </Link>
         </small>
-        {live === "not-live" ? (
-          <CountdownModal
-            onComplete={() => console.log("It's February 24th!")}
-            isOpen={isOpen}
-            toggle={toggle}
-          />
-        ) : (
-          <Button
-            type="submit"
-            className={`w-full  h-[52px] text-base font-normal ${
-              isPending ? "opacity-55 cursor-not-allowed" : ""
-            }`}
-            disabled={isPending}
-          >
-            {isPending ? "Loading..." : "Sign Up"}
-          </Button>
-        )}
+        <Button
+          type="submit"
+          className={`w-full  h-[52px] text-base font-normal ${
+            isPending ? "opacity-55 cursor-not-allowed" : ""
+          }`}
+          disabled={isPending ? true : false}
+        >
+          {isPending ? "Loading..." : "Sign Up"}
+        </Button>
       </form>
     </>
   );

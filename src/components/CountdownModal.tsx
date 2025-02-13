@@ -2,15 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import Modal from "./ui/Modal";
 
 function getNextFebruary24(): Date {
   const now = new Date();
@@ -28,11 +20,7 @@ function getNextFebruary24(): Date {
 const LAUNCH_DATE = getNextFebruary24();
 const YEAR_IN_SECONDS = 365.25 * 24 * 60 * 60; // Approximate seconds in a year
 
-export function CountdownModal({
-  onComplete,
-  toggle,
-  isOpen,
-}: CountdownModalProps) {
+export function CountdownModal({ onComplete, isOpen }: CountdownModalProps) {
   const [timeLeft, setTimeLeft] = useState(0);
 
   useEffect(() => {
@@ -55,15 +43,6 @@ export function CountdownModal({
     return () => clearInterval(timer);
   }, [isOpen, onComplete]);
 
-  const handleOpenChange = (open: boolean) => {
-    toggle(open);
-    if (open) {
-      const now = new Date();
-      const timeDiff = LAUNCH_DATE.getTime() - now.getTime();
-      setTimeLeft(Math.max(0, Math.floor(timeDiff / 1000)));
-    }
-  };
-
   const days = Math.floor(timeLeft / (24 * 60 * 60));
   const hours = Math.floor((timeLeft % (24 * 60 * 60)) / (60 * 60));
   const minutes = Math.floor((timeLeft % (60 * 60)) / 60);
@@ -72,64 +51,60 @@ export function CountdownModal({
   const progress = 1 - timeLeft / YEAR_IN_SECONDS;
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogTrigger asChild>
-        <Button
-          type="submit"
-          className={`w-full  h-[52px] text-base font-normal`}
-        >
-          Sign Up
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] bg-primary text-white">
-        <DialogHeader>
-          <DialogTitle>Countdown to our lunching 🤗🤗</DialogTitle>
-          <DialogDescription>
-            Time remaining until February 24, {LAUNCH_DATE.getFullYear()}
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex flex-col items-center justify-center p-4">
-          <div className="relative w-64 h-64">
-            <motion.div
-              className="absolute inset-0 border-4 border-white rounded-full"
-              style={{
-                pathLength: progress,
-                rotate: -90,
-              }}
-              animate={{ pathLength: progress }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-            />
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              {timeLeft > 0 ? (
-                <>
-                  <div className="text-4xl font-bold mb-2">
-                    {days.toString().padStart(2, "0")}:
-                    {hours.toString().padStart(2, "0")}:
-                    {minutes.toString().padStart(2, "0")}:
-                    {seconds.toString().padStart(2, "0")}
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Days : Hours : Minutes : Seconds
-                  </p>
-                </>
-              ) : (
-                <div className="text-2xl font-bold text-primary">
-                  It&apos;s February 24th!
+    <Modal
+      isOpen={isOpen}
+      onClose={() => {}}
+      title="MTrackr is coming"
+      closeOutside={true}
+    >
+      <div className="space-y-2 text-center">
+        <h2 className="text-xl text-primary font-medium text-pretty capitalize">
+          Countdown to our lunching 🤗🤗
+        </h2>
+        <h4 className="text-sm text-dark-200">
+          Time remaining until February 24, {LAUNCH_DATE.getFullYear()}
+        </h4>
+      </div>
+      <div className="flex flex-col items-center justify-center p-4">
+        <div className="relative w-64 h-64">
+          <motion.div
+            className="absolute inset-0 border-4 border-white bg-gradient-to-r from-indigo-500 via-blue-500 to-[#FFA500] rounded-full text-white "
+            style={{
+              pathLength: progress,
+              rotate: -90,
+            }}
+            animate={{ pathLength: progress }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+          />
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            {timeLeft > 0 ? (
+              <>
+                <div className="text-4xl font-bold mb-3 text-white">
+                  {days.toString().padStart(2, "0")}:
+                  {hours.toString().padStart(2, "0")}:
+                  {minutes.toString().padStart(2, "0")}:
+                  {seconds.toString().padStart(2, "0")}
                 </div>
-              )}
-            </div>
+                <p className="text-sm text-muted-foreground text-white">
+                  Days : Hours : Minutes : Seconds
+                </p>
+              </>
+            ) : (
+              <div className="text-2xl font-bold ">
+                It&apos;s February 24th!
+              </div>
+            )}
           </div>
-          <p className="mt-4 text-sm text-muted-foreground">
-            Target Date: February 24, {LAUNCH_DATE.getFullYear()}
-          </p>
         </div>
-      </DialogContent>
-    </Dialog>
+        <p className="mt-4 text-sm text-muted-foreground">
+          Target Date: February 24, {LAUNCH_DATE.getFullYear()}
+        </p>
+      </div>
+    </Modal>
   );
 }
 
 interface CountdownModalProps {
   onComplete?: () => void;
   isOpen: boolean;
-  toggle: (isOpen: boolean) => void;
 }
