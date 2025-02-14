@@ -1,5 +1,4 @@
 "use client";
-import { useBusiness } from "../hook/useBusiness";
 import { CustomInput } from "@/components/CustomInput";
 import { Button } from "@/components/ui/button";
 import { accountDetailsFields, inputFields } from "@/constant/profile";
@@ -8,8 +7,10 @@ import Modal from "@/components/ui/Modal";
 import { ColorPicker } from "react-color-palette";
 import useModal from "@/hooks/useModal";
 import { BusinessProfile } from "./BusinessProfile";
+import { BusinessData } from "@/types/business";
+import { useEditBusiness } from "../hook/useEditBusiness";
 
-export const BusinessForm = () => {
+export const EditBusinessForm = ({ businessData }: Props) => {
   const { modal, onCancel, onConfirm } = useModal();
 
   const {
@@ -22,7 +23,7 @@ export const BusinessForm = () => {
     setColor,
     isPending,
     imageLoader,
-  } = useBusiness();
+  } = useEditBusiness(businessData);
 
   return (
     <main className="bg-white">
@@ -116,5 +117,5 @@ export const BusinessForm = () => {
   );
 };
 interface Props {
-  direction: "create" | "update";
+  businessData: BusinessData;
 }

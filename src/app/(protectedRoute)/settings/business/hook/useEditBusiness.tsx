@@ -9,20 +9,18 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useColor } from "react-color-palette";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "@/lib/axios";
 import toast from "react-hot-toast";
 import { uploadImageToCloudinary } from "@/lib/uploadImageToCloudinary";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { handleError } from "@/lib/helper/handleError";
 import { BusinessData, BusinessResponseData } from "@/types/business";
-import { useRedirect } from "@/hooks/useRedirect";
-import userStore from "@/zustand/userStore";
+import { hexToIColor } from "@/lib/helper/hexToIColor";
 
-export const useBusiness = () => {
-  const redirectToPage = useRedirect();
-  const { user } = userStore();
-  const businessData = user?.businessProfile;
+export const useEditBusiness = (businessData: BusinessData) => {
+  // Access the client
+  const queryClient = useQueryClient();
 
   // Initialize React Hook Form
   const {
@@ -48,18 +46,57 @@ export const useBusiness = () => {
     (businessData?.brandColor as string) ?? "#06870B"
   );
   const [imageLoader, setImageLoader] = useState(false);
-  const { handleFileChange, image, previewUrl } = useUploadImage();
+  const { handleFileChange, image, previewUrl, setPreviewUrl } =
+    useUploadImage();
+
+  useEffect(() => {
+    if (businessData) {
+      const {
+        businessName,
+        businessEmail,
+        phoneNumber1,
+        phoneNumber2,
+        bankName,
+        accountName,
+        accountNumber,
+        termsOfService,
+        brandColor,
+        imageUrl,
+      } = businessData;
+
+      setValue("businessName", businessName);
+      setValue("businessEmail", businessEmail);
+      setValue("phoneNumber1", phoneNumber1);
+      setValue("phoneNumber2", phoneNumber2);
+      setValue("bankName", bankName);
+      setValue("accountName", accountName);
+      setValue("accountNumber", accountNumber);
+      setValue("termsOfService", termsOfService);
+
+      if (brandColor) {
+        const colorObject = hexToIColor(brandColor); // Convert hex to IColor
+        setColor(colorObject);
+      }
+
+      setPreviewUrl(imageUrl || "");
+    }
+  }, [businessData, setValue, setColor, setPreviewUrl]);
 
   // Mutation for create/update operations
   const { isPending, mutate } = useMutation({
     mutationFn: async (formData: BusinessSettingFormData) => {
-      const response = await axiosInstance.post("business/settings", formData);
+      const response = await axiosInstance.put(
+        `business/settings/${businessData.id}`,
+        formData
+      );
       return response.data;
     },
     onSuccess: (response: BusinessResponseData) => {
       if (response?.success) {
-        toast.success("Business Account Created");
-        return redirectToPage(`/settings/business/${response?.data?.id}`);
+        toast.success("Business Account Updated");
+        queryClient.invalidateQueries({
+          queryKey: ["user"],
+        });
       }
     },
     onError: handleError,

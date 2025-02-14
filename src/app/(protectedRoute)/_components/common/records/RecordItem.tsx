@@ -26,7 +26,7 @@ export const RecordItem: FC<TransactionItemPros> = ({ record }) => {
   return (
     <Link
       href={`/records/details/${record?.id}`}
-      className="py-4 flex justify-between items-center px-4"
+      className="p-4 flex justify-between items-center"
     >
       <div
         className="flex items-center gap-2 relative
