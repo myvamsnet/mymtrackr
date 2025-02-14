@@ -1,71 +1,30 @@
-"use client";
-import { PenBook } from "@/assets/icons/PenBook";
-
-import Link from "next/link";
+import {
+  BusinessProfilePayload,
+  getUserBusiness,
+} from "@/app/actions/getUserBusiness";
 import React from "react";
-import { CustomHeader } from "@/components/CustomHeader";
-import { BusinessIcon } from "@/assets/icons/BusinessIcon";
-import userStore from "@/zustand/userStore";
-import { Lock } from "lucide-react";
-import { ConfirmAccountDelete } from "./__components/ConfirmAccountDelete";
+import SettingsEntry from "./__components/SettingsEntry";
+import { BusinessData } from "@/types/business";
 
-const Settings = () => {
-  const { user } = userStore();
-  const businessData = user?.businessProfile;
-  return (
-    <main className="container mx-auto md:max-w-[700px] bg-off-white relative h-screen py-2">
-      <section className="bg-off-white  font-inter  px-3 gap-4   my-3">
-        <CustomHeader title="Settings" link="/more" />
-        <div className="bg-off-white-300 rounded-xl py-4">
-          {lists?.map((list) => (
-            <Link
-              href={
-                list.path === "/settings/business" && businessData?.id
-                  ? `${list.path}/${businessData?.id}`
-                  : list.path
-              }
-              className={`flex items-center cursor-pointer text-sm font-normal p-4 gap-2 border-b capitalize ${
-                list.name === "Delete Account"
-                  ? "text-danger-500"
-                  : "text-dark "
-              }`}
-              key={list.name}
-            >
-              {list.icon && (
-                <div className="h-8 w-8 bg-off-white rounded-full flex justify-center items-center">
-                  <list.icon
-                    color={
-                      list.name === "Delete Account" ? "#C25353" : "#010114"
-                    }
-                    className="h-4 w-4"
-                  />
-                </div>
-              )}
-              {list.name}
-            </Link>
-          ))}
-          <ConfirmAccountDelete />
-        </div>
-      </section>
-    </main>
-  );
+const Settings = async () => {
+  try {
+    const data = (await getUserBusiness()) as BusinessProfilePayload;
+
+    if (!data?.data) {
+      throw new Error("No business data found");
+    }
+
+    return <SettingsEntry businessData={data.data as BusinessData} />;
+  } catch (error) {
+    console.error("Error fetching business data:", error);
+
+    return (
+      <div className="flex flex-col items-center justify-center h-screen text-center">
+        <p className="text-red-500">Failed to load business settings.</p>
+        <p className="text-gray-600">Please try again later.</p>
+      </div>
+    );
+  }
 };
 
 export default Settings;
-const lists = [
-  {
-    name: "Edit profile",
-    icon: PenBook,
-    path: "/settings/profile",
-  },
-  {
-    name: "Business Settings",
-    icon: BusinessIcon,
-    path: "/settings/business",
-  },
-  {
-    name: "Reset Password",
-    path: "/settings/reset-password",
-    icon: Lock,
-  },
-];

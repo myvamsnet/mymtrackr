@@ -18,6 +18,7 @@ import CustomLoader from "@/components/CustomLoader/page";
 import { DataNotFound } from "@/components/DataNotFound";
 import { CustomTab } from "@/components/CsutomTab";
 import { Column } from "./Column";
+import { CustomSearch } from "@/components/Search";
 
 export default function TaskEntry() {
   const { tasks = [], status, setTasks } = useGetAllTasks();
@@ -63,21 +64,26 @@ export default function TaskEntry() {
 
   const isEmpty = Boolean(status === "success" && tasks.length === 0);
   return (
-    <div className="App">
-      <CustomTab tabs={tabs} queryName="status" />
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCorners}
-        onDragEnd={handleDragEnd}
-      >
-        {isEmpty && <DataNotFound message="task" />}
-        <Column
-          id="toDo"
-          tasks={tasks}
-          handleChangedStatus={handleChangedStatus}
-        />
-      </DndContext>
-    </div>
+    <main className="h-screen overflow-auto">
+      <div className="bg-[#FCFDFE] rounded-xl p-4 space-y-4">
+        <CustomSearch />
+        <CustomTab tabs={tabs} queryName="status" />
+      </div>
+      <section className="bg-[#FBFCFF] rounded-bl-xl rounded-br-xl px-4">
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCorners}
+          onDragEnd={handleDragEnd}
+        >
+          {isEmpty && <DataNotFound message="task" />}
+          <Column
+            id="toDo"
+            tasks={tasks}
+            handleChangedStatus={handleChangedStatus}
+          />
+        </DndContext>
+      </section>
+    </main>
   );
 }
 const tabs = [
