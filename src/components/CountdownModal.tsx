@@ -102,7 +102,7 @@ export function CountdownModal({ onComplete, isOpen }: CountdownModalProps) {
             Target Date: February 24, {LAUNCH_DATE.getFullYear()}
           </p>
           <Link href={"/"} className="text-primary font-bold text-xl">
-            Home Page
+            Go Home Page
           </Link>
         </div>
       </div>
