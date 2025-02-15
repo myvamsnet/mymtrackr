@@ -4,7 +4,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
 export const CustomSelect = ({
   dateFilter,
@@ -24,10 +24,7 @@ export const CustomSelect = ({
       </SelectTrigger>
       <SelectContent>
         {options.map((option, i) => (
-          <SelectItem
-            key={i}
-            value={option.value}
-          >
+          <SelectItem key={i} value={option.value}>
             {option.label}
           </SelectItem>
         ))}

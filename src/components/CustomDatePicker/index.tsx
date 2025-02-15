@@ -20,7 +20,6 @@ export const CustomDatePicker = ({
   label,
   placeholder,
 }: Props) => {
-  const { modal, onConfirm, onCancel } = useModal();
   const { field, fieldState } = useController({
     name,
     control,
@@ -32,12 +31,9 @@ export const CustomDatePicker = ({
   return (
     <>
       <Popover
-        open={modal.isOpen && modal.type === "preview"}
+        open={open}
         onOpenChange={(open) => {
-          onConfirm({
-            type: "preview",
-            isOpen: true,
-          });
+          setOpen(open);
         }}
         defaultOpen={open}
       >
@@ -80,7 +76,7 @@ export const CustomDatePicker = ({
             selected={field.value}
             onSelect={(date: Date | undefined) => {
               field.onChange(date || null); // Handle undefined values gracefully
-              onCancel();
+              setOpen(false);
             }}
             initialFocus
             className="w-full bg-white"
