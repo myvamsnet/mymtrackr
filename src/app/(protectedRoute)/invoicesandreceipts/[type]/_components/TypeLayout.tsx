@@ -17,7 +17,7 @@ export const TypeLayout = ({ children, businessProfile, type }: Props) => {
             href={
               businessProfile?.id
                 ? `/settings/business/${businessProfile?.id}`
-                : ``
+                : `/settings/business`
             }
           >
             <SettingsIcon />
