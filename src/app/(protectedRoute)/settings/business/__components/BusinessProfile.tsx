@@ -2,8 +2,6 @@
 
 import { CameraIcon } from "@/assets/icons/CameraIcon";
 import CustomAvatar from "@/components/ui/Avatar/index";
-import { User } from "@/types/auth";
-
 import { BusinessData } from "@/types/business";
 
 export const BusinessProfile = ({
