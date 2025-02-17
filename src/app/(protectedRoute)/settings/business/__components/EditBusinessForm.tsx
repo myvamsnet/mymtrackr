@@ -30,6 +30,7 @@ export const EditBusinessForm = ({ businessData }: Props) => {
       <BusinessProfile
         previewUrl={previewUrl as string}
         handleFileChange={handleFileChange}
+        user={businessData}
       />
       <form
         className=" bg-off-white-300  grid gap-4 rounded-xl"

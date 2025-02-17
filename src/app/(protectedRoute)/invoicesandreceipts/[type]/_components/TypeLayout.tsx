@@ -3,17 +3,11 @@ import AddNewLayout from "@/app/(protectedRoute)/_components/AddNewLayout";
 import { RecordHeader } from "@/app/(protectedRoute)/_components/common/records/RecordHeader";
 import PageLayout from "@/app/(protectedRoute)/_components/layout/PageLayout";
 import { SettingsIcon } from "@/assets/icons/SettingsIcon";
-import { useGetUser } from "@/hooks/useGetUser";
+import { BusinessData } from "@/types/business";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import React from "react";
 
-export const TypeLayout = ({ children }: Props) => {
-  const { user } = useGetUser();
-  const businessData = user?.businessProfile;
-  const { type } = useParams() as {
-    type: string;
-  };
+export const TypeLayout = ({ children, businessProfile, type }: Props) => {
   return (
     <PageLayout>
       <RecordHeader
@@ -21,7 +15,9 @@ export const TypeLayout = ({ children }: Props) => {
         leftElement={
           <Link
             href={
-              businessData?.id ? `/settings/business/${businessData?.id}` : ``
+              businessProfile?.id
+                ? `/settings/business/${businessProfile?.id}`
+                : ``
             }
           >
             <SettingsIcon />
@@ -36,4 +32,6 @@ export const TypeLayout = ({ children }: Props) => {
 };
 interface Props {
   children: React.ReactNode;
+  businessProfile: BusinessData;
+  type: string;
 }

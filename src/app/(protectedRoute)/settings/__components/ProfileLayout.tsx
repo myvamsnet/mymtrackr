@@ -13,10 +13,9 @@ export const ProfileLayout = ({
     <section className="py-4 flex justify-center items-center bg-off-white-300">
       <div className=" relative w-[120px]">
         <CustomAvatar
-          name={user?.fullName || "mtracker"}
-          imgUrl={
-            previewUrl ? (previewUrl as string) : (user?.imageUrl as string)
-          }
+          name={user?.fullName ?? "My MTracker"}
+          size={120}
+          imgUrl={previewUrl}
         />
         <label
           className=" absolute bottom-0 right-0 cursor-pointer"

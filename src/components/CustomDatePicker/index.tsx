@@ -11,7 +11,6 @@ import {
 import { Control, useController } from "react-hook-form";
 import dayjs from "dayjs";
 import { useState } from "react";
-import useModal from "@/hooks/useModal";
 
 export const CustomDatePicker = ({
   name,
@@ -20,7 +19,6 @@ export const CustomDatePicker = ({
   label,
   placeholder,
 }: Props) => {
-  const { modal, onConfirm, onCancel } = useModal();
   const { field, fieldState } = useController({
     name,
     control,
@@ -28,16 +26,12 @@ export const CustomDatePicker = ({
   });
 
   const [open, setOpen] = useState(false);
-  console.log(open);
   return (
     <>
       <Popover
-        open={modal.isOpen && modal.type === "preview"}
+        open={open}
         onOpenChange={(open) => {
-          onConfirm({
-            type: "preview",
-            isOpen: true,
-          });
+          setOpen(open);
         }}
         defaultOpen={open}
       >
@@ -80,7 +74,7 @@ export const CustomDatePicker = ({
             selected={field.value}
             onSelect={(date: Date | undefined) => {
               field.onChange(date || null); // Handle undefined values gracefully
-              onCancel();
+              setOpen(false);
             }}
             initialFocus
             className="w-full bg-white"

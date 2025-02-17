@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useGetUser } from "@/hooks/useGetUser";
 import useModal from "@/hooks/useModal";
 import { useRedirect } from "@/hooks/useRedirect";
@@ -157,7 +157,6 @@ export const useInvoiceAndReceipt = () => {
 
   const onSubmit = (values: InvoiceAndReceiptSchemaSchemaType) => {
     if (!user?.id && !businessData?.id) return;
-
     if (values?.items.length === 0) return toast.error("Items cannot be empty");
     const payload = {
       issueDate: dayjs(values?.issueDate).format("dddd, MMMM D, YYYY h:mm A"),
