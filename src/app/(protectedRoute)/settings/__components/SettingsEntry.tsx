@@ -50,7 +50,7 @@ const SettingsEntry = ({ businessData }: Props) => {
 };
 
 interface Props {
-  businessData: BusinessData;
+  businessData: BusinessData | null;
 }
 
 export default SettingsEntry;

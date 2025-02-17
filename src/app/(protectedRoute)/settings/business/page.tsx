@@ -5,22 +5,26 @@ import {
   BusinessProfilePayload,
   getUserBusiness,
 } from "@/app/actions/getUserBusiness";
-import { BusinessData } from "@/types/business";
+import { getUser, Payload } from "@/app/actions/getUser";
 
 const BusinessSettings = async () => {
   try {
     const data = (await getUserBusiness()) as BusinessProfilePayload;
+    const user = (await getUser()) as Payload;
+    const businessInfo = data?.data
+      ? data?.data?.businessEmail
+      : user.data?.fullName;
     return (
       <PageLayout>
         <CustomHeader title="Business Settings" />
-        <BusinessForm businessInfo={data?.data as BusinessData} />
+        <BusinessForm businessInfo={businessInfo as string} />
       </PageLayout>
     );
   } catch (error) {
     <main className="container mx-auto md:max-w-[700px] bg-off-white relative h-screen p-4 flex flex-col items-center justify-center">
       <CustomHeader title="Business Settings" />
       <p className="text-red-500">
-        Failed to load subscription details. Please try again later.
+        Failed to load Business details. Please try again later.
       </p>
     </main>;
   }
