@@ -12,6 +12,7 @@ import { SettingsIcon } from "@/assets/icons/SettingsIcon";
 import NumberInput from "@/components/NumberInput";
 import { CheckBusinessAvailableModal } from "./CheckBusinessAvailableModal";
 import PreviewDetailsModal from "../../_components/PreviewDetailsModal";
+import { CalendarInput } from "@/components/CalendarInput";
 
 export default function AddInvoicesAndReceiptForm() {
   const {
@@ -60,17 +61,13 @@ export default function AddInvoicesAndReceiptForm() {
       >
         <section className="p-4 rounded-xl bg-off-white-300 space-y-5">
           <h3 className="text-xs font-medium text-dark">Invoice Details</h3>
-          <CustomDatePicker
+          <CalendarInput
             name="issueDate"
             control={control}
             label="Issue date"
           />
           {paramType === "invoices" && (
-            <CustomDatePicker
-              name="dueDate"
-              control={control}
-              label="Due date"
-            />
+            <CalendarInput name="dueDate" control={control} label="Due date" />
           )}
           <CustomInput
             name={"customerName"}
@@ -138,11 +135,7 @@ export default function AddInvoicesAndReceiptForm() {
               append({ description: "", quantity: "", price: "" });
             }}
           >
-            <Plus
-              height={"16"}
-              width={"16"}
-            />{" "}
-            <span>Add More Item</span>
+            <Plus height={"16"} width={"16"} /> <span>Add More Item</span>
           </div>
         </div>
         <section className="py-5 px-4 bg-off-white-300 rounded-2xl grid gap-7">

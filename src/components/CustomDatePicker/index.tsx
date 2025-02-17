@@ -11,7 +11,6 @@ import {
 import { Control, useController } from "react-hook-form";
 import dayjs from "dayjs";
 import { useState } from "react";
-import useModal from "@/hooks/useModal";
 
 export const CustomDatePicker = ({
   name,
@@ -27,7 +26,6 @@ export const CustomDatePicker = ({
   });
 
   const [open, setOpen] = useState(false);
-  console.log(open);
   return (
     <>
       <Popover

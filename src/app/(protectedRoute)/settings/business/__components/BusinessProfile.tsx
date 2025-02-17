@@ -2,17 +2,20 @@
 
 import { CameraIcon } from "@/assets/icons/CameraIcon";
 import CustomAvatar from "@/components/ui/Avatar/index";
-import { BusinessProfileType } from "@/types/auth";
-import userStore from "@/zustand/userStore";
+import { User } from "@/types/auth";
 
-export const BusinessProfile = ({ previewUrl, handleFileChange }: Props) => {
-  const { user } = userStore();
-  const businessData = user?.businessProfile as BusinessProfileType;
+import { BusinessData } from "@/types/business";
+
+export const BusinessProfile = ({
+  previewUrl,
+  handleFileChange,
+  user,
+}: Props) => {
   return (
     <section className="py-4 flex justify-center items-center bg-off-white-300">
       <div className=" relative w-[120px]">
         <CustomAvatar
-          name={businessData?.businessName ?? user?.fullName}
+          name={user?.businessName ?? "My MTracker"}
           size={120}
           imgUrl={previewUrl}
         />
@@ -36,4 +39,5 @@ export const BusinessProfile = ({ previewUrl, handleFileChange }: Props) => {
 interface Props {
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   previewUrl: string;
+  user: BusinessData;
 }

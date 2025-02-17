@@ -8,8 +8,10 @@ import Modal from "@/components/ui/Modal";
 import { ColorPicker } from "react-color-palette";
 import useModal from "@/hooks/useModal";
 import { BusinessProfile } from "./BusinessProfile";
+import { BusinessData } from "@/types/business";
+import { User } from "@/types/auth";
 
-export const BusinessForm = () => {
+export const BusinessForm = ({ businessInfo }: Props) => {
   const { modal, onCancel, onConfirm } = useModal();
 
   const {
@@ -29,6 +31,7 @@ export const BusinessForm = () => {
       <BusinessProfile
         previewUrl={previewUrl as string}
         handleFileChange={handleFileChange}
+        user={businessInfo as BusinessData}
       />
       <form
         className=" bg-off-white-300  grid gap-4 rounded-xl"
@@ -116,5 +119,5 @@ export const BusinessForm = () => {
   );
 };
 interface Props {
-  direction: "create" | "update";
+  businessInfo: BusinessData;
 }
