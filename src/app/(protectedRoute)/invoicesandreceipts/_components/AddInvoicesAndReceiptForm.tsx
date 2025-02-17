@@ -13,8 +13,9 @@ import NumberInput from "@/components/NumberInput";
 import { CheckBusinessAvailableModal } from "./CheckBusinessAvailableModal";
 import PreviewDetailsModal from "../../_components/PreviewDetailsModal";
 import { CalendarInput } from "@/components/CalendarInput";
+import { BusinessData } from "@/types/business";
 
-export default function AddInvoicesAndReceiptForm() {
+export default function AddInvoicesAndReceiptForm({ businessProfile }: Props) {
   const {
     onSubmit,
     control,
@@ -31,14 +32,13 @@ export default function AddInvoicesAndReceiptForm() {
     values,
     handleSave,
     isPending,
-    businessData,
     handleSubmitDiscountAndDeliveryFee,
     results,
     checkSubTotalAvailable,
     subTotal,
     grandTotal,
   } = useInvoiceAndReceipt();
-
+  console.log(businessProfile);
   return (
     <section>
       <RecordHeader
@@ -46,9 +46,9 @@ export default function AddInvoicesAndReceiptForm() {
         leftElement={
           <Link
             href={
-              businessData?.id
-                ? `/settings/business/${businessData?.id}`
-                : `/settings/business}`
+              businessProfile
+                ? `/settings/business/${businessProfile.id}`
+                : `/settings/business`
             }
           >
             <SettingsIcon />
@@ -218,4 +218,7 @@ export default function AddInvoicesAndReceiptForm() {
       <CheckBusinessAvailableModal />
     </section>
   );
+}
+interface Props {
+  businessProfile: BusinessData | null;
 }
