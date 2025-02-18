@@ -59,7 +59,7 @@ export const useBusiness = () => {
     onSuccess: (response: BusinessResponseData) => {
       if (response?.success) {
         toast.success("Business Account Created");
-        return redirectToPage(`/settings/business/${response?.data?.id}`);
+        return window.location.reload();
       }
     },
     onError: handleError,

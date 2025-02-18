@@ -14,6 +14,7 @@ import {
   invoiceAndReceiptSchema,
   InvoiceAndReceiptSchemaSchemaType,
 } from "@/lib/Schema/invoiceAndReceiptSchema";
+import { BusinessData } from "@/types/business";
 import { SingleInvoicesAndReceiptsResponseData } from "@/types/invoicesandreceipts";
 import useInvoiceAndReceiptStore, {
   InvoiceAndReceiptData,
@@ -27,10 +28,10 @@ import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-export const useInvoiceAndReceipt = () => {
+export const useInvoiceAndReceipt = (businessData: BusinessData) => {
   const redirect = useRedirect();
   const { user } = useGetUser();
-  const businessData = user?.businessProfile;
+
   const [results, setResults] = useState<DiscountAndDeliveryFeeType>({
     delivery: "0",
     discount: "0",
@@ -210,7 +211,6 @@ export const useInvoiceAndReceipt = () => {
     values,
     handleSave,
     isPending,
-    businessData,
     handleSubmitDiscountAndDeliveryFee,
     results,
     subTotal,

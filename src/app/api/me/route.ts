@@ -6,7 +6,6 @@ export async function GET() {
   const userInfo = await supabase?.auth?.getUser();
   try {
     if (userInfo?.error) {
-      console.log(userInfo?.error);
       throw new Error(userInfo?.error?.message);
     }
 
@@ -19,7 +18,6 @@ export async function GET() {
       .single();
 
     if (error) {
-      console.log(error.message);
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
@@ -35,7 +33,6 @@ export async function GET() {
     return response;
   } catch (error) {
     if (error instanceof Error) {
-      console.log(error.message);
       return NextResponse.json({ error: error.message }, { status: 400 });
     } else {
       return NextResponse.json(

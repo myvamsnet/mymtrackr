@@ -12,7 +12,6 @@ export const Header = ({ user }: headerProps) => {
   const searchParam = useSearchParams();
   const login = searchParam.get("login");
   const signup = searchParam.get("signup");
-
   const { updateQueryParams } = useUpdateQuery();
   useEffect(() => {
     if (login === "success" || signup === "success") {
