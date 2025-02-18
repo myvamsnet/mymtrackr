@@ -14,7 +14,6 @@ export async function getUserBusiness() {
       .single();
 
     if (businessProfileError) {
-      console.log(businessProfileError);
       return {
         success: false,
         message: "User Business Profile Fetch Failed",
@@ -48,7 +47,6 @@ export async function getUserBusinessById(id: string) {
       .single();
 
     if (businessProfileError) {
-      console.log(businessProfileError);
       return {
         success: false,
         message: "User Business Profile Fetch Failed",

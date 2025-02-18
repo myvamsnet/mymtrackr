@@ -11,7 +11,7 @@ export async function getUser() {
   if (user?.id) {
     const { data: userprofileData, error: userprofileError } = await supabase
       .from("userprofile")
-      .select("*")
+      .select("*, subscriptions(*), businessProfile(*)") // Or specify columns like 'id, name, etc.'
       .eq("id", user.id)
       .single();
 
@@ -22,15 +22,11 @@ export async function getUser() {
       };
     }
 
-    const data = {
-      ...userprofileData,
-    } as User;
-
     revalidatePath("/home");
     return {
       success: true,
-      data,
-    } as Payload;
+      data: userprofileData as User,
+    } as UserResponseData;
   }
 }
 export interface userprofile {
@@ -43,8 +39,8 @@ export interface userprofile {
   role: "admin" | "user";
 }
 
-export interface Payload {
+export interface UserResponseData {
   success: boolean;
   message?: string;
-  data?: userprofile;
+  data?: User;
 }

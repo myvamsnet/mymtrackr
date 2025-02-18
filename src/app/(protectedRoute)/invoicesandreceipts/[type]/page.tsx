@@ -1,11 +1,12 @@
 import React from "react";
 import { TypeLayout } from "./_components/TypeLayout";
 import InvoicesLists from "./_components/InvoicesLists";
+import { getUser, UserResponseData } from "@/app/actions/getUser";
+import { User } from "@/types/auth";
 import {
   BusinessProfilePayload,
   getUserBusiness,
 } from "@/app/actions/getUserBusiness";
-import { BusinessData } from "@/types/business";
 
 interface Props {
   params: {
@@ -16,7 +17,7 @@ const Invoicesandreceipts = async ({ params }: Props) => {
   const data = (await getUserBusiness()) as BusinessProfilePayload;
   return (
     <TypeLayout
-      businessProfile={data?.data as BusinessData}
+      businessProfileId={data?.data?.id as string}
       type={params?.type}
     >
       <InvoicesLists />

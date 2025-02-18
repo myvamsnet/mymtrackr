@@ -3,23 +3,19 @@ import AddNewLayout from "@/app/(protectedRoute)/_components/AddNewLayout";
 import { RecordHeader } from "@/app/(protectedRoute)/_components/common/records/RecordHeader";
 import PageLayout from "@/app/(protectedRoute)/_components/layout/PageLayout";
 import { SettingsIcon } from "@/assets/icons/SettingsIcon";
-import { BusinessData } from "@/types/business";
 import Link from "next/link";
 import React from "react";
 
-export const TypeLayout = ({ children, businessProfile, type }: Props) => {
+export const TypeLayout = ({ children, businessProfileId, type }: Props) => {
+  const path = businessProfileId
+    ? `/settings/business/${businessProfileId}`
+    : `/settings/business`;
   return (
     <PageLayout>
       <RecordHeader
         title={`Invoices and Receipts`}
         leftElement={
-          <Link
-            href={
-              businessProfile?.id
-                ? `/settings/business/${businessProfile?.id}`
-                : `/settings/business`
-            }
-          >
+          <Link href={path}>
             <SettingsIcon />
           </Link>
         }
@@ -32,6 +28,6 @@ export const TypeLayout = ({ children, businessProfile, type }: Props) => {
 };
 interface Props {
   children: React.ReactNode;
-  businessProfile: BusinessData;
+  businessProfileId: string;
   type: string;
 }

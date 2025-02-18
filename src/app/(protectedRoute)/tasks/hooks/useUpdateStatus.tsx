@@ -19,7 +19,6 @@ const useUpdateStatus = () => {
       return data;
     },
     onSuccess: (data) => {
-      console.log(data);
       if (data?.success) {
         // Invalidate and refetch
         queryClient.invalidateQueries({
@@ -47,7 +46,6 @@ const useUpdateStatus = () => {
       status: e.target.checked,
     };
 
-    console.log(e.target.checked);
     mutate(updatedTask);
   };
   return {

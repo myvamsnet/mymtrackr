@@ -10,7 +10,6 @@ import { RecordHeader } from "../../_components/common/records/RecordHeader";
 import Link from "next/link";
 import { SettingsIcon } from "@/assets/icons/SettingsIcon";
 import NumberInput from "@/components/NumberInput";
-import { CheckBusinessAvailableModal } from "./CheckBusinessAvailableModal";
 import PreviewDetailsModal from "../../_components/PreviewDetailsModal";
 import { CalendarInput } from "@/components/CalendarInput";
 import { BusinessData } from "@/types/business";
@@ -37,8 +36,8 @@ export default function AddInvoicesAndReceiptForm({ businessProfile }: Props) {
     checkSubTotalAvailable,
     subTotal,
     grandTotal,
-  } = useInvoiceAndReceipt();
-  console.log(businessProfile);
+  } = useInvoiceAndReceipt(businessProfile as BusinessData);
+
   return (
     <section>
       <RecordHeader
@@ -214,8 +213,6 @@ export default function AddInvoicesAndReceiptForm({ businessProfile }: Props) {
           </Button>
         </section>
       </PreviewDetailsModal>
-
-      <CheckBusinessAvailableModal />
     </section>
   );
 }

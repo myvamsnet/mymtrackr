@@ -10,7 +10,6 @@ export const updateRecordAction = async (formData: FormData) => {
   const note = formData.get("note") as string;
   const image = formData.get("image") as File;
   const recordId = formData.get("recordId") as string;
-
   if (!recordId) {
     return { success: false, error: "Record Not found" };
   }
@@ -46,7 +45,7 @@ export const updateRecordAction = async (formData: FormData) => {
         amount: payload.amount,
         name: payload.name,
         note: payload.note,
-        image: payload.imageUrl,
+        imageUrl: payload.imageUrl,
         type: payload.type,
       })
       .eq("user_id", userId)
@@ -55,7 +54,7 @@ export const updateRecordAction = async (formData: FormData) => {
       .single();
 
     if (error) {
-      return { success: false, error: "Failed to retrieve record" };
+      return { success: false, error: "Failed to Update record" };
     }
 
     revalidatePath(`/details/${recordId}`);

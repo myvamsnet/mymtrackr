@@ -12,8 +12,7 @@ import CustomLoader from "@/components/CustomLoader/page";
 
 const BusinessDetail = async ({ params }: BusinessDetailProps) => {
   const data = (await getUserBusinessById(params.id)) as BusinessProfilePayload;
-  if (!data?.success) return notFound();
-  console.log(data);
+  if (!data?.success && !data?.data) return notFound();
   return (
     <PageLayout className="pt-0">
       <CustomHeader title="Business Settings" />
