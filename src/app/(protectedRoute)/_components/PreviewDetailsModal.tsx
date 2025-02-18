@@ -13,15 +13,12 @@ import {
 } from "@/lib/helper/calculateGrandTotal";
 import { dateFormatter } from "@/lib/helper/dateFormatter";
 import CustomAvatar from "@/components/ui/Avatar/index";
-import userStore from "@/zustand/userStore";
 import Modal from "@/components/ui/Modal";
+import { BusinessData } from "@/types/business";
 
 const PreviewDetailsModal = forwardRef<HTMLDivElement, props>(
-  ({ lists, title, isOpen, onCancel, children, invoiceRef }) => {
-    const { user } = userStore();
+  ({ lists, title, isOpen, onCancel, children, invoiceRef, businessInfo }) => {
     const className = "text-[6.75px]  leading-[8.17px]";
-
-    const businessInfo = user?.businessProfile;
     return (
       <Modal
         title={title}
@@ -254,4 +251,5 @@ interface props {
   onCancel: () => void;
   children: React.ReactNode;
   invoiceRef?: React.RefObject<HTMLDivElement>;
+  businessInfo: BusinessData;
 }

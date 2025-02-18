@@ -2,10 +2,7 @@
 import { currencyFormatter } from "@/lib/helper/currencyFormatter";
 import { Button } from "@/components/ui/button";
 import useModal from "@/hooks/useModal";
-import {
-  Data,
-  SingleInvoicesAndReceiptsResponseData,
-} from "@/types/invoicesandreceipts";
+import { Data } from "@/types/invoicesandreceipts";
 import {
   calculateGrandTotal,
   calculateTotal,
@@ -15,15 +12,18 @@ import { RecordHeader } from "@/app/(protectedRoute)/_components/common/records/
 import { Dots } from "@/assets/icons/Dots";
 import PreviewDetails from "./PreviewDetails";
 import MoreModal from "./MoreModal";
-import { useFetch } from "@/hooks/useFetch";
-import { useParams, useSearchParams } from "next/navigation";
-import CustomLoader from "@/components/CustomLoader/page";
+import { useSearchParams } from "next/navigation";
 import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 import useInvoiceAndReceiptStore, {
   InvoiceAndReceiptData,
 } from "@/zustand/invoiceAndReceiptStore";
+import { InvoicesandreceiptsData } from "@/app/actions/fetchInvoiceAndReceiptById";
+import { BusinessData } from "@/types/business";
 
-export const Details = () => {
+export const Details = ({
+  invoicesandreceipt,
+  businessInfo,
+}: InvoicesandreceiptProps) => {
   const { setInvoiceAndReceipt } = useInvoiceAndReceiptStore();
   const { onConfirm, modal } = useModal();
   const { updateQueryParams } = useUpdateQuery();
@@ -35,23 +35,7 @@ export const Details = () => {
       type: "",
     });
   };
-  const { id } = useParams() as {
-    id: string;
-  };
-  const { data, status } = useFetch<SingleInvoicesAndReceiptsResponseData>(
-    "/invoicesandreceipts",
-    id,
-    "invoicesandreceipts"
-  );
 
-  const invoicesAndReceiptData = data?.data as Data;
-  if (status === "pending" && !invoicesAndReceiptData) {
-    return <CustomLoader />;
-  }
-
-  if (status === "error") {
-    return <p>Something went wrong, Try Again</p>;
-  }
   return (
     <main className="relative">
       <RecordHeader
@@ -66,20 +50,20 @@ export const Details = () => {
             }}
           />
         }
-        url={`/invoicesandreceipts/${invoicesAndReceiptData?.type}`}
+        url={`/invoicesandreceipts/${invoicesandreceipt?.type}`}
       />
 
       <section className="overflow-y-auto overflow-x-hidden relative bg-off-white-500 py-2 px-3 space-y-3 md:pb-2 pb-28 ">
         <section className="bg-off-white-400 rounded-xl p-4 grid gap-4 text-center">
           <h4 className="text-sm font-medium text-dark">
-            {invoicesAndReceiptData?.customerName}
+            {invoicesandreceipt?.customerName}
           </h4>
           <p className="text-primary font-semibold text-sm">
             {currencyFormatter(
               calculateGrandTotal(
-                invoicesAndReceiptData?.items,
-                invoicesAndReceiptData?.discount,
-                invoicesAndReceiptData?.delivery
+                invoicesandreceipt?.items,
+                invoicesandreceipt?.discount,
+                invoicesandreceipt?.delivery
               )
             )}
           </p>
@@ -90,22 +74,22 @@ export const Details = () => {
               Issue Date
             </p>
             <p className="text-xs font-normal text-dark">
-              {dateFormatter(invoicesAndReceiptData?.issueDate)}
+              {dateFormatter(invoicesandreceipt?.issueDate)}
             </p>
           </div>
-          {invoicesAndReceiptData?.type === "invoices" && (
+          {invoicesandreceipt?.type === "invoices" && (
             <div className="py-3 border-b border-off-white-200 flex justify-between items-center">
               <p className="text-xs font-normal text-dark-100 tracking-[-1%]">
                 Due Date
               </p>
               <p className="text-xs font-normal text-dark">
-                {dateFormatter(invoicesAndReceiptData?.dueDate)}
+                {dateFormatter(invoicesandreceipt?.dueDate)}
               </p>
             </div>
           )}
 
           <section className="bg-off-white-500 grid gap-6 rounded-lg p-4">
-            {invoicesAndReceiptData?.items?.map((item, index) => (
+            {invoicesandreceipt?.items?.map((item, index) => (
               <div key={`${item.description} - ${index}`} className="space-y-2">
                 <p className="text-xs font-normal text-dark">
                   {item.description}
@@ -128,26 +112,26 @@ export const Details = () => {
               Sub total
             </p>
             <p className="text-xs font-normal text-dark">
-              {currencyFormatter(calculateTotal(invoicesAndReceiptData?.items))}
+              {currencyFormatter(calculateTotal(invoicesandreceipt?.items))}
             </p>
           </div>
-          {Number(invoicesAndReceiptData?.discount) > 0 && (
+          {Number(invoicesandreceipt?.discount) > 0 && (
             <div className="py-3 border-b border-off-white-200 flex justify-between items-center">
               <p className="text-xs font-normal text-dark-100 tracking-[-1%]">
                 Discount
               </p>
               <p className="text-xs font-normal text-dark">
-                {currencyFormatter(Number(invoicesAndReceiptData?.discount))}
+                {currencyFormatter(Number(invoicesandreceipt?.discount))}
               </p>
             </div>
           )}
-          {Number(invoicesAndReceiptData?.delivery) > 0 && (
+          {Number(invoicesandreceipt?.delivery) > 0 && (
             <div className="py-3 border-b border-off-white-200 flex justify-between items-center">
               <p className="text-xs font-normal text-dark-100 tracking-[-1%]">
                 Delivery fee
               </p>
               <p className="text-xs font-normal text-dark">
-                {currencyFormatter(Number(invoicesAndReceiptData?.delivery))}
+                {currencyFormatter(Number(invoicesandreceipt?.delivery))}
               </p>
             </div>
           )}
@@ -159,9 +143,9 @@ export const Details = () => {
             <p className="text-xs font-semibold text-dark">
               {currencyFormatter(
                 calculateGrandTotal(
-                  invoicesAndReceiptData?.items,
-                  invoicesAndReceiptData?.discount,
-                  invoicesAndReceiptData?.delivery
+                  invoicesandreceipt?.items,
+                  invoicesandreceipt?.discount,
+                  invoicesandreceipt?.delivery
                 )
               )}
             </p>
@@ -177,19 +161,17 @@ export const Details = () => {
                 type: "preview",
                 isOpen: true,
               });
-              setInvoiceAndReceipt(
-                invoicesAndReceiptData as InvoiceAndReceiptData
-              );
+              setInvoiceAndReceipt(invoicesandreceipt as InvoiceAndReceiptData);
             }}
           >
             Preview
           </Button>
         </section>
       </section>
-      <PreviewDetails list={invoicesAndReceiptData} />
-      {invoicesAndReceiptData && type === "open" && (
+      <PreviewDetails list={invoicesandreceipt} businessInfo={businessInfo} />
+      {invoicesandreceipt && type === "open" && (
         <MoreModal
-          data={invoicesAndReceiptData}
+          data={invoicesandreceipt}
           isOpen={Boolean(type === "open")}
           onClose={handleClose}
         />
@@ -199,4 +181,8 @@ export const Details = () => {
 };
 interface Props {
   data: Data;
+}
+interface InvoicesandreceiptProps {
+  invoicesandreceipt: InvoicesandreceiptsData;
+  businessInfo: BusinessData;
 }

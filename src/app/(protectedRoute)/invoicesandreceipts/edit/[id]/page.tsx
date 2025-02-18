@@ -1,13 +1,21 @@
 import PageLayout from "@/app/(protectedRoute)/_components/layout/PageLayout";
 import React from "react";
 import EditInvoicesAndReceiptForm from "../components/EditInvoicesAndReceiptForm";
-import { getInvoicesAndReceiptsById } from "@/app/actions/getInvoicesAndReceiptsById";
+import {
+  fetchInvoiceAndReceiptById,
+  InvoicesandreceiptResponse,
+} from "@/app/actions/fetchInvoiceAndReceiptById";
 
 const EditInvoicesandreceipts = async ({ params }: Props) => {
-  const data = await getInvoicesAndReceiptsById(params?.id);
+  const { data: invoicesAndReceiptData } = (await fetchInvoiceAndReceiptById(
+    params.id
+  )) as InvoicesandreceiptResponse;
+
   return (
     <PageLayout className="space-y-0 px-3 py-0">
-      {data?.data && <EditInvoicesAndReceiptForm data={data.data} />}
+      {invoicesAndReceiptData && (
+        <EditInvoicesAndReceiptForm data={invoicesAndReceiptData} />
+      )}
     </PageLayout>
   );
 };
