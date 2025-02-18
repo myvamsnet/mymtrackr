@@ -2,7 +2,6 @@
 import { CustomDialog } from "@/components/CustomDialog";
 
 import { Button } from "@/components/ui/button";
-import { useRedirect } from "@/hooks/useRedirect";
 import axiosInstance from "@/lib/axios";
 import { handleError } from "@/lib/helper/handleError";
 import { DialogClose } from "@radix-ui/react-dialog";

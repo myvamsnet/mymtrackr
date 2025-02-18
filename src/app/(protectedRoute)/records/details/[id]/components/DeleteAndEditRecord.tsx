@@ -3,7 +3,6 @@ import React, { FC } from "react";
 import { ConfirmDeleteRecord } from "./ConfirmDeleteRecord";
 import { Button } from "@/components/ui/button";
 import useModal from "@/hooks/useModal";
-import Modal from "@/components/ui/Modal";
 import { Records, Type } from "@/types/records";
 import { expense, income, payable } from "@/constant/createRecords";
 import EditRecordForm from "./EditRecordForm";
