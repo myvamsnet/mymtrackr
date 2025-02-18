@@ -7,11 +7,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export const useSignIn = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { isValid },
-  } = useForm<SignInSchemaType>({
+  const { control, handleSubmit } = useForm<SignInSchemaType>({
     defaultValues: {
       email: "",
       password: "",

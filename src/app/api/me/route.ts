@@ -1,36 +1,43 @@
+import { UserResponseAPI } from "@/hooks/useGetUser";
 import { createClient } from "@/lib/supabse/server";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   const supabase = createClient();
   const userInfo = await supabase?.auth?.getUser();
+
   try {
     if (userInfo?.error) {
       throw new Error(userInfo?.error?.message);
     }
 
-    if (!userInfo.data?.user?.id) return;
+    if (!userInfo.data?.user?.id)
+      return NextResponse.json({ error: "User not found" }, { status: 400 });
 
     const { data, error } = await supabase
-      .from("userprofile") // Replace with your table name
-      .select("*, subscriptions(*), businessProfile(*)") // Or specify columns like 'id, name, etc.'
+      .from("userprofile")
+      .select("*, subscriptions(*), businessProfile(*)")
       .eq("user_id", userInfo.data?.user?.id)
-      .single();
+      .maybeSingle(); // Use maybeSingle() to avoid array wrapping
 
     if (error) {
+      console.log(error);
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
-    // Save tokens in cookies
-    const response = NextResponse.json(
+    const userData = {
+      ...data,
+      subscriptions: data?.subscriptions?.[0] || null, // Convert array to object
+      businessProfile: data?.businessProfile?.[0] || null, // Convert array to object
+    };
+
+    return NextResponse.json(
       {
         status: "success",
-        data,
-      },
+        data: userData,
+      } as UserResponseAPI,
       { status: 200 }
     );
-
-    return response;
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json({ error: error.message }, { status: 400 });
