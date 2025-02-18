@@ -13,7 +13,7 @@ export async function getUser() {
       .from("userprofile")
       .select("*, subscriptions(*), businessProfile(*)") // Or specify columns like 'id, name, etc.'
       .eq("id", user.id)
-      .single();
+      .maybeSingle();
 
     if (userprofileError) {
       return {
@@ -22,10 +22,16 @@ export async function getUser() {
       };
     }
 
+    const userData = {
+      ...userprofileData,
+      subscriptions: userprofileData?.subscriptions?.[0] || null, // Convert array to object
+      businessProfile: userprofileData?.businessProfile?.[0] || null, // Convert array to object
+    };
+
     revalidatePath("/home");
     return {
       success: true,
-      data: userprofileData as User,
+      data: userData as User,
     } as UserResponseData;
   }
 }

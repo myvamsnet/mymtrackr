@@ -16,8 +16,13 @@ export const useGetUser = () => {
     },
   });
 
+  console.log(data);
+
   useEffect(() => {
     if (data?.data) {
+      const userInfo = {
+        ...data.data,
+      };
       setUser(data?.data as User);
     }
   }, [data?.data, setUser]);
