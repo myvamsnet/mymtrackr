@@ -193,6 +193,7 @@ export default function AddInvoicesAndReceiptForm({ businessProfile }: Props) {
         lists={invoiceAndReceiptData}
         isOpen={modal.type === "preview" && modal.isOpen}
         onCancel={onCancel}
+        businessInfo={businessProfile as BusinessData}
       >
         <section className="bg-off-white-300 p-4 flex gap-3 justify-between w-full">
           <Button
