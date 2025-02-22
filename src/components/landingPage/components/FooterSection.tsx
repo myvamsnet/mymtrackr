@@ -57,9 +57,16 @@ export const FooterSection = () => {
               );
             })}
           </div>
-          <div className="flex gap-4 sm:gap-12 items-center justify-center  ">
+          <div className="flex gap-4 sm:gap-12 items-center justify-center py-10">
             <FacebookIcon />
-            <InstagramIcon />
+            <Link
+              href={
+                "https://www.instagram.com/mtrackr?igsh=MWtxMmExaWVpYXZsYw=="
+              }
+              target="_blank"
+            >
+              <InstagramIcon />
+            </Link>
             <LinkedInIcon />
           </div>
         </div>
@@ -67,7 +74,7 @@ export const FooterSection = () => {
       <div className="py-6">
         <hr className="w-full bg-dark-300" />
       </div>
-      <div className="wrapper  flex justify-between md:flex-raw flex-col gap-6 px-4 md:px-0">
+      <div className="wrapper  flex justify-between lg:flex-row gap-6 px-4 md:px-0 flex-col">
         <div className="text-off-white-400 font-inter flex space-x-1 flex-1">
           <Copyright className="w-4 h-4 mt-2" />{" "}
           <span className="font-medium text-sm   gap-x-1 leading-[30px]">
