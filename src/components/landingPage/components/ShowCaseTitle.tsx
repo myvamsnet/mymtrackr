@@ -16,8 +16,8 @@ export const ShowCaseTitle = () => {
       <div className="flex items-center justify-center">
         <Fade direction="down">
           <p className="font-inter font-normal lg:text-xl text-center text-[#E3E4E7] lg:leading-[35px] lg:w-[609px] text-base leading-[26px]">
-            Say goodbye to the stress. Organize income, expenses, and all
-            payments in one place, anytime, anywhere.
+            Say goodbye to stress. Organize income, expenses, and all payments
+            in one place, anytime, anywhere.
           </p>
         </Fade>
       </div>
