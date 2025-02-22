@@ -17,7 +17,7 @@ export const ShowCaseImg = () => {
       <div className="block md:hidden h-full overflow-hidden">
         <Fade direction="up">
           <Image
-            src={"/images/mobileimg.png"}
+            src={"/images/mobileimg.svg"}
             alt="mobileimg"
             className="w-[614px] overflow-hidden "
             width={614}
