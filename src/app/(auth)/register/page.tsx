@@ -13,7 +13,7 @@ export async function generateMetadata({
       : "I use Mtrackr for records keeping  and earn high interests on my referral. Join me on Mtrackr  and get ₦2000 on referral!",
     description: referralCode
       ? "I use Mtrackr for records keeping  and earn high interests on my referral. Join me on Mtrackr  and get ₦2000 on referral!"
-      : "Say goodbye to someone must be stealing my money, stress and the Hassles of Traditional Money Management. Mtrackr allows you to effortlessly manage money with confidence and ease.",
+      : "Say goodbye to someone must be stealing my money, stress and the Hassles of Traditional Money Management. Mtrackr allows you to effortlessly manag money with confidence and ease.",
   };
 }
 
