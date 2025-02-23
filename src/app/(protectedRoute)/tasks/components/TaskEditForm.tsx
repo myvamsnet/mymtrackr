@@ -1,5 +1,4 @@
 "use client";
-import { CustomDatePicker } from "@/components/CustomDatePicker";
 import { CustomInput } from "@/components/CustomInput";
 import { Button } from "@/components/ui/button";
 import React from "react";
@@ -9,6 +8,7 @@ import { CustomModal } from "@/components/CustomModal";
 import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 import { EditIcon } from "@/assets/icons/EditIcon";
 import CustomLoader from "@/components/CustomLoader/page";
+import { CalendarInput } from "@/components/CalendarInput";
 
 const TaskEditForm = ({ id }: Props) => {
   const { updateQueryParams } = useUpdateQuery();
@@ -37,7 +37,7 @@ const TaskEditForm = ({ id }: Props) => {
       className="size-4 !bg-[#F4F8FF] rounded-full flex justify-center items-center text-pretty"
     >
       <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
-        <CustomDatePicker name="taskDate" control={control} label="Task Date" />
+        <CalendarInput name="taskDate" control={control} label="Task Date" />
         <CustomInput
           name={"title"}
           type={"text"}
