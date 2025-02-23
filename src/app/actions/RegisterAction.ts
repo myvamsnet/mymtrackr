@@ -76,6 +76,7 @@ export const RegisterAction = async (formData: FormData) => {
         });
 
       if (referralCreateError) {
+        console.log(referralCreateError);
         return {
           success: false,
           message: "Failed to create referral",
