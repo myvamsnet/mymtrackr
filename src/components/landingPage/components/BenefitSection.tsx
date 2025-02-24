@@ -17,13 +17,22 @@ export const BenefitSection = () => {
                 <Image
                   src={benefit.image}
                   alt="business-die"
-                  className="h-full mt-3"
+                  className="h-auto lg:block hidden"
                   height={0}
-                  width={274.63}
+                  width={530}
+                  priority
+                />
+                <Image
+                  src={benefit.image}
+                  alt="business-die"
+                  className="h-auto lg:hidden block"
+                  height={0}
+                  width={288}
+                  priority
                 />
               </Slide>
             </div>
-            <div className="w-full md:w-[538px] h-auto md:h-[349px] gap-6 space-y-6">
+            <div className="w-full  gap-6 space-y-6">
               <Fade direction="up">
                 <h2 className="font-inter font-semibold text-[28px] md:text-[44px] leading-[40px] md:leading-[65px] text-dark">
                   {benefit.title}
@@ -48,7 +57,7 @@ export const BenefitSection = () => {
           </div>
         ) : (
           <div className="benefitSection__card" key={benefit.id}>
-            <div className="w-full md:w-[538px] h-auto md:h-[349px] gap-6 space-y-6">
+            <div className="w-full  gap-6 space-y-6">
               <Fade direction="left">
                 <h2 className="font-inter font-semibold text-[28px] md:text-[44px] leading-[40px] md:leading-[65px] text-dark">
                   {benefit.title}
@@ -74,10 +83,19 @@ export const BenefitSection = () => {
               <Fade direction="right">
                 <Image
                   src={benefit.image}
-                  alt="business-stress"
-                  className="h-full mt-3"
+                  alt="business-die"
+                  className="h-auto lg:block hidden"
                   height={0}
-                  width={274.63}
+                  width={530}
+                  priority
+                />
+                <Image
+                  src={benefit.image}
+                  alt="business-die"
+                  className="h-auto lg:hidden block"
+                  height={0}
+                  width={288}
+                  priority
                 />
               </Fade>
             </div>
