@@ -32,7 +32,7 @@ export const benefits = [
     id: 5,
     content:
       "We’re here to support your business growth. Join us to grow your business successfully.",
-    image: "/images/invoiceAndrecipt.svg",
+    image: "/images/invoiceAndrecipts.svg",
     position: "left",
   },
   {
