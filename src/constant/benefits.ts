@@ -1,21 +1,21 @@
 export const benefits = [
   {
-    title: "  Record Business Transactions",
+    title: "Record Business Transactions",
     subtitle: "Anytime, Anywhere",
     id: 1,
     content:
       "Mtrackr gives you the freedom and flexibility to run your business smoothly.",
-    image: "/images/history.png",
-    position: "left",
+    image: "/images/history.svg",
+    position: "right",
   },
   {
-    title: " Track Debts and Outstanding Payments",
+    title: "Track Debts and Outstanding Payments",
     subtitle: "Like the Pro!",
     id: 2,
     content:
       "Unclear cash flow can hurt your business. You deserve a simple way to stay on top of your game.",
-    image: "/images/records.png",
-    position: "right",
+    image: "/images/records.svg",
+    position: "left",
   },
   {
     title: " Know Your Business Financial Performance",
@@ -23,7 +23,16 @@ export const benefits = [
     id: 3,
     content:
       " Mtrackr gives you the freedom and flexibility to run your business smoothly.",
-    image: "/images/history.png",
+    image: "/images/analytics.svg",
+    position: "right",
+  },
+  {
+    title: "Generate invoices and receipts with your",
+    subtitle: "brand design",
+    id: 5,
+    content:
+      "We’re here to support your business growth. Join us to grow your business successfully.",
+    image: "/images/invoiceAndrecipt.svg",
     position: "left",
   },
   {
@@ -31,8 +40,8 @@ export const benefits = [
     subtitle: "Support",
     id: 4,
     content:
-      "Unclear cash flow can hurt your business. You deserve a simple way to stay on top of your game.",
-    image: "/images/recenthistrory.png",
+      "We’re here to support your business growth. Join us to grow your business successfully.",
+    image: "/images/support.svg",
     position: "right",
   },
 ];
