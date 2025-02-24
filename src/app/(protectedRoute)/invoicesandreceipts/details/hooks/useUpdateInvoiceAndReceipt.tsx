@@ -1,6 +1,6 @@
+import { updateInvoiceOrReceipt } from "@/app/actions/updateInvoiceOrReceipt";
 import useModal from "@/hooks/useModal";
-import { useRedirect } from "@/hooks/useRedirect";
-import axiosInstance from "@/lib/axios";
+import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 import { handleError } from "@/lib/helper/handleError";
 import { SingleInvoicesAndReceiptsResponseData } from "@/types/invoicesandreceipts";
 import { InvoiceAndReceiptType } from "@/zustand/invoiceAndReceiptStore";
@@ -10,8 +10,8 @@ import toast from "react-hot-toast";
 export const useUpdateInvoiceAndReceipt = () => {
   // Access the client
   const queryClient = useQueryClient();
+  const { updateQueryParams } = useUpdateQuery();
   const { onCancel } = useModal();
-  const redirect = useRedirect();
   const { mutate, isPending } = useMutation({
     mutationFn: async (payload: {
       id: string;
@@ -19,22 +19,27 @@ export const useUpdateInvoiceAndReceipt = () => {
       issueDate: string;
       recordId?: string;
     }) => {
-      if (!payload.id) return;
-      const response = await axiosInstance.put(
-        `/invoicesandreceipts/${payload.id}`,
-        payload
-      );
-      return response.data;
+      if (!payload.id) throw new Error("Payload ID is required");
+      const response = await updateInvoiceOrReceipt(payload.id, payload);
+      if (!response || !response.success) {
+        throw new Error(
+          response?.error || "Failed to update invoice or receipt"
+        );
+      }
+      return response as SingleInvoicesAndReceiptsResponseData;
     },
     onSuccess: (response: SingleInvoicesAndReceiptsResponseData) => {
-      if (response.success) {
-        toast.success(response.message);
-        onCancel;
+      if (response?.success) {
+        toast.success(response?.message);
+        onCancel();
+        updateQueryParams({
+          type: "",
+        });
         // Invalidate and refetch
         queryClient.invalidateQueries({
           queryKey: ["invoicesandreceipts", response?.data?.id],
         });
-        redirect(`/invoicesandreceipts/${response?.data?.type}`);
+        // redirect(`/invoicesandreceipts/${response?.data?.type}`);
       }
     },
     onError: handleError,
