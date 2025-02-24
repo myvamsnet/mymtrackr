@@ -7,7 +7,7 @@ const Login = () => {
   return (
     <AuthLayout
       title="Login"
-      subTitle="Manage your business like the boss"
+      subTitle="Manage your business like the boss."
       authContent="Don't have an account?"
       content="Register Now"
       path={unprotectedRoute.REGISTER}
