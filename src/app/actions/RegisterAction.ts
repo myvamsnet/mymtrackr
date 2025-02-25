@@ -47,6 +47,7 @@ export const RegisterAction = async (formData: FormData) => {
           email,
           user_id: userId, // reference the user ID
           referralCode: userReferralCode, // Store the referral code in the User table
+          password,
         },
       ])
       .select("id");
