@@ -32,12 +32,13 @@ export async function POST(req: NextRequest) {
         message: "Password updated successfully",
       });
     }
-  } catch (error: any) {
-    console.log(error.message);
+  } catch (error: unknown) {
+    const errorMessage = (error as Error).message;
+    console.log(errorMessage);
     return NextResponse.json(
       {
         status: false,
-        message: error?.mesaage,
+        message: errorMessage,
       },
       {
         status: 500,

@@ -68,7 +68,3 @@ interface MutationProps {
   redirect?: string;
 }
 
-interface Logs {
-  action: string;
-  type: string;
-}

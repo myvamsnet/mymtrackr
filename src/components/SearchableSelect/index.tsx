@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState, useEffect, useRef, useMemo } from "react";
@@ -74,9 +75,8 @@ export function SearchableSelect({
         <button
           id={`${name}-select`}
           type="button"
-          className={`w-full h-[45px] px-4 text-left bg-white border ${
-            error ? "border-red-500" : "border-gray-300"
-          } rounded-md shadow-sm focus:outline-none  flex items-center justify-between`}
+          className={`w-full h-[45px] px-4 text-left bg-white border ${error ? "border-red-500" : "border-gray-300"
+            } rounded-md shadow-sm focus:outline-none  flex items-center justify-between`}
           onClick={() => setIsOpen(!isOpen)}
           aria-haspopup="listbox"
           aria-expanded={isOpen}
@@ -115,9 +115,8 @@ export function SearchableSelect({
                 <li
                   key={`${option.value}-${i}`}
                   id={`${name}-option-${option.value}`}
-                  className={`px-4 py-2 hover:bg-gray-100 cursor-pointer text-dark/90 ${
-                    value === option.value ? "bg-gray-200" : ""
-                  }`}
+                  className={`px-4 py-2 hover:bg-gray-100 cursor-pointer text-dark/90 ${value === option.value ? "bg-gray-200" : ""
+                    }`}
                   onClick={() => {
                     onChange(option.value);
                     setIsOpen(false);

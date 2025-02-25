@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabse/server";
 import { Paystack } from "paystack-sdk";
+import { AxiosError } from "axios";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -52,9 +53,11 @@ export async function GET(request: Request) {
       );
     }
   } catch (error) {
+    const errorMessage = (error as Error).message;
+    console.log(errorMessage);
     return NextResponse.json({
       message: "Payment verification failed",
-      error: (error as any).response?.data || (error as any).message,
+      error: (error as AxiosError).response?.data || errorMessage,
     });
   }
 }

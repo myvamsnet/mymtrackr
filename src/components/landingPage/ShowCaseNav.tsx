@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { landingPageNav } from "@/constant/landingPageNav";
 import ScrollIntoView from "react-scroll-into-view";
-import { Button } from "@/components/ui/button";
 import { unprotectedRoute } from "@/constant/app";
 export const ShowCaseNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

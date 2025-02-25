@@ -19,7 +19,7 @@ export interface Referee {
   email: string;
   fullName: string;
   created_at: string;
-  last_active: any;
+  last_active: string;
   phoneNumber?: string;
   subscriptions: Subscriptions;
   imageUrl: string;

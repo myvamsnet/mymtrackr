@@ -10,10 +10,7 @@ export const BenefitSection = () => {
     >
       {benefits.map((benefit) => {
         return benefit.position === "left" ? (
-          <div
-            className="benefitSection__card"
-            key={benefit.id}
-          >
+          <div className="benefitSection__card" key={benefit.id}>
             <div className="rounded-2xl bg-off-white w-full flex justify-center items-center">
               <Image
                 src={benefit.image}
@@ -43,10 +40,7 @@ export const BenefitSection = () => {
             </div>
           </div>
         ) : (
-          <div
-            className="benefitSection__card"
-            key={benefit.id}
-          >
+          <div className="benefitSection__card" key={benefit.id}>
             <div className="w-full md:w-[538px] h-auto md:h-[349px] gap-6 space-y-6">
               <h2 className="font-inter font-semibold text-[28px] md:text-[44px] leading-[40px] md:leading-[65px] text-dark">
                 {benefit.title}

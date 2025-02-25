@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabse/server";
 import { BusinessSettingFormData } from "@/lib/Schema/businessSchema";
 import { BusinessResponseData } from "@/types/business";
+import { responsedata } from "@/lib/helper/responseData";
 
 // Create Business Account
 export async function POST(req: NextRequest) {
@@ -37,10 +38,15 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    return NextResponse.json(
-      { error: "Failed to create Business Account" },
-      { status: 500 }
-    );
+    const errorMessage = (error as Error).message;
+    return responsedata({
+      success: false,
+      message:
+        process.env.NODE_ENV === "development"
+          ? errorMessage
+          : "Failed to create Business Account",
+      statusCode: 500,
+    });
   }
 }
 
@@ -68,10 +74,15 @@ export async function GET() {
       { status: 201 }
     );
   } catch (error) {
-    return NextResponse.json(
-      { error: "Failed to fetch business Acouunt" },
-      { status: 500 }
-    );
+    const errorMessage = (error as Error).message;
+    return responsedata({
+      success: false,
+      message:
+        process.env.NODE_ENV === "development"
+          ? errorMessage
+          : "Failed to fetch business Acouunt",
+      statusCode: 500,
+    });
   }
 }
 

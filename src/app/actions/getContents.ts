@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 
 export const getContents = async () => {
   const supabaseApi = createClient();
-  let { data: contents, error } = await supabaseApi
+  const { data: contents, error } = await supabaseApi
     .from("contents")
     .select("*")
     .order("created_at", { ascending: false });

@@ -1,6 +1,6 @@
 import { responsedata } from "@/lib/helper/responseData";
 import { createClient } from "@/lib/supabse/server";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
@@ -73,10 +73,11 @@ export async function POST(req: NextRequest) {
       message: "Password updated successfully",
       statusCode: 200,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = (error as Error).message;
     return responsedata({
       success: false,
-      message: error?.message || "Internal server error",
+      message: errorMessage || "Internal server error",
       statusCode: 500,
     });
   }

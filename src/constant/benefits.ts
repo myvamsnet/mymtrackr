@@ -5,7 +5,7 @@ export const benefits = [
     id: 1,
     content:
       "Mtrackr gives you the freedom and flexibility to run your business smoothly.",
-    image: "/images/history.png",
+    image: "/images/history.svg",
     position: "left",
   },
   {
@@ -14,7 +14,7 @@ export const benefits = [
     id: 2,
     content:
       "Unclear cash flow can hurt your business. You deserve a simple way to stay on top of your game.",
-    image: "/images/records.png",
+    image: "/images/records.svg",
     position: "right",
   },
   {
@@ -23,7 +23,7 @@ export const benefits = [
     id: 3,
     content:
       " Mtrackr gives you the freedom and flexibility to run your business smoothly.",
-    image: "/images/history.png",
+    image: "/images/history.svg",
     position: "left",
   },
   {

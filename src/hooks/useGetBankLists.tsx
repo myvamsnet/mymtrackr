@@ -1,5 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import bankLists from "@/constant/bankLists.json";
 const useGetBankLists = () => {
   const bankListsArray = bankLists.map(({ name, code }) => {

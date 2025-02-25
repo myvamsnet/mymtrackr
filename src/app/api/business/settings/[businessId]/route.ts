@@ -49,8 +49,9 @@ export async function PUT(
       { status: 201 }
     );
   } catch (error) {
+    const errorMessage = (error as Error).message;
     return NextResponse.json(
-      { error: "Failed to create Business Account" },
+      { error: errorMessage || "Failed to create Business Account" },
       { status: 500 }
     );
   }

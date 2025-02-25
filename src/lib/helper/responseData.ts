@@ -20,6 +20,6 @@ export const responsedata = ({
 interface ResponseDataProps {
   success: boolean;
   message: string;
-  data?: any | null;
+  data?: unknown | null;
   statusCode: number;
 }

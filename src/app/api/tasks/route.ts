@@ -25,6 +25,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
+    const errorMessage = (error as Error).message;
+    console.log(errorMessage);
     return NextResponse.json(
       { error: "Failed to create record" },
       { status: 500 }

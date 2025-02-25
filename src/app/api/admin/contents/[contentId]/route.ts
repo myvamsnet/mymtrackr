@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 
 // Delete contents
 export async function DELETE(
-  req: Request,
   { params }: { params: { contentId: string } }
 ) {
   const supabaseApi = createClient();

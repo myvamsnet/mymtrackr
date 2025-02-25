@@ -41,6 +41,8 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
   } catch (error: unknown) {
+    const errorMessage = (error as Error).message;
+    console.log(errorMessage);
     return NextResponse.json(
       { error: `Fail to create ${payload.type}` },
       { status: 500 }
@@ -108,6 +110,8 @@ export async function GET(req: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
+    const errorMessage = (error as Error).message;
+    console.log(errorMessage);
     return NextResponse.json(
       { error: "Failed to get records" },
       { status: 500 }

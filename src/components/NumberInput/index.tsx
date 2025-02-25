@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -42,9 +43,8 @@ export default function NumberInput({
           id={name}
           type="text"
           inputMode="numeric"
-          className={`bg-[#F1F5FD] py-3 px-4  text-base font-normal text-dark rounded-lg relative w-full outline-none ${
-            fieldState.error ? "border-red-500 border" : ""
-          }`}
+          className={`bg-[#F1F5FD] py-3 px-4  text-base font-normal text-dark rounded-lg relative w-full outline-none ${fieldState.error ? "border-red-500 border" : ""
+            }`}
           placeholder="₦0"
           onChange={handleInputChange}
           value={displayValue} // Show formatted value

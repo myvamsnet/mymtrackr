@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { NextRequest, NextResponse } from "next/server";
 import { Paystack } from "paystack-sdk";
 
@@ -36,11 +37,17 @@ export async function POST(req: NextRequest) {
       { checkoutUrl: response?.data?.authorization_url },
       { status: 200 }
     );
-  } catch (error: any) {
-    console.error(
-      "Payment initiation error:",
-      error.response?.data || error.message
-    );
+  } catch (error: unknown) {
+    const errorMessage = (error as Error).message;
+    console.log(errorMessage);
+    if (error instanceof Error) {
+      console.error(
+        "Payment initiation error:",
+        (error as AxiosError).response?.data || errorMessage
+      );
+    } else {
+      console.error("Payment initiation error:", error);
+    }
     return NextResponse.json(
       { error: "Payment initiation failed" },
       { status: 500 }

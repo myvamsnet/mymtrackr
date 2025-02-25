@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabse/server";
 import { responsedata } from "@/lib/helper/responseData";
 
-export async function POST(req: Request) {
+export async function POST(req: NextResponse) {
   const supabaseApi = createClient();
   const userInfo = await supabaseApi?.auth?.getUser();
   try {
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       data,
       statusCode: 201,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to create content" },
       { status: 500 }
@@ -46,7 +46,7 @@ export async function GET() {
   }
   try {
     // Build the initial query
-    let query = supabaseApi
+    const query = supabaseApi
       .from("contents")
       .select("*")
       .order("created_at", { ascending: false })
@@ -63,8 +63,9 @@ export async function GET() {
       statusCode: 201,
     });
   } catch (error) {
+    const err = error as Error;
     return NextResponse.json(
-      { error: "Failed to get content" },
+      { error: `Failed to get content: ${err.message}` },
       { status: 500 }
     );
   }

@@ -1,7 +1,6 @@
 "use client";
 import axiosInstance from "@/lib/axios";
 import { User } from "@/types/auth";
-
 import userStore from "@/zustand/userStore";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";

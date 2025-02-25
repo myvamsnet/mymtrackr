@@ -114,7 +114,7 @@ export async function POST(req: Request) {
     }
 
     if (recordData?.invoicesAndReceiptsId) {
-      const { data: invoiceData, error: invoiceError } = await supabaseApi
+      const { error: invoiceError } = await supabaseApi
         .from("invoicesandreceipts")
         .update({ record_id: recordData.id })
         .eq("id", recordData.invoicesAndReceiptsId)

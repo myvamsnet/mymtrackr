@@ -1,6 +1,5 @@
 "use client";
 import { RegisterAction } from "@/app/actions/RegisterAction";
-import { useChange } from "@/hooks/useChange";
 import { signUpSchema, SignUpSchemaType } from "@/lib/Schema/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";

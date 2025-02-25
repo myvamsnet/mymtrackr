@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { User } from "@/types/auth";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";

@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axiosInstance from "@/lib/axios";
 
 export const fetchReferrals = async (
   page: number,
   status?: string // Optional parameter
-): Promise<any> => {
+): Promise<{ data: any }> => {
   try {
     // Construct query parameters dynamically
     const params = new URLSearchParams({ page: page.toString() });

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import useInvoiceAndReceiptStore from "@/zustand/invoiceAndReceiptStore";
 import { generateReferralCode } from "@/lib/helper/generateReferralCode";
@@ -47,21 +47,19 @@ export const useGenerateImage = () => {
           await navigator.share({
             files: [file],
             title: invoiceAndReceipt,
-            text: `Here is your ${
-              invoiceAndReceiptData &&
+            text: `Here is your ${invoiceAndReceiptData &&
               invoiceAndReceiptData?.type === "invoices"
-                ? "invoice"
-                : "receipt"
-            }!`,
+              ? "invoice"
+              : "receipt"
+              }!`,
           });
         } else {
           // Fallback to WhatsApp sharing
           const encodedMessage = encodeURIComponent(
-            `Here is your ${
-              invoiceAndReceiptData &&
+            `Here is your ${invoiceAndReceiptData &&
               invoiceAndReceiptData?.type === "invoices"
-                ? "invoice"
-                : "receipt"
+              ? "invoice"
+              : "receipt"
             }!`
           );
           const shareUrl = `https://api.whatsapp.com/send?text=${encodedMessage}`;

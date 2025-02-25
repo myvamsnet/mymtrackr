@@ -1,5 +1,3 @@
-import { capitalizeFirstLetter } from "@/lib/helper/capitalizeFirstLetter";
-import { Payload } from "./../../../actions/getUser";
 import { createClient } from "@/lib/supabse/server";
 import { SingleInvoicesAndReceiptsResponseData } from "@/types/invoicesandreceipts";
 import { InvoiceAndReceiptData } from "@/zustand/invoiceAndReceiptStore";
@@ -77,9 +75,11 @@ export async function PUT(
       { status: 200 }
     );
   } catch (error) {
+    const errorMessage = (error as Error).message;
+    console.log(errorMessage);
     // Handle unexpected errors
     return NextResponse.json(
-      { error: `Failed to update ${payload.type}: ${(error as any).message}` },
+      { error: `Failed to update ${payload.type}: ${errorMessage}` },
       { status: 500 }
     );
   }
@@ -116,6 +116,8 @@ export async function GET(
       { status: 201 }
     );
   } catch (error) {
+    const errorMessage = (error as Error).message;
+    console.log(errorMessage);
     return NextResponse.json(
       { error: `Failed to fetch data` },
       { status: 500 }
@@ -151,6 +153,8 @@ export async function DELETE(
       { status: 201 }
     );
   } catch (error) {
+    const errorMessage = (error as Error).message;
+    console.log(errorMessage);
     return NextResponse.json({ error: `Failed to Delete` }, { status: 500 });
   }
 }

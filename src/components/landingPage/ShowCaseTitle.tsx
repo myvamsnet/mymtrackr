@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { unprotectedRoute } from "@/constant/app";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
