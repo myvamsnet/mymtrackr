@@ -1,10 +1,11 @@
 import React, { Suspense } from "react";
 import { HelpHeader } from "./components/Header";
-import { Faq } from "./components/Faq";
+
 import { BlogsCarousel } from "./components/BlogsCarousel";
 import ProtectedLayout from "../_components/layout/ProtectedLayout";
 import { getContents } from "@/app/actions/getContents";
 import CustomLoader from "@/components/CustomLoader/page";
+import { Faq } from "./components/Faq";
 
 const Help = async () => {
   const contentsData = (await getContents()) as {

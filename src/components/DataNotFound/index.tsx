@@ -17,7 +17,7 @@ export const DataNotFound = ({ message = "Records" }: Props) => {
           No {message} Yet!
         </h4>
         <p className="text-center font-normal text-sm text-dark-100 pt-1 ">
-          Start adding {message} with the <br /> “Add New” button.
+          Start adding {message} with the <br /> “Add Record button.
         </p>
       </div>
     </div>
