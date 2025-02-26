@@ -317,7 +317,7 @@ export default function RootLayout({
           href="/splash_screens/8.3__iPad_Mini_portrait.png"
         />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-[#F1F5FD]`}>
         <main className="!overflow-x-hidden">
           <Provider>{children}</Provider>
         </main>

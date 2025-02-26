@@ -34,6 +34,11 @@ const FaqItem = ({ faq, toggleFAQ, index, openIndex }: AccordionContent) => {
         <div className="p-4 bg-white text-dark-300 text-base font-normal">
           {faq.answer}
         </div>
+        {faq.answer2 && (
+          <div className="px-4 pb-4 bg-white text-dark-300 text-base font-normal">
+            {faq.answer2}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -44,6 +49,7 @@ interface AccordionContent {
   faq: {
     question: string;
     answer: ReactNode;
+    answer2?: ReactNode;
   };
   toggleFAQ: (index: number) => void;
   openIndex: number;

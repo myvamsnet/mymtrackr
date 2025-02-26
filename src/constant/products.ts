@@ -50,15 +50,16 @@ export const products = [
 
 export const FAQs = [
   {
-    question: "How do I install Mtrackr on my phone?",
-    answer:
-      'Click the "Install" button on our website ((link unavailable)) or click the "More" icon on your browser and select "Add to Home screen."',
+    question: "How do I install Mtrackr?",
+    answer: `You can access Mtrackr directly from your browser. For convenience, you can also install it by clicking the "Install" button at the bottom left of our website or by selecting "Add to Home screen" from your browser's "More" icon.  `,
+    answer2: "Note: Mtrackr is currently not available on any App store.",
   },
   {
     question:
       "What is the difference between Available Balance and Final Balance?",
     answer:
       "Available Balance = Income - Expenses. Final Balance = Income - Expenses + Debtors - Payables.",
+    answer2: "",
   },
   {
     question: "How do I earn with referrals?",
@@ -67,11 +68,13 @@ export const FAQs = [
   {
     question: "How do I suggest a feature for the App?",
     answer: `Go to the "More" section and click "Chat with Support" or click the WhatsApp icon at the top right corner of your screen.`,
+    answer2: "",
   },
   {
     question: "How many invoices or receipts can I generate?",
     answer:
       "You can generate as many invoices and receipts as you need - it's unlimited!",
+    answer2: "",
   },
 ];
 

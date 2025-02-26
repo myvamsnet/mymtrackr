@@ -3,6 +3,7 @@ import { Plus, X } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import FaqItem from "./FaqItem";
+import { FAQs } from "@/constant/products";
 
 interface FAQItem {
   question: string;
@@ -63,31 +64,3 @@ export const LandingFaqs = () => {
     </section>
   );
 };
-
-// FAQs data
-export const FAQs = [
-  {
-    question: "How do I install Mtrackr on my phone?",
-    answer:
-      'Click the "Install" button on our website ((link unavailable)) or click the "More" icon on your browser and select "Add to Home screen."',
-  },
-  {
-    question:
-      "What is the difference between Available Balance and Final Balance?",
-    answer:
-      "Available Balance = Income - Expenses. Final Balance = Income - Expenses + Debtors - Payables.",
-  },
-  {
-    question: "How do I earn with referrals?",
-    answer: `When someone registers using your referral code and subscribes, you'll receive ₦2000. Track your referral earnings on the "Refer and Earn" page.`,
-  },
-  {
-    question: "How do I suggest a feature for the App?",
-    answer: `Go to the "More" section and click "Chat with Support" or click the WhatsApp icon at the top right corner of your screen.`,
-  },
-  {
-    question: "How many invoices or receipts can I generate?",
-    answer:
-      "You can generate as many invoices and receipts as you need - it's unlimited!",
-  },
-];

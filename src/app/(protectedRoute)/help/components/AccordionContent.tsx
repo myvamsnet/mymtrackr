@@ -28,9 +28,12 @@ const AccordionContent = ({
           openIndex === index ? "max-h-96" : "max-h-0"
         }`}
       >
-        <div className="py-4">
-          <p className="text-sm text-[#3E3E4C] space-y-2">{faq.answer}</p>
+        <div className="py-4 text-sm text-[#3E3E4C] space-y-2">
+          {faq.answer}
         </div>
+        {faq.answer2 && (
+          <div className=" text-sm text-[#3E3E4C] space-y-2">{faq.answer2}</div>
+        )}
       </div>
     </div>
   );
@@ -41,6 +44,7 @@ interface AccordionContent {
   faq: {
     question: string;
     answer: ReactNode;
+    answer2?: ReactNode;
   };
   toggleFAQ: (index: number) => void;
   openIndex: number;
