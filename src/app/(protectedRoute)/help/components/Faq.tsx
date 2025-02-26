@@ -23,6 +23,7 @@ export const Faq = () => {
             faq={faq}
             openIndex={openIndex as number}
             toggleFAQ={toggleFAQ}
+            key={`${faq.question}-${index}`}
           />
         ))}
         <AccordionContent
