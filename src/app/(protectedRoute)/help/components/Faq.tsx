@@ -41,7 +41,7 @@ export const Faq = () => {
                   <li>
                     3. Click the More icon (top right corner of your screen).
                   </li>
-                  <li>4. Select &quot;Conver&ldquo;.</li>
+                  <li>4. Select &quot;Convert&ldquo;.</li>
                 </ol>
               </div>
             ),
