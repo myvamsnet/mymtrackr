@@ -34,12 +34,10 @@ export const Faq = () => {
               this:
             </h4>
             <ol>
-              <li>1.⁠ ⁠Go to the Invoices and Receipts page.</li>
-              <li>2.⁠ ⁠Select the specific invoice or receipt.</li>
-              <li>
-                3.⁠ ⁠Click the More icon (top right corner of your screen).
-              </li>
-              <li>4.⁠ ⁠Select "Convert".</li>
+              <li>1. Go to the Invoices and Receipts page.</li>
+              <li>2. Select the specific invoice or receipt.</li>
+              <li>3. Click the More icon (top right corner of your screen).</li>
+              <li>4. Select &quot;Conver&ldquo;.</li>
             </ol>
           </AccordionContent>
         </AccordionItem>
