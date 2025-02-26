@@ -24,6 +24,25 @@ export const Faq = () => {
             </AccordionContent>
           </AccordionItem>
         ))}
+        <AccordionItem value={`item-${40}`} className="py-2">
+          <AccordionTrigger className="text-sm text-[#3E3E4C]">
+            Can I convert an invoice to a receipt after payment?
+          </AccordionTrigger>
+          <AccordionContent className="text-sm text-[#3E3E4C] space-y-2">
+            <h4>
+              Yes, you can convert an invoice to a receipt and vice versa. To do
+              this:
+            </h4>
+            <ol>
+              <li>1.⁠ ⁠Go to the Invoices and Receipts page.</li>
+              <li>2.⁠ ⁠Select the specific invoice or receipt.</li>
+              <li>
+                3.⁠ ⁠Click the More icon (top right corner of your screen).
+              </li>
+              <li>4.⁠ ⁠Select "Convert".</li>
+            </ol>
+          </AccordionContent>
+        </AccordionItem>
       </Accordion>
     </section>
   );

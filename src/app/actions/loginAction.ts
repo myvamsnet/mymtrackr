@@ -51,7 +51,7 @@ export async function loginAction(formData: FormData) {
     .select(`*, subscriptions(*)`)
     .eq("id", user.id)
     .single();
-
+  console.log(userDetails);
   if (userDetailsError) {
     console.error("User profile error:", userDetailsError);
     return {
@@ -74,7 +74,7 @@ export async function loginAction(formData: FormData) {
       message: ERROR_MESSAGES.GENERAL_ERROR,
     };
   }
-  
+
   // Update subscription status using RPC
   const now = dayjs();
   const subscriptionExpiryDate = dayjs(userDetails.subscriptions.expiresAt);

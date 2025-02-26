@@ -50,25 +50,28 @@ export const products = [
 
 export const FAQs = [
   {
-    question: "How do I record a sales?",
-    answer: "Here is how you record a sales.",
+    question: "How do I install Mtrackr on my phone?",
+    answer:
+      'Click the "Install" button on our website ((link unavailable)) or click the "More" icon on your browser and select "Add to Home screen."',
   },
   {
-    question: "How is net worth calculated?",
-    answer: "Net worth is calculated by.",
-  },
-  { question: "The meaning of payable and debt?", answer: "Payable means." },
-  {
-    question: "Can I use any analytic tool?",
-    answer: "Yes, you can use any analytic tool.",
+    question:
+      "What is the difference between Available Balance and Final Balance?",
+    answer:
+      "Available Balance = Income - Expenses. Final Balance = Income - Expenses + Debtors - Payables.",
   },
   {
-    question: "Can I use Mtrackr for Free?",
-    answer: "Mtrackr offers a free version.",
+    question: "How do I earn with referrals?",
+    answer: `When someone registers using your referral code and subscribes, you'll receive ₦2000. Track your referral earnings on the "Refer and Earn" page.`,
   },
   {
-    question: "Where is Mtrackr office located?",
-    answer: "Mtrackr office is located at.",
+    question: "How do I suggest a feature for the App?",
+    answer: `Go to the "More" section and click "Chat with Support" or click the WhatsApp icon at the top right corner of your screen.`,
+  },
+  {
+    question: "How many invoices or receipts can I generate?",
+    answer:
+      "You can generate as many invoices and receipts as you need - it's unlimited!",
   },
 ];
 
