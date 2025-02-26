@@ -1,10 +1,11 @@
 import React from "react";
-import { Showcase } from "@/components/landingPage/components/Showcase";
-import { HeroSection } from "@/components/landingPage/components/HeroSection";
-import { FeatureSection } from "@/components/landingPage/components/FeatureSection";
-import { BenefitSection } from "@/components/landingPage/components/BenefitSection";
-import { ServiceSection } from "@/components/landingPage/components/ServiceSection";
-import { FooterSection } from "@/components/landingPage/components/FooterSection";
+import { Showcase } from "@/components/landingPage/Showcase";
+import { HeroSection } from "@/components/landingPage/HeroSection";
+import { FeatureSection } from "@/components/landingPage/FeatureSection";
+import { BenefitSection } from "@/components/landingPage/BenefitSection";
+import { ServiceSection } from "@/components/landingPage/ServiceSection";
+import { FooterSection } from "@/components/landingPage/FooterSection";
+import { LandingFaqs } from "@/components/landingPage/LandingFaqs";
 
 const LandingPage = async () => {
   return (
@@ -13,6 +14,7 @@ const LandingPage = async () => {
       <HeroSection />
       <FeatureSection />
       <BenefitSection />
+      <LandingFaqs />
       <ServiceSection />
       <FooterSection />
     </main>

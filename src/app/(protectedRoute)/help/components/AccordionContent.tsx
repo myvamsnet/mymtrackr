@@ -14,7 +14,7 @@ const AccordionContent = ({
         onClick={() => toggleFAQ(index)}
         aria-expanded={openIndex === index}
       >
-        <span className="font-normal  text-sm leading-[22.4px] text-[#3E3E4C]">
+        <span className="font-medium  text-sm leading-[22.4px] text-[#3E3E4C]">
           {faq.question}
         </span>
         <ChevronDown
