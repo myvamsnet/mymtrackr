@@ -28,7 +28,7 @@ const Home = async () => {
     };
 
     return (
-      <ProtectedLayout className="bg-off-white relative pb-40">
+      <ProtectedLayout className="bg-off-white relative pb-40" user={user}>
         <Header user={user} />
         <Balance user={user} data={balance} />
         <RecentRecords

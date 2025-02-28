@@ -16,20 +16,22 @@ interface HeaderProps {
 }
 
 export const Header = ({ user }: HeaderProps) => {
-  const expire = checkSubscription(user?.subscriptions?.expired_at);
+  const daysRemaining = checkSubscription(
+    user?.subscriptions?.expired_at
+  ) as number;
   const searchParams = useSearchParams();
   const { updateQueryParams } = useUpdateQuery();
 
   useEffect(() => {
     if (searchParams.get("login") === "success") {
-      if (Number(expire) > 5) {
+      if (daysRemaining >= 5) {
         toast.success("Login successful", { id: "login" });
-      } else {
-        showSubscriptionExpirationToast(Number(expire));
+      } else if (daysRemaining >= 1) {
+        showSubscriptionExpirationToast(daysRemaining);
       }
       updateQueryParams({ login: "", signup: "" });
     }
-  }, [searchParams, updateQueryParams, expire]);
+  }, [searchParams, updateQueryParams, daysRemaining]);
 
   return (
     <section className="py-4 bg-[#F4F8FF] flex justify-between items-center w-full z-30 sticky top-0 h-[58px]">
