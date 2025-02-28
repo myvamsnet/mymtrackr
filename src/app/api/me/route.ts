@@ -24,16 +24,10 @@ export async function GET() {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
-    const userData = {
-      ...data,
-      subscriptions: data?.subscriptions?.[0] || null, // Convert array to object
-      businessProfile: data?.businessProfile?.[0] || null, // Convert array to object
-    };
-
     return NextResponse.json(
       {
         status: "success",
-        data: userData,
+        data,
       } as UserResponseAPI,
       { status: 200 }
     );

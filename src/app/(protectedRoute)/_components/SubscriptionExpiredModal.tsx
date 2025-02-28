@@ -1,28 +1,17 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
-import { useGetUser } from "@/hooks/useGetUser";
 import { useLogout } from "@/hooks/useLogout";
 import { useSubscription } from "@/hooks/useSubscription";
-import React, { useEffect, useState } from "react";
 
-export const SubscriptionExpiredModal = () => {
+const SubscriptionExpiredModal = ({
+  status,
+}: SubscriptionExpiredModalProps) => {
   const { handleLogout, isPending: logoutLoader } = useLogout();
   const { handleClickPayment, isPending } = useSubscription();
-  const [open, setOpen] = useState(false);
-  const { user } = useGetUser();
 
-  useEffect(() => {
-    if (user?.subscriptions?.status === "expired") {
-      setOpen(true);
-    }
-  }, [user?.subscriptions?.status]);
   return (
-    <Modal
-      isOpen={open}
-      onClose={() => {
-        window.location.reload();
-      }}
-    >
+    <Modal isOpen={status === "expired"} onClose={() => {}} showHeading={false}>
       <div className="flex justify-center items-center flex-col gap-3">
         <h2 className="md:text-2xl text-xl text-dark font-medium text-center">
           Your Subscription has expired
@@ -34,10 +23,7 @@ export const SubscriptionExpiredModal = () => {
         </p>
 
         <div>
-          <Button
-            disabled={isPending}
-            onClick={handleClickPayment}
-          >
+          <Button disabled={isPending} onClick={handleClickPayment}>
             {isPending ? "Loading..." : " Subscribe"}
           </Button>
         </div>
@@ -50,3 +36,8 @@ export const SubscriptionExpiredModal = () => {
     </Modal>
   );
 };
+
+export default SubscriptionExpiredModal;
+interface SubscriptionExpiredModalProps {
+  status: string;
+}
