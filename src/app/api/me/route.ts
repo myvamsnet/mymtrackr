@@ -21,7 +21,6 @@ export async function GET() {
       .maybeSingle(); // Use maybeSingle() to avoid array wrapping
 
     if (error) {
-      console.log(error);
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 

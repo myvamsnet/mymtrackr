@@ -16,8 +16,6 @@ export const useGetUser = () => {
     },
   });
 
-  console.log(data);
-
   useEffect(() => {
     if (data?.data) {
       const userInfo = {
