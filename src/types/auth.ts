@@ -35,7 +35,7 @@ interface Subscription {
   id: string;
   userId: string;
   status: "trial" | "active" | "expired"; // Assuming these are the possible statuses
-  expiresAt: string; // ISO date string
+  expired_at: string; // ISO date string
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
   amount: string;

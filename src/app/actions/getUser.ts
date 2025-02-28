@@ -22,16 +22,10 @@ export async function getUser() {
       };
     }
 
-    const userData = {
-      ...userprofileData,
-      subscriptions: userprofileData?.subscriptions?.[0] || null, // Convert array to object
-      businessProfile: userprofileData?.businessProfile?.[0] || null, // Convert array to object
-    };
-
     revalidatePath("/home");
     return {
       success: true,
-      data: userData as User,
+      data: userprofileData as User,
     } as UserResponseData;
   }
 }

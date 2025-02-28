@@ -9,7 +9,7 @@ import { LandingFaqs } from "@/components/landingPage/LandingFaqs";
 
 const LandingPage = async () => {
   return (
-    <main className=" relative">
+    <main className=" relative bg-white">
       <Showcase />
       <HeroSection />
       <FeatureSection />

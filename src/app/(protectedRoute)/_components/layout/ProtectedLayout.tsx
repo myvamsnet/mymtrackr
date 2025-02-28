@@ -6,6 +6,7 @@ import { MobileTab } from "./MobileTab";
 import useIdleTimeout from "@/hooks/useIdleTimeout";
 
 import { SubscriptionExpiredModal } from "../SubscriptionExpiredModal";
+import RegisterConfirmation from "./RegisterConfirmation";
 
 const ProtectedLayout = ({ children, className }: MainLayoutProps) => {
   useIdleTimeout();
@@ -24,6 +25,7 @@ const ProtectedLayout = ({ children, className }: MainLayoutProps) => {
       </section>
       <MobileTab toggle={toggle} isOpen={isOpen} />
       <SubscriptionExpiredModal />
+      <RegisterConfirmation />
     </section>
   );
 };

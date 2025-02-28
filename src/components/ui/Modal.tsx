@@ -9,6 +9,7 @@ interface ModalProps {
   children: React.ReactNode;
   className?: string;
   title?: string;
+  showHeading?: boolean;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -17,6 +18,7 @@ const Modal: React.FC<ModalProps> = ({
   children,
   title,
   closeOutside,
+  showHeading = true,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -64,16 +66,19 @@ const Modal: React.FC<ModalProps> = ({
         aria-modal="true"
         tabIndex={-1}
       >
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold">{title || ""}</h2>
-          <button
-            onClick={onClose}
-            className="bg-primary rounded-full p-1 flex justify-center items-center cursor-pointer"
-            aria-label="Close modal"
-          >
-            <XIcon className="h-4 w-4 text-white" />
-          </button>
-        </div>
+        {showHeading && (
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold">{title || ""}</h2>
+            <button
+              onClick={onClose}
+              className="bg-primary rounded-full p-1 flex justify-center items-center cursor-pointer"
+              aria-label="Close modal"
+            >
+              <XIcon className="h-4 w-4 text-white" />
+            </button>
+          </div>
+        )}
+
         <div className="mt-2">{children}</div>
       </div>
     </div>

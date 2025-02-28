@@ -22,11 +22,11 @@ export const LandingFaqs = () => {
   };
 
   return (
-    <section className="w-full max-w-3xl mx-auto px-4 py-8 space-y-4">
-      <h2 className="text-2xl font-bold  text-center leading-[32px] text-dark">
-        Frequently Asked Questions
+    <section className="wrapper px-4 lg:py-20 space-y-4 py-10">
+      <h2 className="font-inter font-semibold text-[28px] md:text-[44px] leading-[40px] md:leading-[65px] text-dark text-center">
+        Your Questions Answered
       </h2>
-      <div className="space-y-4 bg-[#F4F8FF] lg:p-6 p-3">
+      <div className="space-y-4 bg-[#F4F8FF] lg:p-6 p-3 rounded-[32px]">
         {FAQs.map((faq, index) => (
           <FaqItem
             index={index}
@@ -41,7 +41,7 @@ export const LandingFaqs = () => {
           faq={{
             question: " Can I convert an invoice to a receipt after payment?",
             answer: (
-              <div className="text-sm text-[#3E3E4C] space-y-2">
+              <div className="">
                 <h4>
                   Yes, you can convert an invoice to a receipt and vice versa.
                   To do this:

@@ -59,7 +59,7 @@ select {
 }
 
 .wrapper {
-  @apply mx-auto container max-w-[1144px];
+  @apply mx-auto container max-w-[1144px] w-full;
 }
 
 .benefitSection__card {

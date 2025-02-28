@@ -5,16 +5,20 @@ const FaqItem = ({ faq, toggleFAQ, index, openIndex }: AccordionContent) => {
   return (
     <div
       key={index}
-      className={`  rounded-lg overflow-hidden  ${
+      className={`  rounded-lg overflow-hidden bg-white  ${
         openIndex === index ? "border-primary border" : ""
       }`}
     >
       <button
-        className={`w-full lg:p-4 p-6 text-left  focus:outline-none flex justify-between  bg-white gap-3`}
+        className={`w-full  lg:px-4 lg:pt-8 p-6 ${
+          openIndex === index ? "pb-2" : "pb-6"
+        } text-left  focus:outline-none flex justify-between  bg-white`}
         onClick={() => toggleFAQ(index)}
         aria-expanded={openIndex === index}
       >
-        <span className="font-semibold text-base ">{faq.question}</span>
+        <span className="font-semibold lg:text-2xl text-base leading-[23.76px] ">
+          {faq.question}
+        </span>
 
         {openIndex === index ? (
           <span>
@@ -27,15 +31,15 @@ const FaqItem = ({ faq, toggleFAQ, index, openIndex }: AccordionContent) => {
         )}
       </button>
       <div
-        className={`overflow-hidden transition-all duration-300 ease-in-out ${
-          openIndex === index ? "max-h-96" : "max-h-0"
+        className={`overflow-hidden transition-all duration-300 ease-in-out space-y-2 ${
+          openIndex === index ? "max-h-96 px-6 pb-6 pt-4 b-white" : "max-h-0"
         }`}
       >
-        <div className="p-4 bg-white text-dark-300 text-base font-normal">
+        <div className=" bg-white font-inter font-normal text-base md:text-xl leading-[24px] md:leading-[30px] text-dark-300">
           {faq.answer}
         </div>
         {faq.answer2 && (
-          <div className="px-4 pb-4 bg-white text-dark-300 text-base font-normal">
+          <div className=" bg-white font-inter font-normal text-base md:text-xl leading-[24px] md:leading-[30px] text-dark-300">
             {faq.answer2}
           </div>
         )}
