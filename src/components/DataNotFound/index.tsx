@@ -1,7 +1,10 @@
 "use client";
 import Image from "next/image";
 
-export const DataNotFound = ({ message = "Records" }: Props) => {
+export const DataNotFound = ({
+  message = "Records",
+  extra = "Add New Button",
+}: Props) => {
   return (
     <div className="bg-off-white flex text-center justify-center py-10">
       <div className="">
@@ -17,7 +20,7 @@ export const DataNotFound = ({ message = "Records" }: Props) => {
           No {message} Yet!
         </h4>
         <p className="text-center font-normal text-sm text-dark-100 pt-1 ">
-          Start adding {message} with the <br /> “Add Record button.
+          Start adding {message} with the <br /> {extra}.
         </p>
       </div>
     </div>
@@ -25,4 +28,5 @@ export const DataNotFound = ({ message = "Records" }: Props) => {
 };
 interface Props {
   message: string;
+  extra?: string;
 }

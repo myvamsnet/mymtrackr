@@ -32,7 +32,9 @@ export const RecentRecords = ({
       </section>
 
       <section className=" bg-off-white-300">
-        {records && records?.length === 0 && <DataNotFound message="records" />}
+        {records && records?.length === 0 && (
+          <DataNotFound message="records" extra="Plus(+) Button" />
+        )}
         {records &&
           records?.length > 0 &&
           records?.map((record, index) => (
