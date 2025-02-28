@@ -10,7 +10,7 @@ import { Records } from "@/types/records";
 import { getAllBalance } from "@/app/actions/getAllBalance";
 import { redirect } from "next/navigation";
 
-const Home: FC = async () => {
+const Home = async () => {
   try {
     const [balanceData, recordsResponse, userResponse] = await Promise.all([
       getAllBalance().catch(() => null),
