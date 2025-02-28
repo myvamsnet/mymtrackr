@@ -5,7 +5,6 @@ import { inputLists } from "@/constant/auth";
 import { useSignUp } from "../hook/useSignUp";
 import Link from "next/link";
 import React from "react";
-import { CountdownModal } from "@/components/CountdownModal";
 export const RegisterForm = () => {
   const { control, handleSubmit, onSubmit, isPending } = useSignUp();
   return (
