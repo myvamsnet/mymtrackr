@@ -32,11 +32,7 @@ export default function CustomAvatar({
           className
         )}
       >
-        <AvatarImage
-          src={imgUrl}
-          alt={name || "Mtracker"}
-          crossOrigin="anonymous"
-        />
+        <AvatarImage src={imgUrl} alt={name || "Mtracker"} />
       </Avatar>
     );
   }
