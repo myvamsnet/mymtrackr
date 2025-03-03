@@ -35,6 +35,7 @@ export default function CustomAvatar({
         <AvatarImage
           src={imgUrl}
           alt={name || "Mtracker"}
+          crossOrigin="anonymous"
         />
       </Avatar>
     );
