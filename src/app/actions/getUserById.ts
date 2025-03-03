@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabse/server";
 import { User } from "@/types/auth";
 
 export async function getUserById(id: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   if (id) {
     const { data: userprofileData, error: userprofileError } = await supabase

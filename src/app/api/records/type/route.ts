@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabse/server";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const supabaseApi = createClient();
+  const supabaseApi = await createClient();
   const { searchParams } = new URL(req.url);
 
   // Get user information from Supabase

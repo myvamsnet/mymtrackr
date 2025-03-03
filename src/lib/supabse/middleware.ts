@@ -47,7 +47,7 @@ export async function updateSession(request: NextRequest) {
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
-
+  console.log(user);
   if (user?.id && unprotectedRoutes.includes(request.nextUrl.pathname)) {
     // user is logged in, potentially respond by redirecting the user to the home page
     const url = request.nextUrl.clone();

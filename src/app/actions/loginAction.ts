@@ -11,7 +11,7 @@ const ERROR_MESSAGES = {
 } as const;
 
 export async function loginAction(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
@@ -74,7 +74,7 @@ export async function loginAction(formData: FormData) {
       message: ERROR_MESSAGES.GENERAL_ERROR,
     };
   }
-  
+
   // Update subscription status using RPC
   const now = dayjs();
   const subscriptionExpiryDate = dayjs(userDetails.subscriptions.expiresAt);

@@ -1,9 +1,8 @@
 import { createClient } from "@/lib/supabse/server";
 import { User } from "@/types/auth";
-import { revalidatePath } from "next/cache";
 
 export async function getUser() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -26,7 +25,6 @@ export async function getUser() {
       ...userprofileData,
     } as User;
 
-    revalidatePath("/home");
     return {
       success: true,
       data,

@@ -1,6 +1,9 @@
-import { Records } from '@/types/records';
-
-export function calculateWorth(records: Records[]) {
+export function calculateWorth(
+  records: {
+    type: string;
+    amount: number | string;
+  }[]
+) {
   let totalIncome = 0;
   let totalPayable = 0;
   let totalDebtor = 0;
@@ -8,16 +11,16 @@ export function calculateWorth(records: Records[]) {
 
   records?.forEach((record) => {
     switch (record?.type) {
-      case 'income':
+      case "income":
         totalIncome += Number(record?.amount);
         break;
-      case 'payable':
+      case "payable":
         totalPayable += Number(record?.amount);
         break;
-      case 'debtor':
+      case "debtor":
         totalDebtor += Number(record?.amount);
         break;
-      case 'expense':
+      case "expense":
         totalExpense += Number(record?.amount);
         break;
     }
