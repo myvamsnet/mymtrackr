@@ -9,7 +9,6 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 const RegisterConfirmation = () => {
-  const confettiRef = useRef<ConfettiRef>(null);
   const searchParam = useSearchParams();
   const signup = searchParam.get("signup");
   const { updateQueryParams } = useUpdateQuery();
@@ -25,7 +24,7 @@ const RegisterConfirmation = () => {
       useWorker: true,
     });
 
-    const duration = 5000;
+    const duration = 1000;
     const animationEnd = Date.now() + duration;
     const defaults = {
       startVelocity: 30,
@@ -38,7 +37,7 @@ const RegisterConfirmation = () => {
       const timeLeft = animationEnd - Date.now();
       if (timeLeft <= 0) return;
 
-      const particleCount = 50 * (timeLeft / duration);
+      const particleCount = 10 * (timeLeft / duration);
       myConfetti({
         ...defaults,
         particleCount,

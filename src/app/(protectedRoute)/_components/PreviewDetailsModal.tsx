@@ -38,16 +38,30 @@ const PreviewDetailsModal = forwardRef<HTMLDivElement, props>(
           >
             <div className="grid gap-10 grid-cols-2">
               <div className="space-y-3">
-                <div className="flex items-center gap-1 h-6">
-                  <CustomAvatar
-                    name={businessInfo?.businessName as string}
-                    imgUrl={businessInfo?.imageUrl}
-                    className="h-full w-6"
-                  />
-                  <p className="h-full flex items-center  font-bold text-[8.43px] text-dark leading-[8.17px]">
-                    {businessInfo?.businessName}
-                  </p>
-                </div>
+                {businessInfo?.imageUrl ? (
+                  <div className="flex items-center gap-1">
+                    <img
+                      src={businessInfo?.imageUrl}
+                      alt={businessInfo?.businessName}
+                      className="size-5 rounded-md"
+                      crossOrigin="anonymous"
+                    />
+                    <span className="font-bold text-[8.43px] text-dark leading-[8.17px]">
+                      {businessInfo?.businessName}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1 h-6">
+                    <CustomAvatar
+                      name={businessInfo?.businessName as string}
+                      className="h-full"
+                    />
+                    <p className="  font-bold text-[8.43px] text-dark leading-[8.17px]">
+                      {businessInfo?.businessName}
+                    </p>
+                  </div>
+                )}
+
                 <div className=" space-y-1">
                   <p className={` text-dark-300 ${className}`}>
                     {businessInfo?.businessEmail}
