@@ -13,7 +13,7 @@ export async function getUser() {
       .from("userprofile")
       .select("*, subscriptions(*), businessProfile(*)") // Or specify columns like 'id, name, etc.'
       .eq("id", user.id)
-      .maybeSingle();
+      .single();
 
     if (userprofileError) {
       return {

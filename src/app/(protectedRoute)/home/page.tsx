@@ -9,7 +9,6 @@ import { UserResponse } from "@/types/auth";
 import { Records } from "@/types/records";
 import { getAllBalance } from "@/app/actions/getAllBalance";
 import { redirect } from "next/navigation";
-
 const Home = async () => {
   try {
     const [balanceData, recordsResponse, userResponse] = await Promise.all([
