@@ -70,8 +70,8 @@ interface Props {
   onOpenChange: (open: boolean) => void;
   children: React.ReactNode;
   title: string;
-  subTitle: string;
-  content: string;
+  subTitle?: string;
+  content?: string;
   btnText: React.ReactNode;
   className?: string;
   logo?: boolean;

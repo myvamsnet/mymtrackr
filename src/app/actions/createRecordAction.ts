@@ -1,7 +1,7 @@
 "use server";
 import { createClient } from "@/lib/supabse/server";
 import { uploadImageToCloudinary } from "@/lib/uploadImageToCloudinary";
-import { revalidatePath } from "next/cache";
+import { invalidateRecordsCache } from "./AllRecords";
 
 export const createRecordAction = async (formData: FormData) => {
   const type = formData.get("type");
@@ -49,7 +49,7 @@ export const createRecordAction = async (formData: FormData) => {
     if (error) {
       return { success: false, message: "Failed to create record" };
     }
-    revalidatePath("/home");
+    await invalidateRecordsCache(); // Invalidate the cache AFTER the successful insert
     return { success: true, data };
   } catch (error) {
     return {

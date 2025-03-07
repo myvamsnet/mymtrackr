@@ -8,7 +8,8 @@ export const useFetch = <T = AxiosResponse,>(
   endpoint: string,
   param: string,
   key: string,
-  queryParam = true
+  queryParam = true,
+  staleTime?: number
 ): UseQueryResult<T, Error> => {
   const searchParams = useSearchParams();
 
@@ -51,5 +52,6 @@ export const useFetch = <T = AxiosResponse,>(
       values?.endDate ?? "",
     ],
     queryFn: fetchData,
+    staleTime,
   });
 };

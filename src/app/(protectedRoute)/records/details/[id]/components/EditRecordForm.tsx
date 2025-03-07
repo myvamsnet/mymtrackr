@@ -1,13 +1,10 @@
 import { CustomInput } from "@/components/CustomInput";
-
 import { AddRecordsSchemaType } from "@/lib/Schema/incomeSchema";
 import NumberInput from "@/components/NumberInput";
 import { Button } from "@/components/ui/button";
 import { InputType } from "@/constant/createRecords";
-
-import { useParams } from "next/navigation";
 import { Payload, useEditRecord } from "../hooks/useEditRecord";
-import { Records, Type } from "@/types/records";
+import { Records, RecordType } from "@/types/records";
 import { useEffect } from "react";
 import Image from "next/image";
 import { checkImageFormat } from "@/lib/helper/checkImageFormat";
@@ -115,7 +112,7 @@ const EditRecordForm = ({
 export default EditRecordForm;
 
 interface CreateRecordsProps {
-  recordType: "expense" | "income" | "debtor" | "payable";
+  recordType: RecordType;
   inputlists: InputType[];
   title: string;
   record: Records;

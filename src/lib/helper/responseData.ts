@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 export const responsedata = ({
-  success,
+  success = true,
   message,
   data,
   statusCode,
@@ -18,8 +18,8 @@ export const responsedata = ({
   );
 };
 interface ResponseDataProps {
-  success: boolean;
-  message: string;
+  success?: boolean;
+  message: string | object;
   data?: any | null;
   statusCode: number;
 }

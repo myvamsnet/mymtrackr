@@ -1,35 +1,84 @@
 "use client";
 import { NoNotifications } from "./NoNotifications";
+import { useGetNotifications } from "@/hooks/useGetNotifications";
+import { useNotificationStore } from "@/zustand/notificationStore";
+import { X } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 
-interface Notification {
-  id: string;
-  message: string;
-  timestamp: string;
-}
+export function NotificationList() {
+  const { status } = useGetNotifications();
+  const {
+    newNotificationsCount,
+    notifications,
+    markAllAsRead,
+    markNotificationAsRead,
+  } = useNotificationStore();
+  if (status === "pending") {
+    return (
+      <section>
+        <ul className="bg-white overflow-hidden p-6 space-y-4 shadow-xl rounded-lg ">
+          {[...Array(5)].map((_, index) => (
+            <li
+              key={index}
+              className="py-4 border-b border-gray-100 flex justify-between animate-pulse"
+            >
+              <div className="space-y-4 w-full">
+                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+              </div>
+              <div>
+                <div className="h-4 w-10 bg-gray-200 rounded"></div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    );
+  }
 
-interface NotificationListProps {
-  notifications: Notification[];
-}
-
-export function NotificationList({ notifications }: NotificationListProps) {
-  if (notifications.length === 0) {
+  if (notifications?.length === 0 && status === "success") {
     return <NoNotifications />;
   }
 
   return (
-    <ul className="divide-y divide-gray-200 h-screen overflow-hidden">
-      {notifications.map((notification) => (
-        <li key={notification.id} className="py-4">
-          <div className="flex space-x-3">
-            <div className="flex-1 space-y-1">
-              <p className="text-sm font-medium text-gray-900">
-                {notification.message}
+    <section>
+      <div className="flex justify-end items-center py-4">
+        <button
+          className="text-dark-200 font-semibold border border-dark-200 rounded-lg p-3"
+          onClick={markAllAsRead}
+        >
+          Mark All as read
+        </button>
+      </div>
+      <ul className="bg-white overflow-hidden p-4 space-y-4 shadow-xl rounded-lg">
+        {notifications?.map((notification) => (
+          <li
+            key={notification.id}
+            className="p-4 border-b border-gray-100 flex justify-between hover:bg-gray-50"
+          >
+            <div className="space-y-4">
+              <h4 className="text-sm font-medium text-gray-900">
+                {notification.title}
+              </h4>
+              <p className="text-dark-400">
+                <ReactMarkdown>{notification.body}</ReactMarkdown>
               </p>
-              <p className="text-sm text-gray-500">{notification.timestamp}</p>
             </div>
-          </div>
-        </li>
-      ))}
-    </ul>
+            <div>
+              {notification.isNew ? (
+                <div>
+                  <span className="bg-primary/50 text-primary py-1 px-2 rounded-md text-xs">
+                    {"New"}
+                  </span>
+                  <X />
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }

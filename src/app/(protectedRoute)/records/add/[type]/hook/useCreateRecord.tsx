@@ -2,11 +2,12 @@
 import { createRecordAction } from "@/app/actions/createRecordAction";
 import { useRedirect } from "@/hooks/useRedirect";
 import { useUploadImage } from "@/hooks/useUploadImage";
+import { Type } from "@/lib/helper/handleTypeColor";
 import {
   addRecordsSchema,
   AddRecordsSchemaType,
 } from "@/lib/Schema/incomeSchema";
-import { Type } from "@/types/records";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import { useState } from "react";

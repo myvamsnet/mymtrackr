@@ -1,3 +1,5 @@
+import { Type } from "@/lib/helper/handleTypeColor";
+
 export type Records = {
   id: string;
   amount: number;
@@ -32,16 +34,15 @@ export interface SearchParamsProps {
   page: number;
 }
 
-export type Type =
-  | "income"
-  | "expense"
-  | "debtor"
-  | "payable"
-  | "tasks"
-  | "invoicesandreceipts";
-
 export interface RecordsResponse {
   data: Records[];
   success: boolean;
   message: string;
 }
+
+export type RecordType =
+  | "expense"
+  | "income"
+  | "debtor"
+  | "payable"
+  | "capital";

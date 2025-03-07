@@ -13,8 +13,8 @@ export const AnalyticsLists = () => {
     totalExpense,
     totalIncome,
     totalPayable,
-    netWorth,
-    grossWorth,
+    avaliableBalance,
+    finalBalance,
   } = calculateWorth(records as Records[]);
 
   const data = [
@@ -22,12 +22,12 @@ export const AnalyticsLists = () => {
     { text: "Total Expense", value: totalExpense },
     {
       text: "Available Balance",
-      value: grossWorth,
+      value: avaliableBalance,
       className: "text-primary",
     },
     { text: "Total Debtors", value: totalDebtor },
     { text: "Total Payable", value: totalPayable },
-    { text: "Final Balance", value: netWorth, className: "text-success" },
+    { text: "Final Balance", value: finalBalance, className: "text-success" },
   ];
 
   return (
@@ -38,22 +38,22 @@ export const AnalyticsLists = () => {
           className={`flex items-center justify-between py-5 px-1 border-b bg-off-white`}
         >
           <p
-            className={`font-semibold text-xs ${item.className || "text-dark-100"
-              }`}
+            className={`font-semibold text-xs ${
+              item.className || "text-dark-100"
+            }`}
           >
             {item.text}
           </p>
 
-          {
-            isLoading ? <Skeleton className="w-40 h-8" />
-              : <span className={`font-normal text-sm ${item.className || ""}`}>
-                {currencyFormatter(item.value)}
-              </span>
-          }
-
+          {isLoading ? (
+            <Skeleton className="w-40 h-8" />
+          ) : (
+            <span className={`font-normal text-sm ${item.className || ""}`}>
+              {currencyFormatter(item.value)}
+            </span>
+          )}
         </div>
       ))}
-
     </div>
   );
 };

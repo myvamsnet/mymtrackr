@@ -9,13 +9,14 @@ export interface Record {
   name: string;
   recordType: "expense" | "income" | "debtor" | "payable";
 }
+export type BalanceType = "finalBalance" | "avaliableBalance" | "profit";
 
 export interface RecordState {
   addRecord: (record: Record) => void;
   records: Record;
   resetRecords: () => void;
-  balanceType: "gross" | "net";
-  setBalanceType: (type: "gross" | "net") => void;
+  balanceType: BalanceType;
+  setBalanceType: (type: BalanceType) => void;
 }
 
 const initialState: Record = {
@@ -40,8 +41,8 @@ const useRecordStore = create<RecordState>()(
           state.records = initialState;
         });
       },
-      balanceType: "gross",
-      setBalanceType: (type: "gross" | "net") => {
+      balanceType: "avaliableBalance",
+      setBalanceType: (type: BalanceType) => {
         set((state) => {
           state.balanceType = type;
         });

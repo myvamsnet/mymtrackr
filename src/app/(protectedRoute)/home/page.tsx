@@ -9,12 +9,13 @@ import { UserResponse } from "@/types/auth";
 import { Records } from "@/types/records";
 import { getAllBalance } from "@/app/actions/getAllBalance";
 import { redirect } from "next/navigation";
+
 const Home = async () => {
   try {
     const [balanceData, recordsResponse, userResponse] = await Promise.all([
-      getAllBalance().catch(() => null),
-      getAllRecords().catch(() => null),
-      getUser().catch(() => null),
+      getAllBalance(),
+      getAllRecords(),
+      getUser(),
     ]);
 
     const user = userResponse?.data as UserResponse["data"];
@@ -22,8 +23,9 @@ const Home = async () => {
 
     const records = (recordsResponse?.data as Records[]) || [];
     const balance = {
-      netWorth: balanceData?.netWorth || 0,
-      grossWorth: balanceData?.grossWorth || 0,
+      finalBalance: balanceData?.finalBalance || 0,
+      avaliableBalance: balanceData?.avaliableBalance || 0,
+      profit: balanceData?.profit || 0,
     };
 
     return (

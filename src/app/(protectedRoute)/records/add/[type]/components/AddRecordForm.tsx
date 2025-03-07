@@ -6,6 +6,7 @@ import React, { FC } from "react";
 import { useCreateRecord } from "../hook/useCreateRecord";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { RecordType } from "@/types/records";
 
 export const AddRecordForm: FC<CreateRecordsProps> = ({ inputlists }) => {
   const {
@@ -23,7 +24,7 @@ export const AddRecordForm: FC<CreateRecordsProps> = ({ inputlists }) => {
       className="bg-off-white-300 p-4 rounded-xl grid gap-5"
       onSubmit={handleSubmit(onSubmit)}
     >
-      {inputlists.map((input, i) => {
+      {inputlists?.map((input, i) => {
         return input.type === "currency" ? (
           <NumberInput
             key={`${input.name}-${i}`}
@@ -78,7 +79,7 @@ export const AddRecordForm: FC<CreateRecordsProps> = ({ inputlists }) => {
 };
 
 interface CreateRecordsProps {
-  recordType: "expense" | "income" | "debtor" | "payable";
+  recordType: RecordType;
   inputlists: InputType[];
   title: string;
 }

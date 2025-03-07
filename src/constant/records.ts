@@ -2,11 +2,21 @@ import { ArrowDownIcon } from "@/assets/icons/ArrowDownIcon";
 import { ArrowLeftIcon } from "@/assets/icons/ArrowLeftIcon";
 import { ArrowRightIcon } from "@/assets/icons/ArrowRightIcon";
 import { ArrowUpIcon } from "@/assets/icons/ArrowUpIcon";
+import { Capital } from "@/assets/icons/Capital";
 import { InvoiceIcon } from "@/assets/icons/InvoiceIcon";
 import { TaskIcon } from "@/assets/icons/TaskIcon";
-import { Type } from "@/types/records";
+import { Type } from "@/lib/helper/handleTypeColor";
 
 export const addRecords = [
+  {
+    name: "Capital",
+    path: "/records/add/capital",
+    color: "#85008F",
+    type: "capital",
+    icon: Capital,
+    tile: "Records of money to run my business",
+    description: "Records of money inflow",
+  },
   {
     name: "Income",
     path: "/records/add/income",
@@ -70,6 +80,14 @@ export const addRecords = [
 export const products = [
   {
     id: 1,
+    icon: Capital,
+    title: "Capital and Investments",
+    description: "Records of money to run my business",
+    type: "capital",
+    path: "/records/capital",
+  },
+  {
+    id: 1,
     icon: ArrowDownIcon,
     title: "Income List",
     description: "Records of money inflow",
@@ -125,4 +143,10 @@ export interface RecordItemProps {
   createdAt: string;
   name: string;
 }
-export const recordTypes = ["income", "expense", "payable", "debtor"];
+export const recordTypes = [
+  "income",
+  "expense",
+  "payable",
+  "debtor",
+  "capital",
+];
