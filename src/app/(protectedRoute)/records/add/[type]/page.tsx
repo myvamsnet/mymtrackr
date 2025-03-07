@@ -19,7 +19,7 @@ const AddRecord = ({ params }: ParamsProps) => {
 };
 
 export default AddRecord;
-type RecordType = "expense" | "income" | "debtor" | "payable";
+type RecordType = "expense" | "income" | "debtor" | "payable" | "capital";
 
 export interface ParamsProps {
   params: {

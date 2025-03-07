@@ -7,18 +7,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import useRecordStore from "@/zustand/recordStore";
+import useRecordStore, { BalanceType } from "@/zustand/recordStore";
 
 export function SelectWorth() {
-  const setBalaceType = useRecordStore((state) => state.setBalanceType);
-  const balanceType = useRecordStore((state) => state.balanceType);
+  const { setBalanceType, balanceType } = useRecordStore();
+  console.log(balanceType);
   return (
     <section>
       <Select
         onValueChange={(value) => {
-          setBalaceType(value as "gross" | "net");
+          setBalanceType(value as BalanceType);
         }}
-        value={balanceType as "gross" | "net"}
+        value={balanceType as BalanceType}
       >
         <SelectTrigger className="w-full bg-white/15 text-[#FCFCFC] font-medium text-sm outline-none focus:outline-none  border-none h-[22px]">
           <SelectValue placeholder="Select Worth" />
@@ -26,8 +26,9 @@ export function SelectWorth() {
         <SelectContent className=" text-dark">
           <SelectGroup className=" cursor-pointer ">
             <SelectLabel></SelectLabel>
-            <SelectItem value="gross">Avaliable Balance</SelectItem>
-            <SelectItem value="net">Final Balance</SelectItem>
+            <SelectItem value="avaliableBalance">Avaliable Balance</SelectItem>
+            <SelectItem value="finalBalance">Final Balance</SelectItem>
+            <SelectItem value="profit">Profit</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>

@@ -47,6 +47,9 @@ const config: Config = {
         payable: {
           DEFAULT: "#9B8306",
         },
+        capital: {
+          DEFAULT: "#85008F",
+        },
         danger: {
           "500": "#C25353",
           DEFAULT: "#880606",

@@ -1,4 +1,3 @@
-"use client";
 import { AnalyticsIcon } from "@/assets/icons/AnalyticsIcon";
 import { ClockRewindIcon } from "@/assets/icons/ClockRewindIcon";
 import Link from "next/link";
@@ -7,7 +6,7 @@ import { products } from "@/constant/records";
 
 const Records = () => {
   return (
-    <ProtectedLayout>
+    <ProtectedLayout className="pb-40">
       <main className="container mx-auto bg-off-white-300 rounded-xl h-screen">
         <div className="flex justify-between items-center py-4 px-3 border-b ">
           <div className="flex flex-col items-center">

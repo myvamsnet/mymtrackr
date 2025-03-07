@@ -1,6 +1,7 @@
 import { ContentIcon } from "@/assets/icons/ContentIcon";
 import { DashboardIcon } from "@/assets/icons/DashboardIcon";
 import { UsersIcon } from "@/assets/icons/UsersIcon";
+import { Bell } from "lucide-react";
 
 export const adminRoutes = [
   {
@@ -20,5 +21,11 @@ export const adminRoutes = [
     path: "/admin/content",
     id: 3,
     icon: ContentIcon,
+  },
+  {
+    name: "Notifications",
+    path: "/admin/notifications",
+    id: 4,
+    icon: Bell,
   },
 ];

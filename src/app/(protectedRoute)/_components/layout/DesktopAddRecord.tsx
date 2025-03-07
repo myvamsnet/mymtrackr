@@ -35,6 +35,7 @@ export function DesktopAddRecord() {
                 "text-red-500 focus:text-red-800": record?.type === "expense",
                 "text-primary focus:text-blue-800": record?.type === "debtor",
                 "text-gray-500 focus:text-gray-800": record?.type === "payable",
+                "text-capital focus:text-capital": record?.type === "capital",
               }
             )}`}
             onClick={clearInvoiceAndReceipt}

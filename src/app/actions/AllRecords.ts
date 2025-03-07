@@ -6,6 +6,15 @@ export const getAllRecords = async () => {
   const supabaseApi = createClient();
   const user = await supabaseApi?.auth?.getUser();
   const userId = user?.data?.user?.id;
+
+  if (!userId) {
+    return {
+      data: null,
+      message: "User not authenticated",
+      success: false,
+    };
+  }
+
   const { data, error } = await supabaseApi
     .from("records")
     .select("*")
@@ -14,13 +23,17 @@ export const getAllRecords = async () => {
     .order("updated_at", { ascending: false });
 
   if (error) {
+    console.error("Error fetching records:", error); // Log the error
     return { data: null, message: "Failed to fetch records", success: false };
   }
 
-  revalidatePath("/");
   return {
     data,
     message: "Records fetched successfully",
     success: true,
   };
+};
+
+export const invalidateRecordsCache = async () => {
+  revalidatePath("/");
 };
