@@ -7,12 +7,7 @@ import ReactMarkdown from "react-markdown";
 
 export function NotificationList() {
   const { status } = useGetNotifications();
-  const {
-    newNotificationsCount,
-    notifications,
-    markAllAsRead,
-    markNotificationAsRead,
-  } = useNotificationStore();
+  const { notifications, markAllAsRead } = useNotificationStore();
   if (status === "pending") {
     return (
       <section>
@@ -36,48 +31,52 @@ export function NotificationList() {
     );
   }
 
-  if (notifications?.length === 0 && status === "success") {
+  if (notifications?.length === 0) {
     return <NoNotifications />;
   }
 
   return (
     <section>
-      <div className="flex justify-end items-center py-4">
-        <button
-          className="text-dark-200 font-semibold border border-dark-200 rounded-lg p-3"
-          onClick={markAllAsRead}
-        >
-          Mark All as read
-        </button>
-      </div>
-      <ul className="bg-white overflow-hidden p-4 space-y-4 shadow-xl rounded-lg">
-        {notifications?.map((notification) => (
-          <li
-            key={notification.id}
-            className="p-4 border-b border-gray-100 flex justify-between hover:bg-gray-50"
+      {notifications?.length > 0 && (
+        <div className="flex justify-end items-center py-4">
+          <button
+            className="text-dark-200 font-semibold border border-dark-200 rounded-lg p-3"
+            onClick={markAllAsRead}
           >
-            <div className="space-y-4">
-              <h4 className="text-sm font-medium text-gray-900">
-                {notification.title}
-              </h4>
-              <p className="text-dark-400">
-                <ReactMarkdown>{notification.body}</ReactMarkdown>
-              </p>
-            </div>
-            <div>
-              {notification.isNew ? (
-                <div>
-                  <span className="bg-primary/50 text-primary py-1 px-2 rounded-md text-xs">
-                    {"New"}
-                  </span>
-                  <X />
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
-          </li>
-        ))}
+            Mark All as read
+          </button>
+        </div>
+      )}
+
+      <ul className="bg-white overflow-hidden p-4 space-y-4 shadow-xl rounded-lg">
+        {notifications.length > 0 &&
+          notifications?.map((notification) => (
+            <li
+              key={notification.id}
+              className="p-4 border-b border-gray-100 flex justify-between hover:bg-gray-50"
+            >
+              <div className="space-y-4">
+                <h4 className="text-sm font-medium text-gray-900">
+                  {notification.title}
+                </h4>
+                <p className="text-dark-400">
+                  <ReactMarkdown>{notification.body}</ReactMarkdown>
+                </p>
+              </div>
+              <div>
+                {notification.isNew ? (
+                  <div>
+                    <span className="bg-primary/50 text-primary py-1 px-2 rounded-md text-xs">
+                      {"New"}
+                    </span>
+                    <X />
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            </li>
+          ))}
       </ul>
     </section>
   );
