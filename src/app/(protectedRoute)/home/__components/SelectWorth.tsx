@@ -11,7 +11,7 @@ import useRecordStore, { BalanceType } from "@/zustand/recordStore";
 
 export function SelectWorth() {
   const { setBalanceType, balanceType } = useRecordStore();
-  console.log(balanceType);
+
   return (
     <section>
       <Select

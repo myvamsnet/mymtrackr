@@ -40,6 +40,7 @@ export function calculateWorth(records: Records[]) {
     totalPayable,
     totalDebtor,
     totalExpense,
+    totalCapital,
   } as BalanceResponse;
 }
 
@@ -51,4 +52,5 @@ export interface BalanceResponse {
   totalPayable: number;
   totalDebtor: number;
   totalExpense: number;
+  totalCapital: number;
 }

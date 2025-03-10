@@ -22,7 +22,6 @@ export const useDeleteNotification = () => {
     },
     onSuccess: (data) => {
       if (data?.success) {
-        console.log(data);
         onCancel();
         updateQueryParams({
           notificationId: "",

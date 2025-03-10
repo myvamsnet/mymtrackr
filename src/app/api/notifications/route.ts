@@ -28,7 +28,6 @@ export async function POST(req: Request) {
       .single();
 
     if (notificationError) {
-      console.log(notificationError.message);
       return errorResponse(notificationError.message, 400);
     }
 
@@ -54,7 +53,6 @@ export async function GET() {
       .order("updated_at", { ascending: false });
 
     if (notificationError) {
-      console.log(notificationError.message);
       return errorResponse(notificationError.message, 400);
     }
 
