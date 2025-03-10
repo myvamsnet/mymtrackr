@@ -17,7 +17,7 @@ export const handleTypeColor = (type: Type) => {
       "text-danger focus:text-danger/80": type === "expense",
       "text-dark-400 focus:text-dark-400": type === "debtor",
       "text-payable focus:text-payable/80": type === "payable",
-      "text-[#85008F] focus:text-[#85008F]/80": type === "capital",
+      "text-capital focus:text-capital/80": type === "capital",
     }) || ""
   );
 };

@@ -1,4 +1,5 @@
 import { Icons } from "@/assets/icons";
+import { Capital } from "@/assets/icons/Capital";
 import { currencyFormatter } from "@/lib/helper/currencyFormatter";
 import { handleTypeColor, Type } from "@/lib/helper/handleTypeColor";
 import { Records } from "@/types/records";
@@ -18,6 +19,8 @@ export const RecordItem: FC<TransactionItemPros> = ({ record }) => {
 
       case "payable":
         return <Icons.ArrowLeftIcon />;
+      case "capital":
+        return <Capital />;
 
       default:
         return <Icons.ArrowDownIcon />;

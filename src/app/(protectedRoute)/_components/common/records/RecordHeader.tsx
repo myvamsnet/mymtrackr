@@ -24,9 +24,7 @@ export const RecordHeader = ({
         onClick={() => navigate(url as string)}
       >
         <ArrowBackIcon size={24} className="text-primary" />
-        <h3 className="text-sm font-semibold  text-dark  capitalize">
-          {title}
-        </h3>
+        <h3 className="text-sm font-semibold  text-dark">{title}</h3>
       </div>
       {leftElement ? (
         leftElement
