@@ -10,11 +10,6 @@ const DashboardPage = async ({ searchParams }: DashboardPageProps) => {
     searchParams.startDate,
     searchParams.endDate
   );
-  // const stats = await getFinancialStats(
-  //   searchParams.startDate,
-  //   searchParams.endDate
-  // );
-  // console.log(stats);
   return (
     <AdminLayout>
       <Top />

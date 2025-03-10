@@ -72,7 +72,6 @@ export async function DELETE(
   req: Request,
   { params }: { params: { notificationId: string } }
 ) {
-  console.log(params, "hee");
   const supabaseApi = createClient();
 
   try {
@@ -80,14 +79,12 @@ export async function DELETE(
 
     if (!user && error) return errorResponse(error, 500);
     const { notificationId } = params;
-    console.log(notificationId);
     const { error: notificationError } = await supabaseApi
       .from("notifications")
       .delete()
       .eq("id", notificationId);
 
     if (notificationError) {
-      console.log(notificationError);
       return errorResponse(notificationError?.message, 400);
     }
     return responsedata({

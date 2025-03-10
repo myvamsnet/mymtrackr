@@ -15,9 +15,12 @@ export const AnalyticsLists = () => {
     totalPayable,
     avaliableBalance,
     finalBalance,
+    totalCapital,
+    profit,
   } = calculateWorth(records as Records[]);
 
   const data = [
+    { text: "Total Capital", value: totalCapital },
     { text: "Total Income", value: totalIncome },
     { text: "Total Expense", value: totalExpense },
     {
@@ -27,7 +30,18 @@ export const AnalyticsLists = () => {
     },
     { text: "Total Debtors", value: totalDebtor },
     { text: "Total Payable", value: totalPayable },
-    { text: "Final Balance", value: finalBalance, className: "text-success" },
+    {
+      text: "Final Balance",
+      value: finalBalance,
+      className: "text-yellow-800 font-medium",
+    },
+    {
+      text: "Profit",
+      value: profit,
+      className: `${
+        totalExpense > totalIncome ? "text-danger" : "text-success"
+      }`,
+    },
   ];
 
   return (
