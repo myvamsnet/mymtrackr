@@ -1,10 +1,13 @@
+"use client";
 import { Icons } from "@/assets/icons";
+import { Lightbox } from "@/components/Lightbox";
 import { checkImageFormat } from "@/lib/helper/checkImageFormat";
 import { currencyFormatter } from "@/lib/helper/currencyFormatter";
 import { handleTypeColor, Type } from "@/lib/helper/handleTypeColor";
 import { Records } from "@/types/records";
 import dayjs from "dayjs";
 import Image from "next/image";
+import { useState } from "react";
 
 export const Details = ({ records }: DetailsProps) => {
   const handleType = (type: Type) => {
@@ -37,7 +40,15 @@ export const Details = ({ records }: DetailsProps) => {
       amount: currencyFormatter(records?.amount),
     },
   ];
+  const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
 
+  const photos = [
+    {
+      id: 1,
+      src: records?.imageUrl,
+      alt: records?.name,
+    },
+  ];
   return (
     <main className="grid gap-4 p-4 ">
       <section className="bg-off-white-300 p-4 rounded-xl grid gap-2">
@@ -83,16 +94,21 @@ export const Details = ({ records }: DetailsProps) => {
       {records?.imageUrl && checkImageFormat(records?.imageUrl) && (
         <section className="bg-off-white-300 p-4 rounded-xl">
           <h2>Uploaded File</h2>
-
-          <div className="my-3">
-            <Image
-              src={records?.imageUrl}
-              height={160}
-              width={160}
-              alt="uploaded"
-              className="  object-cover mt-2 h-40 lg:w-40 w-full rounded-lg"
-            />
-          </div>
+          {photos?.map((photo) => (
+            <div
+              className="my-3"
+              onClick={() => setSelectedPhoto(photo)}
+              key={photo.id}
+            >
+              <Image
+                src={photo.src || "/placeholder.svg"}
+                alt={photo.alt}
+                height={160}
+                width={160}
+                className="  object-cover mt-2 h-40 lg:w-40 w-full rounded-lg"
+              />
+            </div>
+          ))}
         </section>
       )}
       {records?.note && (
@@ -103,9 +119,22 @@ export const Details = ({ records }: DetailsProps) => {
           </p>
         </section>
       )}
+      {selectedPhoto && (
+        <Lightbox
+          photos={photos}
+          selectedPhoto={selectedPhoto}
+          onClose={() => setSelectedPhoto(null)}
+          onNavigate={setSelectedPhoto}
+        />
+      )}
     </main>
   );
 };
 interface DetailsProps {
   records: Records;
+}
+interface Photo {
+  id: number;
+  src: string;
+  alt: string;
 }
