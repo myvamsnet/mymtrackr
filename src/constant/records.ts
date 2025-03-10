@@ -90,7 +90,7 @@ export const products = [
     id: 1,
     icon: ArrowDownIcon,
     title: "Income List",
-    description: "Records of money my sales",
+    description: "Records of money for my sales",
     type: "income",
     path: "/records/income",
   },
