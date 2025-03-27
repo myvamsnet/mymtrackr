@@ -8,6 +8,7 @@ import useIdleTimeout from "@/hooks/useIdleTimeout";
 import RegisterConfirmation from "./RegisterConfirmation";
 import { User } from "@/types/auth";
 import dynamic from "next/dynamic";
+import useInactivityTimer from "@/hooks/useInactivityTimer";
 
 const SubscriptionExpiredModal = dynamic(() =>
   import("../SubscriptionExpiredModal").then((mod) => mod.default)
@@ -24,7 +25,7 @@ const ProtectedLayout = ({
   className = "",
   user,
 }: MainLayoutProps) => {
-  useIdleTimeout();
+  useInactivityTimer(45 * 60 * 1000);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
