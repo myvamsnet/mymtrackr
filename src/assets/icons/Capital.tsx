@@ -11,7 +11,7 @@ export const Capital = ({ color = "#85008F", ...props }: CustomSVGProps) => {
         xmlns="http://www.w3.org/2000/svg"
         {...props}
       >
-        <g clip-path="url(#clip0_2834_16822)">
+        <g clipPath="url(#clip0_2834_16822)">
           <path
             d="M14.625 3.9375H3.375C2.75368 3.9375 2.25 4.44118 2.25 5.0625V12.9375C2.25 13.5588 2.75368 14.0625 3.375 14.0625H14.625C15.2463 14.0625 15.75 13.5588 15.75 12.9375V5.0625C15.75 4.44118 15.2463 3.9375 14.625 3.9375Z"
             stroke={color}
