@@ -9,7 +9,6 @@ import {
 } from "@/lib/helper/calculateGrandTotal";
 import { currencyFormatter } from "@/lib/helper/currencyFormatter";
 import { handleError } from "@/lib/helper/handleError";
-import { isValidDate } from "@/lib/helper/isValidDate";
 import {
   invoiceAndReceiptSchema,
   InvoiceAndReceiptSchemaSchemaType,
@@ -77,7 +76,6 @@ export const useInvoiceAndReceipt = (businessData: BusinessData) => {
     control,
     handleSubmit,
     watch,
-    setValue,
     formState: { errors },
   } = useForm<InvoiceAndReceiptSchemaSchemaType>({
     resolver: zodResolver(invoiceAndReceiptSchema),
@@ -94,34 +92,6 @@ export const useInvoiceAndReceipt = (businessData: BusinessData) => {
     control: control,
     name: "items",
   });
-
-  useEffect(() => {
-    if (invoiceAndReceiptData !== null) {
-      setValue(
-        "customerName",
-        invoiceAndReceiptData.customerName ?? new Date()
-      );
-      setValue(
-        "dueDate",
-        isValidDate(invoiceAndReceiptData.dueDate)
-          ? new Date(invoiceAndReceiptData.dueDate)
-          : new Date()
-      );
-
-      setValue(
-        "issueDate",
-        isValidDate(invoiceAndReceiptData.issueDate)
-          ? new Date(invoiceAndReceiptData.issueDate)
-          : new Date()
-      );
-
-      setValue("items", invoiceAndReceiptData.items);
-      setValues({
-        discount: String(invoiceAndReceiptData.discount),
-        delivery: String(invoiceAndReceiptData.delivery),
-      });
-    }
-  }, [invoiceAndReceiptData, setValue]);
 
   const getTotalByIndex = (index: number) => {
     const items = watch("items") || [];
@@ -147,7 +117,6 @@ export const useInvoiceAndReceipt = (businessData: BusinessData) => {
     },
     onSuccess: (data: SingleInvoicesAndReceiptsResponseData) => {
       if (data.success) {
-        clearInvoiceAndReceipt();
         toast.success(data?.message);
         onCancel();
         redirect(`/invoicesandreceipts/${data?.data?.type}`);

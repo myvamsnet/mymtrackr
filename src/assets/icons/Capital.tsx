@@ -17,21 +17,21 @@ export const Capital = ({ color = "#85008F", ...props }: CustomSVGProps) => {
             stroke={color}
             stroke-width="1.5"
             stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinejoin="round"
           />
           <path
             d="M2.25 8.4375H6.75C6.75 9.03424 6.98705 9.60653 7.40901 10.0285C7.83097 10.4504 8.40326 10.6875 9 10.6875C9.59674 10.6875 10.169 10.4504 10.591 10.0285C11.0129 9.60653 11.25 9.03424 11.25 8.4375H15.75"
             stroke={color}
             stroke-width="1.5"
             stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinejoin="round"
           />
           <path
             d="M2.25 6.1875H15.75"
             stroke={color}
             stroke-width="1.5"
             stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinejoin="round"
           />
         </g>
         <defs>
