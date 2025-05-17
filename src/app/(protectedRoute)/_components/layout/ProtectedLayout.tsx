@@ -43,7 +43,7 @@ const ProtectedLayout = ({
       {user?.subscriptions?.status && (
         <SubscriptionExpiredModal status={user.subscriptions.status} />
       )}
-      <RegisterConfirmation />
+      <RegisterConfirmation /> 
     </section>
   );
 };

@@ -7,6 +7,7 @@ import CustomLoader from "@/components/CustomLoader/page";
 
 const Profile = async () => {
   const user = (await getUser()) as unknown as UserResponse;
+  console.log(user);
   return (
     <main className="container mx-auto md:max-w-[700px] bg-off-white-300 overflow-y-auto overflow-x-hidden h-screen relative">
       <CustomHeader title="Edit Profile" />

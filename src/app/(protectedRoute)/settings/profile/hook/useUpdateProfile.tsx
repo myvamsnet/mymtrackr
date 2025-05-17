@@ -12,7 +12,8 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export const useUpdateProfile = (user: User) => {
-  const { handleFileChange, image, previewUrl, setImage } = useUploadImage();
+  const { handleFileChange, image, previewUrl, setImage, setPreviewUrl } =
+    useUploadImage();
 
   const {
     control,
@@ -38,11 +39,17 @@ export const useUpdateProfile = (user: User) => {
       if (image && cloudinary_preset) {
         formData.append("file", image as File);
       }
-      return await updateProfileAction(formData);
+      const res = await updateProfileAction(formData);
+      if (!res?.success) {
+        throw new Error(res?.error || "Failed to update profile");
+      }
+      return res;
     },
-    onSuccess: () => {
-      toast.success("Profile updated successfully");
-      setImage(null);
+    onSuccess: (data) => {
+      if (data?.message) {
+        toast.success(data?.message);
+        setImage(null);
+      }
     },
     onError: (error) => {
       if (error?.message) toast.error(error.message);
@@ -54,6 +61,7 @@ export const useUpdateProfile = (user: User) => {
       setValue("fullName", user?.fullName);
       setValue("email", user?.email);
       setValue("phoneNumber", user?.phoneNumber);
+      setPreviewUrl(user?.imageUrl);
     }
   }, [setValue, user]);
 
