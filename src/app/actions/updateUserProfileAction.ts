@@ -10,13 +10,6 @@ export const updateProfileAction = async (formData: FormData) => {
   const phoneNumber = formData.get("phoneNumber") as string;
   const image = formData.get("file") as File;
 
-  if (!email || !fullName || !phoneNumber) {
-    return {
-      success: false,
-      error: "Please provide email, full name, and phone number",
-    };
-  }
-
   const supabaseApi = createClient();
   const user = await supabaseApi?.auth?.getUser();
 
@@ -57,7 +50,7 @@ export const updateProfileAction = async (formData: FormData) => {
     }
 
     revalidatePath("/home");
-    return { success: true, data };
+    return { success: true, data, message: "Profile updated successfully" };
   } catch (error) {
     return {
       success: false,
